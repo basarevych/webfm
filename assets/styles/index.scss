@@ -1,0 +1,14 @@
+.center {
+  text-align: center;
+}
+
+.fa-mr {
+  margin-right: 0.33em;
+}
+
+.control-required {
+  display: block;
+  color: theme-color("danger");
+  font-size: xx-small;
+  text-transform: uppercase;
+}

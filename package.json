@@ -1,0 +1,62 @@
+{
+  "name": "webfm",
+  "private": true,
+  "version": "0.0.0",
+  "description": "a Sails application",
+  "keywords": [],
+  "license": "MIT",
+  "author": "Ross Basarevych <basarevych@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/breedhub/webfm.git"
+  },
+  "dependencies": {
+    "async": "~2.6.0",
+    "autoprefixer": "~7.1.6",
+    "babel-core": "~6.26.0",
+    "babel-loader": "~7.1.2",
+    "babel-plugin-transform-runtime": "~6.23.0",
+    "babel-preset-env": "~1.6.1",
+    "babel-runtime": "~6.26.0",
+    "bootstrap": "~4.0.0-beta",
+    "bootstrap-loader": "~2.2.0",
+    "clean-webpack-plugin": "~0.1.17",
+    "copy-webpack-plugin": "~4.2.0",
+    "css-loader": "~0.28.7",
+    "exports-loader": "~0.6.4",
+    "file-loader": "~1.1.5",
+    "font-awesome": "~4.7.0",
+    "font-awesome-sass-loader": "~2.0.1",
+    "imports-loader": "~0.7.1",
+    "jquery": "~3.2.1",
+    "lodash": "~4.17.4",
+    "node-sass": "~4.6.0",
+    "popper.js": "~1.12.6",
+    "postcss-loader": "~2.0.8",
+    "resolve-url-loader": "~2.2.0",
+    "sails": "~1.0.0-40",
+    "sails-hook-sockets": "~1.4.0",
+    "sails-hook-webpack": "~2.0.4",
+    "sass-loader": "~6.0.6",
+    "socket.io": "~2.0.4",
+    "style-loader": "~0.19.0",
+    "url-loader": "~0.6.2",
+    "webpack": "~3.8.1"
+  },
+  "devDependencies": {
+    "eslint": "~4.10.0",
+    "htmlhint": "~0.9.13",
+    "webpack-dev-server": "~2.9.4"
+  },
+  "scripts": {
+    "start": "env NODE_ENV=production node app.js",
+    "test": "npm run lint && npm run custom-tests && echo 'Done.'",
+    "lint": "node ./node_modules/eslint/bin/eslint . --max-warnings=0 && node ./node_modules/htmlhint/bin/htmlhint ./assets/templates && echo '✔  Your code looks good.'",
+    "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
+    "debug": "node debug app.js"
+  },
+  "main": "app.js",
+  "engines": {
+    "node": ">=8.0.0"
+  }
+}
