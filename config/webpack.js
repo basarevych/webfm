@@ -288,6 +288,7 @@ module.exports.webpack = {
             },
             mangle: false,
             compress: {
+              warnings: false,
               keep_fnames: true,
               drop_debugger: false,
               dead_code: false,

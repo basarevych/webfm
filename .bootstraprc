@@ -6,13 +6,12 @@
 bootstrapVersion: 4
 
 # Webpack loaders, order matters
+styleLoaders:
+  - style-loader?sourceMap
+  - css-loader?sourceMap
+  - postcss-loader?sourceMap
+  - sass-loader?sourceMap
 env:
-  development:
-    styleLoaders:
-      - style-loader?sourceMap
-      - css-loader?sourceMap
-      - postcss-loader?sourceMap
-      - sass-loader?sourceMap
   production:
     styleLoaders:
       - style-loader
