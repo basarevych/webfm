@@ -26,8 +26,8 @@
   },
 
   "parserOptions": {
-    "ecmaVersion": 8
-    //^ If you are not using a transpiler like Babel, change this to `5`.
+    "ecmaVersion": 8,
+    "sourceType": "module"
   },
 
   "globals": {

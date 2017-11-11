@@ -198,7 +198,7 @@ module.exports.webpack = {
        *
        * See: https://www.npmjs.com/package/clean-webpack-plugin
        */
-      new CleanWebpackPlugin([ root('.tmp/public') ], {
+      new CleanWebpackPlugin([ root('.tmp') ], {
         root: root(),
       }),
 
@@ -302,7 +302,10 @@ module.exports.webpack = {
 
   development: {
     config: { // webpack-dev-server-config
-      port: 3000
+      port: 3000,
+      proxy: {
+        '/**': 'http://localhost:1337',
+      }
     }
   },
 
