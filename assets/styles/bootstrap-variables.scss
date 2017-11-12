@@ -1,11 +1,28 @@
 // bootstrap/scss/_variables.scss
 
-$spacer:                    1rem;
+$spacer:                      1rem;
 
-$enable-rounded:            true;
-$enable-shadows:            false;
-$enable-gradients:          false;
-$enable-transitions:        true;
-$enable-hover-media-query:  false;
-$enable-grid-classes:       true;
-$enable-print-styles:       true;
+$enable-rounded:              true;
+$enable-shadows:              false;
+$enable-gradients:            false;
+$enable-transitions:          true;
+$enable-hover-media-query:    false;
+$enable-grid-classes:         true;
+$enable-print-styles:         true;
+
+$body-bg:                     #1b2631;
+$body-color:                  rgba(#ffffff,.75);
+$primary:                     #2e86c1;
+$secondary:                   #707b7c;
+$success:                     #28b463;
+$info:                        #ca6f1e;
+$warning:                     #ba4a00;
+$danger:                      #a93226;
+$input-bg:                    $body-bg;
+$input-disabled-bg:           #283747;
+$input-border-color:          rgba(#ffffff,.2);
+$modal-content-bg:            #283747;
+$modal-content-border-color:  $input-border-color;
+$modal-header-border-color:   $input-border-color;
+$close-color:                 $body-color;
+$close-text-shadow:           0 1px 0 $input-border-color;

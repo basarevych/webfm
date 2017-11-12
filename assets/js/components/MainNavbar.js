@@ -11,7 +11,7 @@ const MainNavbar = (
     onSignInClick,
   }
 ) => (
-  <Navbar color="faded" light expand="md">
+  <Navbar dark expand="md">
     <NavbarToggler onClick={onToggleClick} />
     <NavbarBrand href="/">WebFM</NavbarBrand>
     <Collapse isOpen={isOpen} navbar>
