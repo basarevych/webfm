@@ -1,18 +1,21 @@
 'use strict';
-import Bootstrap from 'bootstrap';
+
 import React from 'react';
+import { createStore } from 'redux';
 import { render } from 'react-dom';
-import App from './components/App';
+import { Provider } from 'react-redux';
+import webfm from './reducers';
+import App from './containers/App';
 
 $(window).on('load', () => {
-  $('#page-loader').fadeOut(() => {
-    $('html').css('height', 'auto');
-    $('body').css('height', 'auto');
-    $('#app').show()
-  });
+  let store = createStore(webfm);
 
   render(
-    <App />,
+    <Provider store={store}>
+      <App />
+    </Provider>,
     document.getElementById('app')
-  )
+  );
+
+  $('#page-loader').fadeOut(() => $('#app').show());
 });

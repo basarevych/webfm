@@ -22,11 +22,15 @@
 
   "env": {
     "browser": true,
+    "jquery": true,
     "node": false
   },
 
   "parserOptions": {
     "ecmaVersion": 8,
+    "ecmaFeatures": {
+      "jsx": true
+    },
     "sourceType": "module"
   },
 
@@ -51,13 +55,14 @@
   },
 
   "rules": {
-    "no-undef": [2]
+    "no-undef": [2],
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // ^^Note: If you've enabled the "no-undef" rule in the top level .eslintrc file, then
     // the globalIds of Sails models should also be blacklisted above under "globals".
     // (In this scenario, also note that this override for the "no-undef" rule could
     // simply be removed, since it'd be redundant.)
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    "no-unused-vars": [0]
   }
 
 }

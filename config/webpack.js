@@ -4,11 +4,13 @@ const root = path.join.bind(path, path.resolve(__dirname), '..');
 /**
  * Webpack Plugins
  */
+const EnvironmentPlugin = require('webpack/lib/EnvironmentPlugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const NoEmitOnErrorsPlugin = require('webpack/lib/NoEmitOnErrorsPlugin');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+const CommonsChunksPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 
 const prod = (process.env.NODE_ENV === 'production');
 
@@ -189,6 +191,15 @@ module.exports.webpack = {
      * See: http://webpack.github.io/docs/configuration.html#plugins
      */
     plugins: [
+      /**
+       * Plugin: EnvironmentPlugin
+       * Description: Shorthand for using the DefinePlugin on process.env keys
+       *
+       * Pass NODE_ENV environment variable
+       *
+       * See: https://webpack.js.org/plugins/environment-plugin/
+       */
+      new EnvironmentPlugin(['NODE_ENV']),
 
       /**
        * Plugin: CleanWebpackPlugin
@@ -226,6 +237,20 @@ module.exports.webpack = {
        * See: https://webpack.js.org/plugins/no-emit-on-errors-plugin/
        */
       new NoEmitOnErrorsPlugin(),
+
+      /**
+       * Plugin: CommonsChunksPlugin
+       * Description: Generate an extra chunk, which contains common modules shared between entry points.
+       *
+       * By separating common modules from bundles, the resulting chunked file can be loaded once initially,
+       * and stored in cache for later use.
+       *
+       * See: https://webpack.js.org/plugins/commons-chunk-plugin/
+       */
+      new CommonsChunksPlugin({
+        name: 'common',
+        filename: 'common.bundle.js',
+      }),
 
       /**
        * Plugin: ProvidePlugin
