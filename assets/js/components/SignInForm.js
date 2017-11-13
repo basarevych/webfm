@@ -8,7 +8,7 @@ import RequiredFieldLabel from './RequiredFieldLabel';
 const SignInForm = () => (
   <Form>
     <FormGroup row>
-      <Label for="signInLogin" sm={4} className="text-right">
+      <Label for="signInLogin" sm={4} className="text-sm-right">
         Login:
         <RequiredFieldLabel />
       </Label>
@@ -17,7 +17,7 @@ const SignInForm = () => (
       </Col>
     </FormGroup>
     <FormGroup row>
-      <Label for="signInPassword" sm={4} className="text-right">
+      <Label for="signInPassword" sm={4} className="text-sm-right">
         Password:
         <RequiredFieldLabel />
       </Label>

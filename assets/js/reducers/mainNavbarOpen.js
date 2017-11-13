@@ -6,9 +6,8 @@ const mainNavbarOpen = (state = false, action) => {
       return action.open;
     case 'TOGGLE_MAIN_NAVBAR_OPEN':
       return !state;
-    default:
-      return state;
   }
+  return state;
 };
 
 export default mainNavbarOpen;

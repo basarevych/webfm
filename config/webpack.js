@@ -329,7 +329,10 @@ module.exports.webpack = {
     config: { // webpack-dev-server-config
       port: 3000,
       proxy: {
-        '/**': 'http://localhost:1337',
+        '/**': {
+          target: 'http://localhost:1337',
+          ws: true,
+        },
       }
     }
   },

@@ -6,9 +6,8 @@ const signInModalOpen = (state = false, action) => {
       return action.open;
     case 'TOGGLE_SIGN_IN_MODAL_OPEN':
       return !state;
-    default:
-      return state;
   }
+  return state;
 };
 
 export default signInModalOpen;

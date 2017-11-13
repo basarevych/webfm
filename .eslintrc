@@ -5,7 +5,7 @@
   // A set of basic code conventions (similar to a .jshintrc file) designed to
   // and encourage quality and consistency across your Sails app's code base.
   // These rules are checked against automatically any time you run `npm test`.
-  // 
+  //
   // > An additional eslintrc override file is included in the `assets/` folder
   // > right out of the box.  This is specifically to allow for variations in acceptable
   // > global variables between front-end JavaScript code designed to run in the browser
@@ -22,7 +22,8 @@
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   "env": {
-    "node": true
+    "node": true,
+    "es6": true
   },
 
   "parserOptions": {
@@ -44,7 +45,7 @@
     "callback-return":              [2, ["callback", "cb", "next", "done", "proceed"]],
     "camelcase":                    [1, {"properties": "always"}],
     "comma-style":                  [2, "last"],
-    "curly":                        [2],
+    "curly":                        [2, "multi-or-nest"],
     "eqeqeq":                       [2, "always"],
     "eol-last":                     [1],
     "handle-callback-err":          [2],

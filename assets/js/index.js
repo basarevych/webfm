@@ -1,14 +1,19 @@
 'use strict';
 
 import React from 'react';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import webfm from './reducers';
 import App from './containers/App';
+import { initApp } from './actions/app';
 
 $(window).on('load', () => {
-  let store = createStore(webfm);
+  let store = createStore(
+    webfm,
+    applyMiddleware(thunk)
+  );
 
   render(
     <Provider store={store}>
@@ -17,5 +22,5 @@ $(window).on('load', () => {
     document.getElementById('app')
   );
 
-  $('#page-loader').fadeOut(() => $('#app').show());
+  store.dispatch(initApp());
 });

@@ -7,6 +7,8 @@ import { toggleSignInModal } from '../actions/signInModal';
 
 const mapStateToProps = state => {
   return {
+    app: state.app,
+    authStatus: state.authStatus,
     mainNavbarOpen: state.mainNavbarOpen,
     signInModalOpen: state.signInModalOpen,
   };
