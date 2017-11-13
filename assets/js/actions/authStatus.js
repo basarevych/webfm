@@ -37,9 +37,10 @@ export const updateAuthStatus = () => {
         success: data => resolve(dispatch(receiveAuthStatus(request.requestedAt, data))),
         error: () => {
           let receive = dispatch(receiveAuthStatus(request.requestedAt, { success: false }));
-          if (request.requestedAt === receive.requestedAt)
-            return setTimeout(() => resolve(updateAuthStatus()(dispatch, getState)), 1000);
-          resolve();
+          if (request.requestedAt !== receive.requestedAt)
+            return resolve();
+
+          setTimeout(() => resolve(dispatch(updateAuthStatus())), 1000);
         }
       });
     });

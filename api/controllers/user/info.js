@@ -6,7 +6,6 @@ module.exports = {
 
   exits: {
     success: {
-      responseType: 'json',
     },
   },
 
