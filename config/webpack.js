@@ -27,7 +27,7 @@ module.exports.webpack = {
      *
      * See: http://webpack.github.io/docs/configuration.html#cache
      */
-    cache: !prod,
+    cache: false,
 
     /**
      * Developer tool to enhance debugging
