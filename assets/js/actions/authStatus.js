@@ -23,16 +23,18 @@ export const receiveAuthStatus = (requestedAt, data) => {
   };
 };
 
-export const updateAuthStatus = () => {
+export const updateAuthStatus = (force = false) => {
   return async (dispatch, getState) => {
-    let { authStatus } = getState();
-    if (authStatus.isFetching)
-      return;
+    if (!force) {
+      let {authStatus} = getState();
+      if (authStatus.isFetching)
+        return;
+    }
 
     let request = dispatch(requestAuthStatus());
     return new Promise(resolve => {
       $.ajax({
-        url: '/user/info',
+        url: '/auth/info',
         type: 'GET',
         success: data => resolve(dispatch(receiveAuthStatus(request.requestedAt, data))),
         error: () => {

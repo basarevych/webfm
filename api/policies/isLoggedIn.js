@@ -6,6 +6,8 @@
  * For more about how this policy works and how to use it, see:
  *   https://sailsjs.com/anatomy/api/policies/isLoggedIn.js
  */
+'use strict';
+
 module.exports = function isLoggedIn(req, res, next) {
 
   // If `req.session.userId` is set, then we know that this request originated

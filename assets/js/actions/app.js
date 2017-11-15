@@ -8,6 +8,18 @@ export const startApp = () => {
   };
 };
 
+export const lockApp = () => {
+  return {
+    type: 'LOCK_APP',
+  };
+};
+
+export const unlockApp = () => {
+  return {
+    type: 'UNLOCK_APP',
+  };
+};
+
 export const initApp = () => {
   return async (dispatch, getState) => {
     let { appStarted } = getState();

@@ -1,22 +1,33 @@
 'use strict';
 
+import { resetAuthRequest } from './authRequest';
+
 export const showSignInModal = () => {
-  return {
-    type: 'SET_SIGN_IN_MODAL_OPEN',
-    open: true,
+  return dispatch => {
+    dispatch(resetAuthRequest());
+    return dispatch({
+      type: 'SET_SIGN_IN_MODAL_OPEN',
+      open: true,
+    });
   };
 };
 
 export const hideSignInModal = () => {
-  return {
-    type: 'SET_SIGN_IN_MODAL_OPEN',
-    open: false,
+  return dispatch => {
+    dispatch(resetAuthRequest());
+    return dispatch({
+      type: 'SET_SIGN_IN_MODAL_OPEN',
+      open: false,
+    });
   };
 };
 
 export const toggleSignInModal = () => {
-  return {
-    type: 'TOGGLE_SIGN_IN_MODAL_OPEN',
+  return dispatch => {
+    dispatch(resetAuthRequest());
+    return dispatch({
+      type: 'TOGGLE_SIGN_IN_MODAL_OPEN',
+    });
   };
 };
 

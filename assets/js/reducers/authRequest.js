@@ -1,16 +1,18 @@
 'use strict';
 
-const authStatus = (
+const authRequest = (
   state = {
-    isFetching: false,
     requestedAt: 0,
-    authorized: false,
-    login: 'anonymous',
+    isFetching: false,
+    didFetch: false,
+    success: false,
+    messages: {},
+    errors: {},
   },
   action
 ) => {
   switch (action.type) {
-    case 'AUTH_STATUS_REQUEST':
+    case 'AUTH_REQUEST_REQUEST':
       if (action.requestedAt <= state.requestedAt)
         return state;
 
@@ -18,11 +20,11 @@ const authStatus = (
         {},
         state,
         {
+          requestedAt: action.requestedAt,
           isFetching: true,
-          requestedAt: action.requestedAt,
         }
       );
-    case 'AUTH_STATUS_SUCCESS':
+    case 'AUTH_REQUEST_SUCCESS':
       if (action.requestedAt < state.requestedAt)
         return state;
 
@@ -30,13 +32,15 @@ const authStatus = (
         {},
         state,
         {
-          isFetching: false,
           requestedAt: action.requestedAt,
-          authorized: action.authorized,
-          login: action.login,
+          isFetching: false,
+          didFetch: true,
+          success: action.success,
+          messages: action.messages || {},
+          errors: action.errors || {},
         }
       );
-    case 'AUTH_STATUS_FAILURE':
+    case 'AUTH_REQUEST_FAILURE':
       if (action.requestedAt < state.requestedAt)
         return state;
 
@@ -44,13 +48,24 @@ const authStatus = (
         {},
         state,
         {
-          isFetching: false,
           requestedAt: action.requestedAt,
+          isFetching: false,
+          didFetch: false,
         }
       );
+    case 'AUTH_REQUEST_RESET':
+      return Object.assign(
+        {},
+        state,
+        {
+          messages: {},
+          errors: {},
+        }
+      );
+      break;
   }
 
   return state;
 };
 
-export default authStatus;
+export default authRequest;

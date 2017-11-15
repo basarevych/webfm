@@ -17,6 +17,12 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  // '*': true,
+  '*': false,
+
+  'security/grant-csrf-token': true,
+
+  'auth/info': true,
+  'auth/sign-in': 'isNotLoggedIn',
+  'auth/sign-out': 'isLoggedIn',
 
 };

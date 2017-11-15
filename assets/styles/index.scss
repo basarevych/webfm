@@ -15,17 +15,31 @@ body {
   flex: 1 0 auto;
 }
 
-.center {
-  text-align: center;
-}
-
 .fa-mr {
   margin-right: 0.33em;
 }
 
 .control-required {
   display: block;
-  color: theme-color("danger");
+  color: theme-color("warning");
   font-size: xx-small;
   text-transform: uppercase;
+}
+
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
 }

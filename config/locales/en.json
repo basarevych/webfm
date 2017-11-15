@@ -1,4 +1,5 @@
 {
-  "Welcome": "Welcome",
-  "A brand new app.": "A brand new app."
+  "invalid_credentials": "Wrong login or password",
+	"user.login.E_REQUIRED": "Login is required",
+	"user.password.E_REQUIRED": "Password is required"
 }

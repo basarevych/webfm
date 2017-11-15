@@ -14,9 +14,9 @@ module.exports.routes = {
   //  ║║║║╣ ╠╩╗╠═╝╠═╣║ ╦║╣ ╚═╗
   //  ╚╩╝╚═╝╚═╝╩  ╩ ╩╚═╝╚═╝╚═╝
 
-  'get /': '/~/',
+  'GET /': '/~/',
 
-  'get /~*': {
+  'GET /~*': {
     view: 'pages/app',
     locals: {
       layout: 'layouts/app',
@@ -28,7 +28,10 @@ module.exports.routes = {
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
 
-  'get /user/info': 'user/info',
+  'GET /auth/csrf': 'security/grant-csrf-token',
+  'GET /auth/info': 'auth/info',
+  'POST /auth/sign-in': 'auth/sign-in',
+  'POST /auth/sign-out': 'auth/sign-out',
 
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
   //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗
