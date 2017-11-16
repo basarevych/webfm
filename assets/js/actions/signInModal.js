@@ -31,3 +31,14 @@ export const toggleSignInModal = () => {
   };
 };
 
+export const updateSignInModal = (login, password) => {
+  return dispatch => {
+    dispatch(resetAuthRequest());
+    return dispatch({
+      type: 'UPDATE_SIGN_IN_MODAL',
+      login,
+      password,
+    });
+  };
+};
+

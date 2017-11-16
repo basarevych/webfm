@@ -11,8 +11,8 @@ const Screen = (
     app,
     authStatus,
     authRequest,
-    signInModalOpen,
     mainNavbarOpen,
+    signInModal,
     onMainNavbarToggleClick,
     onSignInModalToggleClick,
     onSignInFormChanged,
@@ -33,8 +33,10 @@ const Screen = (
       />
       <SignInModal
         authRequest={authRequest}
-        isOpen={signInModalOpen}
+        isOpen={signInModal.open}
         isLocked={!!app.locked}
+        login={signInModal.login}
+        password={signInModal.password}
         onToggleClick={onSignInModalToggleClick}
         onFormChanged={onSignInFormChanged}
         onFormSubmit={onSignInFormSubmit}
@@ -52,7 +54,7 @@ Screen.propTypes = {
   authStatus: PropTypes.object.isRequired,
   authRequest: PropTypes.object.isRequired,
   mainNavbarOpen: PropTypes.bool.isRequired,
-  signInModalOpen: PropTypes.bool.isRequired,
+  signInModal: PropTypes.object.isRequired,
   onMainNavbarToggleClick: PropTypes.func.isRequired,
   onSignInModalToggleClick: PropTypes.func.isRequired,
   onSignInFormChanged: PropTypes.func.isRequired,

@@ -2,7 +2,7 @@
 
 import { lockApp, unlockApp } from './app';
 import { updateAuthStatus } from './authStatus';
-import { toggleSignInModal } from './signInModal';
+import { hideSignInModal } from './signInModal';
 
 export const startAuthRequest = requestedAt => {
   return dispatch => {
@@ -44,11 +44,14 @@ export const resetAuthRequest = () => {
   };
 };
 
-export const authRequest = (login, password) => {
+export const authRequest = () => {
   return async (dispatch, getState) => {
-    let { authRequest } = getState();
+    let { authRequest, signInModal } = getState();
     if (authRequest.isFetching)
       return;
+
+    let login = signInModal.login;
+    let password = signInModal.password;
 
     dispatch(resetAuthRequest());
     let start = await dispatch(startAuthRequest(Date.now()));
@@ -70,7 +73,7 @@ export const authRequest = (login, password) => {
             success: async data => {
               let end = await dispatch(endAuthRequest(start.requestedAt, true, data));
               if (end.success) {
-                dispatch(toggleSignInModal());
+                dispatch(hideSignInModal());
                 dispatch(updateAuthStatus(true));
               }
               resolve();

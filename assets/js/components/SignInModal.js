@@ -9,31 +9,25 @@ class SignInModal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { login: '', password: '' };
-
     this.handleToggle = this.handleToggle.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   handleToggle() {
-    if (!this.props.isLocked) {
+    if (!this.props.isLocked)
       this.props.onToggleClick();
-      this.setState({ login: '', password: '' });
-    }
   }
 
   handleFormChange(event) {
-    if (!this.props.isLocked) {
-      this.setState({ [event.target.name]: event.target.value });
-      this.props.onFormChanged();
-    }
+    if (!this.props.isLocked)
+      this.props.onFormChanged({ [event.target.name]: event.target.value });
   }
 
   handleFormSubmit(event) {
     event.preventDefault();
     if (!this.props.isLocked)
-      this.props.onFormSubmit(this.state.login, this.state.password);
+      this.props.onFormSubmit();
   }
 
   render() {
@@ -49,8 +43,8 @@ class SignInModal extends React.Component {
         <ModalBody>
           <SignInForm
             isLocked={this.props.isLocked}
-            login={this.state.login}
-            password={this.state.password}
+            login={this.props.login}
+            password={this.props.password}
             messages={this.props.authRequest.messages}
             errors={this.props.authRequest.errors}
             onChange={this.handleFormChange}
@@ -70,6 +64,8 @@ SignInModal.propTypes = {
   authRequest: PropTypes.object.isRequired,
   isOpen: PropTypes.bool.isRequired,
   isLocked: PropTypes.bool.isRequired,
+  login: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
   onToggleClick: PropTypes.func.isRequired,
   onFormChanged: PropTypes.func.isRequired,
   onFormSubmit: PropTypes.func.isRequired,

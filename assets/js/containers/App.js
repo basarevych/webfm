@@ -3,7 +3,7 @@
 import { connect } from 'react-redux';
 import Screen from '../components/Screen';
 import { toggleMainNavbar } from '../actions/mainNavbar';
-import { toggleSignInModal } from '../actions/signInModal';
+import { toggleSignInModal, updateSignInModal } from '../actions/signInModal';
 import { authRequest, resetAuthRequest, authSignOut } from '../actions/authRequest';
 
 const mapStateToProps = state => {
@@ -12,7 +12,7 @@ const mapStateToProps = state => {
     authStatus: state.authStatus,
     authRequest: state.authRequest,
     mainNavbarOpen: state.mainNavbarOpen,
-    signInModalOpen: state.signInModalOpen,
+    signInModal: state.signInModal,
   };
 };
 
@@ -20,8 +20,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onMainNavbarToggleClick: () => dispatch(toggleMainNavbar()),
     onSignInModalToggleClick: () => dispatch(toggleSignInModal()),
-    onSignInFormChanged: () => dispatch(resetAuthRequest()),
-    onSignInFormSubmit: (login, password) => dispatch(authRequest(login, password)),
+    onSignInFormChanged: props => dispatch(updateSignInModal(props.login, props.password)),
+    onSignInFormSubmit: () => dispatch(authRequest()),
     onSignOutClick: () => dispatch(authSignOut()),
   };
 };

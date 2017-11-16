@@ -6,14 +6,14 @@ import app from './app';
 import authStatus from './authStatus';
 import authRequest from './authRequest';
 import mainNavbarOpen from './mainNavbarOpen';
-import signInModalOpen from './signInModalOpen';
+import signInModal from './signInModal';
 
 const webfm = combineReducers({
   app,
   authStatus,
   authRequest,
   mainNavbarOpen,
-  signInModalOpen,
+  signInModal,
 });
 
 export default webfm;
