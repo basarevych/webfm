@@ -8,6 +8,7 @@ const EnvironmentPlugin = require('webpack/lib/EnvironmentPlugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const NoEmitOnErrorsPlugin = require('webpack/lib/NoEmitOnErrorsPlugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const CommonsChunksPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
@@ -134,11 +135,19 @@ module.exports.webpack = {
           include: [
             root('assets/styles'),
           ],
-          use: [
-            { loader: 'style-loader', options: { sourceMap: !prod } },
-            { loader: 'css-loader', options: { sourceMap: !prod } },
-            { loader: 'postcss-loader', options: { sourceMap: !prod } },
-          ],
+          use: prod
+            ? ExtractTextPlugin.extract({
+                fallback: "style-loader",
+                  use: [
+                    { loader: 'css-loader', options: { sourceMap: false } },
+                    { loader: 'postcss-loader', options: { sourceMap: false } },
+                  ],
+                })
+            : [
+                { loader: 'style-loader', options: { sourceMap: true } },
+                { loader: 'css-loader', options: { sourceMap: true } },
+                { loader: 'postcss-loader', options: { sourceMap: true } },
+              ],
         },
 
         {
@@ -146,12 +155,21 @@ module.exports.webpack = {
           include: [
             root('assets/styles'),
           ],
-          use: [
-            { loader: 'style-loader', options: { sourceMap: !prod } },
-            { loader: 'css-loader', options: { sourceMap: !prod } },
-            { loader: 'postcss-loader', options: { sourceMap: !prod } },
-            { loader: 'sass-loader', options: { sourceMap: !prod } },
-          ]
+          use: prod
+            ? ExtractTextPlugin.extract({
+                fallback: "style-loader",
+                use: [
+                  { loader: 'css-loader', options: { sourceMap: false } },
+                  { loader: 'postcss-loader', options: { sourceMap: false } },
+                  { loader: 'sass-loader', options: { sourceMap: false } },
+                ]
+              })
+            : [
+              { loader: 'style-loader', options: { sourceMap: true } },
+              { loader: 'css-loader', options: { sourceMap: true } },
+              { loader: 'postcss-loader', options: { sourceMap: true } },
+              { loader: 'sass-loader', options: { sourceMap: true } },
+            ],
         },
 
         {
@@ -250,6 +268,20 @@ module.exports.webpack = {
       new CommonsChunksPlugin({
         name: 'common',
         filename: 'common.bundle.js',
+      }),
+
+      /**
+       * Plugin: ExtractTextPlugin
+       * Description: Extract text from a bundle, or bundles, into a separate file.
+       *
+       * Plugin moves all the required *.css modules in entry chunks into a separate CSS file.
+       * So your styles are no longer inlined into the JS bundle, but in a separate CSS file.
+       *
+       * See: https://www.npmjs.com/package/extract-text-webpack-plugin
+       */
+      new ExtractTextPlugin({
+        filename: '[name].css',
+        allChunks: true,
       }),
 
       /**

@@ -1,6 +1,8 @@
 module.exports = {
   // fontAwesomeCustomizations: "./_font-awesome.config.scss",
 
+  extractStyles: process.env.NODE_ENV === 'production',
+
   styles: {
     'mixins': true,
 

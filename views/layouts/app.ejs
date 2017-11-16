@@ -6,30 +6,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
 
-    <style>
-      html, body {
-        height: 100%;
-      }
-      body {
-        margin: 0;
-        background-color: #1b2631;
-        color: rgba(255, 255, 255, 0.75);
-      }
-      #page-loader {
-        height: 100%;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      #page-loader .row {
-        width: auto;
-      }
-      #app {
-        display: none;
-      }
-    </style>
+    <% if (sails.config.environment === 'production') { %>
+      <link rel="stylesheet" href="/twbs.css">
+      <link rel="stylesheet" href="/fa.css">
+      <link rel="stylesheet" href="/site.css">
+    <% } %>
   </head>
 
   <body>
