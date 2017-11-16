@@ -293,6 +293,7 @@ module.exports.webpack = {
        * See: https://webpack.github.io/docs/list-of-plugins.html#provideplugin
        */
       new ProvidePlugin({
+        _: 'lodash',
         $: 'jquery',
         jQuery: 'jquery',
         'window.jQuery': 'jquery',

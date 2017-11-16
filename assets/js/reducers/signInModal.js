@@ -31,9 +31,9 @@ const signInModal = (
       );
     case 'UPDATE_SIGN_IN_MODAL':
       let newValues = {};
-      if (action.login)
+      if (!_.isUndefined(action.login))
         newValues.login = action.login;
-      if (action.password)
+      if (!_.isUndefined(action.password))
         newValues.password = action.password;
       return Object.assign(
         {},
