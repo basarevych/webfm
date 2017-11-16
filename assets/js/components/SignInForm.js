@@ -40,6 +40,7 @@ class SignInForm extends React.Component {
               disabled={this.props.isLocked}
               autoFocus
               valid={(!this.props.errors.login || !Object.keys(this.props.errors.login).length) && undefined}
+              value={this.props.login}
               onChange={this.props.onChange}
               innerRef={(input) => { this.login = input; }}
             />
@@ -58,6 +59,7 @@ class SignInForm extends React.Component {
               id="signInPassword"
               disabled={this.props.isLocked}
               valid={(!this.props.errors.password || !Object.keys(this.props.errors.password).length) && undefined}
+              value={this.props.password}
               onChange={this.props.onChange}
               innerRef={(input) => { this.password = input; }}
             />
@@ -71,6 +73,8 @@ class SignInForm extends React.Component {
 
 SignInForm.propTypes = {
   isLocked: PropTypes.bool.isRequired,
+  login: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
   messages: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,

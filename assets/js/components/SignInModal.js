@@ -47,6 +47,8 @@ class SignInModal extends React.Component {
         <ModalBody>
           <SignInForm
             isLocked={this.props.isLocked}
+            login={this.state.login}
+            password={this.state.password}
             messages={this.props.authRequest.messages}
             errors={this.props.authRequest.errors}
             onChange={this.handleFormChange}
