@@ -2,7 +2,7 @@
 
 import { lockApp, unlockApp } from './app';
 import { updateAuthStatus } from './authStatus';
-import { hideSignInModal } from './signInModal';
+import { toggleSignInModal } from './signInModal';
 
 export const startAuthRequest = requestedAt => {
   return dispatch => {
@@ -70,7 +70,7 @@ export const authRequest = (login, password) => {
             success: async data => {
               let end = await dispatch(endAuthRequest(start.requestedAt, true, data));
               if (end.success) {
-                dispatch(hideSignInModal());
+                dispatch(toggleSignInModal());
                 dispatch(updateAuthStatus(true));
               }
               resolve();

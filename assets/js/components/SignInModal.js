@@ -17,8 +17,10 @@ class SignInModal extends React.Component {
   }
 
   handleToggle() {
-    if (!this.props.isLocked)
+    if (!this.props.isLocked) {
       this.props.onToggleClick();
+      this.setState({ login: '', password: '' });
+    }
   }
 
   handleFormChange(event) {
