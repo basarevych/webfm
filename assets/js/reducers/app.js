@@ -1,7 +1,10 @@
 'use strict';
 
+import viewport from '../lib/viewport';
+
 const app = (
   state = {
+    viewport: '',
     started: false,
     locked: 0,
   },
@@ -30,6 +33,18 @@ const app = (
         state,
         {
           locked: state.locked ? state.locked - 1 : 0,
+        }
+      );
+    case 'SCREEN_RESIZE':
+      let newSize = viewport.current();
+      if (newSize === 'unrecognized' || newSize === state.viewport)
+        return state;
+
+      return Object.assign(
+        {},
+        state,
+        {
+          viewport: newSize,
         }
       );
   }

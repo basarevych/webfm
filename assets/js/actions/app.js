@@ -20,12 +20,19 @@ export const unlockApp = () => {
   };
 };
 
+export const screenResize = () => {
+  return {
+    type: 'SCREEN_RESIZE',
+  };
+};
+
 export const initApp = () => {
   return async (dispatch, getState) => {
     let { appStarted } = getState();
     if (appStarted)
       return;
 
+    await dispatch(screenResize());
     await dispatch(updateAuthStatus());
 
     return new Promise(resolve => {

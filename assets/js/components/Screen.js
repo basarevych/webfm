@@ -23,6 +23,7 @@ const Screen = (
   <div className="window-wrapper d-flex flex-column">
     <div>
       <MainNavbar
+        viewport={app.viewport}
         isOpen={mainNavbarOpen}
         isLocked={!!app.locked}
         isLoggedIn={authStatus.authorized}

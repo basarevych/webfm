@@ -4,7 +4,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Navbar, NavbarToggler, NavbarBrand, Collapse, Nav, NavItem, NavLink } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import viewport from '../lib/viewport';
 
 class MainNavbar extends React.Component {
   constructor(props) {
@@ -38,7 +37,7 @@ class MainNavbar extends React.Component {
           <DropdownToggle caret nav>
             <i className="fa fa-user fa-mr" /> {this.props.login}
           </DropdownToggle>
-          <DropdownMenu right={viewport.is('>=md')}>
+          <DropdownMenu right={this.props.viewport !== 'xs'}>
             <DropdownItem onClick={this.props.onSignOutClick}>Sign out</DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -71,6 +70,7 @@ class MainNavbar extends React.Component {
 }
 
 MainNavbar.propTypes = {
+  viewport: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   isLocked: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
