@@ -1,6 +1,5 @@
 'use strict';
 
-import '../../styles/index';
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 

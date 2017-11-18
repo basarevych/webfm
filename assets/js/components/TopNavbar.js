@@ -5,25 +5,24 @@ import PropTypes from 'prop-types';
 import { Navbar, NavbarToggler, NavbarBrand, Collapse, Nav, NavItem, NavLink } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-class MainNavbar extends React.Component {
+class TopNavbar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { authDropdownOpen: false };
+    this.state = { isNavbarOpen: false, isAuthMenuOpen: false };
 
-    this.handleToggle = this.handleToggle.bind(this);
-    this.handleAuthDropdownToggle = this.handleAuthDropdownToggle.bind(this);
+    this.handleNavbarToggleClick = this.handleNavbarToggleClick.bind(this);
+    this.handleAuthMenuToggleClick = this.handleAuthMenuToggleClick.bind(this);
   }
 
-  handleToggle() {
+  handleNavbarToggleClick() {
     if (!this.props.isLocked)
-      this.props.onToggleClick();
+      this.setState({ isNavbarOpen: !this.state.isNavbarOpen });
   }
 
-  handleAuthDropdownToggle() {
-    this.setState({
-      authDropdownOpen: !this.state.authDropdownOpen
-    });
+  handleAuthMenuToggleClick() {
+    if (!this.props.isLocked)
+      this.setState({ isAuthMenuOpen: !this.state.isAuthMenuOpen });
   }
 
   render() {
@@ -31,8 +30,8 @@ class MainNavbar extends React.Component {
     if (this.props.isLoggedIn) {
       signing = (
         <Dropdown
-          isOpen={this.state.authDropdownOpen}
-          toggle={this.handleAuthDropdownToggle}
+          isOpen={this.state.isAuthMenuOpen}
+          toggle={this.handleAuthMenuToggleClick}
         >
           <DropdownToggle caret nav>
             <i className="fa fa-user fa-mr" /> {this.props.login}
@@ -50,9 +49,9 @@ class MainNavbar extends React.Component {
 
     return (
       <Navbar dark expand="sm">
-        <NavbarToggler onClick={this.handleToggle} />
+        <NavbarToggler onClick={this.handleNavbarToggleClick} />
         <NavbarBrand href="/">WebFM</NavbarBrand>
-        <Collapse isOpen={this.props.isOpen} navbar>
+        <Collapse isOpen={this.state.isNavbarOpen} navbar>
           <Nav navbar>
             <NavItem>
               <NavLink>Copy</NavLink>
@@ -69,15 +68,13 @@ class MainNavbar extends React.Component {
   }
 }
 
-MainNavbar.propTypes = {
+TopNavbar.propTypes = {
   viewport: PropTypes.string.isRequired,
-  isOpen: PropTypes.bool.isRequired,
   isLocked: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   login: PropTypes.string,
-  onToggleClick: PropTypes.func.isRequired,
   onSignInClick: PropTypes.func.isRequired,
   onSignOutClick: PropTypes.func.isRequired,
 };
 
-export default MainNavbar;
+export default TopNavbar;

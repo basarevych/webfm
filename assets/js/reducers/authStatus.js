@@ -2,8 +2,9 @@
 
 const authStatus = (
   state = {
-    isFetching: false,
     requestedAt: 0,
+    isFetching: false,
+    didFetch: false,
     authorized: false,
     login: 'anonymous',
   },
@@ -18,8 +19,8 @@ const authStatus = (
         {},
         state,
         {
-          isFetching: true,
           requestedAt: action.requestedAt,
+          isFetching: true,
         }
       );
     case 'AUTH_STATUS_SUCCESS':
@@ -30,8 +31,9 @@ const authStatus = (
         {},
         state,
         {
-          isFetching: false,
           requestedAt: action.requestedAt,
+          isFetching: false,
+          didFetch: true,
           authorized: action.authorized,
           login: action.login,
         }
@@ -44,8 +46,9 @@ const authStatus = (
         {},
         state,
         {
-          isFetching: false,
           requestedAt: action.requestedAt,
+          isFetching: false,
+          didFetch: false,
         }
       );
   }

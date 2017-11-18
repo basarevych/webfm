@@ -26,7 +26,7 @@ export const receiveAuthStatus = (requestedAt, data) => {
 export const updateAuthStatus = (force = false) => {
   return async (dispatch, getState) => {
     if (!force) {
-      let {authStatus} = getState();
+      let { authStatus } = getState();
       if (authStatus.isFetching)
         return;
     }

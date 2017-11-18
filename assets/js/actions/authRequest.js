@@ -2,39 +2,29 @@
 
 import { lockApp, unlockApp } from './app';
 import { updateAuthStatus } from './authStatus';
-import { hideSignInModal } from './signInModal';
+import { hideSignInDialog } from './signInDialog';
 
 export const startAuthRequest = requestedAt => {
-  return dispatch => {
-    dispatch(lockApp());
-    return dispatch({
-      type: 'AUTH_REQUEST_REQUEST',
-      requestedAt,
-    });
+  return {
+    type: 'AUTH_REQUEST_REQUEST',
+    requestedAt,
   };
 };
 
 export const endAuthRequest = (requestedAt, fetched, data) => {
-  return dispatch => {
-    dispatch(unlockApp());
+  if (fetched) {
+    return {
+      type: 'AUTH_REQUEST_SUCCESS',
+      requestedAt,
+      success: data.success,
+      messages: data.messages,
+      errors: data.errors,
+    };
+  }
 
-    let action;
-    if (fetched) {
-      action = {
-        type: 'AUTH_REQUEST_SUCCESS',
-        requestedAt,
-        success: data.success,
-        messages: data.messages,
-        errors: data.errors,
-      };
-    } else {
-      action = {
-        type: 'AUTH_REQUEST_FAILURE',
-        requestedAt,
-      };
-    }
-
-    return dispatch(action);
+  return {
+    type: 'AUTH_REQUEST_FAILURE',
+    requestedAt,
   };
 };
 
@@ -44,19 +34,21 @@ export const resetAuthRequest = () => {
   };
 };
 
-export const authRequest = () => {
+export const authRequest = (login, password) => {
   return async (dispatch, getState) => {
-    let { authRequest, signInModal } = getState();
-    if (authRequest.isFetching)
+    let { app, authRequest } = getState();
+    if (app.locked || authRequest.isFetching)
       return;
 
-    let login = signInModal.login;
-    let password = signInModal.password;
-
+    dispatch(lockApp());
     dispatch(resetAuthRequest());
-    let start = await dispatch(startAuthRequest(Date.now()));
+    let start = dispatch(startAuthRequest(Date.now()));
     return new Promise(resolve => {
-      let fail = () => resolve(dispatch(endAuthRequest(start.requestedAt, false)));
+      let fail = () => {
+        dispatch(endAuthRequest(start.requestedAt, false));
+        dispatch(unlockApp());
+        resolve();
+      };
 
       $.ajax({
         url: '/auth/csrf',
@@ -71,10 +63,11 @@ export const authRequest = () => {
               _csrf: data._csrf,
             },
             success: async data => {
-              let end = await dispatch(endAuthRequest(start.requestedAt, true, data));
+              let end = dispatch(endAuthRequest(start.requestedAt, true, data));
+              dispatch(unlockApp());
               if (end.success) {
-                dispatch(hideSignInModal());
-                dispatch(updateAuthStatus(true));
+                dispatch(hideSignInDialog());
+                await dispatch(updateAuthStatus(true));
               }
               resolve();
             },
@@ -88,7 +81,11 @@ export const authRequest = () => {
 };
 
 export const authSignOut = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    let { app } = getState();
+    if (app.locked)
+      return;
+
     return new Promise(resolve => {
       $.ajax({
         url: '/auth/csrf',
@@ -102,7 +99,7 @@ export const authSignOut = () => {
             },
             success: async data => {
               if (data.success)
-                dispatch(updateAuthStatus(true));
+                await dispatch(updateAuthStatus(true));
               resolve();
             },
             error: resolve,
