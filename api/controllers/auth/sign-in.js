@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = async function signIn(req, res) {
+  let validate = req.param('_validate');
   let login = _.isString(req.param('login')) && _.trim(req.param('login'));
   let password = _.isString(req.param('password')) && _.trim(req.param('password'));
 
@@ -9,8 +10,12 @@ module.exports = async function signIn(req, res) {
     values: {
       login,
       password,
-    }
+    },
+    validate,
   });
+
+  if (validate)
+    return res.json(form);
 
   if (form.success && password !== '123') {
     form.addMessage('invalid_credentials');
@@ -20,7 +25,6 @@ module.exports = async function signIn(req, res) {
   if (!form.success)
     return res.json(form);
 
-  req.session.userId = 'tester';
-  req.session.userLogin = login;
+  req.session.userId = login;
   res.json({ success: true });
 };

@@ -17,7 +17,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onToggle: () => dispatch(toggleSignInDialog()),
-    onSubmit: (login, password) => dispatch(authRequest(login, password)),
+    onSubmit: (values, validate, startedAt) => dispatch(authRequest(values, validate, startedAt)),
   };
 };
 

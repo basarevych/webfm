@@ -12,37 +12,95 @@ class SignInModal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { login: '', password: '' };
+    this.state = { login: '', password: '', ignoreBlur: true };
 
     this.handleInput = this.handleInput.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleInput(event) {
-    if (!this.props.isLocked)
-      this.setState({ [event.target.name]: event.target.value });
+    if (this.props.isLocked)
+      return;
+
+    this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleSubmit() {
-    if (!this.props.isLocked) {
-      let login = this.state.login;
-      let password = this.state.password;
-      this.setState({ password: '' });
-      this.props.onSubmit(login, password);
+  handleKeyPress(event) {
+    if (this.props.isLocked || event.charCode !== 13) // enter
+      return;
+
+    switch (event.target.name) {
+      case 'login':
+        if (this.passwordInput)
+          setTimeout(() => this.passwordInput.focus(), 0);
+        break;
+      case 'password':
+        this.handleSubmit();
+        break;
     }
   }
 
+  handleFocus() {
+    if (this.props.isLocked)
+      return;
+
+    this.setState({ ignoreBlur: false });
+  }
+
+  handleBlur(event) {
+    if (this.props.isLocked || this.state.ignoreBlur)
+      return;
+
+    let startedAt = Date.now();
+    let field = event.target.name;
+
+    setTimeout(
+      () => {
+        if (this.props.isLocked || this.state.ignoreBlur)
+          return;
+
+        this.props.onSubmit(
+          {
+            login: this.state.login,
+            password: this.state.password,
+          },
+          field,
+          startedAt
+        );
+      },
+      250
+    );
+  }
+
+  handleSubmit() {
+    if (this.props.isLocked)
+      return;
+
+    let login = this.state.login;
+    let password = this.state.password;
+    this.setState({ password: '', ignoreBlur: true });
+    this.props.onSubmit({ login, password });
+  }
+
   componentWillReceiveProps(nextProps) {
-    if (Object.keys(nextProps.errors).length) {
-      switch (Object.keys(nextProps.errors)[0]) {
-        case 'login':
-          if (this.loginInput)
-            setTimeout(() => this.loginInput.focus(), 0);
-          break;
-        case 'password':
-          if (this.passwordInput)
-            setTimeout(() => this.passwordInput.focus(), 0);
-          break;
+    if (this.props.isLocked) {
+      if (nextProps.isLocked)
+        return;
+
+      if (Object.keys(nextProps.errors).length) {
+        switch (Object.keys(nextProps.errors)[0]) {
+          case 'login':
+            if (this.loginInput)
+              setTimeout(() => this.loginInput.focus(), 0);
+            break;
+          case 'password':
+            if (this.passwordInput)
+              setTimeout(() => this.passwordInput.focus(), 0);
+            break;
+        }
       }
     }
   }
@@ -75,6 +133,9 @@ class SignInModal extends React.Component {
                   valid={(!this.props.errors.login || !Object.keys(this.props.errors.login).length) && undefined}
                   value={this.state.login}
                   onChange={this.handleInput}
+                  onKeyPress={this.handleKeyPress}
+                  onFocus={this.handleFocus}
+                  onBlur={this.handleBlur}
                   innerRef={(input) => { this.loginInput = input; }}
                 />
                 <FieldErrors errors={this.props.errors.login} />
@@ -94,6 +155,9 @@ class SignInModal extends React.Component {
                   valid={(!this.props.errors.password || !Object.keys(this.props.errors.password).length) && undefined}
                   value={this.state.password}
                   onChange={this.handleInput}
+                  onKeyPress={this.handleKeyPress}
+                  onFocus={this.handleFocus}
+                  onBlur={this.handleBlur}
                   innerRef={(input) => { this.passwordInput = input; }}
                 />
                 <FieldErrors errors={this.props.errors.password} />
@@ -106,11 +170,11 @@ class SignInModal extends React.Component {
             <img src="/img/loader-large.gif" />
           </div>
           <div className={this.props.isLocked ? 'd-none' : 'd-block'}>
-            <Button disabled={this.props.isLocked} color="secondary" onClick={this.props.onToggle}>
+            <Button color="secondary" onClick={this.props.onToggle}>
               Cancel
             </Button>
             {' '}
-            <Button disabled={this.props.isLocked} color="primary" onClick={this.handleSubmit}>
+            <Button color="primary" onClick={this.handleSubmit}>
               Submit
             </Button>
           </div>

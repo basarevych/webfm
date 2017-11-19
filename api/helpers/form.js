@@ -1,8 +1,9 @@
 'use strict';
 
 class Form {
-  constructor() {
+  constructor(values) {
     this.success = true;
+    this.values = values;
     this.messages = {};
     this.errors = {};
   }
@@ -51,33 +52,41 @@ module.exports = {
       type: 'ref',
       description: 'Object containing model values.',
       required: true,
+    },
+
+    validate: {
+      type: 'string',
+      description: 'Particular field name to validate.'
     }
   },
 
 
   fn: async function (inputs, exits) {
-    let result = new Form();
+    let form = new Form(inputs.values);
 
     if (typeof inputs.model.preValidate === 'function')
-      result = await inputs.model.preValidate({ form: result, values: inputs.values });
+      await inputs.model.preValidate({ form, validate: inputs.validate });
 
     for (let attr of Object.keys(inputs.model.attributes)) {
+      if (inputs.validate && inputs.validate !== attr)
+        continue;
+
       try {
-        inputs.model.validate(attr, inputs.values[attr]);
+        form.values[attr] = inputs.model.validate(attr, form.values[attr]);
       } catch (error) {
         let key = `${inputs.model.identity}.${attr}.${error.code}`;
         let translated = sails.__(key);
-        result.addError(attr, error.code, translated === key ? _.escape(error.message) : translated);
+        form.addError(attr, error.code, translated === key ? _.escape(error.message) : translated);
       }
     }
 
     if (typeof inputs.model.postValidate === 'function')
-      result = await inputs.model.postValidate({ form: result, values: inputs.values });
+      await inputs.model.postValidate({ form, validate: inputs.validate });
 
-    if (result.success)
-      result.success = !Object.keys(result.errors).length;
+    if (form.success)
+      form.success = !Object.keys(form.errors).length;
 
-    return exits.success(result);
+    return exits.success(form);
   },
 
 };

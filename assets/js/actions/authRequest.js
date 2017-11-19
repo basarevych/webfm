@@ -34,19 +34,28 @@ export const resetAuthRequest = () => {
   };
 };
 
-export const authRequest = (login, password) => {
+export const authRequest = (values, validate, startedAt) => {
+  if (!startedAt)
+    startedAt = Date.now();
+
   return async (dispatch, getState) => {
     let { app, authRequest } = getState();
-    if (app.locked || authRequest.isFetching)
+    if (app.locked || authRequest.isFetching || authRequest.requestedAt >= startedAt)
       return;
 
-    dispatch(lockApp());
+    if (!validate)
+      dispatch(lockApp());
+
     dispatch(resetAuthRequest());
-    let start = dispatch(startAuthRequest(Date.now()));
+
+    let start = dispatch(startAuthRequest(startedAt));
     return new Promise(resolve => {
       let fail = () => {
         dispatch(endAuthRequest(start.requestedAt, false));
-        dispatch(unlockApp());
+
+        if (!validate)
+          dispatch(unlockApp());
+
         resolve();
       };
 
@@ -58,16 +67,20 @@ export const authRequest = (login, password) => {
             url: '/auth/sign-in',
             type: 'POST',
             data: {
-              login,
-              password,
+              login: values.login,
+              password: values.password,
+              _validate: validate,
               _csrf: data._csrf,
             },
             success: async data => {
               let end = dispatch(endAuthRequest(start.requestedAt, true, data));
-              dispatch(unlockApp());
-              if (end.success) {
-                dispatch(hideSignInDialog());
-                await dispatch(updateAuthStatus(true));
+              if (!validate) {
+                dispatch(unlockApp());
+
+                if (end.success) {
+                  dispatch(hideSignInDialog());
+                  await dispatch(updateAuthStatus(true));
+                }
               }
               resolve();
             },
