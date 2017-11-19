@@ -2,8 +2,8 @@
 
 module.exports = async function signIn(req, res) {
   let validate = req.param('_validate');
-  let login = _.isString(req.param('login')) && _.trim(req.param('login'));
-  let password = _.isString(req.param('password')) && _.trim(req.param('password'));
+  let login = _.isString(req.param('login')) ? _.trim(req.param('login')) : '';
+  let password = _.isString(req.param('password')) ? _.trim(req.param('password')) : '';
 
   let form = await sails.helpers.form({
     model: User,
@@ -22,9 +22,10 @@ module.exports = async function signIn(req, res) {
     form.success = false;
   }
 
-  if (!form.success)
-    return res.json(form);
+  if (form.success) {
+    form.values.password = '';
+    req.session.userId = login;
+  }
 
-  req.session.userId = login;
-  res.json({ success: true });
+  return res.json(form);
 };

@@ -16,13 +16,11 @@ class TopNavbar extends React.Component {
   }
 
   handleNavbarToggleClick() {
-    if (!this.props.isLocked)
-      this.setState({ isNavbarOpen: !this.state.isNavbarOpen });
+    this.setState({ isNavbarOpen: !this.state.isNavbarOpen });
   }
 
   handleAuthMenuToggleClick() {
-    if (!this.props.isLocked)
-      this.setState({ isAuthMenuOpen: !this.state.isAuthMenuOpen });
+    this.setState({ isAuthMenuOpen: !this.state.isAuthMenuOpen });
   }
 
   render() {
@@ -70,7 +68,6 @@ class TopNavbar extends React.Component {
 
 TopNavbar.propTypes = {
   viewport: PropTypes.string.isRequired,
-  isLocked: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   login: PropTypes.string,
   onSignInClick: PropTypes.func.isRequired,

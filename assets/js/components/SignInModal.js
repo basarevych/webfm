@@ -12,7 +12,7 @@ class SignInModal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { login: '', password: '', ignoreBlur: true };
+    this.state = { ignoreBlur: true };
 
     this.handleInput = this.handleInput.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -25,7 +25,7 @@ class SignInModal extends React.Component {
     if (this.props.isLocked)
       return;
 
-    this.setState({ [event.target.name]: event.target.value });
+    this.props.onInput({ [event.target.name]: event.target.value });
   }
 
   handleKeyPress(event) {
@@ -54,7 +54,7 @@ class SignInModal extends React.Component {
     if (this.props.isLocked || this.state.ignoreBlur)
       return;
 
-    let startedAt = Date.now();
+    let submittedAt = Date.now();
     let field = event.target.name;
 
     setTimeout(
@@ -62,14 +62,7 @@ class SignInModal extends React.Component {
         if (this.props.isLocked || this.state.ignoreBlur)
           return;
 
-        this.props.onSubmit(
-          {
-            login: this.state.login,
-            password: this.state.password,
-          },
-          field,
-          startedAt
-        );
+        this.props.onSubmit(submittedAt, field);
       },
       250
     );
@@ -79,10 +72,8 @@ class SignInModal extends React.Component {
     if (this.props.isLocked)
       return;
 
-    let login = this.state.login;
-    let password = this.state.password;
-    this.setState({ password: '', ignoreBlur: true });
-    this.props.onSubmit({ login, password });
+    this.setState({ ignoreBlur: true });
+    this.props.onSubmit(Date.now());
   }
 
   componentWillReceiveProps(nextProps) {
@@ -90,8 +81,11 @@ class SignInModal extends React.Component {
       if (nextProps.isLocked)
         return;
 
-      if (Object.keys(nextProps.errors).length) {
-        switch (Object.keys(nextProps.errors)[0]) {
+      for (let key of Object.keys(nextProps.errors)) {
+        if (!Object.keys(nextProps.errors[key]).length)
+          continue;
+
+        switch (key) {
           case 'login':
             if (this.loginInput)
               setTimeout(() => this.loginInput.focus(), 0);
@@ -101,6 +95,7 @@ class SignInModal extends React.Component {
               setTimeout(() => this.passwordInput.focus(), 0);
             break;
         }
+        break;
       }
     }
   }
@@ -131,7 +126,7 @@ class SignInModal extends React.Component {
                   disabled={this.props.isLocked}
                   autoFocus
                   valid={(!this.props.errors.login || !Object.keys(this.props.errors.login).length) && undefined}
-                  value={this.state.login}
+                  value={this.props.values.login}
                   onChange={this.handleInput}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
@@ -153,7 +148,7 @@ class SignInModal extends React.Component {
                   id="signInPassword"
                   disabled={this.props.isLocked}
                   valid={(!this.props.errors.password || !Object.keys(this.props.errors.password).length) && undefined}
-                  value={this.state.password}
+                  value={this.props.values.password}
                   onChange={this.handleInput}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
@@ -187,9 +182,11 @@ class SignInModal extends React.Component {
 SignInModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   isLocked: PropTypes.bool.isRequired,
+  values: PropTypes.object.isRequired,
   messages: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   onToggle: PropTypes.func.isRequired,
+  onInput: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 
