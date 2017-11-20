@@ -1,6 +1,6 @@
 'use strict';
 
-import { updateAuthStatus } from './authStatus';
+import { updateStatus } from './status';
 
 export const startApp = () => {
   return {
@@ -21,7 +21,7 @@ export const initApp = () => {
       return;
 
     await dispatch(screenResize());
-    await dispatch(updateAuthStatus());
+    await dispatch(updateStatus());
 
     return new Promise(resolve => {
       $('#page-loader').fadeOut(() => {

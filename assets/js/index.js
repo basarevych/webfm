@@ -1,5 +1,6 @@
 'use strict';
 
+import './lib/i18n';
 import React from 'react';
 import { createStore, applyMiddleware } from 'redux';
 import { render } from 'react-dom';

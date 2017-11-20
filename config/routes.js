@@ -28,8 +28,8 @@ module.exports.routes = {
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
 
+  'GET /status': 'status',
   'GET /auth/csrf': 'security/grant-csrf-token',
-  'GET /auth/info': 'auth/info',
   'POST /auth/sign-in': 'auth/sign-in',
   'POST /auth/sign-out': 'auth/sign-out',
 

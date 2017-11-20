@@ -3,12 +3,12 @@
 import 'bootstrap';
 import { combineReducers } from 'redux';
 import app from './app';
-import authStatus from './authStatus';
+import status from './status';
 import signInDialog from './signInDialog';
 
 const webfm = combineReducers({
   app,
-  authStatus,
+  status,
   signInDialog,
 });
 

@@ -115,7 +115,7 @@ class SignInModal extends React.Component {
             <FormMessages messages={this.props.messages} />
             <FormGroup row>
               <Label for="signInLogin" sm={4} className="text-sm-right">
-                Login:
+                {__('login_label')}:
                 <RequiredFieldLabel />
               </Label>
               <Col sm={8}>
@@ -138,7 +138,7 @@ class SignInModal extends React.Component {
             </FormGroup>
             <FormGroup row>
               <Label for="signInPassword" sm={4} className="text-sm-right">
-                Password:
+                {__('password_label')}:
                 <RequiredFieldLabel />
               </Label>
               <Col sm={8}>
@@ -166,11 +166,11 @@ class SignInModal extends React.Component {
           </div>
           <div className={this.props.isLocked ? 'd-none' : 'd-block'}>
             <Button color="secondary" onClick={this.props.onToggle}>
-              Cancel
+              {__('cancel_button')}
             </Button>
             {' '}
             <Button color="primary" onClick={this.handleSubmit}>
-              Submit
+              {__('submit_button')}
             </Button>
           </div>
         </ModalFooter>

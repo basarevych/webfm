@@ -39,6 +39,8 @@
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     "SAILS_LOCALS": true,
     "io": true,
+    "_": true,
+    "__": true,
     // "moment": true,
     // "bowser": true
     // ...etc.
@@ -47,7 +49,6 @@
     // Make sure backend globals aren't indadvertently tolerated in our client-side JS:
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     "sails": false,
-    "_": true,
     "async": false
     // ...and any other backend globals (e.g. `"Organization": false`)
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

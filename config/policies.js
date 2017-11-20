@@ -19,9 +19,9 @@ module.exports.policies = {
 
   '*': false,
 
+  'status': true,
   'security/grant-csrf-token': true,
 
-  'auth/info': true,
   'auth/sign-in': 'isNotLoggedIn',
   'auth/sign-out': 'isLoggedIn',
 

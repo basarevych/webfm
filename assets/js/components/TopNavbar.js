@@ -35,24 +35,24 @@ class TopNavbar extends React.Component {
             <i className="fa fa-user fa-mr" /> {this.props.login}
           </DropdownToggle>
           <DropdownMenu right={this.props.viewport !== 'xs'}>
-            <DropdownItem onClick={this.props.onSignOutClick}>Sign out</DropdownItem>
+            <DropdownItem onClick={this.props.onSignOutClick}>{__('sign_out_button')}</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       );
     } else {
       signing = (
-        <NavLink onClick={this.props.onSignInClick}>Sign in</NavLink>
+        <NavLink onClick={this.props.onSignInClick}>{__('sign_in_button')}</NavLink>
       );
     }
 
     return (
       <Navbar dark expand="sm">
         <NavbarToggler onClick={this.handleNavbarToggleClick} />
-        <NavbarBrand href="/">WebFM</NavbarBrand>
+        <NavbarBrand href="/">{__('project_title')}</NavbarBrand>
         <Collapse isOpen={this.state.isNavbarOpen} navbar>
           <Nav navbar>
             <NavItem>
-              <NavLink>Copy</NavLink>
+              <NavLink>{__('copy_command')}</NavLink>
             </NavItem>
           </Nav>
           <Nav className="ml-auto" navbar>

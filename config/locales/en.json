@@ -1,4 +1,13 @@
 {
+  "project_title": "WebFM",
+  "sign_in_button": "Sign in",
+  "sign_out_button": "Sign out",
+  "cancel_button": "Cancel",
+  "submit_button": "Submit",
+  "copy_command": "Copy",
+  "required_field": "Required field",
+  "login_label": "Login",
+  "password_label": "Password",
   "invalid_credentials": "Wrong login or password",
 	"user.login.E_REQUIRED": "Login is required",
 	"user.password.E_REQUIRED": "Password is required"

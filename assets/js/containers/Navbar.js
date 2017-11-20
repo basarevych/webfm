@@ -7,8 +7,8 @@ import TopNavbar from '../components/TopNavbar';
 const mapStateToProps = state => {
   return {
     viewport: state.app.viewport,
-    isLoggedIn: state.authStatus.authorized,
-    login: state.authStatus.login,
+    isLoggedIn: state.status.authorized,
+    login: state.status.login,
   };
 };
 

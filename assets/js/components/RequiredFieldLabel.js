@@ -4,7 +4,7 @@ import React from 'react';
 
 const InputRequiredLabel = () => (
   <div className="control-required">
-    Required field
+    {__('required_field')}
   </div>
 );
 

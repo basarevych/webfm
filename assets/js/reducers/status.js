@@ -1,17 +1,18 @@
 'use strict';
 
-const authStatus = (
+const status = (
   state = {
     requestedAt: 0,
     isFetching: false,
     didFetch: false,
     authorized: false,
     login: 'anonymous',
+    locale: 'en',
   },
   action
 ) => {
   switch (action.type) {
-    case 'AUTH_STATUS_REQUEST':
+    case 'STATUS_REQUEST':
       if (action.requestedAt <= state.requestedAt)
         return state;
 
@@ -23,7 +24,7 @@ const authStatus = (
           isFetching: true,
         }
       );
-    case 'AUTH_STATUS_SUCCESS':
+    case 'STATUS_SUCCESS':
       if (action.requestedAt < state.requestedAt)
         return state;
 
@@ -36,9 +37,10 @@ const authStatus = (
           didFetch: true,
           authorized: action.authorized,
           login: action.login,
+          locale: action.locale,
         }
       );
-    case 'AUTH_STATUS_FAILURE':
+    case 'STATUS_FAILURE':
       if (action.requestedAt < state.requestedAt)
         return state;
 
@@ -56,4 +58,4 @@ const authStatus = (
   return state;
 };
 
-export default authStatus;
+export default status;

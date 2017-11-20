@@ -1,6 +1,6 @@
 'use strict';
 
-import { updateAuthStatus } from './authStatus';
+import { updateStatus } from './status';
 
 export const lockSignInDialog = () => {
   return {
@@ -129,7 +129,7 @@ export const signIn = (when, validate) => {
 
                 if (data.success) {
                   dispatch(hideSignInDialog());
-                  await dispatch(updateAuthStatus(true));
+                  await dispatch(updateStatus(true));
                 }
               }
 
@@ -159,7 +159,7 @@ export const signOut = () => {
             },
             success: async data => {
               if (data.success)
-                await dispatch(updateAuthStatus(true));
+                await dispatch(updateStatus(true));
               resolve();
             },
             error: resolve,
