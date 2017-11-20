@@ -1,6 +1,7 @@
 'use strict';
 
 import { updateStatus } from './status';
+import { setActivePane } from './pane';
 
 export const startApp = () => {
   return {
@@ -27,6 +28,7 @@ export const initApp = () => {
       $('#page-loader').fadeOut(() => {
         $('#app').show();
         dispatch(startApp());
+        dispatch(setActivePane('LEFT'));
         resolve();
       });
     });

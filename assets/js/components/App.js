@@ -3,6 +3,8 @@
 import React from 'react';
 import Navbar from '../containers/Navbar';
 import SignInDialog from '../containers/SignInDialog';
+import LeftPane from '../containers/leftPane';
+import RightPane from '../containers/rightPane';
 
 const App = () => (
   <div className="window-wrapper d-flex flex-column">
@@ -10,9 +12,13 @@ const App = () => (
       <Navbar />
       <SignInDialog />
     </div>
-    <div className="flex-grow d-flex">
-      <div className="w-50">pane 1</div>
-      <div className="w-50">pane 2</div>
+    <div className="pane-container">
+      <div className="pane-wrapper">
+        <LeftPane />
+      </div>
+      <div className="pane-wrapper">
+        <RightPane />
+      </div>
     </div>
   </div>
 );
