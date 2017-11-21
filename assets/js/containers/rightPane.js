@@ -6,8 +6,10 @@ import Pane from '../components/Pane';
 
 const mapStateToProps = state => {
   return {
-    isActive: state.rightPane.active,
-    isDisabled: !state.status.authorized,
+    which: state.rightPane.which,
+    isActive: state.rightPane.isActive,
+    isVisible: state.rightPane.isVisible,
+    isDisabled: !state.status.isAuthorized,
   };
 };
 

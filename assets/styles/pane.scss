@@ -22,7 +22,9 @@
   flex-direction: column;
   margin: 10px;
   border: 1px solid lighten($body-bg, 10%);
-  transition: background-color 200ms linear, border-color 200ms linear, box-shadow 200ms linear;
+  transition: background-color 200ms ease-in,
+              border-color 200ms ease-in,
+              box-shadow 200ms ease-in;
 
   .header {
     background-color: lighten($body-bg, 10%);
@@ -30,13 +32,13 @@
     align-items: center;
     transition: background-color 200ms linear;
 
-    .share {
+    .share, .tools {
       margin: 5px 10px;
     }
 
     .path {
       flex: 1 0 auto;
-      margin: 5px 10px 5px 0;
+      margin: 5px 0;
       overflow: hidden;
     }
 
@@ -60,7 +62,6 @@
   &.active {
     background-color: $modal-content-bg;
     border-color: lighten($modal-content-bg, 10%);
-    box-shadow: 0 0 8px #2e86c1;
+    box-shadow: 0 0 8px 2px $primary;
   }
 }
-

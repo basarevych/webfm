@@ -1,27 +1,45 @@
 'use strict';
 
-const pane = prefix => {
+const pane = which => {
   return (
     state = {
-      active: false,
+      which: which,
+      isActive: false,
+      isVisible: true,
     },
     action
   ) => {
     switch (action.type) {
-      case `ACTIVATE_${prefix}_PANE`:
+      case `ACTIVATE_${which}_PANE`:
         return Object.assign(
           {},
           state,
           {
-            active: true,
+            isActive: true,
           }
         );
-      case `DEACTIVATE_${prefix}_PANE`:
+      case `DEACTIVATE_${which}_PANE`:
         return Object.assign(
           {},
           state,
           {
-            active: false,
+            isActive: false,
+          }
+        );
+      case `SHOW_${which}_PANE`:
+        return Object.assign(
+          {},
+          state,
+          {
+            isVisible: true,
+          }
+        );
+      case `HIDE_${which}_PANE`:
+        return Object.assign(
+          {},
+          state,
+          {
+            isVisible: false,
           }
         );
     }

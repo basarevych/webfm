@@ -1,16 +1,4 @@
-// Variables
-
-$fade-duration: 300;
-$fade-duration-ms: $fade-duration + 0ms;
-
-// JS Exports
-
-:export {
-  fadeDuration: $fade-duration;
-}
-
-// Imports
-
+@import "variables";
 @import "root";
 @import "form";
 @import "fade";

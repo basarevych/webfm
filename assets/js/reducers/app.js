@@ -5,7 +5,7 @@ import viewport from '../lib/viewport';
 const app = (
   state = {
     viewport: '',
-    started: false,
+    isStarted: false,
   },
   action
 ) => {
@@ -15,7 +15,7 @@ const app = (
         {},
         state,
         {
-          started: true,
+          isStarted: true,
         }
       );
     case 'SCREEN_RESIZE':

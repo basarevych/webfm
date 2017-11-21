@@ -5,7 +5,7 @@ const status = (
     requestedAt: 0,
     isFetching: false,
     didFetch: false,
-    authorized: false,
+    isAuthorized: false,
     login: 'anonymous',
     locale: 'en',
   },
@@ -35,7 +35,7 @@ const status = (
           requestedAt: action.requestedAt,
           isFetching: false,
           didFetch: true,
-          authorized: action.authorized,
+          isAuthorized: action.authorized,
           login: action.login,
           locale: action.locale,
         }

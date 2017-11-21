@@ -10,3 +10,12 @@ export const setActivePane = (pane) => {
     });
   };
 };
+
+export const toggleRightPane = () => {
+  return (dispatch, getState) => {
+    let { rightPane } = getState();
+    dispatch({
+      type: `${rightPane.isVisible ? 'HIDE' : 'SHOW'}_RIGHT_PANE`,
+    });
+  };
+};
