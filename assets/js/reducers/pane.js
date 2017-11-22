@@ -4,6 +4,7 @@ const pane = which => {
   return (
     state = {
       which: which,
+      mode: 'LIST',
       isActive: false,
       isVisible: true,
     },
@@ -40,6 +41,14 @@ const pane = which => {
           state,
           {
             isVisible: false,
+          }
+        );
+      case `SET_${which}_PANE_MODE`:
+        return Object.assign(
+          {},
+          state,
+          {
+            mode: action.mode,
           }
         );
     }

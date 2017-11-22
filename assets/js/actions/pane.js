@@ -32,3 +32,12 @@ export const togglePane = pane => {
     });
   };
 };
+
+export const setPaneMode = (pane, mode) => {
+  return async dispatch => {
+    return dispatch({
+      type: `SET_${pane}_PANE_MODE`,
+      mode: mode,
+    });
+  };
+};

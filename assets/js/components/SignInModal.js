@@ -164,7 +164,7 @@ class SignInModal extends React.Component {
           <Button color="secondary" disabled={this.props.isLocked} onClick={this.props.onToggle}>
             {__('cancel_button')}
           </Button>
-          {' '}
+          &nbsp;
           <Button color="primary" disabled={this.props.isLocked} onClick={this.handleSubmit}>
             {__('submit_button')}
           </Button>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
+import { Button, ButtonGroup } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 class Pane extends React.Component {
@@ -20,6 +20,10 @@ class Pane extends React.Component {
   }
 
   render() {
+    let path = null;
+    if (this.props.viewport !== 'xs')
+      path = '/some/path';
+
     return (
       <div className="pane-wrapper">
         <div className={'pane rounded' + (this.props.isActive ? ' active' : '')} onClick={this.props.onPaneClick}>
@@ -32,7 +36,9 @@ class Pane extends React.Component {
                 toggle={this.toggleShareDropdown}
               >
                 <DropdownToggle caret>
-                  <em>{__('share_label')}</em>
+                  <div className="fit-width">
+                    <em>{__('share_label')}</em>
+                  </div>
                 </DropdownToggle>
                 <DropdownMenu>
                   <DropdownItem>Another Action</DropdownItem>
@@ -40,9 +46,33 @@ class Pane extends React.Component {
               </Dropdown>
             </div>
             <div className="path">
-              /
+              {path}
             </div>
             <div className="tools">
+              <ButtonGroup>
+                <Button
+                  size="sm"
+                  color={this.props.mode === 'LIST' ? 'primary' : 'secondary'}
+                  onClick={() => this.props.onSetMode('LIST')}
+                >
+                  <i className="fa fa-folder-open" />
+                </Button>
+                <Button
+                  size="sm"
+                  color={this.props.mode === 'VIEW' ? 'primary' : 'secondary'}
+                  onClick={() => this.props.onSetMode('VIEW')}
+                >
+                  <i className="fa fa-file-text-o" />
+                </Button>
+                <Button
+                  size="sm"
+                  color={this.props.mode === 'INFO' ? 'primary' : 'secondary'}
+                  onClick={() => this.props.onSetMode('INFO')}
+                >
+                  <i className="fa fa-align-left" />
+                </Button>
+              </ButtonGroup>
+              &nbsp;
               <Button size="sm" color="secondary" onClick={this.props.onToggleOther}>
                 <i className={'fa fa-toggle-' + (this.props.isOtherVisible ? 'on' : 'off')} />
               </Button>
@@ -60,11 +90,14 @@ class Pane extends React.Component {
 }
 
 Pane.propTypes = {
+  viewport: PropTypes.string.isRequired,
   which: PropTypes.string.isRequired,
+  mode: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
   isOtherVisible: PropTypes.bool,
   isDisabled: PropTypes.bool.isRequired,
   onPaneClick: PropTypes.func.isRequired,
+  onSetMode: PropTypes.func.isRequired,
   onToggleOther: PropTypes.func,
 };
 
