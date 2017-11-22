@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import webfm from './reducers';
 import App from './containers/app';
-import { initApp, screenResize } from './actions/app';
+import { initApp } from './actions/app';
 
 $(window).on('load', () => {
   let store = createStore(
@@ -23,9 +23,5 @@ $(window).on('load', () => {
     document.getElementById('app')
   );
 
-  store.dispatch(initApp());
-
-  $(window)
-    .on('resize', () => store.dispatch(screenResize()))
-    .on('orientationchange', () => store.dispatch(screenResize()));
+  store.dispatch(initApp(store));
 });

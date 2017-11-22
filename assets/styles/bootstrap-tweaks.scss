@@ -1,5 +1,11 @@
 // $btn-primary-bg: adjust-hue($btn-primary-bg, +20deg);
 
+@import "variables";
+
+body {
+  transition: background-color $fade-duration-ms ease-in;
+}
+
 .navbar {
   font-family: "Roboto Condensed", sans-serif;
   padding-bottom: 0 !important;

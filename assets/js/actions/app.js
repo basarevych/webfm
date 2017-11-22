@@ -1,5 +1,6 @@
 'use strict';
 
+import style from '../../styles/variables.scss';
 import { updateStatus } from './status';
 import { setActivePane } from './pane';
 
@@ -15,7 +16,7 @@ export const screenResize = () => {
   };
 };
 
-export const initApp = () => {
+export const initApp = store => {
   return async (dispatch, getState) => {
     let { appStarted } = getState();
     if (appStarted)
@@ -25,10 +26,16 @@ export const initApp = () => {
     await dispatch(updateStatus());
 
     return new Promise(resolve => {
-      $('#page-loader').fadeOut(() => {
+      $(window)
+        .on('resize', () => store.dispatch(screenResize()))
+        .on('orientationchange', () => store.dispatch(screenResize()));
+
+      $('body').removeClass('loading');
+
+      $('#page-loader').fadeOut(style.fadeDuration, async () => {
         $('#app').show();
-        dispatch(startApp());
-        dispatch(setActivePane('LEFT'));
+        await dispatch(setActivePane('LEFT'));
+        await dispatch(startApp());
         resolve();
       });
     });
