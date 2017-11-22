@@ -27,17 +27,15 @@ export const togglePane = pane => {
   return async (dispatch, getState) => {
     let { leftPane, rightPane } = getState();
     let isVisible = (pane === 'LEFT' ? leftPane.isVisible : rightPane.isVisible);
-    return dispatch({
-      type: `${isVisible ? 'HIDE' : 'SHOW'}_${pane}_PANE`,
-    });
+    dispatch(isVisible ? hidePane(pane) : showPane(pane));
+    if (isVisible)
+      dispatch(setActivePane(pane === 'LEFT' ? 'RIGHT' : 'LEFT'));
   };
 };
 
 export const setPaneMode = (pane, mode) => {
-  return async dispatch => {
-    return dispatch({
-      type: `SET_${pane}_PANE_MODE`,
-      mode: mode,
-    });
+  return {
+    type: `SET_${pane}_PANE_MODE`,
+    mode: mode,
   };
 };

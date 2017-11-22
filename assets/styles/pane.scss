@@ -75,7 +75,7 @@
   }
 }
 
-@include media-breakpoint-up(md) {
+@include media-breakpoint-up(sm) {
   .pane-container .pane-wrapper:only-child .pane {
     max-width: calc(100vw - 20px);
 
@@ -85,7 +85,7 @@
   }
 }
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(xs) {
   .pane-container {
     flex-direction: column;
 

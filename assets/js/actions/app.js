@@ -18,10 +18,12 @@ export const screenResize = () => {
     if (newSize === 'unrecognized' || newSize === app.viewport)
       return;
 
-    if (viewport.is('<=sm'))
+    if (viewport.is('<=sm')) {
       await dispatch(hidePane('RIGHT'));
-    else
-      await dispatch(showPane('LEFT'));
+      await dispatch(setActivePane('LEFT'));
+    } else {
+      await dispatch(showPane('RIGHT'));
+    }
 
     return dispatch({
       type: 'SCREEN_RESIZE',
