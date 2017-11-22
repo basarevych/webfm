@@ -9,18 +9,13 @@ class TopNavbar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { isNavbarOpen: false, isAuthMenuOpen: false };
+    this.state = { isAuthDropdownOpen: false };
 
-    this.handleNavbarToggleClick = this.handleNavbarToggleClick.bind(this);
-    this.handleAuthMenuToggleClick = this.handleAuthMenuToggleClick.bind(this);
+    this.handleAuthDropdownToggle = this.handleAuthDropdownToggle.bind(this);
   }
 
-  handleNavbarToggleClick() {
-    this.setState({ isNavbarOpen: !this.state.isNavbarOpen });
-  }
-
-  handleAuthMenuToggleClick() {
-    this.setState({ isAuthMenuOpen: !this.state.isAuthMenuOpen });
+  handleAuthDropdownToggle() {
+    this.setState({ isAuthDropdownOpen: !this.state.isAuthDropdownOpen });
   }
 
   render() {
@@ -28,28 +23,28 @@ class TopNavbar extends React.Component {
     if (this.props.isLoggedIn) {
       signing = (
         <Dropdown
-          isOpen={this.state.isAuthMenuOpen}
-          toggle={this.handleAuthMenuToggleClick}
+          isOpen={this.state.isAuthDropdownOpen}
+          toggle={this.handleAuthDropdownToggle}
         >
           <DropdownToggle caret nav>
             <i className="fa fa-user fa-mr" /> {this.props.login}
           </DropdownToggle>
           <DropdownMenu right={this.props.viewport !== 'xs'}>
-            <DropdownItem onClick={this.props.onSignOutClick}>{__('sign_out_button')}</DropdownItem>
+            <DropdownItem onClick={this.props.onSignOut}>{__('sign_out_button')}</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       );
     } else {
       signing = (
-        <NavLink onClick={this.props.onSignInClick}>{__('sign_in_button')}</NavLink>
+        <NavLink onClick={this.props.onSignIn}>{__('sign_in_button')}</NavLink>
       );
     }
 
     return (
       <Navbar dark expand="sm">
-        <NavbarToggler onClick={this.handleNavbarToggleClick} />
+        <NavbarToggler onClick={this.props.onToggleNavbar} />
         <NavbarBrand href="/">{__('project_title')}</NavbarBrand>
-        <Collapse isOpen={this.state.isNavbarOpen} navbar>
+        <Collapse isOpen={this.props.isOpen} navbar>
           <Nav navbar>
             <NavItem>
               <NavLink>{__('copy_command')}</NavLink>
@@ -67,11 +62,13 @@ class TopNavbar extends React.Component {
 }
 
 TopNavbar.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
   viewport: PropTypes.string.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   login: PropTypes.string,
-  onSignInClick: PropTypes.func.isRequired,
-  onSignOutClick: PropTypes.func.isRequired,
+  onToggleNavbar: PropTypes.func.isRequired,
+  onSignIn: PropTypes.func.isRequired,
+  onSignOut: PropTypes.func.isRequired,
 };
 
 export default TopNavbar;

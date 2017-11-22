@@ -1,6 +1,7 @@
 'use strict';
 
 import { updateStatus } from './status';
+import { hideNavbar } from './navbar';
 
 export const lockSignInDialog = () => {
   return {
@@ -128,6 +129,7 @@ export const signIn = (when, validate) => {
                 await dispatch(unlockSignInDialog());
 
                 if (data.success) {
+                  await dispatch(hideNavbar());
                   await dispatch(hideSignInDialog());
                   await dispatch(updateStatus(true));
                 }
