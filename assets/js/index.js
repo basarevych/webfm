@@ -23,10 +23,10 @@ $(() => {
     document.getElementById('app')
   );
 
-  store.dispatch(initApp(store));
+  store.dispatch(initApp());
 });
 
 $(window)
-  .on('load', () => store.dispatch(initApp(store)))
+  .on('load', () => store.dispatch(initApp()))
   .on('resize', () => store.dispatch(screenResize()))
   .on('orientationchange', () => store.dispatch(screenResize()));

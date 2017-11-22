@@ -19,24 +19,40 @@ class TopNavbar extends React.Component {
   }
 
   render() {
-    let signing;
+    let commands, signing;
     if (this.props.isLoggedIn) {
+      commands = (
+        <Nav navbar>
+          <NavItem>
+            <NavLink>{__('copy_command')}</NavLink>
+          </NavItem>
+        </Nav>
+      );
       signing = (
-        <Dropdown
-          isOpen={this.state.isAuthDropdownOpen}
-          toggle={this.handleAuthDropdownToggle}
-        >
-          <DropdownToggle caret nav>
-            <i className="fa fa-user fa-mr" /> {this.props.login}
-          </DropdownToggle>
-          <DropdownMenu right={this.props.viewport !== 'xs'}>
-            <DropdownItem onClick={this.props.onSignOut}>{__('sign_out_button')}</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+        <Nav className="ml-auto" navbar>
+          <NavItem>
+            <Dropdown
+              isOpen={this.state.isAuthDropdownOpen}
+              toggle={this.handleAuthDropdownToggle}
+            >
+              <DropdownToggle caret nav>
+                <i className="fa fa-user fa-mr" /> {this.props.login}
+              </DropdownToggle>
+              <DropdownMenu right={this.props.viewport !== 'xs'}>
+                <DropdownItem onClick={this.props.onSignOut}>{__('sign_out_button')}</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </NavItem>
+        </Nav>
       );
     } else {
+      commands = null;
       signing = (
-        <NavLink onClick={this.props.onSignIn}>{__('sign_in_button')}</NavLink>
+        <Nav className="ml-auto" navbar>
+          <NavItem>
+            <NavLink onClick={this.props.onSignIn}>{__('sign_in_button')}</NavLink>
+          </NavItem>
+        </Nav>
       );
     }
 
@@ -45,16 +61,8 @@ class TopNavbar extends React.Component {
         <NavbarToggler onClick={this.props.onToggleNavbar} />
         <NavbarBrand href="/">{__('project_title')}</NavbarBrand>
         <Collapse isOpen={this.props.isOpen} navbar>
-          <Nav navbar>
-            <NavItem>
-              <NavLink>{__('copy_command')}</NavLink>
-            </NavItem>
-          </Nav>
-          <Nav className="ml-auto" navbar>
-            <NavItem>
-              {signing}
-            </NavItem>
-          </Nav>
+          {commands}
+          {signing}
         </Collapse>
       </Navbar>
     );

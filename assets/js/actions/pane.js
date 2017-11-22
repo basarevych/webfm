@@ -1,6 +1,6 @@
 'use strict';
 
-export const setActivePane = (pane) => {
+export const setActivePane = pane => {
   return async dispatch => {
     await dispatch({
       type: `DEACTIVATE_${pane === 'LEFT' ? 'RIGHT' : 'LEFT'}_PANE`,
@@ -11,23 +11,24 @@ export const setActivePane = (pane) => {
   };
 };
 
-export const showRightPane = () => {
+export const showPane = pane => {
   return {
-    type: 'SHOW_RIGHT_PANE',
+    type: `SHOW_${pane}_PANE`,
   };
 };
 
-export const hideRightPane = () => {
+export const hidePane = pane => {
   return {
-    type: 'HIDE_RIGHT_PANE',
+    type: `HIDE_${pane}_PANE`,
   };
 };
 
-export const toggleRightPane = () => {
+export const togglePane = pane => {
   return async (dispatch, getState) => {
-    let { rightPane } = getState();
+    let { leftPane, rightPane } = getState();
+    let isVisible = (pane === 'LEFT' ? leftPane.isVisible : rightPane.isVisible);
     return dispatch({
-      type: `${rightPane.isVisible ? 'HIDE' : 'SHOW'}_RIGHT_PANE`,
+      type: `${isVisible ? 'HIDE' : 'SHOW'}_${pane}_PANE`,
     });
   };
 };

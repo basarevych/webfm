@@ -20,30 +20,6 @@ class Pane extends React.Component {
   }
 
   render() {
-    let share, path, tools, content;
-    if (this.props.isDisabled) {
-      share = (
-        <em>{__('share_label')}</em>
-      );
-      path = '/';
-      content = (
-        <div className="body disabled">
-          <div>
-            {__('not_logged_in_message')}
-          </div>
-        </div>
-      );
-    }
-    if (this.props.which === 'LEFT') {
-      tools = (
-        <Button size="sm" color="secondary" onClick={this.props.onTogglePaneClick}>
-          <i className={'fa fa-toggle-' + (this.props.isOtherVisible ? 'on' : 'off')} />
-        </Button>
-      );
-    } else {
-      tools = null;
-    }
-
     return (
       <div className="pane-wrapper">
         <div className={'pane rounded' + (this.props.isActive ? ' active' : '')} onClick={this.props.onPaneClick}>
@@ -56,7 +32,7 @@ class Pane extends React.Component {
                 toggle={this.toggleShareDropdown}
               >
                 <DropdownToggle caret>
-                  {share}
+                  <em>{__('share_label')}</em>
                 </DropdownToggle>
                 <DropdownMenu>
                   <DropdownItem>Another Action</DropdownItem>
@@ -64,13 +40,19 @@ class Pane extends React.Component {
               </Dropdown>
             </div>
             <div className="path">
-              {path}
+              /
             </div>
             <div className="tools">
-              {tools}
+              <Button size="sm" color="secondary" onClick={this.props.onToggleOther}>
+                <i className={'fa fa-toggle-' + (this.props.isOtherVisible ? 'on' : 'off')} />
+              </Button>
             </div>
           </div>
-          {content}
+          <div className="body disabled">
+            <div>
+              {__('not_authorized_message')}
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -83,7 +65,7 @@ Pane.propTypes = {
   isOtherVisible: PropTypes.bool,
   isDisabled: PropTypes.bool.isRequired,
   onPaneClick: PropTypes.func.isRequired,
-  onTogglePaneClick: PropTypes.func,
+  onToggleOther: PropTypes.func,
 };
 
 export default Pane;

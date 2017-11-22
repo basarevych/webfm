@@ -9,8 +9,15 @@ import SignInDialog from '../containers/SignInDialog';
 import LeftPane from '../containers/leftPane';
 import RightPane from '../containers/rightPane';
 
-const Screen = ({ isRightPaneVisible }) => {
-  let rightPane = null;
+const Screen = ({ isLeftPaneVisible, isRightPaneVisible }) => {
+  let leftPane = null, rightPane = null;
+  if (isLeftPaneVisible) {
+    leftPane = (
+      <Fade>
+        <LeftPane />
+      </Fade>
+    );
+  }
   if (isRightPaneVisible) {
     rightPane = (
       <Fade>
@@ -26,7 +33,7 @@ const Screen = ({ isRightPaneVisible }) => {
         <SignInDialog />
       </div>
       <TransitionGroup className="pane-container">
-        <LeftPane />
+        {leftPane}
         {rightPane}
       </TransitionGroup>
     </div>
@@ -34,6 +41,7 @@ const Screen = ({ isRightPaneVisible }) => {
 };
 
 Screen.propTypes = {
+  isLeftPaneVisible: PropTypes.bool.isRequired,
   isRightPaneVisible: PropTypes.bool.isRequired,
 };
 

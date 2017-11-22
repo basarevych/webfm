@@ -3,7 +3,7 @@
 import style from '../../styles/variables.scss';
 import viewport from '../lib/viewport';
 import { updateStatus } from './status';
-import { setActivePane, showRightPane, hideRightPane } from './pane';
+import { setActivePane, showPane, hidePane } from './pane';
 
 export const startApp = () => {
   return {
@@ -19,9 +19,9 @@ export const screenResize = () => {
       return;
 
     if (viewport.is('<=sm'))
-      await dispatch(hideRightPane());
+      await dispatch(hidePane('RIGHT'));
     else
-      await dispatch(showRightPane());
+      await dispatch(showPane('LEFT'));
 
     return dispatch({
       type: 'SCREEN_RESIZE',
@@ -31,7 +31,7 @@ export const screenResize = () => {
 };
 
 let loaded = 0;
-export const initApp = store => {
+export const initApp = () => {
   return async (dispatch, getState) => {
     if (++loaded < 2)
       return;
@@ -40,6 +40,7 @@ export const initApp = store => {
     if (app.isStarted)
       return;
 
+    await dispatch(startApp());
     await dispatch(screenResize());
     await dispatch(updateStatus());
 
@@ -48,7 +49,6 @@ export const initApp = store => {
       $('#page-loader').fadeOut(style.fadeDuration);
       $('#app').fadeIn(style.fadeDuration, async () => {
         await dispatch(setActivePane('LEFT'));
-        await dispatch(startApp());
         resolve();
       });
     });

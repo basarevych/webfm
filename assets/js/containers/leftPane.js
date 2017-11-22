@@ -1,7 +1,7 @@
 'use strict';
 
 import { connect } from 'react-redux';
-import { setActivePane, toggleRightPane } from '../actions/pane';
+import { setActivePane, togglePane } from '../actions/pane';
 import Pane from '../components/Pane';
 
 const mapStateToProps = state => {
@@ -17,7 +17,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onPaneClick: () => dispatch(setActivePane('LEFT')),
-    onTogglePaneClick: () => dispatch(toggleRightPane()),
+    onToggleOther: () => dispatch(togglePane('RIGHT')),
   };
 };
 
