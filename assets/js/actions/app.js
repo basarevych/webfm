@@ -33,22 +33,20 @@ export const screenResize = () => {
 let loaded = 0;
 export const initApp = store => {
   return async (dispatch, getState) => {
-    let { appStarted } = getState();
-    if (++loaded < 2 || appStarted)
+    if (++loaded < 2)
+      return;
+
+    let { app } = getState();
+    if (app.isStarted)
       return;
 
     await dispatch(screenResize());
     await dispatch(updateStatus());
 
     return new Promise(resolve => {
-      $(window)
-        .on('resize', () => store.dispatch(screenResize()))
-        .on('orientationchange', () => store.dispatch(screenResize()));
-
       $('body').removeClass('loading');
-
-      $('#page-loader').fadeOut(style.fadeDuration, async () => {
-        $('#app').show();
+      $('#page-loader').fadeOut(style.fadeDuration);
+      $('#app').fadeIn(style.fadeDuration, async () => {
         await dispatch(setActivePane('LEFT'));
         await dispatch(startApp());
         resolve();

@@ -20,7 +20,7 @@ const Screen = ({ isRightPaneVisible }) => {
   }
 
   return (
-    <div className="window-wrapper d-flex flex-column">
+    <div className="w-100 h-100 d-flex flex-column">
       <div>
         <Navbar />
         <SignInDialog />
