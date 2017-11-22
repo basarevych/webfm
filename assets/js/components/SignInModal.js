@@ -161,18 +161,13 @@ class SignInModal extends React.Component {
           </Form>
         </ModalBody>
         <ModalFooter>
-          <div className={this.props.isLocked ? 'd-block' : 'd-none'}>
-            <img src="/img/loader-large.gif" />
-          </div>
-          <div className={this.props.isLocked ? 'd-none' : 'd-block'}>
-            <Button color="secondary" onClick={this.props.onToggle}>
-              {__('cancel_button')}
-            </Button>
-            {' '}
-            <Button color="primary" onClick={this.handleSubmit}>
-              {__('submit_button')}
-            </Button>
-          </div>
+          <Button color="secondary" disabled={this.props.isLocked} onClick={this.props.onToggle}>
+            {__('cancel_button')}
+          </Button>
+          {' '}
+          <Button color="primary" disabled={this.props.isLocked} onClick={this.handleSubmit}>
+            {__('submit_button')}
+          </Button>
         </ModalFooter>
       </Modal>
     );
