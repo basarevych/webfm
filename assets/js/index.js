@@ -10,12 +10,12 @@ import webfm from './reducers';
 import App from './containers/app';
 import { initApp } from './actions/app';
 
-$(window).on('load', () => {
-  let store = createStore(
-    webfm,
-    applyMiddleware(thunk)
-  );
+let store = createStore(
+  webfm,
+  applyMiddleware(thunk)
+);
 
+$(() => {
   render(
     <Provider store={store}>
       <App />
@@ -25,3 +25,5 @@ $(window).on('load', () => {
 
   store.dispatch(initApp(store));
 });
+
+$(window).on('load', () => store.dispatch(initApp(store)));

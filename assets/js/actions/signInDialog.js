@@ -16,12 +16,12 @@ export const unlockSignInDialog = () => {
 
 
 export const showSignInDialog = () => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     let { signInDialog } = getState();
     if (signInDialog.locked)
       return;
 
-    dispatch(setSignInDialog({ messages: {}, errors: {} }));
+    await dispatch(setSignInDialog({ messages: {}, errors: {} }));
 
     return dispatch({
       type: 'OPEN_SIGN_IN_DIALOG',
@@ -30,12 +30,12 @@ export const showSignInDialog = () => {
 };
 
 export const hideSignInDialog = () => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     let { signInDialog } = getState();
     if (signInDialog.locked)
       return;
 
-    dispatch(setSignInDialog({ messages: {}, errors: {} }));
+    await dispatch(setSignInDialog({ messages: {}, errors: {} }));
 
     return dispatch({
       type: 'HIDE_SIGN_IN_DIALOG',
@@ -44,12 +44,12 @@ export const hideSignInDialog = () => {
 };
 
 export const toggleSignInDialog = () => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     let { signInDialog } = getState();
     if (signInDialog.locked)
       return;
 
-    dispatch(setSignInDialog({ messages: {}, errors: {} }));
+    await dispatch(setSignInDialog({ messages: {}, errors: {} }));
 
     return dispatch({
       type: 'TOGGLE_SIGN_IN_DIALOG',
@@ -79,14 +79,14 @@ export const signIn = (when, validate) => {
       return;
 
     if (!validate)
-      dispatch(lockSignInDialog());
+      await dispatch(lockSignInDialog());
 
-    dispatch(submitSignInDialog(when));
+    await dispatch(submitSignInDialog(when));
 
     return new Promise(resolve => {
-      let fail = () => {
+      let fail = async () => {
         if (!validate)
-          dispatch(unlockSignInDialog());
+          await dispatch(unlockSignInDialog());
 
         resolve();
       };
@@ -115,7 +115,7 @@ export const signIn = (when, validate) => {
                   data.errors.password = {};
               }
 
-              dispatch(setSignInDialog(
+              await dispatch(setSignInDialog(
                 {
                   values: data.values,
                   messages: data.messages,
@@ -125,10 +125,10 @@ export const signIn = (when, validate) => {
               ));
 
               if (!validate) {
-                dispatch(unlockSignInDialog());
+                await dispatch(unlockSignInDialog());
 
                 if (data.success) {
-                  dispatch(hideSignInDialog());
+                  await dispatch(hideSignInDialog());
                   await dispatch(updateStatus(true));
                 }
               }

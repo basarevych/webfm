@@ -1,8 +1,9 @@
 'use strict';
 
 import style from '../../styles/variables.scss';
+import viewport from '../lib/viewport';
 import { updateStatus } from './status';
-import { setActivePane } from './pane';
+import { setActivePane, showRightPane, hideRightPane } from './pane';
 
 export const startApp = () => {
   return {
@@ -11,15 +12,29 @@ export const startApp = () => {
 };
 
 export const screenResize = () => {
-  return {
-    type: 'SCREEN_RESIZE',
+  return async (dispatch, getState) => {
+    let { app } = getState();
+    let newSize = viewport.current();
+    if (newSize === 'unrecognized' || newSize === app.viewport)
+      return;
+
+    if (viewport.is('<=sm'))
+      await dispatch(hideRightPane());
+    else
+      await dispatch(showRightPane());
+
+    return dispatch({
+      type: 'SCREEN_RESIZE',
+      viewport: newSize,
+    });
   };
 };
 
+let loaded = 0;
 export const initApp = store => {
   return async (dispatch, getState) => {
     let { appStarted } = getState();
-    if (appStarted)
+    if (++loaded < 2 || appStarted)
       return;
 
     await dispatch(screenResize());

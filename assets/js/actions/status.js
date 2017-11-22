@@ -35,14 +35,14 @@ export const updateStatus = (force = false) => {
         return;
     }
 
-    let request = dispatch(requestStatus());
+    let request = await dispatch(requestStatus());
     return new Promise(resolve => {
       $.ajax({
         url: '/status',
         type: 'GET',
         success: data => resolve(dispatch(receiveStatus(request.requestedAt, data))),
-        error: () => {
-          let receive = dispatch(receiveStatus(request.requestedAt, { success: false }));
+        error: async () => {
+          let receive = await dispatch(receiveStatus(request.requestedAt, { success: false }));
           if (request.requestedAt !== receive.requestedAt)
             return resolve();
 
