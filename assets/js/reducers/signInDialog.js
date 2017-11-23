@@ -24,14 +24,20 @@ const signInDialog = (
         }
       );
     case 'UNLOCK_SIGN_IN_DIALOG':
+      if (state.locked === 0)
+        return state;
+
       return Object.assign(
         {},
         state,
         {
-          locked: state.locked ? state.locked - 1 : 0,
+          locked: state.locked - 1,
         }
       );
     case 'SHOW_SIGN_IN_DIALOG':
+      if (state.isOpen)
+        return state;
+
       return Object.assign(
         {},
         state,
@@ -44,6 +50,9 @@ const signInDialog = (
         }
       );
     case 'HIDE_SIGN_IN_DIALOG':
+      if (!state.isOpen)
+        return state;
+
       return Object.assign(
         {},
         state,

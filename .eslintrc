@@ -48,7 +48,7 @@
     "callback-return":              [2, ["callback", "cb", "next", "done", "proceed"]],
     "camelcase":                    [1, {"properties": "always"}],
     "comma-style":                  [2, "last"],
-    "curly":                        [2, "multi-or-nest"],
+    "curly":                        [2, "multi-or-nest", "consistent"],
     "eqeqeq":                       [2, "always"],
     "eol-last":                     [1],
     "handle-callback-err":          [2],

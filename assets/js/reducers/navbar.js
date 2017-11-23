@@ -8,6 +8,9 @@ const navbar = (
 ) => {
   switch (action.type) {
     case 'SHOW_NAVBAR':
+      if (state.isOpen)
+        return state;
+
       return Object.assign(
         {},
         state,
@@ -16,6 +19,9 @@ const navbar = (
         }
       );
     case 'HIDE_NAVBAR':
+      if (!state.isOpen)
+        return state;
+
       return Object.assign(
         {},
         state,

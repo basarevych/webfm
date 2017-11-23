@@ -12,6 +12,9 @@ const pane = which => {
   ) => {
     switch (action.type) {
       case `ACTIVATE_${which}_PANE`:
+        if (state.isActive)
+          return state;
+
         return Object.assign(
           {},
           state,
@@ -20,6 +23,9 @@ const pane = which => {
           }
         );
       case `DEACTIVATE_${which}_PANE`:
+        if (!state.isActive)
+          return state;
+
         return Object.assign(
           {},
           state,
@@ -28,6 +34,9 @@ const pane = which => {
           }
         );
       case `SHOW_${which}_PANE`:
+        if (state.isVisible)
+          return state;
+
         return Object.assign(
           {},
           state,
@@ -36,6 +45,9 @@ const pane = which => {
           }
         );
       case `HIDE_${which}_PANE`:
+        if (!state.isVisible)
+          return state;
+
         return Object.assign(
           {},
           state,
@@ -44,6 +56,9 @@ const pane = which => {
           }
         );
       case `SET_${which}_PANE_MODE`:
+        if (state.mode === action.mode)
+          return state;
+
         return Object.assign(
           {},
           state,

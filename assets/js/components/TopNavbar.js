@@ -19,7 +19,8 @@ class TopNavbar extends React.Component {
   }
 
   render() {
-    let commands, signing;
+    let commands = null;
+    let signing = null;
     if (this.props.isLoggedIn) {
       commands = (
         <Nav navbar>
@@ -46,7 +47,6 @@ class TopNavbar extends React.Component {
         </Nav>
       );
     } else {
-      commands = null;
       signing = (
         <Nav className="ml-auto" navbar>
           <NavItem>

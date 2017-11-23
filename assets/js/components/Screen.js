@@ -10,7 +10,7 @@ import LeftPane from '../containers/leftPane';
 import RightPane from '../containers/rightPane';
 
 const Screen = ({ isLeftPaneVisible, isRightPaneVisible }) => {
-  let leftPane = null, rightPane = null;
+  let leftPane = null;
   if (isLeftPaneVisible) {
     leftPane = (
       <Fade>
@@ -18,6 +18,8 @@ const Screen = ({ isLeftPaneVisible, isRightPaneVisible }) => {
       </Fade>
     );
   }
+
+  let rightPane = null;
   if (isRightPaneVisible) {
     rightPane = (
       <Fade>

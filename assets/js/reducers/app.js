@@ -9,6 +9,9 @@ const app = (
 ) => {
   switch (action.type) {
     case 'START_APP':
+      if (state.isStarted)
+        return state;
+
       return Object.assign(
         {},
         state,
@@ -17,6 +20,9 @@ const app = (
         }
       );
     case 'SCREEN_RESIZE':
+      if (state.viewport === action.viewport)
+        return state;
+
       return Object.assign(
         {},
         state,
