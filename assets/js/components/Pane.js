@@ -21,7 +21,7 @@ class Pane extends React.Component {
 
   render() {
     let path = null;
-    if (this.props.viewport !== 'xs')
+    if (this.props.viewport !== 'xs' && !(this.props.viewport === 'sm' && this.props.isOtherVisible))
       path = '/some/path';
 
     return (
