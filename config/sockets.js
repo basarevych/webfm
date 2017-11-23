@@ -11,6 +11,17 @@
 
 module.exports.sockets = {
 
+  adapter: 'socket.io-redis',
+
+  adapterOptions: {
+    onRedisDisconnect: function() {
+      sails.hooks['panic-mode'].panic();
+    },
+    onRedisReconnect: function() {
+      sails.hooks['panic-mode'].chill();
+    },
+  },
+
   /***************************************************************************
   *                                                                          *
   * `transports`                                                             *

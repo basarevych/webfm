@@ -56,7 +56,7 @@ module.exports = {
 
     validate: {
       type: 'string',
-      description: 'Particular field name to validate.'
+      description: 'Particular field name to validate (or all the fields if not provided).'
     }
   },
 
@@ -88,6 +88,7 @@ module.exports = {
 
     return exits.success(form);
   },
+
 
 };
 

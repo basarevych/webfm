@@ -11,6 +11,20 @@
 
 module.exports.session = {
 
+  adapter: 'connect-redis',
+
+  onRedisDisconnect: function() {
+    sails.hooks['panic-mode'].panic();
+  },
+  onRedisReconnect: function() {
+    sails.hooks['panic-mode'].chill();
+  },
+
+  cookie: {
+    secure: undefined,
+    maxAge: 24 * 60 * 60 * 1000,
+  },
+
   /***************************************************************************
   *                                                                          *
   * Session secret is automatically generated when your new app is created   *
