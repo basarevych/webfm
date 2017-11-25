@@ -10,7 +10,8 @@
   "required_field": "Required field",
   "login_label": "Login:",
   "password_label": "Password:",
-  "invalid_credentials": "Wrong login or password",
-	"user.login.E_REQUIRED": "Login is required",
-	"user.password.E_REQUIRED": "Password is required"
+  "invalid_credentials_message": "Wrong login or password",
+  "no_shares_message": "You have no shares defined in the config",
+  "user.login.E_REQUIRED": "Login is required",
+  "user.password.E_REQUIRED": "Password is required"
 }

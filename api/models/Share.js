@@ -1,10 +1,9 @@
 /**
- * User.js
+ * Share.js
  *
  * @description :: A model definition.  Represents a database table/collection/etc.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
-'use strict';
 
 module.exports = {
 
@@ -14,14 +13,18 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
-    login: {
+    name: {
       type: 'string',
       required: true,
-      unique: true,
     },
 
-    password: {
+    path: {
       type: 'string',
+      required: true,
+    },
+
+    isReadOnly: {
+      type: 'boolean',
       required: true,
     },
 
@@ -34,10 +37,10 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
-    shares: {
-      collection: 'share',
-      via: 'user',
-    }
+    user: {
+      model: 'user',
+    },
+
   },
 
 };

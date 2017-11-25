@@ -227,7 +227,7 @@ module.exports.webpack = {
        *
        * See: https://www.npmjs.com/package/clean-webpack-plugin
        */
-      new CleanWebpackPlugin([ root('.tmp') ], {
+      new CleanWebpackPlugin([ root('.tmp/public') ], {
         root: root(),
       }),
 

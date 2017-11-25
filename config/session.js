@@ -20,10 +20,6 @@ module.exports.session = {
     sails.hooks['panic-mode'].chill();
   },
 
-  cookie: {
-    secure: undefined,
-    maxAge: 24 * 60 * 60 * 1000,
-  },
 
   /***************************************************************************
   *                                                                          *
