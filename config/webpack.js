@@ -1,5 +1,6 @@
 const path = require('path');
 const root = path.join.bind(path, path.resolve(__dirname), '..');
+const local = require('./config');
 
 /**
  * Webpack Plugins
@@ -361,9 +362,10 @@ module.exports.webpack = {
   development: {
     config: { // webpack-dev-server-config
       port: 3000,
+      disableHostCheck: true,
       proxy: {
         '/**': {
-          target: 'http://localhost:1337',
+          target: `http://${local.explicitHost === '0.0.0.0' ? 'localhost' : local.explicitHost}:${local.port}`,
           ws: true,
         },
       }
