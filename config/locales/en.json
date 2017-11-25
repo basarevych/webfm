@@ -1,6 +1,7 @@
 {
   "project_title": "WebFM",
   "share_label": "Share...",
+  "not_connected_message": "Establishing connection...",
   "not_authorized_message": "Not signed in",
   "sign_in_button": "Sign in",
   "sign_out_button": "Sign out",

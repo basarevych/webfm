@@ -25,7 +25,8 @@
         margin: 0;
       }
 
-      #page-loader {
+      .page-overlay {
+        z-index: 100000;
         position: fixed;
         top: 0;
         left: 0;
@@ -34,6 +35,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
+      }
+      .page-overlay.shaded {
+        background-color: rgba(0, 0, 0, 0.75);
       }
 
       #app {
@@ -45,11 +49,15 @@
     <script>
       var img = new Image();
       img.src = "/img/loader-large.gif";
+
+      window.addEventListener('load', function () {
+        window.isLoaded = true;
+      });
     </script>
   </head>
 
   <body class="loading">
-    <script src="/js/sails.io.js"></script>
+    <script src="/js/sails.io.js" reconnection="true" environment="<%= sails.config.environment %>"></script>
     <script src="/common.bundle.js"></script>
     <script src="/twbs.bundle.js"></script>
     <script src="/fa.bundle.js"></script>

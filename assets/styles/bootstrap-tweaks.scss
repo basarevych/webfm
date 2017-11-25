@@ -11,4 +11,12 @@ body {
   padding-bottom: 0 !important;
 }
 
+.no-connection-window {
+  width: auto;
+  background-color: $secondary;
+  color: $black;
+  padding: 15px 30px;
+  font-size: 18pt;
+}
+
 @import "pane";

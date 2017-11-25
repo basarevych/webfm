@@ -4,6 +4,7 @@ const app = (
   state = {
     viewport: '',
     isStarted: false,
+    isConnected: false,
   },
   action
 ) => {
@@ -17,6 +18,28 @@ const app = (
         state,
         {
           isStarted: true,
+        }
+      );
+    case 'CONNECT_APP':
+      if (state.isConnected)
+        return state;
+
+      return Object.assign(
+        {},
+        state,
+        {
+          isConnected: true,
+        }
+      );
+    case 'DISCONNECT_APP':
+      if (!state.isConnected)
+        return state;
+
+      return Object.assign(
+        {},
+        state,
+        {
+          isConnected: false,
         }
       );
     case 'SCREEN_RESIZE':

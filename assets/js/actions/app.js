@@ -11,6 +11,21 @@ export const startApp = () => {
   };
 };
 
+export const connectApp = () => {
+  return async dispatch => {
+    await dispatch(updateStatus());
+    return dispatch({
+      type: 'CONNECT_APP',
+    });
+  };
+};
+
+export const disconnectApp = () => {
+  return {
+    type: 'DISCONNECT_APP',
+  };
+};
+
 export const screenResize = () => {
   return async (dispatch, getState) => {
     let { app } = getState();
@@ -32,10 +47,9 @@ export const screenResize = () => {
   };
 };
 
-let loaded = 0;
 export const initApp = () => {
   return async (dispatch, getState) => {
-    if (++loaded < 2)
+    if (!window.isLoaded)
       return;
 
     let { app } = getState();
@@ -44,7 +58,7 @@ export const initApp = () => {
 
     await dispatch(startApp());
     await dispatch(screenResize());
-    await dispatch(updateStatus());
+    await dispatch(io.socket.isConnected() ? connectApp() : disconnectApp());
 
     return new Promise(resolve => {
       $('body').removeClass('loading');

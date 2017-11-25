@@ -3,6 +3,7 @@
 const status = (
   state = {
     requestedAt: 0,
+    promise: Promise.resolve(),
     isFetching: false,
     didFetch: false,
     isAuthorized: false,
@@ -22,6 +23,7 @@ const status = (
         {
           requestedAt: action.requestedAt,
           isFetching: true,
+          promise: action.promise,
         }
       );
     case 'STATUS_SUCCESS':

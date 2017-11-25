@@ -5,6 +5,7 @@ import Screen from '../components/Screen';
 
 const mapStateToProps = state => {
   return {
+    isAppConnected: state.app.isConnected,
     isLeftPaneVisible: state.leftPane.isVisible,
     isRightPaneVisible: state.rightPane.isVisible,
   };

@@ -2,10 +2,11 @@
 
 import i18n from '../lib/i18n';
 
-export const requestStatus = () => {
+export const requestStatus = promise => {
   return {
     type: 'STATUS_REQUEST',
     requestedAt: Date.now(),
+    promise,
   };
 };
 
@@ -32,11 +33,10 @@ export const updateStatus = (force = false) => {
     if (!force) {
       let { status } = getState();
       if (status.isFetching)
-        return;
+        return status.promise;
     }
 
-    let request = await dispatch(requestStatus());
-    return new Promise(resolve => {
+    let promise = new Promise(resolve => {
       $.ajax({
         url: '/status',
         type: 'GET',
@@ -50,5 +50,7 @@ export const updateStatus = (force = false) => {
         }
       });
     });
+    let request = await dispatch(requestStatus(promise));
+    return promise;
   };
 };
