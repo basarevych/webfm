@@ -1,5 +1,5 @@
 /**
- * Share.js
+ * Node.js
  *
  * @description :: A model definition.  Represents a database table/collection/etc.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
@@ -24,12 +24,12 @@ module.exports = {
       required: true,
     },
 
-    path: {
+    directory: {
       type: 'string',
       required: true,
     },
 
-    isReadOnly: {
+    isDirectory: {
       type: 'boolean',
       required: true,
     },
@@ -43,14 +43,9 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
-    user: {
-      model: 'user',
+    share: {
+      model: 'share',
     },
-
-    nodes: {
-      collection: 'node',
-      via: 'share',
-    }
 
   },
 

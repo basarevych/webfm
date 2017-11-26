@@ -1,9 +1,12 @@
 /**
  * Module dependencies
  */
+'use strict';
 
 const _ = require('@sailshq/lodash');
 const User = require('./lib/User');
+const Share = require('./lib/Share');
+const Node = require('./lib/Node');
 
 
 /**
@@ -146,6 +149,8 @@ module.exports = {
     //
     const manager = {
       user: new User(),
+      share: new Share(),
+      node: new Node(),
     };
 
     // Save information about the datastore to the `datastores` dictionary, keyed under
@@ -432,59 +437,49 @@ module.exports = {
     // Perform the query and send back a result.
     //
 
+    let login = query.criteria.where.login;
+    let user = query.criteria.where.user;
+    let and = query.criteria.where.and;
     switch (query.using) {
       case 'user':
-        let login = query.criteria.where.login;
-        if (!login || Object.keys(query.criteria.where).length !== 1)
+        if (!login || Object.keys(query.criteria.where).length !== 1) {
+          sails.log.debug(query);
           return done(new Error('Adapter method (`find`) can only search users by login.'));
-        dsEntry.manager.user.find(login, done);
+        }
+        dsEntry.manager.user.find(login, query.criteria.select, done);
+        break;
+      case 'share':
+        if (and && Object.keys(query.criteria.where).length === 1 && and.length === 1 && and[0].user)
+          user = and[0].user;
+        else if (user && Object.keys(query.criteria.where).length !== 1)
+          user = null;
+
+        if (user) {
+          dsEntry.manager.share.findByUser(user, query.criteria.select, done);
+        } else {
+          sails.log.debug(query);
+          return done(new Error('Adapter method (`find`) can only search shares by user.'));
+        }
+
+        break;
+      case 'node':
+        if (and && Object.keys(query.criteria.where).length === 1 && and.length === 2 && and[0].share && and[1].directory) {
+          dsEntry.manager.share.find(and[0].share, ['id', 'path'], (error, shares) => {
+            if (error)
+              done(error);
+            else if (!shares.length)
+              done(new Error('Share not found: ' + and[0].share));
+            else
+              dsEntry.manager.node.find({ share: shares[0], directory: and[1].directory }, query.criteria.select, done);
+          });
+        } else {
+          sails.log.debug(query);
+          return done(new Error('Adapter method (`find`) can only search nodes by share and directory.'));
+        }
         break;
       default:
         return done(new Error('Adapter method (`find`) does not support this model (' + query.using + ').'));
     }
-
-  },
-
-
-  /**
-   *   ╦╔═╗╦╔╗╔
-   *   ║║ ║║║║║
-   *  ╚╝╚═╝╩╝╚╝
-   *  ┌─    ┌─┐┌─┐┬─┐  ┌┐┌┌─┐┌┬┐┬┬  ┬┌─┐  ┌─┐┌─┐┌─┐┬ ┬┬  ┌─┐┌┬┐┌─┐    ─┐
-   *  │───  ├┤ │ │├┬┘  │││├─┤ │ │└┐┌┘├┤   ├─┘│ │├─┘│ ││  ├─┤ │ ├┤   ───│
-   *  └─    └  └─┘┴└─  ┘└┘┴ ┴ ┴ ┴ └┘ └─┘  ┴  └─┘┴  └─┘┴─┘┴ ┴ ┴ └─┘    ─┘
-   * Perform a "find" query with one or more native joins.
-   *
-   * > NOTE: If you don't want to support native joins (or if your database does not
-   * > support native joins, e.g. Mongo) remove this method completely!  Without this method,
-   * > Waterline will handle `.populate()` using its built-in join polyfill (aka "polypopulate"),
-   * > which sends multiple queries to the adapter and joins the results in-memory.
-   * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-   * @param  {String}       datastoreName The name of the datastore to perform the query on.
-   * @param  {Dictionary}   query         The stage-3 query to perform.
-   * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-   * @param  {Function}     done          Callback
-   *               @param {Error?}
-   *               @param {Array}  [matching physical records, populated according to the join instructions]
-   * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-   */
-  join: function (datastoreName, query, done) {
-
-    // Look up the datastore entry (manager/driver/config).
-    let dsEntry = registeredDatastores[datastoreName];
-
-    // Sanity check:
-    if (_.isUndefined(dsEntry))
-      return done(new Error('Consistency violation: Cannot do that with datastore (`'+datastoreName+'`) because no matching datastore entry is registered in this adapter!  This is usually due to a race condition (e.g. a lifecycle callback still running after the ORM has been torn down), or it could be due to a bug in this adapter.  (If you get stumped, reach out at https://sailsjs.com/support.)'));
-
-    // Perform the query and send back a result.
-    //
-    // > TODO: Replace this setTimeout with real logic that calls
-    // > `done()` when finished. (Or remove this method from the
-    // > adapter altogether
-    setTimeout(function(){
-      return done(new Error('Adapter method (`join`) not implemented yet.'));
-    }, 16);
 
   },
 

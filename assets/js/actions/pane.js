@@ -36,6 +36,27 @@ export const togglePane = pane => {
 export const setPaneMode = (pane, mode) => {
   return {
     type: `SET_${pane}_PANE_MODE`,
-    mode: mode,
+    mode,
+  };
+};
+
+export const setPaneShare = (pane, share) => {
+  return {
+    type: `SET_${pane}_PANE_SHARE`,
+    share,
+  };
+};
+
+export const setPanePath = (pane, path) => {
+  return {
+    type: `SET_${pane}_PANE_PATH`,
+    path,
+  };
+};
+
+export const setPaneList = (pane, list) => {
+  return {
+    type: `SET_${pane}_PANE_LIST`,
+    list,
   };
 };

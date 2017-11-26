@@ -5,6 +5,9 @@ const pane = which => {
     state = {
       which: which,
       mode: 'LIST',
+      share: '',
+      path: '/',
+      list: [],
       isActive: false,
       isVisible: true,
     },
@@ -64,6 +67,39 @@ const pane = which => {
           state,
           {
             mode: action.mode,
+          }
+        );
+      case `SET_${which}_PANE_SHARE`:
+        if (state.share === action.share)
+          return state;
+
+        return Object.assign(
+          {},
+          state,
+          {
+            share: action.share,
+          }
+        );
+      case `SET_${which}_PANE_PATH`:
+        if (state.path === action.path)
+          return state;
+
+        return Object.assign(
+          {},
+          state,
+          {
+            path: action.path,
+          }
+        );
+      case `SET_${which}_PANE_LIST`:
+        if (_.isEqual(state.list, action.list))
+          return state;
+
+        return Object.assign(
+          {},
+          state,
+          {
+            list: action.list,
           }
         );
     }

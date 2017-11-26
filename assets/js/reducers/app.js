@@ -2,7 +2,9 @@
 
 const app = (
   state = {
+    csrf: '',
     viewport: '',
+    shares: [],
     isStarted: false,
     isConnected: false,
   },
@@ -18,6 +20,28 @@ const app = (
         state,
         {
           isStarted: true,
+        }
+      );
+    case 'SET_CSRF_TOKEN':
+      if (state.csrf === action.token)
+        return state;
+
+      return Object.assign(
+        {},
+        state,
+        {
+          csrf: action.token,
+        }
+      );
+    case 'SET_SHARES':
+      if (_.isEqual(state.shares, action.shares))
+        return state;
+
+      return Object.assign(
+        {},
+        state,
+        {
+          shares: action.shares,
         }
       );
     case 'CONNECT_APP':

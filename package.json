@@ -58,7 +58,8 @@
     "socket.io-redis": "~5.2.0",
     "style-loader": "~0.19.0",
     "url-loader": "~0.6.2",
-    "webpack": "~3.8.1"
+    "webpack": "~3.8.1",
+    "xico2k-react-scroll-area": "~1.0.6"
   },
   "devDependencies": {
     "eslint": "~4.11.0",

@@ -4,6 +4,7 @@ import style from '../../styles/variables.scss';
 import viewport from '../lib/viewport';
 import { updateStatus } from './status';
 import { setActivePane, showPane, hidePane } from './pane';
+import { loadShares, sendPaths } from './shares';
 
 export const startApp = () => {
   return {
@@ -12,8 +13,11 @@ export const startApp = () => {
 };
 
 export const connectApp = () => {
-  return async dispatch => {
+  return async (dispatch) => {
+    await dispatch(getCSRFToken());
     await dispatch(updateStatus());
+    await dispatch(loadShares());
+    await dispatch(sendPaths());
     return dispatch({
       type: 'CONNECT_APP',
     });
@@ -67,6 +71,28 @@ export const initApp = () => {
         await dispatch(setActivePane('LEFT'));
         resolve();
       });
+    });
+  };
+};
+
+export const getCSRFToken = () => {
+  return async dispatch => {
+    return new Promise(resolve => {
+      let retry = () => {
+        $.ajax({
+          url: '/auth/csrf',
+          type: 'GET',
+          success: async data => {
+            await dispatch({
+              type: 'SET_CSRF_TOKEN',
+              token: data._csrf,
+            });
+            resolve();
+          },
+          error: () => setTimeout(retry, 1000),
+        });
+      };
+      retry();
     });
   };
 };

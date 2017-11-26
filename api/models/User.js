@@ -14,6 +14,12 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
+    id: {
+      type: 'string',
+      required: true,
+      unique: true,
+    },
+
     login: {
       type: 'string',
       required: true,

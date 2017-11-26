@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, ButtonGroup } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import ScrollArea from 'xico2k-react-scroll-area';
 
 class Pane extends React.Component {
   constructor(props) {
@@ -22,7 +23,57 @@ class Pane extends React.Component {
   render() {
     let path = null;
     if (this.props.viewport !== 'xs' && !(this.props.viewport === 'sm' && this.props.isOtherVisible))
-      path = '/some/path';
+      path = this.props.path;
+
+    let selectedShare = <em>{__('share_label')}</em>;
+    let shares = null;
+    if (!this.props.isDisabled) {
+      if (this.props.share)
+        selectedShare = <span>{this.props.share}</span>;
+      shares = [];
+      for (let share of this.props.shares) {
+        shares.push(
+          <DropdownItem
+            key={share.name}
+            onClick={() => this.props.onSetShare(share.name)}
+          >
+            {share.name + (share.isReadOnly ? ' [r]' : ' [w]')}
+          </DropdownItem>
+        );
+      }
+      if (shares.length) {
+        shares = (
+          <DropdownMenu>
+            {shares}
+          </DropdownMenu>
+        );
+      } else {
+        shares = null;
+      }
+    }
+
+    let list = (
+      <div>
+        {__('not_authorized_message')}
+      </div>
+    );
+    if (!this.props.isDisabled) {
+      list = [];
+      for (let item of this.props.list) {
+        list.push(
+          <div key={item.id}>{item.name}</div>
+        );
+      }
+      if (list.length) {
+        list = (
+          <ScrollArea className="scroll-area">
+            {list}
+          </ScrollArea>
+        );
+      } else {
+        list = null;
+      }
+    }
 
     return (
       <div className="pane-wrapper">
@@ -37,12 +88,10 @@ class Pane extends React.Component {
               >
                 <DropdownToggle caret>
                   <div className="fit-width">
-                    <em>{__('share_label')}</em>
+                    {selectedShare}
                   </div>
                 </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem>Another Action</DropdownItem>
-                </DropdownMenu>
+                {shares}
               </Dropdown>
             </div>
             <div className="path">
@@ -78,10 +127,8 @@ class Pane extends React.Component {
               </Button>
             </div>
           </div>
-          <div className="body disabled">
-            <div>
-              {__('not_authorized_message')}
-            </div>
+          <div className={'body' + (this.props.isDisabled ? ' disabled' : '')}>
+            {list}
           </div>
         </div>
       </div>
@@ -93,10 +140,15 @@ Pane.propTypes = {
   viewport: PropTypes.string.isRequired,
   which: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
+  shares: PropTypes.array.isRequired,
+  share: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  list: PropTypes.array.isRequired,
   isActive: PropTypes.bool.isRequired,
   isOtherVisible: PropTypes.bool,
   isDisabled: PropTypes.bool.isRequired,
   onPaneClick: PropTypes.func.isRequired,
+  onSetShare: PropTypes.func.isRequired,
   onSetMode: PropTypes.func.isRequired,
   onToggleOther: PropTypes.func,
 };

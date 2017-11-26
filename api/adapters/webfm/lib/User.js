@@ -1,6 +1,5 @@
 class User {
-
-  find(login, done) {
+  find(id, select, done) {
     let config = sails.helpers.ini({ filename: sails.config.custom.configPath }).execSync();
     for (let key of Object.keys(config)) {
       let parts = key.split(':');
@@ -9,16 +8,17 @@ class User {
         continue;
 
       let user = parts.join(':');
-      if (user === login) {
+      if (user === id) {
+        let item = { id };
+        if (_.isArray(select) && select.includes('login'))
+          item.login = user;
+        if (_.isArray(select) && select.includes('password'))
+          item.password = config[key].password;
+
         return done(
           null,
           [
-            {
-              id: login,
-              login,
-              password:
-              config[key].password
-            }
+            item
           ]
         );
       }
