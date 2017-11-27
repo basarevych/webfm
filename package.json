@@ -8,7 +8,7 @@
   "author": "Ross Basarevych <basarevych@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/breedhub/webfm.git"
+    "url": "git+https://github.com/basarevych/webfm.git"
   },
   "dependencies": {
     "async": "~2.6.0",

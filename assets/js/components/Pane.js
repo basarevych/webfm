@@ -64,15 +64,11 @@ class Pane extends React.Component {
           <div key={item.id}>{item.name}</div>
         );
       }
-      if (list.length) {
-        list = (
-          <ScrollArea className="scroll-area">
-            {list}
-          </ScrollArea>
-        );
-      } else {
-        list = null;
-      }
+      list = (
+        <ScrollArea className="scroll-area" handlerClassName="scroll-handler" trackHideTime={0}>
+          {list}
+        </ScrollArea>
+      );
     }
 
     return (

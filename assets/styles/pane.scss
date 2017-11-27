@@ -69,6 +69,10 @@
           bottom: 0;
         }
 
+        .scroll-handler {
+          background-color: $secondary;
+        }
+
         &.disabled {
           align-items: center;
           justify-content: center;
