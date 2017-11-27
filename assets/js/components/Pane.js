@@ -16,11 +16,29 @@ class Pane extends React.Component {
     this.state = { isShareDropdownOpen: false };
 
     this.toggleShareDropdown = this.toggleShareDropdown.bind(this);
+    this.setListMode = this.setListMode.bind(this);
+    this.setContentsMode = this.setContentsMode.bind(this);
+    this.setInfoMode = this.setInfoMode.bind(this);
   }
 
   toggleShareDropdown() {
     if (!this.props.isDisabled)
       this.setState({ isShareDropdownOpen: !this.state.isShareDropdownOpen });
+  }
+
+  setListMode() {
+    if (!this.props.isDisabled)
+      this.props.onSetMode('LIST');
+  }
+
+  setContentsMode() {
+    if (!this.props.isDisabled)
+      this.props.onSetMode('CONTENTS');
+  }
+
+  setInfoMode() {
+    if (!this.props.isDisabled)
+      this.props.onSetMode('INFO');
   }
 
   render() {
@@ -60,7 +78,7 @@ class Pane extends React.Component {
         view = <DisabledView />;
         break;
       case 'LIST':
-        view = <ListView list={this.props.list} />;
+        view = <ListView list={this.props.list} isDisabled={this.props.isDisabled} />;
         break;
       case 'CONTENTS':
         view = <ContentsView />;
@@ -96,24 +114,27 @@ class Pane extends React.Component {
               <ButtonGroup>
                 <Button
                   size="sm"
+                  disabled={this.props.isDisabled}
                   color={this.props.mode === 'LIST' ? 'primary' : 'secondary'}
-                  onClick={() => this.props.onSetMode('LIST')}
+                  onClick={this.setListMode}
                 >
-                  <i className="fa fa-folder-open" />
+                  <i className="fa fa-fw fa-folder-open" />
                 </Button>
                 <Button
                   size="sm"
+                  disabled={this.props.isDisabled}
                   color={this.props.mode === 'CONTENTS' ? 'primary' : 'secondary'}
-                  onClick={() => this.props.onSetMode('CONTENTS')}
+                  onClick={this.setContentsMode}
                 >
-                  <i className="fa fa-file-text-o" />
+                  <i className="fa fa-fw fa-file-text-o" />
                 </Button>
                 <Button
                   size="sm"
+                  disabled={this.props.isDisabled}
                   color={this.props.mode === 'INFO' ? 'primary' : 'secondary'}
-                  onClick={() => this.props.onSetMode('INFO')}
+                  onClick={this.setInfoMode}
                 >
-                  <i className="fa fa-align-left" />
+                  <i className="fa fa-fw fa-align-left" />
                 </Button>
               </ButtonGroup>
               &nbsp;

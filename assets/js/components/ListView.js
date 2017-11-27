@@ -3,12 +3,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ScrollWrapper from './ScrollWrapper';
+import ListItem from './ListItem';
 
-const ListView = ({ list }) => {
+const ListView = ({ isDisabled, list }) => {
   let listing = [];
   for (let item of list) {
     listing.push(
-      <div key={item.id}>{item.name}</div>
+      <ListItem key={item.id} isDisabled={isDisabled} node={item} />
     );
   }
 
@@ -20,6 +21,7 @@ const ListView = ({ list }) => {
 };
 
 ListView.propTypes = {
+  isDisabled: PropTypes.bool.isRequired,
   list: PropTypes.array.isRequired,
 };
 

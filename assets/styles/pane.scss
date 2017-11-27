@@ -58,6 +58,42 @@
         flex: 1 0 0;
         display: flex;
 
+        .list-item {
+          display: flex;
+          height: 2.5rem;
+
+          .name {
+            height: 2.5rem;
+            margin-left: 15px;
+            flex: 1 1 0;
+            position: relative;
+
+            .fit-width {
+              line-height: 2.5rem;
+              position: absolute;
+              left: 0;
+              top: 0;
+              right: 0;
+              bottom: 0;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+          }
+
+          .size {
+            height: 2.5rem;
+            line-height: 2.5rem;
+            margin-left: 10px;
+          }
+
+          .tools {
+            height: 2.5rem;
+            line-height: 2.5rem;
+            margin: 0 15px 0 10px;
+          }
+        }
+
         .scroll-wrapper {
           position: relative;
           width: 100%;

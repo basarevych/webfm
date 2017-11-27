@@ -19,19 +19,22 @@ module.exports = {
       unique: true,
     },
 
-    name: {
-      type: 'string',
-      required: true,
-    },
-
     directory: {
       type: 'string',
       required: true,
     },
 
+    name: {
+      type: 'string',
+      required: true,
+    },
+
+    size: {
+      type: 'number',
+    },
+
     isDirectory: {
       type: 'boolean',
-      required: true,
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

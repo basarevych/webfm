@@ -23,6 +23,8 @@ class Node {
             let item = { id: `${share.id}:${path.join(directory, entry)}` };
             if (_.isArray(select) && select.includes('name'))
               item.name = entry;
+            if (_.isArray(select) && select.includes('size'))
+              item.size = stats.isDirectory() ? -1 : stats.size;
             if (_.isArray(select) && select.includes('directory'))
               item.directory = directory;
             if (_.isArray(select) && select.includes('isDirectory'))

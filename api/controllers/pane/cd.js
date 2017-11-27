@@ -3,7 +3,7 @@
 const path = require('path');
 
 async function loadNodes(share, directory) {
-  let nodes = await Node.find({ where: { share, directory }, select: ['id', 'name', 'isDirectory'] });
+  let nodes = await Node.find({ where: { share, directory }, select: ['id', 'name', 'size', 'isDirectory'] });
   if (directory !== '/' && nodes.length === 0)
     nodes = await loadNodes(share, path.dirname(directory));
   return nodes;
