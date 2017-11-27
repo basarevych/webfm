@@ -4,7 +4,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, ButtonGroup } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import ScrollArea from 'xico2k-react-scroll-area';
+import DisabledView from './DisabledView';
+import ListView from './ListView';
+import ContentsView from './ContentsView';
+import InfoView from './InfoView';
 
 class Pane extends React.Component {
   constructor(props) {
@@ -30,45 +33,41 @@ class Pane extends React.Component {
     if (!this.props.isDisabled) {
       if (this.props.share)
         selectedShare = <span>{this.props.share}</span>;
-      shares = [];
-      for (let share of this.props.shares) {
-        shares.push(
-          <DropdownItem
-            key={share.name}
-            onClick={() => this.props.onSetShare(share.name)}
-          >
-            {share.name + (share.isReadOnly ? ' [r]' : ' [w]')}
-          </DropdownItem>
-        );
-      }
-      if (shares.length) {
+
+      if (this.props.shares.length) {
+        let listing = [];
+        for (let share of this.props.shares) {
+          listing.push(
+            <DropdownItem
+              key={share.name}
+              onClick={() => this.props.onSetShare(share.name)}
+            >
+              {share.name + (share.isReadOnly ? ' [r]' : ' [w]')}
+            </DropdownItem>
+          );
+        }
         shares = (
           <DropdownMenu>
-            {shares}
+            {listing}
           </DropdownMenu>
         );
-      } else {
-        shares = null;
       }
     }
 
-    let list = (
-      <div>
-        {__('not_authorized_message')}
-      </div>
-    );
-    if (!this.props.isDisabled) {
-      list = [];
-      for (let item of this.props.list) {
-        list.push(
-          <div key={item.id}>{item.name}</div>
-        );
-      }
-      list = (
-        <ScrollArea className="scroll-area" handlerClassName="scroll-handler" trackHideTime={0}>
-          {list}
-        </ScrollArea>
-      );
+    let view = null;
+    switch (this.props.mode) {
+      case 'DISABLED':
+        view = <DisabledView />;
+        break;
+      case 'LIST':
+        view = <ListView list={this.props.list} />;
+        break;
+      case 'CONTENTS':
+        view = <ContentsView />;
+        break;
+      case 'INFO':
+        view = <InfoView />;
+        break;
     }
 
     return (
@@ -104,8 +103,8 @@ class Pane extends React.Component {
                 </Button>
                 <Button
                   size="sm"
-                  color={this.props.mode === 'VIEW' ? 'primary' : 'secondary'}
-                  onClick={() => this.props.onSetMode('VIEW')}
+                  color={this.props.mode === 'CONTENTS' ? 'primary' : 'secondary'}
+                  onClick={() => this.props.onSetMode('CONTENTS')}
                 >
                   <i className="fa fa-file-text-o" />
                 </Button>
@@ -123,8 +122,8 @@ class Pane extends React.Component {
               </Button>
             </div>
           </div>
-          <div className={'body' + (this.props.isDisabled ? ' disabled' : '')}>
-            {list}
+          <div className={'body' + ((this.props.isDisabled || this.props.mode !== 'LIST') ? ' disabled' : '')}>
+            {view}
           </div>
         </div>
       </div>

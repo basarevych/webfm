@@ -3,6 +3,8 @@
   "share_label": "Share...",
   "not_connected_message": "Establishing connection...",
   "not_authorized_message": "Not signed in",
+  "contents_view_message": "Contents view",
+  "info_view_message": "Info view",
   "sign_in_button": "Sign in",
   "sign_out_button": "Sign out",
   "cancel_button": "Cancel",

@@ -64,5 +64,4 @@ Screen.propTypes = {
   isRightPaneVisible: PropTypes.bool.isRequired,
 };
 
-
 export default Screen;
