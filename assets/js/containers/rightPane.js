@@ -1,8 +1,7 @@
 'use strict';
 
 import { connect } from 'react-redux';
-import { setActivePane, setPaneMode, setPaneShare, setPanePath, togglePane } from '../actions/pane';
-import { sendPaths } from '../actions/shares';
+import { setActivePane, setPaneMode, togglePane, paneCD } from '../actions/pane';
 import Pane from '../components/Pane';
 
 const mapStateToProps = state => {
@@ -24,11 +23,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onPaneClick: () => dispatch(setActivePane('RIGHT')),
-    onSetShare: async share => {
-      await dispatch(setPaneShare('RIGHT', share));
-      await dispatch(setPanePath('RIGHT', '/'));
-      await dispatch(sendPaths());
-    },
+    onSetShare: share => dispatch(paneCD('RIGHT', share, '/')),
     onSetMode: mode => dispatch(setPaneMode('RIGHT', mode)),
     onToggleOther: () => dispatch(togglePane('LEFT')),
   };

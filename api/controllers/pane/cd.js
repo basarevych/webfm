@@ -10,35 +10,27 @@ async function loadNodes(share, directory) {
 }
 
 module.exports = async function cd(req, res) {
-  let panes = req.param('panes');
-  if (!panes || !_.isArray(panes) || panes.length !== 2)
-    return res.badRequest('No or invalid parameter "panes" provided');
-
-  panes[0].list = null;
-  panes[1].list = null;
+  let pane = req.param('pane');
+  let share = req.param('share');
+  let directory = req.param('path');
+  let list = null;
 
   let shares = await Share.find({ user: req.session.userId });
-  for (let share of shares) {
-    if (share.name === panes[0].share)
-      panes[0].list = await loadNodes(`${req.session.userId}:${panes[0].share}`, panes[0].path);
-    if (share.name === panes[1].share)
-      panes[1].list = await loadNodes(`${req.session.userId}:${panes[1].share}`, panes[1].path);
-    if (panes[0].list && panes[1].list)
+  if (!shares.length)
+    return res.json({ pane, share, path: directory, list: [] });
+
+  for (let item of shares) {
+    if (item.name === share) {
+      list = await loadNodes(`${req.session.userId}:${share}`, directory);
       break;
+    }
   }
 
-  if (!panes[0].list) {
-    panes[0].share = shares[0].name;
-    panes[0].path = '/';
-    panes[0].list = await loadNodes(`${req.session.userId}:${panes[0].share}`, panes[0].path);
-  }
-  if (!panes[1].list) {
-    panes[1].share = shares[0].name;
-    panes[1].path = '/';
-    panes[1].list = await loadNodes(`${req.session.userId}:${panes[1].share}`, panes[1].path);
+  if (!list) {
+    share = shares[0].name;
+    directory = '/';
+    list = await loadNodes(`${req.session.userId}:${share}`, directory);
   }
 
-  res.json({
-    panes,
-  });
+  res.json({ pane, share, path: directory, list });
 };

@@ -4,7 +4,7 @@ const pane = which => {
   return (
     state = {
       which: which,
-      mode: 'LIST',
+      mode: 'DISABLED',
       share: '',
       path: '/',
       list: [],

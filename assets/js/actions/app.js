@@ -4,7 +4,7 @@ import style from '../../styles/variables.scss';
 import viewport from '../lib/viewport';
 import { updateStatus } from './status';
 import { setActivePane, showPane, hidePane } from './pane';
-import { loadShares, sendPaths } from './shares';
+import { loadShares } from './shares';
 
 export const startApp = () => {
   return {
@@ -17,7 +17,6 @@ export const connectApp = () => {
     await dispatch(getCSRFToken());
     await dispatch(updateStatus());
     await dispatch(loadShares());
-    await dispatch(sendPaths());
     return dispatch({
       type: 'CONNECT_APP',
     });

@@ -1,7 +1,7 @@
 'use strict';
 
 import { signOut } from './signInDialog';
-import { setPaneShare, setPanePath, setPaneList } from './pane';
+import { paneCD, setPaneMode } from './pane';
 
 export const setShares = shares => {
   return {
@@ -27,70 +27,33 @@ export const loadShares = () => {
 
         let { app, leftPane, rightPane } = getState();
 
-        let leftValid = false;
-        let rightValid = false;
-        for (let share of app.shares) {
-          if (share.name === leftPane.share)
-            leftValid = true;
-          if (share.name === rightPane.share)
-            rightValid = true;
-        }
+        if (app.shares.length) {
+          let firstShare = app.shares[0];
+          let leftShare = firstShare.name;
+          let leftPath = '/';
+          let rightShare = firstShare.name;
+          let rightPath = '/';
+          for (let share of app.shares) {
+            if (share.name === leftPane.share) {
+              leftShare = leftPane.share;
+              leftPath = leftPane.path;
+            }
+            if (share.name === rightPane.share) {
+              rightShare = rightPane.share;
+              rightPath = rightPane.path;
+            }
+          }
 
-        if (!leftValid) {
-          await dispatch(setPaneShare('LEFT', app.shares.length ? app.shares[0].name : ''));
-          await dispatch(setPanePath('LEFT', '/'));
-        }
+          await dispatch(paneCD('LEFT', leftShare, leftPath));
+          if (leftPane.mode === 'DISABLED')
+            await dispatch(setPaneMode('LEFT', 'LIST'));
 
-        if (!rightValid) {
-          await dispatch(setPaneShare('RIGHT', app.shares.length ? app.shares[0].name : ''));
-          await dispatch(setPanePath('RIGHT', '/'));
-        }
-
-        resolve();
-      });
-    });
-  };
-};
-
-export const sendPaths = () => {
-  return async (dispatch, getState) => {
-    let { app, status, leftPane, rightPane } = getState();
-    if (!status.isAuthorized)
-      return;
-
-    let params = {
-      panes: [
-        {
-          share: leftPane.share,
-          path: leftPane.path,
-        },
-        {
-          share: rightPane.share,
-          path: rightPane.path,
-        },
-      ],
-      _csrf: app.csrf,
-    };
-
-    return new Promise(resolve => {
-      io.socket.post('/pane/cd', params, async (data, response) => {
-        if (response.statusCode !== 200) {
-          await dispatch(signOut());
-          return resolve();
-        }
-
-        if (_.isArray(data.panes) && data.panes.length === 2) {
-          let left = data.panes[0];
-          await dispatch(setPaneShare('LEFT', left.share));
-          await dispatch(setPanePath('LEFT', left.path));
-          if (left.list)
-            await dispatch(setPaneList('LEFT', left.list));
-
-          let right = data.panes[1];
-          await dispatch(setPaneShare('RIGHT', right.share));
-          await dispatch(setPanePath('RIGHT', right.path));
-          if (right.list)
-            await dispatch(setPaneList('RIGHT', right.list));
+          await dispatch(paneCD('RIGHT', rightShare, rightPath));
+          if (rightPane.mode === 'DISABLED')
+            await dispatch(setPaneMode('RIGHT', 'LIST'));
+        } else {
+          await dispatch(setPaneMode('LEFT', 'DISABLED'));
+          await dispatch(setPaneMode('RIGHT', 'DISABLED'));
         }
 
         resolve();

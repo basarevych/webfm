@@ -1,5 +1,7 @@
 'use strict';
 
+import { signOut } from './signInDialog';
+
 export const setActivePane = pane => {
   return async dispatch => {
     await dispatch({
@@ -58,5 +60,35 @@ export const setPaneList = (pane, list) => {
   return {
     type: `SET_${pane}_PANE_LIST`,
     list,
+  };
+};
+
+export const paneCD = (pane, share, path) => {
+  return async (dispatch, getState) => {
+    let { app, status } = getState();
+    if (!status.isAuthorized)
+      return;
+
+    let params = {
+      pane,
+      share,
+      path,
+      _csrf: app.csrf,
+    };
+
+    return new Promise(resolve => {
+      io.socket.post('/pane/cd', params, async (data, response) => {
+        if (response.statusCode !== 200) {
+          await dispatch(signOut());
+          return resolve();
+        }
+
+        await dispatch(setPaneShare(pane, data.share));
+        await dispatch(setPanePath(pane, data.path));
+        await dispatch(setPaneList(pane, data.list));
+
+        resolve();
+      });
+    });
   };
 };
