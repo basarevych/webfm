@@ -58,39 +58,52 @@
         flex: 1 0 0;
         display: flex;
 
-        .list-item {
-          display: flex;
-          height: 2.5rem;
+        .listing {
+          flex: 1 1 0;
+          display: table;
+          width: 100%;
 
-          .name {
-            height: 2.5rem;
-            margin-left: 15px;
-            flex: 1 1 0;
-            position: relative;
+          .listing-item {
+            display: table-row;
 
-            .fit-width {
-              line-height: 2.5rem;
-              position: absolute;
-              left: 0;
-              top: 0;
-              right: 0;
-              bottom: 0;
-              overflow: hidden;
-              white-space: nowrap;
-              text-overflow: ellipsis;
+            .name {
+              display: table-cell;
+              position: relative;
+
+              .fit-width {
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                margin: 3px 0 3px 15px;
+                line-height: 2rem;
+              }
             }
-          }
 
-          .size {
-            height: 2.5rem;
-            line-height: 2.5rem;
-            margin-left: 10px;
-          }
+            .info {
+              padding: 3px 15px 3px 10px;
+              display: table-cell;
+              width: 1px;
+              white-space: nowrap;
 
-          .tools {
-            height: 2.5rem;
-            line-height: 2.5rem;
-            margin: 0 15px 0 10px;
+              .wrapper {
+                display: flex;
+                width: 100%;
+
+                .size {
+                  flex: 1 1 0;
+                  line-height: 2rem;
+                }
+
+                .tools {
+                  margin: 0 0 0 10px;
+                }
+              }
+            }
           }
         }
 
@@ -129,13 +142,58 @@
   }
 }
 
+@mixin small-device-pane {
+  max-width: calc(100vw - 20px);
+
+  .header .share .fit-width {
+    max-width: 40vw;
+  }
+
+  .body {
+    .listing {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+
+      .listing-item {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+
+        .name {
+          height: 2rem;
+          margin: 3px 15px 3px 15px;
+          padding: 0;
+          box-sizing: content-box;
+
+          .fit-width {
+            margin: 0;
+          }
+        }
+
+        .info {
+          width: 100%;
+          height: 2rem;
+          margin: 3px 0 3px 0;
+          padding: 0;
+          box-sizing: content-box;
+
+          .wrapper {
+            padding: 0 15px 0 15px;
+
+            .tools {
+              margin: 0 0 0 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 @include media-breakpoint-up(sm) {
   .pane-container .pane-wrapper:only-child .pane {
-    max-width: calc(100vw - 20px);
-
-    .header .share .fit-width {
-      max-width: 40vw;
-    }
+    @include small-device-pane;
   }
 }
 
@@ -144,11 +202,7 @@
     flex-direction: column;
 
     .pane-wrapper .pane {
-      max-width: calc(100vw - 20px);
-
-      .header .share .fit-width {
-        max-width: 40vw;
-      }
+      @include small-device-pane;
     }
   }
 }

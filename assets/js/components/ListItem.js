@@ -32,39 +32,43 @@ const ListItem = ({ isDisabled, node }) => {
   }
 
   return (
-    <div className="list-item">
+    <div className="listing-item">
       <div className="name">
         <div className="fit-width">
           {icon}{node.name}
         </div>
       </div>
-      <div className="size">
-        {size}
-      </div>
-      <div className="tools">
-        <Button
-          size="sm"
-          disabled={isDisabled}
-          color="secondary"
-        >
-          <i className="fa fa-fw fa-copy" />
-        </Button>
-        &nbsp;
-        <Button
-          size="sm"
-          disabled={isDisabled}
-          color="secondary"
-        >
-          <i className="fa fa-fw fa-cut" />
-        </Button>
-        &nbsp;
-        <Button
-          size="sm"
-          disabled={isDisabled}
-          color="secondary"
-        >
-          <i className="fa fa-fw fa-remove" />
-        </Button>
+      <div className="info">
+        <div className="wrapper">
+          <div className="size">
+            {size}
+          </div>
+          <div className="tools">
+            <Button
+              size="sm"
+              disabled={isDisabled}
+              color="secondary"
+            >
+              <i className="fa fa-fw fa-copy" />
+            </Button>
+            &nbsp;
+            <Button
+              size="sm"
+              disabled={isDisabled}
+              color="secondary"
+            >
+              <i className="fa fa-fw fa-cut" />
+            </Button>
+            &nbsp;
+            <Button
+              size="sm"
+              disabled={isDisabled}
+              color="secondary"
+            >
+              <i className="fa fa-fw fa-remove" />
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );

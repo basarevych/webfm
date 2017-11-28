@@ -15,7 +15,9 @@ const ListView = ({ isDisabled, list }) => {
 
   return (
     <ScrollWrapper>
-      {listing}
+      <div className="listing">
+        {listing}
+      </div>
     </ScrollWrapper>
   );
 };
