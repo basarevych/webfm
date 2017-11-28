@@ -15,9 +15,12 @@ const Screen = ({ isAppConnected, isLeftPaneVisible, isRightPaneVisible }) => {
     notConnected = (
       <div className="page-overlay shaded">
         <div className="no-connection-window rounded">
-          <i className="fa fa-spin fa-fw fa-cog" />
-          &nbsp;
-          {__('not_connected_message')}
+          <div className="pull-left">
+            <i className="fa fa-spin fa-fw fa-cog" />
+          </div>
+          <div className="ml-5">
+            {__('not_connected_message')}
+          </div>
         </div>
       </div>
     );
