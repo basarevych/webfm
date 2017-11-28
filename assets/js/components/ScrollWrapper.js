@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ScrollArea from 'xico2k-react-scroll-area';
 
 class ScrollWrapper extends React.Component {
@@ -10,6 +11,7 @@ class ScrollWrapper extends React.Component {
     this.state = { isTrackHidden: false };
 
     this.onResize = this.onResize.bind(this);
+    this.initScrollerRef = this.initScrollerRef.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +37,18 @@ class ScrollWrapper extends React.Component {
     }
   }
 
+  initScrollerRef(el) {
+    if (!this.scroller && el) {
+      let event = new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      });
+      ReactDOM.findDOMNode(el).dispatchEvent(event);
+    }
+    this.scroller = el;
+  }
+
   render() {
     return (
       <div className="scroll-wrapper" ref={el => this.wrapper = el}>
@@ -43,6 +57,8 @@ class ScrollWrapper extends React.Component {
           handlerClassName="scroll-handler"
           trackHideTime={0}
           trackClassName={this.state.isTrackHidden ? 'd-none' : 'd-block'}
+          trackVisible={!this.state.isTrackHidden}
+          ref={this.initScrollerRef}
         >
           <div ref={el => this.inner = el}>
             {this.props.children}
