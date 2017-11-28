@@ -6,8 +6,8 @@ import { TransitionGroup } from 'react-transition-group';
 import Fade from './Fade';
 import Navbar from '../containers/Navbar';
 import SignInDialog from '../containers/SignInDialog';
-import LeftPane from '../containers/leftPane';
-import RightPane from '../containers/rightPane';
+import LeftPane from '../containers/LeftPane';
+import RightPane from '../containers/RightPane';
 
 const Screen = ({ isAppConnected, isLeftPaneVisible, isRightPaneVisible }) => {
   let notConnected = null;

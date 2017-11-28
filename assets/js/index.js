@@ -7,7 +7,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import webfm from './reducers';
-import App from './containers/app';
+import App from './containers/App';
 import { initApp, connectApp, disconnectApp, screenResize } from './actions/app';
 
 let store = createStore(

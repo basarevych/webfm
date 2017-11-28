@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import { Button, ButtonGroup } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import DisabledView from './DisabledView';
-import ListView from './ListView';
+import LeftList from '../containers/LeftList';
+import RightList from '../containers/RightList';
 import ContentsView from './ContentsView';
 import InfoView from './InfoView';
 
@@ -78,7 +79,7 @@ class Pane extends React.Component {
         view = <DisabledView />;
         break;
       case 'LIST':
-        view = <ListView list={this.props.list} isDisabled={this.props.isDisabled} />;
+        view = this.props.which === 'LEFT' ? <LeftList /> : <RightList />;
         break;
       case 'CONTENTS':
         view = <ContentsView />;

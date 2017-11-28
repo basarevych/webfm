@@ -1,6 +1,7 @@
 'use strict';
 
 import i18n from '../lib/i18n';
+import { setPaneMode } from './pane';
 
 export const requestStatus = promise => {
   return {
@@ -11,20 +12,28 @@ export const requestStatus = promise => {
 };
 
 export const receiveStatus = (requestedAt, data) => {
-  if (data.success) {
-    i18n.setLocale(data.locale);
-    return {
-      type: 'STATUS_SUCCESS',
-      requestedAt,
-      authorized: data.authorized,
-      login: data.login,
-      locale: data.locale,
-    };
-  }
+  return async dispatch => {
+    if (data.success) {
+      i18n.setLocale(data.locale);
 
-  return {
-    type: 'STATUS_FAILURE',
-    requestedAt,
+      if (!data.authorized) {
+        await dispatch(setPaneMode('LEFT', 'DISABLED'));
+        await dispatch(setPaneMode('RIGHT', 'DISABLED'));
+      }
+
+      return dispatch({
+        type: 'STATUS_SUCCESS',
+        requestedAt,
+        authorized: data.authorized,
+        login: data.login,
+        locale: data.locale,
+      });
+    }
+
+    return dispatch({
+      type: 'STATUS_FAILURE',
+      requestedAt,
+    });
   };
 };
 

@@ -5,26 +5,38 @@ import PropTypes from 'prop-types';
 import ScrollWrapper from './ScrollWrapper';
 import ListItem from './ListItem';
 
-const ListView = ({ isDisabled, list }) => {
-  let listing = [];
-  for (let item of list) {
-    listing.push(
-      <ListItem key={item.id} isDisabled={isDisabled} node={item} />
-    );
+class ListView extends React.Component {
+  constructor(props) {
+    super(props);
   }
 
-  return (
-    <ScrollWrapper>
-      <div className="listing">
-        {listing}
-      </div>
-    </ScrollWrapper>
-  );
-};
+  render() {
+    let listing = [];
+    for (let item of this.props.list) {
+      listing.push(
+        <ListItem
+          key={item.id}
+          isDisabled={this.props.isDisabled}
+          node={item}
+          onChangeDirectory={this.props.onChangeDirectory}
+        />
+      );
+    }
+
+    return (
+      <ScrollWrapper>
+        <div className="listing">
+          {listing}
+        </div>
+      </ScrollWrapper>
+    );
+  }
+}
 
 ListView.propTypes = {
-  isDisabled: PropTypes.bool.isRequired,
   list: PropTypes.array.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  onChangeDirectory: PropTypes.func.isRequired,
 };
 
 export default ListView;

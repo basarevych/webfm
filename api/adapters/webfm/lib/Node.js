@@ -26,7 +26,7 @@ class Node {
             if (_.isArray(select) && select.includes('size'))
               item.size = stats.isDirectory() ? -1 : stats.size;
             if (_.isArray(select) && select.includes('directory'))
-              item.directory = directory;
+              item.directory = fullPath.slice(share.path.length) || '/';
             if (_.isArray(select) && select.includes('isDirectory'))
               item.isDirectory = stats.isDirectory();
 

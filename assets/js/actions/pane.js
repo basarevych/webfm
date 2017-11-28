@@ -65,9 +65,12 @@ export const setPaneList = (pane, list) => {
 
 export const paneCD = (pane, share, path) => {
   return async (dispatch, getState) => {
-    let { app, status } = getState();
+    let { app, status, leftPane, rightPane } = getState();
     if (!status.isAuthorized)
       return;
+
+    if (!share)
+      share = pane === 'LEFT' ? leftPane.share : rightPane.share;
 
     let params = {
       pane,

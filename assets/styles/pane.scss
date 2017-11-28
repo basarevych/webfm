@@ -136,7 +136,7 @@
       &.active {
         background-color: $modal-content-bg;
         border-color: lighten($modal-content-bg, 10%);
-        box-shadow: 0 0 8px 2px $primary;
+        box-shadow: 0 0 7px 3px $modal-content-bg;
       }
     }
   }

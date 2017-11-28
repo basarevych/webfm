@@ -3,13 +3,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
+import { join } from '../lib/path';
 
-const ListItem = ({ isDisabled, node }) => {
+const ListItem = ({ node, isDisabled, onChangeDirectory }) => {
   let icon;
   if (node.isDirectory)
     icon = <i className="fa fa-folder fa-mr" />;
   else
     icon = <i className="fa fa-file fa-mr" />;
+
+  let name;
+  if (node.isDirectory) {
+    name = (
+      <a
+        href="javascript:void(0)"
+        onClick={() => onChangeDirectory(join(node.directory, node.name))}
+      >
+        {icon}
+        {node.name}
+      </a>
+    );
+  } else {
+    name = (
+      <span>
+        {icon}
+        {node.name}
+      </span>
+    );
+  }
 
   let size;
   if (node.isDirectory) {
@@ -35,7 +56,7 @@ const ListItem = ({ isDisabled, node }) => {
     <div className="listing-item">
       <div className="name">
         <div className="fit-width">
-          {icon}{node.name}
+          {name}
         </div>
       </div>
       <div className="info">
@@ -75,8 +96,9 @@ const ListItem = ({ isDisabled, node }) => {
 };
 
 ListItem.propTypes = {
-  isDisabled: PropTypes.bool.isRequired,
   node: PropTypes.object.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  onChangeDirectory: PropTypes.func.isRequired,
 };
 
 export default ListItem;

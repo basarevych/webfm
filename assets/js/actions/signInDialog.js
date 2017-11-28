@@ -2,7 +2,7 @@
 
 import { updateStatus } from './status';
 import { hideNavbar } from './navbar';
-import { loadShares, sendPaths } from './shares';
+import { loadShares } from './shares';
 
 export const lockSignInDialog = () => {
   return {
@@ -123,7 +123,6 @@ export const signIn = (when, validate) => {
               await dispatch(hideSignInDialog());
               await dispatch(updateStatus(true));
               await dispatch(loadShares());
-              await dispatch(sendPaths());
             }
           }
 

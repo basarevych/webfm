@@ -1,32 +1,46 @@
 // bootstrap/scss/_variables.scss
 
-$spacer:                      1rem;
+$spacer:                          1rem;
 
-$enable-rounded:              true;
-$enable-shadows:              false;
-$enable-gradients:            false;
-$enable-transitions:          true;
-$enable-hover-media-query:    false;
-$enable-grid-classes:         true;
-$enable-print-styles:         true;
+$enable-rounded:                  true;
+$enable-shadows:                  true;
+$enable-gradients:                true;
+$enable-transitions:              true;
+$enable-hover-media-query:        true;
+$enable-grid-classes:             true;
+$enable-print-styles:             true;
 
-$body-bg:                     #1b2631;
-$body-color:                  rgba(#ffffff,.75);
-$primary:                     #2e86c1;
-$secondary:                   #a8b7c7;
-$success:                     #28b463;
-$info:                        #884ea0;
-$warning:                     #d4ac0d;
-$danger:                      #ca6f1e;
-$input-bg:                    $body-bg;
-$input-color:                 rgba(#ffffff,.75);
-$input-disabled-bg:           #283747;
-$input-border-color:          rgba(#ffffff,.2);
-$modal-content-bg:            #283747;
-$modal-content-border-color:  $input-border-color;
-$modal-header-border-color:   $input-border-color;
-$close-color:                 $body-color;
-$close-text-shadow:           0 1px 0 $input-border-color;
+$body-bg:                         #1b2631;
+$body-color:                      rgba(#ffffff, .55);
 
-$font-family-sans-serif:      Roboto, sans-serif;
-$font-family-monospace:       "Roboto Mono", monospace;
+$primary:                         #d6dbdf;
+$secondary:                       #85929e;
+$success:                         #28b463;
+$info:                            #884ea0;
+$warning:                         #d4ac0d;
+$danger:                          #ca6f1e;
+
+$navbar-dark-color:               $secondary;
+$navbar-dark-hover-color:         $primary;
+$navbar-dark-active-color:        #ffffff;
+$navbar-dark-disabled-color:      rgba(#ffffff, .25);
+
+$input-bg:                        $body-bg;
+$input-color:                     rgba(#ffffff, .8);
+$input-disabled-bg:               $secondary;
+$input-border-color:              $secondary;
+
+$dropdown-bg:                     $primary;
+
+$modal-content-bg:                lighten($body-bg, 8%);
+$modal-content-border-color:      darken($modal-content-bg, 25%);
+$modal-header-border-color:       $modal-content-border-color;
+$modal-footer-border-color:       $modal-content-border-color;
+$modal-content-box-shadow-xs:     0 3px 9px $modal-content-bg;
+$modal-content-box-shadow-sm-up:  0 5px 15px $modal-content-bg;
+
+$close-color:                     $body-color;
+$close-text-shadow:               0 1px 0 $input-border-color;
+
+$font-family-sans-serif:          Roboto, sans-serif;
+$font-family-monospace:           "Roboto Mono", monospace;
