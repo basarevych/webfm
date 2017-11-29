@@ -4,13 +4,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import { join } from '../lib/path';
+import { human } from '../lib/size';
 
 const ListItem = ({ node, isDisabled, onChangeDirectory }) => {
   let icon;
   if (node.isDirectory)
-    icon = <i className="fa fa-folder fa-mr" />;
+    icon = <i className="fa fa-folder-o fa-mr" />;
   else
-    icon = <i className="fa fa-file fa-mr" />;
+    icon = <i className="fa fa-file-o fa-mr" />;
 
   let name;
   if (node.isDirectory) {
@@ -37,7 +38,7 @@ const ListItem = ({ node, isDisabled, onChangeDirectory }) => {
     if (node.size < 0)
       size = <i className="fa fa-balance-scale" />;
     else
-      size = node.size;
+      size = human(node.size);
 
     size = (
       <Button
@@ -49,7 +50,7 @@ const ListItem = ({ node, isDisabled, onChangeDirectory }) => {
       </Button>
     );
   } else {
-    size = node.size;
+    size = human(node.size);
   }
 
   return (
