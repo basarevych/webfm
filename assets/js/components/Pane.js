@@ -42,6 +42,20 @@ class Pane extends React.Component {
       this.props.onSetMode('INFO');
   }
 
+  componentDidMount() {
+    setTimeout(
+      () => window.dispatchEvent(new Event('resize')),
+      0
+    );
+  }
+
+  componentWillUnmount() {
+    setTimeout(
+      () => window.dispatchEvent(new Event('resize')),
+      0
+    );
+  }
+
   render() {
     let path = null;
     if (this.props.viewport !== 'xs' && !(this.props.viewport === 'sm' && this.props.isOtherVisible))
