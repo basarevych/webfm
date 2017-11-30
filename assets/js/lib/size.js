@@ -2,20 +2,18 @@
 
 export function human(bytes) {
   let size = bytes;
-  let units = 'B';
-  if (bytes >= 1024 * 1024 * 1024 * 1024) {
-    size = Math.round(100 * bytes / 1024 / 1024 / 1024 / 1024) / 100;
-    units = 'TB';
-  } else if (bytes >= 1024 * 1024 * 1024) {
-      size = Math.round(100* bytes / 1024 / 1024 /1024) / 100;
-      units = 'GB';
-  } else if (bytes >= 1024 * 1024) {
-      size = Math.round(100 * bytes / 1024 / 1024) / 100;
-      units = 'MB';
-  } else if (bytes >= 1024) {
-    size = Math.round(100 * bytes / 1024) / 100;
-    units = 'KB';
+  let suffix = 'B';
+  let units = ['KB', 'MB', 'GB', 'TB'];
+  let min = 1;
+  for (let i = 0; i < units.length; i++) {
+    min *= 1024;
+    if (bytes >= min) {
+      size = bytes / min;
+      suffix = units[i];
+    } else {
+      break;
+    }
   }
 
-  return `${size} ${units}`;
+  return `${Math.round(100 * size) / 100} ${suffix}`;
 }
