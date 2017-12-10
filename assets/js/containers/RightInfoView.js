@@ -1,15 +1,12 @@
 'use strict';
 
 import { connect } from 'react-redux';
+import InfoView from '../components/InfoView';
 import { setActivePane } from '../actions/pane';
-import Pane from '../components/Pane';
 
 const mapStateToProps = state => {
   return {
-    which: 'RIGHT',
-    mode: state.rightPane.mode,
     isActive: state.rightPane.isActive,
-    isDisabled: !state.user.isAuthorized,
   };
 };
 
@@ -19,9 +16,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const RightPane = connect(
+const RightInfo = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Pane);
+)(InfoView);
 
-export default RightPane;
+export default RightInfo;

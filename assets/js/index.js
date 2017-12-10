@@ -2,23 +2,21 @@
 
 import './lib/i18n';
 import React from 'react';
-import { createStore, applyMiddleware } from 'redux';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import webfm from './reducers';
+import { BrowserRouter } from 'react-router-dom';
+import storeFactory from './store/storeFactory';
 import App from './containers/App';
 import { initApp, connectApp, disconnectApp, screenResize } from './actions/app';
 
-let store = createStore(
-  webfm,
-  applyMiddleware(thunk)
-);
+const store = storeFactory();
 
 $(() => {
   render(
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>,
     document.getElementById('app')
   );

@@ -1,15 +1,12 @@
 'use strict';
 
 import { connect } from 'react-redux';
+import ContentsView from '../components/ContentsView';
 import { setActivePane } from '../actions/pane';
-import Pane from '../components/Pane';
 
 const mapStateToProps = state => {
   return {
-    which: 'LEFT',
-    mode: state.leftPane.mode,
     isActive: state.leftPane.isActive,
-    isDisabled: !state.user.isAuthorized,
   };
 };
 
@@ -19,9 +16,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const LeftPane = connect(
+const LeftContents = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Pane);
+)(ContentsView);
 
-export default LeftPane;
+export default LeftContents;

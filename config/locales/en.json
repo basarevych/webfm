@@ -5,6 +5,7 @@
   "not_authorized_message": "Not signed in",
   "contents_view_message": "Contents view",
   "info_view_message": "Info view",
+  "empty_message": "Empty...",
   "sign_in_button": "Sign in",
   "sign_out_button": "Sign out",
   "cancel_button": "Cancel",

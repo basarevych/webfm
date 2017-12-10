@@ -51,7 +51,7 @@ class ScrollWrapper extends React.Component {
 
   render() {
     return (
-      <div className="scroll-wrapper" ref={el => this.wrapper = el}>
+      <div className="scroll-wrapper" ref={el => { this.wrapper = el; }}>
         <ScrollArea
           className="scroll-area"
           handlerClassName="scroll-handler"
@@ -60,7 +60,7 @@ class ScrollWrapper extends React.Component {
           trackVisible={!this.state.isTrackHidden}
           ref={this.initScrollerRef}
         >
-          <div ref={el => this.inner = el}>
+          <div ref={el => { this.inner = el; }}>
             {this.props.children}
           </div>
         </ScrollArea>

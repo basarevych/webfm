@@ -1,14 +1,14 @@
 'use strict';
 
-export const showNavbar = () => {
+export const openNavbar = () => {
   return {
-    type: 'SHOW_NAVBAR',
+    type: 'OPEN_NAVBAR',
   };
 };
 
-export const hideNavbar = () => {
+export const closeNavbar = () => {
   return {
-    type: 'HIDE_NAVBAR',
+    type: 'CLOSE_NAVBAR',
   };
 };
 

@@ -14,7 +14,7 @@ module.exports.routes = {
   //  ║║║║╣ ╠╩╗╠═╝╠═╣║ ╦║╣ ╚═╗
   //  ╚╩╝╚═╝╚═╝╩  ╩ ╩╚═╝╚═╝╚═╝
 
-  'GET /': '/~/',
+  'GET /': '/~',
 
   'GET /~*': {
     view: 'pages/app',
@@ -33,8 +33,6 @@ module.exports.routes = {
   'GET /auth/csrf': 'security/grant-csrf-token',
   'POST /auth/sign-in': 'auth/sign-in',
   'POST /auth/sign-out': 'auth/sign-out',
-
-  'GET /share': 'share/find',
 
   'POST /pane/cd': 'pane/cd'
 

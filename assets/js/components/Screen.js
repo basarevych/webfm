@@ -9,9 +9,9 @@ import SignInDialog from '../containers/SignInDialog';
 import LeftPane from '../containers/LeftPane';
 import RightPane from '../containers/RightPane';
 
-const Screen = ({ isAppConnected, isLeftPaneVisible, isRightPaneVisible }) => {
+const Screen = ({ isConnected, isLeftPaneVisible, isRightPaneVisible }) => {
   let notConnected = null;
-  if (!isAppConnected) {
+  if (!isConnected) {
     notConnected = (
       <div className="page-overlay shaded">
         <div className="no-connection-window rounded">
@@ -26,24 +26,6 @@ const Screen = ({ isAppConnected, isLeftPaneVisible, isRightPaneVisible }) => {
     );
   }
 
-  let leftPane = null;
-  if (isLeftPaneVisible) {
-    leftPane = (
-      <Fade>
-        <LeftPane />
-      </Fade>
-    );
-  }
-
-  let rightPane = null;
-  if (isRightPaneVisible) {
-    rightPane = (
-      <Fade>
-        <RightPane />
-      </Fade>
-    );
-  }
-
   return (
     <div className="w-100 h-100">
       {notConnected}
@@ -53,8 +35,8 @@ const Screen = ({ isAppConnected, isLeftPaneVisible, isRightPaneVisible }) => {
           <SignInDialog />
         </div>
         <TransitionGroup className="pane-container">
-          {leftPane}
-          {rightPane}
+          {isLeftPaneVisible ? <Fade><LeftPane /></Fade> : null}
+          {isRightPaneVisible ? <Fade><RightPane /></Fade> : null}
         </TransitionGroup>
       </div>
     </div>
@@ -62,7 +44,7 @@ const Screen = ({ isAppConnected, isLeftPaneVisible, isRightPaneVisible }) => {
 };
 
 Screen.propTypes = {
-  isAppConnected: PropTypes.bool.isRequired,
+  isConnected: PropTypes.bool.isRequired,
   isLeftPaneVisible: PropTypes.bool.isRequired,
   isRightPaneVisible: PropTypes.bool.isRequired,
 };

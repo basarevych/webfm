@@ -1,7 +1,8 @@
 'use strict';
 
 import { connect } from 'react-redux';
-import { toggleSignInDialog, setSignInDialog, signIn } from '../actions/signInDialog';
+import { toggleSignInDialog, updateSignInDialog } from '../actions/signInDialog';
+import { signIn } from '../actions/user';
 import SignInModal from '../components/SignInModal';
 
 const mapStateToProps = state => {
@@ -17,7 +18,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onToggle: () => dispatch(toggleSignInDialog()),
-    onInput: values => dispatch(setSignInDialog({ values })),
+    onInput: values => dispatch(updateSignInDialog({ values })),
     onSubmit: (when, validate) => dispatch(signIn(when, validate)),
   };
 };

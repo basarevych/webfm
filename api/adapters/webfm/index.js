@@ -466,9 +466,9 @@ module.exports = {
         if (and && Object.keys(query.criteria.where).length === 1 && and.length === 2 && and[0].share && and[1].directory) {
           dsEntry.manager.share.find(and[0].share, ['id', 'path'], (error, shares) => {
             if (error)
-              done(error);
+              return done(error);
             else if (!shares.length)
-              done(new Error('Share not found: ' + and[0].share));
+              return done(new Error('Share not found: ' + and[0].share));
             else
               dsEntry.manager.node.find({ share: shares[0], directory: and[1].directory }, query.criteria.select, done);
           });

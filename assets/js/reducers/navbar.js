@@ -7,7 +7,7 @@ const navbar = (
   action
 ) => {
   switch (action.type) {
-    case 'SHOW_NAVBAR':
+    case 'OPEN_NAVBAR':
       if (state.isOpen)
         return state;
 
@@ -18,7 +18,7 @@ const navbar = (
           isOpen: true,
         }
       );
-    case 'HIDE_NAVBAR':
+    case 'CLOSE_NAVBAR':
       if (!state.isOpen)
         return state;
 

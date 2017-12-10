@@ -1,13 +1,11 @@
 'use strict';
 
-const pane = which => {
+const paneFactory = which => {
   return (
     state = {
-      which: which,
-      mode: 'DISABLED',
+      mode: 'LIST',
       share: '',
       path: '/',
-      list: [],
       isActive: false,
       isVisible: true,
     },
@@ -91,21 +89,10 @@ const pane = which => {
             path: action.path,
           }
         );
-      case `SET_${which}_PANE_LIST`:
-        if (_.isEqual(state.list, action.list))
-          return state;
-
-        return Object.assign(
-          {},
-          state,
-          {
-            list: action.list,
-          }
-        );
     }
 
     return state;
   };
 };
 
-export default pane;
+export default paneFactory;

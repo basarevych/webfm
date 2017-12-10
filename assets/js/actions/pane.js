@@ -1,6 +1,6 @@
 'use strict';
 
-import { signOut } from './signInDialog';
+import { signOut } from './user';
 
 export const setActivePane = pane => {
   return async dispatch => {
@@ -63,17 +63,30 @@ export const setPaneList = (pane, list) => {
   };
 };
 
+export const setPaneContents = (pane, contents) => {
+  return {
+    type: `SET_${pane}_PANE_CONTENTS`,
+    contents,
+  };
+};
+
+export const setPaneInfo = (pane, info) => {
+  return {
+    type: `SET_${pane}_PANE_INFO`,
+    info,
+  };
+};
+
 export const paneCD = (pane, share, path) => {
   return async (dispatch, getState) => {
-    let { app, status, leftPane, rightPane } = getState();
-    if (!status.isAuthorized)
+    let { app, user, leftPane, rightPane } = getState();
+    if (!user.isAuthorized)
       return;
 
     if (!share)
       share = pane === 'LEFT' ? leftPane.share : rightPane.share;
 
     let params = {
-      pane,
       share,
       path,
       _csrf: app.csrf,

@@ -5,20 +5,16 @@ import Screen from '../components/Screen';
 
 const mapStateToProps = state => {
   return {
-    isAppConnected: state.app.isConnected,
+    isConnected: state.app.isConnected,
     isLeftPaneVisible: state.leftPane.isVisible,
     isRightPaneVisible: state.rightPane.isVisible,
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-  };
-};
 
 const App = connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(Screen);
 
 export default App;

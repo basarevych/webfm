@@ -2,15 +2,16 @@
 
 import { connect } from 'react-redux';
 import { toggleNavbar } from '../actions/navbar';
-import { toggleSignInDialog, signOut } from '../actions/signInDialog';
+import { toggleSignInDialog } from '../actions/signInDialog';
+import { signOut } from '../actions/user';
 import TopNavbar from '../components/TopNavbar';
 
 const mapStateToProps = state => {
   return {
     isOpen: state.navbar.isOpen,
     viewport: state.app.viewport,
-    isLoggedIn: state.status.isAuthorized,
-    login: state.status.login,
+    isLoggedIn: state.user.isAuthorized,
+    login: state.user.login,
   };
 };
 

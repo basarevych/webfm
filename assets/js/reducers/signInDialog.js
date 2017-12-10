@@ -76,7 +76,7 @@ const signInDialog = (
           },
         }
       );
-    case 'SEND_SIGN_IN_DIALOG':
+    case 'SUBMIT_SIGN_IN_DIALOG':
       if (action.submittedAt <= state.submittedAt)
         return state;
 
@@ -87,7 +87,7 @@ const signInDialog = (
           submittedAt: action.submittedAt,
         }
       );
-    case 'SET_SIGN_IN_DIALOG':
+    case 'UPDATE_SIGN_IN_DIALOG':
       if (action.submittedAt < state.submittedAt)
         return state;
 

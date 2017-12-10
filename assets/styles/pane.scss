@@ -2,12 +2,12 @@
   flex: 1 0 0;
   display: flex;
 
-  .pane-wrapper {
+  .pane {
     flex: 1 0 0;
     display: flex;
     align-items: stretch;
 
-    .pane {
+    .view {
       max-width: calc(50vw - 20px);
       margin: 10px;
       flex: 1 0 0;
@@ -192,7 +192,7 @@
 }
 
 @include media-breakpoint-up(sm) {
-  .pane-container .pane-wrapper:only-child .pane {
+  .pane-container .pane:only-child .view {
     @include small-device-pane;
   }
 }
@@ -201,7 +201,7 @@
   .pane-container {
     flex-direction: column;
 
-    .pane-wrapper .pane {
+    .pane .view {
       @include small-device-pane;
     }
   }

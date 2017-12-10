@@ -40,9 +40,11 @@
     "popper.js": "~1.12.9",
     "postcss-loader": "~2.0.9",
     "prop-types": "~15.6.0",
-    "react": "~16.1.1",
-    "react-dom": "~16.1.1",
+    "react": "~16.2.0",
+    "react-dom": "~16.2.0",
     "react-redux": "~5.0.6",
+    "react-router": "~4.2.0",
+    "react-router-dom": "^4.2.2",
     "react-transition-group": "~2.2.1",
     "reactstrap": "~5.0.0-alpha.3",
     "redux": "~3.7.2",
@@ -58,13 +60,13 @@
     "socket.io-redis": "~5.2.0",
     "style-loader": "~0.19.0",
     "url-loader": "~0.6.2",
-    "webpack": "~3.8.1",
+    "webpack": "~3.9.1",
     "xico2k-react-scroll-area": "~1.0.6"
   },
   "devDependencies": {
-    "eslint": "~4.11.0",
+    "eslint": "~4.12.1",
     "htmlhint": "~0.9.13",
-    "webpack-dev-server": "~2.9.4"
+    "webpack-dev-server": "~2.9.5"
   },
   "scripts": {
     "start": "env NODE_ENV=production node app.js",

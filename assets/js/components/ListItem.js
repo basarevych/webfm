@@ -17,7 +17,7 @@ const ListItem = ({ node, isDisabled, onChangeDirectory }) => {
   if (node.isDirectory) {
     name = (
       <a
-        href="javascript:void(0)"
+        className="link"
         onClick={() => onChangeDirectory(join(node.directory, node.name))}
       >
         {icon}

@@ -25,8 +25,6 @@ module.exports.policies = {
   'auth/sign-in': 'isNotLoggedIn',
   'auth/sign-out': 'isLoggedIn',
 
-  'share/find': 'isLoggedIn',
-
   'pane/cd': 'isLoggedIn',
 
 };

@@ -50,7 +50,7 @@ class TopNavbar extends React.Component {
       signing = (
         <Nav className="ml-auto" navbar>
           <NavItem>
-            <NavLink onClick={this.props.onSignIn}>{__('sign_in_button')}</NavLink>
+            <NavLink className="link" onClick={this.props.onSignIn}>{__('sign_in_button')}</NavLink>
           </NavItem>
         </Nav>
       );

@@ -19,30 +19,28 @@ async function loadNodes(share, directory) {
 }
 
 module.exports = async function cd(req, res) {
-  let pane = req.param('pane');
   let share = req.param('share');
   let directory = path.resolve(req.param('path'));
   let list = null;
 
   if (!directory || directory[0] !== '/')
-    directory = '/' + directory;
+    directory = '/' + (directory || '');
 
   let shares = await Share.find({ user: req.session.userId });
-  if (!shares.length)
-    return res.json({ pane, share, path: directory, list: [] });
+  if (shares.length) {
+    for (let item of shares) {
+      if (item.name === share) {
+        list = await loadNodes(`${req.session.userId}:${share}`, directory);
+        break;
+      }
+    }
 
-  for (let item of shares) {
-    if (item.name === share) {
+    if (!list) {
+      share = shares[0].name;
+      directory = '/';
       list = await loadNodes(`${req.session.userId}:${share}`, directory);
-      break;
     }
   }
 
-  if (!list) {
-    share = shares[0].name;
-    directory = '/';
-    list = await loadNodes(`${req.session.userId}:${share}`, directory);
-  }
-
-  res.json({ pane, share, path: directory, list });
+  res.json({ share, path: directory, list: list || [] });
 };

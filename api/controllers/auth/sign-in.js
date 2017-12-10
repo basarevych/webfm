@@ -29,11 +29,11 @@ module.exports = async function signIn(req, res) {
         req.session.userId = login;
       }
     }
-  }
 
-  if (!req.session.userId) {
-    form.addMessage('invalid_credentials_message');
-    form.success = false;
+    if (!req.session.userId) {
+      form.addMessage('invalid_credentials_message');
+      form.success = false;
+    }
   }
 
   return res.json(form);
