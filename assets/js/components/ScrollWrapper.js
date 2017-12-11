@@ -20,18 +20,14 @@ class ScrollWrapper extends React.Component {
     window.addEventListener('orientationchange', this.onResize);
   }
 
-  componentDidUpdate() {
-    this.onResize();
-  }
-
   componentWillUnmount() {
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('orientationchange', this.onResize);
   }
 
   onResize() {
-    if (this.wrapper && this.inner) {
-      let isTrackHidden = this.inner.offsetHeight <= this.wrapper.clientHeight;
+    if (this.scroller) {
+      let isTrackHidden = this.scroller.getInnerHeight() <= this.scroller.getOuterHeight();
       if (this.state.isTrackHidden !== isTrackHidden)
         this.setState({ isTrackHidden });
     }
@@ -39,19 +35,23 @@ class ScrollWrapper extends React.Component {
 
   initScrollerRef(el) {
     if (!this.scroller && el) {
-      let event = new MouseEvent('click', {
-        view: window,
-        bubbles: true,
-        cancelable: true
-      });
-      ReactDOM.findDOMNode(el).dispatchEvent(event);
+      let domEl = ReactDOM.findDOMNode(el);
+
+      domEl.dispatchEvent(new MouseEvent(
+        'click',
+        {
+          view: window,
+          bubbles: false,
+          cancelable: true
+        }
+      ));
     }
     this.scroller = el;
   }
 
   render() {
     return (
-      <div className="scroll-wrapper" ref={el => { this.wrapper = el; }}>
+      <div className="scroll-wrapper">
         <ScrollArea
           className="scroll-area"
           handlerClassName="scroll-handler"
@@ -60,7 +60,7 @@ class ScrollWrapper extends React.Component {
           trackVisible={!this.state.isTrackHidden}
           ref={this.initScrollerRef}
         >
-          <div ref={el => { this.inner = el; }}>
+          <div>
             {this.props.children}
           </div>
         </ScrollArea>

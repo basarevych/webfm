@@ -1,15 +1,23 @@
 'use strict';
 
+import { push } from 'react-router-redux'
 import { signOut } from './user';
+import { matchLocation } from '../lib/path';
 
 export const setActivePane = pane => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     await dispatch({
       type: `DEACTIVATE_${pane === 'LEFT' ? 'RIGHT' : 'LEFT'}_PANE`,
     });
     await dispatch({
       type: `ACTIVATE_${pane}_PANE`,
     });
+
+    let { user, leftPane, rightPane } = getState();
+    let share = (pane === 'LEFT' ? leftPane.share : rightPane.share);
+    let path = (pane === 'LEFT' ? leftPane.path : rightPane.path);
+    if (user.isAuthorized)
+      await dispatch(push(`/~${share}:${path}`));
   };
 };
 
@@ -32,6 +40,21 @@ export const togglePane = pane => {
     dispatch(isVisible ? hidePane(pane) : showPane(pane));
     if (isVisible)
       dispatch(setActivePane(pane === 'LEFT' ? 'RIGHT' : 'LEFT'));
+  };
+};
+
+export const startLoadingPane = pane => {
+  return {
+    type: `START_${pane}_PANE_LOADING`,
+    timestamp: Date.now(),
+  };
+};
+
+export const stopLoadingPane = (timestamp, pane, isForbidden = false) => {
+  return {
+    type: `STOP_${pane}_PANE_LOADING`,
+    timestamp,
+    isForbidden,
   };
 };
 
@@ -77,14 +100,50 @@ export const setPaneInfo = (pane, info) => {
   };
 };
 
+export const initPanes = () => {
+  return async (dispatch, getState) => {
+    let { user, router } = getState();
+    if (!user.isAuthorized)
+      return;
+
+    let match = matchLocation(router.location.pathname);
+    let share, path;
+    if (match) {
+      share = match.share;
+      path = match.path;
+    } else {
+      share = user.shares[0].share;
+      path = '/';
+    }
+
+    return new Promise((resolve, reject) => {
+      let counter = 0;
+      const done = () => {
+        if (++counter >= 2)
+          resolve();
+      };
+      dispatch(paneCD('LEFT', share, path))
+        .then(() => done())
+        .catch(error => reject(error));
+      dispatch(paneCD('RIGHT', share, path))
+        .then(() => done())
+        .catch(error => reject(error));
+    });
+  };
+};
+
 export const paneCD = (pane, share, path) => {
   return async (dispatch, getState) => {
     let { app, user, leftPane, rightPane } = getState();
     if (!user.isAuthorized)
       return;
 
+    let start = await dispatch(startLoadingPane(pane));
+
     if (!share)
       share = pane === 'LEFT' ? leftPane.share : rightPane.share;
+    if (!path)
+      path = pane === 'LEFT' ? leftPane.path : rightPane.path;
 
     let params = {
       share,
@@ -94,14 +153,33 @@ export const paneCD = (pane, share, path) => {
 
     return new Promise(resolve => {
       io.socket.post('/pane/cd', params, async (data, response) => {
-        if (response.statusCode !== 200) {
-          await dispatch(signOut());
-          return resolve();
+        let { leftPane, rightPane } = getState();
+        if (pane === 'LEFT') {
+          if (leftPane.timestamp !== start.timestamp)
+            return resolve();
+        } else {
+          if (rightPane.timestamp !== start.timestamp)
+            return resolve();
         }
 
-        await dispatch(setPaneShare(pane, data.share));
-        await dispatch(setPanePath(pane, data.path));
-        await dispatch(setPaneList(pane, data.list));
+        if (response.statusCode === 403) {
+          await dispatch(setPaneShare(pane, share));
+          await dispatch(setPanePath(pane, path));
+          await dispatch(setPaneList(pane, []));
+          if ((pane === 'LEFT' && leftPane.isActive) || (pane === 'RIGHT' && rightPane.isActive))
+            await dispatch(push(`/~${share}:${path}`));
+          await dispatch(stopLoadingPane(start.timestamp, pane, true));
+        } else if (response.statusCode === 200) {
+          await dispatch(setPaneShare(pane, data.share));
+          await dispatch(setPanePath(pane, data.path));
+          await dispatch(setPaneList(pane, data.list));
+          if ((pane === 'LEFT' && leftPane.isActive) || (pane === 'RIGHT' && rightPane.isActive))
+            await dispatch(push(`/~${data.share}:${data.path}`));
+          await dispatch(stopLoadingPane(start.timestamp, pane));
+        } else {
+          await dispatch(stopLoadingPane(start.timestamp, pane));
+          await dispatch(signOut());
+        }
 
         resolve();
       });

@@ -10,3 +10,14 @@ export function join(...args) {
     ''
   );
 }
+
+export function matchLocation(location) {
+  let match = /^\/~([^:]+):(.+)$/.exec(location);
+  if (!match)
+    return null;
+
+  return {
+    share: match[1],
+    path: match[2],
+  }
+}

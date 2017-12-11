@@ -3,7 +3,8 @@
 import style from '../../styles/variables.scss';
 import viewport from '../lib/viewport';
 import { updateStatus } from './user';
-import { setActivePane, showPane, hidePane } from './pane';
+import {setActivePane, showPane, hidePane, initPanes, paneCD} from './pane';
+import {matchLocation} from '../lib/path';
 
 export const startApp = () => {
   return {
@@ -71,7 +72,7 @@ export const getCSRFToken = () => {
   };
 };
 
-export const initApp = () => {
+export const initApp = history => {
   return async (dispatch, getState) => {
     if (!window.isLoaded)
       return;
@@ -82,15 +83,37 @@ export const initApp = () => {
 
     await dispatch(startApp());
     await dispatch(screenResize());
+    await dispatch(setActivePane('LEFT'));
     await dispatch(io.socket.isConnected() ? connectApp() : disconnectApp());
+    await dispatch(initPanes());
+
+    history.listen(async location => {
+      let { user, leftPane, rightPane } = getState();
+      if (!user.isAuthorized)
+        return;
+
+      let pane, share, path;
+      if (leftPane.isActive) {
+        pane = 'LEFT';
+        share = leftPane.share;
+        path = leftPane.path;
+      } else {
+        pane = 'RIGHT';
+        share = rightPane.share;
+        path = rightPane.path;
+      }
+
+      let match = matchLocation(location.pathname);
+      if (!match)
+        dispatch(paneCD(pane, user.shares[0].name, '/'));
+      else if (match.share !== share || match.path !== path)
+        dispatch(paneCD(pane, match.share, match.path));
+    });
 
     return new Promise(resolve => {
       $('body').removeClass('loading');
       $('#page-loader').fadeOut(style.fadeDuration);
-      $('#app').fadeIn(style.fadeDuration, async () => {
-        await dispatch(setActivePane('LEFT'));
-        resolve();
-      });
+      $('#app').fadeIn(style.fadeDuration, () => resolve());
     });
   };
 };

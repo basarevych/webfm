@@ -2,45 +2,52 @@
 
 const path = require('path');
 
-async function loadNodes(share, directory) {
-  let nodes = await Node.find({ where: { share, directory }, select: ['id', 'directory', 'name', 'size', 'isDirectory'] });
-  if (directory !== '/' && nodes.length === 0)
-    nodes = await loadNodes(share, path.dirname(directory));
-  if (directory !== '/') {
-    nodes.unshift({
-      id: `${share}:${directory}`,
-      directory: directory,
-      name: '..',
-      size: -1,
-      isDirectory: true,
-    });
-  }
-  return nodes;
-}
-
 module.exports = async function cd(req, res) {
   let share = req.param('share');
   let directory = path.resolve(req.param('path'));
-  let list = null;
 
   if (!directory || directory[0] !== '/')
     directory = '/' + (directory || '');
 
   let shares = await Share.find({ user: req.session.userId });
-  if (shares.length) {
+  if (!shares.length)
+    return res.forbidden('No shares defined for you');
+
+  let list = null;
+  try {
     for (let item of shares) {
       if (item.name === share) {
-        list = await loadNodes(`${req.session.userId}:${share}`, directory);
+        let node = await Node.findOne(
+          { share: item.id, path: directory }
+        ).populate(
+          'nodes',
+          {
+            select: ['id', 'directory', 'name', 'size', 'isDirectory']
+          }
+        );
+
+        if (!node.isDirectory)
+          return res.forbidden('Not a directory');
+
+        list = node.nodes;
+        if (node.path !== '/') {
+          list.unshift({
+            id: `${req.session.userId}:${share}:${node.path}`,
+            directory: node.path,
+            name: '..',
+            size: -1,
+            isDirectory: true,
+          });
+        }
         break;
       }
     }
-
-    if (!list) {
-      share = shares[0].name;
-      directory = '/';
-      list = await loadNodes(`${req.session.userId}:${share}`, directory);
-    }
+  } catch (error) {
+    return res.forbidden('Could not read path');
   }
 
-  res.json({ share, path: directory, list: list || [] });
+  if (!list)
+    return res.forbidden('Share not found');
+
+  res.json({ share, path: directory, list });
 };

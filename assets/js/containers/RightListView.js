@@ -1,7 +1,7 @@
 'use strict';
 
 import { connect } from 'react-redux';
-import { setPaneMode, paneCD, setActivePane } from '../actions/pane';
+import { setPaneMode, setActivePane, togglePane, paneCD } from '../actions/pane';
 import ListView from '../components/ListView';
 
 const mapStateToProps = state => {
@@ -12,7 +12,7 @@ const mapStateToProps = state => {
     path: state.rightPane.path,
     list: state.rightPaneList,
     isActive: state.rightPane.isActive,
-    isDisabled: !state.user.isAuthorized,
+    isForbidden: state.leftPane.isForbidden,
     isOtherVisible: state.leftPane.isVisible,
     otherMode: state.leftPane.mode,
   };
@@ -22,8 +22,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onPaneClick: () => dispatch(setActivePane('RIGHT')),
     onSetShare: share => dispatch(paneCD('RIGHT', share, '/')),
-    onSetOtherMode: mode => dispatch(setPaneMode('LEFT', mode)),
     onChangeDirectory: directory => dispatch(paneCD('RIGHT', null, directory)),
+    onToggleOther: () => dispatch(togglePane('LEFT')),
+    onSetOtherMode: mode => dispatch(setPaneMode('LEFT', mode)),
   };
 };
 

@@ -463,15 +463,10 @@ module.exports = {
 
         break;
       case 'node':
-        if (and && Object.keys(query.criteria.where).length === 1 && and.length === 2 && and[0].share && and[1].directory) {
-          dsEntry.manager.share.find(and[0].share, ['id', 'path'], (error, shares) => {
-            if (error)
-              return done(error);
-            else if (!shares.length)
-              return done(new Error('Share not found: ' + and[0].share));
-            else
-              dsEntry.manager.node.find({ share: shares[0], directory: and[1].directory }, query.criteria.select, done);
-          });
+        if (and && Object.keys(query.criteria.where).length === 1 && and.length === 2 && and[0].share && and[1].path) {
+          dsEntry.manager.node.findByPath({ share: and[0].share, path: and[1].path }, query.criteria.select, done);
+        } else if (and && Object.keys(query.criteria.where).length === 1 && and.length === 1 && and[0].parent) {
+          dsEntry.manager.node.findByParent({ parent: and[0].parent }, query.criteria.select, done);
         } else {
           sails.log.debug(query);
           return done(new Error('Adapter method (`find`) can only search nodes by share and directory.'));

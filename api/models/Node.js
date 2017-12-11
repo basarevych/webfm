@@ -19,6 +19,11 @@ module.exports = {
       unique: true,
     },
 
+    path: {
+      type: 'string',
+      required: true,
+    },
+
     directory: {
       type: 'string',
       required: true,
@@ -49,6 +54,15 @@ module.exports = {
     share: {
       model: 'share',
     },
+
+    parent: {
+      model: 'node',
+    },
+
+    nodes: {
+      collection: 'node',
+      via: 'parent',
+    }
 
   },
 

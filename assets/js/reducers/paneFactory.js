@@ -3,11 +3,14 @@
 const paneFactory = which => {
   return (
     state = {
+      timestamp: 0,
       mode: 'LIST',
       share: '',
       path: '/',
       isActive: false,
       isVisible: true,
+      isLoading: true,
+      isForbidden: false,
     },
     action
   ) => {
@@ -54,6 +57,28 @@ const paneFactory = which => {
           state,
           {
             isVisible: false,
+          }
+        );
+      case `START_${which}_PANE_LOADING`:
+        return Object.assign(
+          {},
+          state,
+          {
+            timestamp: action.timestamp,
+            isLoading: true,
+            isForbidden: false,
+          }
+        );
+      case `STOP_${which}_PANE_LOADING`:
+        if (state.timestamp !== action.timestamp)
+          return state;
+
+        return Object.assign(
+          {},
+          state,
+          {
+            isLoading: false,
+            isForbidden: action.isForbidden,
           }
         );
       case `SET_${which}_PANE_MODE`:

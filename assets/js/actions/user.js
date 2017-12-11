@@ -1,7 +1,7 @@
 'use strict';
 
 import i18n from '../lib/i18n';
-import { paneCD } from './pane';
+import { initPanes } from './pane';
 import {
   hideSignInDialog, lockSignInDialog, unlockSignInDialog,
   submitSignInDialog, updateSignInDialog
@@ -17,7 +17,7 @@ export const requestStatus = promise => {
 };
 
 export const receiveStatus = (requestedAt, data) => {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     if (!data.success) {
       return dispatch({
         type: 'STATUS_FAILURE',
@@ -38,27 +38,6 @@ export const receiveStatus = (requestedAt, data) => {
 
     if (data.authorized && !data.shares.length)
       await dispatch(signOut());
-
-    let { user, leftPane, rightPane } = getState();
-    if (!user.isAuthorized)
-      return result;
-
-    let leftFound = false;
-    let rightFound = false;
-    for (let share of data.shares) {
-      if (share.name === leftPane.share)
-        leftFound = true;
-      if (share.name === rightPane.share)
-        rightFound = true;
-      if (leftFound && rightFound)
-        break;
-    }
-
-    if (!leftFound)
-      await dispatch(paneCD('LEFT', data.shares[0].name, '/'));
-
-    if (!rightFound)
-      await dispatch(paneCD('RIGHT', data.shares[0].name, '/'));
 
     return result;
   };
@@ -138,6 +117,7 @@ export const signIn = (when, validate) => {
               await dispatch(closeNavbar());
               await dispatch(hideSignInDialog());
               await dispatch(updateStatus(true));
+              dispatch(initPanes());
             }
           }
 

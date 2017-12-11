@@ -10,6 +10,7 @@ const mapStateToProps = state => {
     mode: state.leftPane.mode,
     isActive: state.leftPane.isActive,
     isDisabled: !state.user.isAuthorized,
+    isLoading: state.leftPane.isLoading,
   };
 };
 

@@ -19,60 +19,36 @@ class ListView extends React.Component {
   }
 
   toggleShareDropdown() {
-    if (!this.props.isDisabled)
-      this.setState({ isShareDropdownOpen: !this.state.isShareDropdownOpen });
+    this.setState({ isShareDropdownOpen: !this.state.isShareDropdownOpen });
   }
 
   toggleContentsMode() {
-    if (!this.props.isDisabled)
-      this.props.onSetOtherMode(this.props.otherMode === 'CONTENTS' ? 'LIST' : 'CONTENTS');
+    this.props.onSetOtherMode(this.props.otherMode === 'CONTENTS' ? 'LIST' : 'CONTENTS');
   }
 
   toggleInfoMode() {
-    if (!this.props.isDisabled)
-      this.props.onSetOtherMode(this.props.otherMode === 'INFO' ? 'LIST' : 'INFO');
-  }
-
-  componentDidMount() {
-    setTimeout(
-      () => window.dispatchEvent(new Event('resize')),
-      0
-    );
-  }
-
-  componentWillUnmount() {
-    setTimeout(
-      () => window.dispatchEvent(new Event('resize')),
-      0
-    );
+    this.props.onSetOtherMode(this.props.otherMode === 'INFO' ? 'LIST' : 'INFO');
   }
 
   render() {
-    let selectedShare = <em>{__('share_label')}</em>;
-    let shares = null;
-    if (!this.props.isDisabled) {
-      if (this.props.share)
-        selectedShare = <span>{this.props.share}</span>;
+    let selectedShare = <span>{this.props.share}</span>;
 
-      if (this.props.shares.length) {
-        let listing = [];
-        for (let share of this.props.shares) {
-          listing.push(
-            <DropdownItem
-              key={share.name}
-              onClick={() => this.props.onSetShare(share.name)}
-            >
-              {share.name + (share.isReadOnly ? ' [r]' : ' [w]')}
-            </DropdownItem>
-          );
-        }
-        shares = (
-          <DropdownMenu>
-            {listing}
-          </DropdownMenu>
-        );
-      }
+    let shares = [];
+    for (let share of this.props.shares) {
+      shares.push(
+        <DropdownItem
+          key={share.name}
+          onClick={() => this.props.onSetShare(share.name)}
+        >
+          {share.name + ' ' + (share.isReadOnly ? __('read_only_label') : __('read_write_label'))}
+        </DropdownItem>
+      );
     }
+    shares = (
+      <DropdownMenu>
+        {shares}
+      </DropdownMenu>
+    );
 
     let path = null;
     if (this.props.viewport !== 'xs' && !(this.props.viewport === 'sm' && this.props.isOtherVisible))
@@ -105,14 +81,20 @@ class ListView extends React.Component {
       );
     }
 
-    let listing = __('empty_message');
-    if (this.props.list.length) {
+    let bodyClass, listing;
+    if (this.props.isForbidden) {
+      bodyClass = 'body disabled';
+      listing = __('forbidden_message');
+    } else if (!this.props.list.length) {
+      bodyClass = 'body disabled';
+      listing = __('empty_message');
+    } else {
+      bodyClass = 'body';
       let items = [];
       for (let item of this.props.list) {
         items.push(
           <ListItem
             key={item.id}
-            isDisabled={this.props.isDisabled}
             node={item}
             onChangeDirectory={this.props.onChangeDirectory}
           />
@@ -155,7 +137,7 @@ class ListView extends React.Component {
             </Button>
           </div>
         </div>
-        <div className={'body' + (this.props.list.length ? '' : ' disabled')}>
+        <div className={bodyClass}>
           {listing}
         </div>
       </div>
@@ -170,13 +152,14 @@ ListView.propTypes = {
   path: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
   isActive: PropTypes.bool.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
+  isForbidden: PropTypes.bool.isRequired,
   isOtherVisible: PropTypes.bool.isRequired,
   otherMode: PropTypes.string.isRequired,
   onPaneClick: PropTypes.func.isRequired,
   onSetShare: PropTypes.func.isRequired,
-  onSetOtherMode: PropTypes.func.isRequired,
   onChangeDirectory: PropTypes.func.isRequired,
+  onToggleOther: PropTypes.func.isRequired,
+  onSetOtherMode: PropTypes.func.isRequired,
 };
 
 export default ListView;

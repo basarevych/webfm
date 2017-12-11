@@ -6,7 +6,7 @@ import { Button } from 'reactstrap';
 import { join } from '../lib/path';
 import { human } from '../lib/size';
 
-const ListItem = ({ node, isDisabled, onChangeDirectory }) => {
+const ListItem = ({ node, onChangeDirectory }) => {
   let icon;
   if (node.isDirectory)
     icon = <i className="fa fa-folder-o fa-mr" />;
@@ -43,7 +43,6 @@ const ListItem = ({ node, isDisabled, onChangeDirectory }) => {
     size = (
       <Button
         size="sm"
-        disabled={isDisabled}
         color="secondary"
       >
         {size}
@@ -68,7 +67,6 @@ const ListItem = ({ node, isDisabled, onChangeDirectory }) => {
           <div className="tools">
             <Button
               size="sm"
-              disabled={isDisabled}
               color="secondary"
             >
               <i className="fa fa-fw fa-copy" />
@@ -76,7 +74,6 @@ const ListItem = ({ node, isDisabled, onChangeDirectory }) => {
             &nbsp;
             <Button
               size="sm"
-              disabled={isDisabled}
               color="secondary"
             >
               <i className="fa fa-fw fa-cut" />
@@ -84,7 +81,6 @@ const ListItem = ({ node, isDisabled, onChangeDirectory }) => {
             &nbsp;
             <Button
               size="sm"
-              disabled={isDisabled}
               color="secondary"
             >
               <i className="fa fa-fw fa-remove" />
@@ -98,7 +94,6 @@ const ListItem = ({ node, isDisabled, onChangeDirectory }) => {
 
 ListItem.propTypes = {
   node: PropTypes.object.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
   onChangeDirectory: PropTypes.func.isRequired,
 };
 
