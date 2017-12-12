@@ -1,8 +1,7 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import ScrollArea from 'xico2k-react-scroll-area';
+import { ScrollBox, ScrollAxes } from 'react-scroll-box';
 
 class ScrollWrapper extends React.Component {
   constructor(props) {
@@ -11,7 +10,6 @@ class ScrollWrapper extends React.Component {
     this.state = { isTrackHidden: false };
 
     this.onResize = this.onResize.bind(this);
-    this.initScrollerRef = this.initScrollerRef.bind(this);
   }
 
   componentDidMount() {
@@ -26,44 +24,21 @@ class ScrollWrapper extends React.Component {
   }
 
   onResize() {
-    if (this.scroller) {
-      let isTrackHidden = this.scroller.getInnerHeight() <= this.scroller.getOuterHeight();
+    if (this.scroller && this.outer && this.inner) {
+      let isTrackHidden = this.inner.offsetHeight <= this.outer.clientHeight;
       if (this.state.isTrackHidden !== isTrackHidden)
         this.setState({ isTrackHidden });
     }
   }
 
-  initScrollerRef(el) {
-    if (!this.scroller && el) {
-      let domEl = ReactDOM.findDOMNode(el);
-
-      domEl.dispatchEvent(new MouseEvent(
-        'click',
-        {
-          view: window,
-          bubbles: false,
-          cancelable: true
-        }
-      ));
-    }
-    this.scroller = el;
-  }
-
   render() {
     return (
-      <div className="scroll-wrapper">
-        <ScrollArea
-          className="scroll-area"
-          handlerClassName="scroll-handler"
-          trackHideTime={0}
-          trackClassName={this.state.isTrackHidden ? 'd-none' : 'd-block'}
-          trackVisible={!this.state.isTrackHidden}
-          ref={this.initScrollerRef}
-        >
-          <div>
+      <div className="scroll-wrapper" ref={el => { this.outer = el; }}>
+        <ScrollBox disabled={this.state.isTrackHidden} axes={ScrollAxes.Y} ref={el => { this.scroller = el; }}>
+          <div ref={el => { this.inner = el; }}>
             {this.props.children}
           </div>
-        </ScrollArea>
+        </ScrollBox>
       </div>
     );
   }
