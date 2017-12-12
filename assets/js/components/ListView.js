@@ -4,8 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, ButtonGroup } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import ReactList from 'react-list';
-import ListItem from './ListItem';
+import ListComponent from './ListComponent';
 
 class ListView extends React.Component {
   constructor(props) {
@@ -16,8 +15,6 @@ class ListView extends React.Component {
     this.toggleShareDropdown = this.toggleShareDropdown.bind(this);
     this.toggleContentsMode = this.toggleContentsMode.bind(this);
     this.toggleInfoMode = this.toggleInfoMode.bind(this);
-    this.renderItem = this.renderItem.bind(this);
-    this.renderTable = this.renderTable.bind(this);
   }
 
   toggleShareDropdown() {
@@ -30,29 +27,6 @@ class ListView extends React.Component {
 
   toggleInfoMode() {
     this.props.onSetOtherMode(this.props.otherMode === 'INFO' ? 'LIST' : 'INFO');
-  }
-
-  componentDidMount() {
-    setTimeout(() => window.dispatchEvent(new Event('resize')));
-  }
-
-  renderItem(index, key) {
-    let item = this.props.list[index];
-    return (
-      <ListItem
-        key={key}
-        node={item}
-        onChangeDirectory={this.props.onChangeDirectory}
-      />
-    );
-  }
-
-  renderTable(items, ref) {
-    return (
-      <div className="listing" ref={ref}>
-        {items}
-      </div>
-    );
   }
 
   render() {
@@ -115,18 +89,7 @@ class ListView extends React.Component {
       listing = __('empty_message');
     } else {
       bodyClass = 'body';
-      listing = (
-        <div className="scroll-wrapper">
-          <div className="scroll-box">
-            <ReactList
-              itemRenderer={this.renderItem}
-              itemsRenderer={this.renderTable}
-              length={this.props.list.length}
-              type='uniform'
-            />
-          </div>
-        </div>
-      );
+      listing = <ListComponent list={this.props.list} onChangeDirectory={this.props.onChangeDirectory} />;
     }
 
     return (
