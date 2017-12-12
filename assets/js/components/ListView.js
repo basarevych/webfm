@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, ButtonGroup } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import ScrollWrapper from './ScrollWrapper';
+import ReactList from 'react-list';
 import ListItem from './ListItem';
 
 class ListView extends React.Component {
@@ -16,6 +16,8 @@ class ListView extends React.Component {
     this.toggleShareDropdown = this.toggleShareDropdown.bind(this);
     this.toggleContentsMode = this.toggleContentsMode.bind(this);
     this.toggleInfoMode = this.toggleInfoMode.bind(this);
+    this.renderItem = this.renderItem.bind(this);
+    this.renderTable = this.renderTable.bind(this);
   }
 
   toggleShareDropdown() {
@@ -28,6 +30,29 @@ class ListView extends React.Component {
 
   toggleInfoMode() {
     this.props.onSetOtherMode(this.props.otherMode === 'INFO' ? 'LIST' : 'INFO');
+  }
+
+  componentDidMount() {
+    setTimeout(() => window.dispatchEvent(new Event('resize')));
+  }
+
+  renderItem(index, key) {
+    let item = this.props.list[index];
+    return (
+      <ListItem
+        key={key}
+        node={item}
+        onChangeDirectory={this.props.onChangeDirectory}
+      />
+    );
+  }
+
+  renderTable(items, ref) {
+    return (
+      <div className="listing" ref={ref}>
+        {items}
+      </div>
+    );
   }
 
   render() {
@@ -90,22 +115,17 @@ class ListView extends React.Component {
       listing = __('empty_message');
     } else {
       bodyClass = 'body';
-      let items = [];
-      for (let item of this.props.list) {
-        items.push(
-          <ListItem
-            key={item.id}
-            node={item}
-            onChangeDirectory={this.props.onChangeDirectory}
-          />
-        );
-      }
       listing = (
-        <ScrollWrapper>
-          <div className="listing">
-            {items}
+        <div className="scroll-wrapper">
+          <div className="scroll-box">
+            <ReactList
+              itemRenderer={this.renderItem}
+              itemsRenderer={this.renderTable}
+              length={this.props.list.length}
+              type='uniform'
+            />
           </div>
-        </ScrollWrapper>
+        </div>
       );
     }
 
