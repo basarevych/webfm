@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FaToggleOn, FaToggleOff, FaFileTextO, FaAlignLeft } from 'react-icons/lib/fa';
 import { Button, ButtonGroup } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import ListComponent from './ListComponent';
@@ -64,7 +65,7 @@ class ListView extends React.Component {
               color={this.props.otherMode === 'CONTENTS' ? 'primary' : 'secondary'}
               onClick={this.toggleContentsMode}
             >
-              <i className="fa fa-fw fa-file-text-o" />
+              <FaFileTextO />
             </Button>
             <Button
               size="sm"
@@ -72,7 +73,7 @@ class ListView extends React.Component {
               color={this.props.otherMode === 'INFO' ? 'primary' : 'secondary'}
               onClick={this.toggleInfoMode}
             >
-              <i className="fa fa-fw fa-align-left" />
+              <FaAlignLeft />
             </Button>
           </ButtonGroup>
           &nbsp;
@@ -116,7 +117,7 @@ class ListView extends React.Component {
           <div className="tools">
             {modes}
             <Button size="sm" color="secondary" onClick={this.props.onToggleOther}>
-              <i className={'fa fa-toggle-' + (this.props.isOtherVisible ? 'on' : 'off')} />
+              {this.props.isOtherVisible ? <FaToggleOn /> : <FaToggleOff />}
             </Button>
           </div>
         </div>

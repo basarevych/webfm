@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FaFolderO, FaFileO, FaBalanceScale, FaCopy, FaCut, FaBan } from 'react-icons/lib/fa';
 import { Button } from 'reactstrap';
 import { join } from '../lib/path';
 import { human } from '../lib/size';
@@ -9,9 +10,9 @@ import { human } from '../lib/size';
 const ListItem = ({ node, onChangeDirectory }) => {
   let icon;
   if (node.isDirectory)
-    icon = <i className="fa fa-folder-o fa-mr" />;
+    icon = <FaFolderO />;
   else
-    icon = <i className="fa fa-file-o fa-mr" />;
+    icon = <FaFileO />;
 
   let name;
   if (node.isDirectory) {
@@ -20,15 +21,13 @@ const ListItem = ({ node, onChangeDirectory }) => {
         className="link"
         onClick={() => onChangeDirectory(join(node.directory, node.name))}
       >
-        {icon}
-        {node.name}
+        {icon} {node.name}
       </a>
     );
   } else {
     name = (
       <span>
-        {icon}
-        {node.name}
+        {icon} {node.name}
       </span>
     );
   }
@@ -36,7 +35,7 @@ const ListItem = ({ node, onChangeDirectory }) => {
   let size;
   if (node.isDirectory) {
     if (node.size < 0)
-      size = <i className="fa fa-balance-scale" />;
+      size = <FaBalanceScale />;
     else
       size = human(node.size);
 
@@ -65,25 +64,16 @@ const ListItem = ({ node, onChangeDirectory }) => {
             {size}
           </div>
           <div className="tools">
-            <Button
-              size="sm"
-              color="secondary"
-            >
-              <i className="fa fa-fw fa-copy" />
+            <Button size="sm" color="secondary">
+              <FaCopy />
             </Button>
             &nbsp;
-            <Button
-              size="sm"
-              color="secondary"
-            >
-              <i className="fa fa-fw fa-cut" />
+            <Button size="sm" color="secondary">
+              <FaCut />
             </Button>
             &nbsp;
-            <Button
-              size="sm"
-              color="secondary"
-            >
-              <i className="fa fa-fw fa-remove" />
+            <Button size="sm" color="secondary">
+              <FaBan />
             </Button>
           </div>
         </div>

@@ -46,7 +46,6 @@ module.exports.webpack = {
      */
     entry: {
       'twbs': `bootstrap-loader/lib/bootstrap.loader?configFilePath=${root('.bootstraprc')}!bootstrap-loader/no-op.js`,
-      'fa':   `font-awesome-sass-loader!${root('fa.config.js')}`,
       'site': root('assets/js/index.js'),
     },
 

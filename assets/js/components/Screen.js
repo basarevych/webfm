@@ -3,6 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TransitionGroup } from 'react-transition-group';
+import { FaCog } from 'react-icons/lib/fa';
 import Fade from './Fade';
 import Navbar from '../containers/Navbar';
 import SignInDialog from '../containers/SignInDialog';
@@ -15,12 +16,9 @@ const Screen = ({ isConnected, isLeftPaneVisible, isRightPaneVisible }) => {
     notConnected = (
       <div className="page-overlay shaded">
         <div className="no-connection-window rounded">
-          <div className="pull-left">
-            <i className="fa fa-spin fa-fw fa-cog" />
-          </div>
-          <div className="ml-5">
-            {__('not_connected_message')}
-          </div>
+          <FaCog className="rotating icon-text" />
+          &nbsp;
+          {__('not_connected_message')}
         </div>
       </div>
     );

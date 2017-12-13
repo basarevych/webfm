@@ -17,6 +17,7 @@ body {
   color: $black;
   padding: 15px 30px;
   font-size: 18pt;
+  white-space: nowrap;
 }
 
 @import "pane";

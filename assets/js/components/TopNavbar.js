@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FaUser } from 'react-icons/lib/fa';
 import { Navbar, NavbarToggler, NavbarBrand, Collapse, Nav, NavItem, NavLink } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
@@ -37,7 +38,7 @@ class TopNavbar extends React.Component {
               toggle={this.handleAuthDropdownToggle}
             >
               <DropdownToggle caret nav>
-                <i className="fa fa-user fa-mr" /> {this.props.login}
+                <FaUser className="icon-text" /> {this.props.login}
               </DropdownToggle>
               <DropdownMenu right={this.props.viewport !== 'xs'}>
                 <DropdownItem onClick={this.props.onSignOut}>{__('sign_out_button')}</DropdownItem>

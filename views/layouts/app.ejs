@@ -10,7 +10,6 @@
 
     <% if (sails.config.environment === 'production') { %>
       <link rel="stylesheet" href="/twbs.css">
-      <link rel="stylesheet" href="/fa.css">
       <link rel="stylesheet" href="/site.css">
     <% } %>
 
@@ -60,7 +59,6 @@
     <script src="/js/sails.io.js" reconnection="true" environment="<%= sails.config.environment %>"></script>
     <script src="/common.bundle.js"></script>
     <script src="/twbs.bundle.js"></script>
-    <script src="/fa.bundle.js"></script>
     <script src="/site.bundle.js"></script>
 
     <%- body %>
