@@ -146,13 +146,67 @@
   }
 }
 
+@mixin narrow {
+  .body {
+    .listing {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+
+      .listing-item {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+
+        .name {
+          height: 2rem;
+          margin: 3px 15px 3px 15px;
+          padding: 0;
+          box-sizing: content-box;
+
+          .fit-width {
+            margin: 0;
+          }
+        }
+
+        .info {
+          width: 100%;
+          height: 2rem;
+          margin: 3px 0 3px 0;
+          padding: 0;
+          box-sizing: content-box;
+
+          .wrapper {
+            padding: 0 15px 0 15px;
+
+            .tools {
+              margin: 0 0 0 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin full-width {
+  max-width: calc(100vw - 20px);
+
+  .header .share .fit-width {
+    max-width: 40vw;
+  }
+}
+
 @include media-breakpoint-up(sm) {
   .pane-container .pane:only-child .view {
-    max-width: calc(100vw - 20px);
+    @include full-width();
+  }
+}
 
-    .header .share .fit-width {
-      max-width: 40vw;
-    }
+@include media-breakpoint-down(sm) {
+  .pane-container .pane:nth-child(1).pane:nth-last-child(2) .view,
+  .pane-container .pane:nth-child(2).pane:nth-last-child(1) .view {
+    @include narrow();
   }
 }
 
@@ -161,52 +215,8 @@
     flex-direction: column;
 
     .pane .view {
-      max-width: calc(100vw - 20px);
-
-      .header .share .fit-width {
-        max-width: 40vw;
-      }
-
-      .body {
-        .listing {
-          display: flex;
-          flex-direction: column;
-          align-items: stretch;
-
-          .listing-item {
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-
-            .name {
-              height: 2rem;
-              margin: 3px 15px 3px 15px;
-              padding: 0;
-              box-sizing: content-box;
-
-              .fit-width {
-                margin: 0;
-              }
-            }
-
-            .info {
-              width: 100%;
-              height: 2rem;
-              margin: 3px 0 3px 0;
-              padding: 0;
-              box-sizing: content-box;
-
-              .wrapper {
-                padding: 0 15px 0 15px;
-
-                .tools {
-                  margin: 0 0 0 10px;
-                }
-              }
-            }
-          }
-        }
-      }
+      @include full-width();
+      @include narrow();
     }
   }
 }

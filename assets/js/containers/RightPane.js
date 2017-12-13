@@ -1,22 +1,33 @@
 'use strict';
 
 import { connect } from 'react-redux';
-import { setActivePane } from '../actions/pane';
+import { paneCD, setActivePane, setPaneMode, togglePane } from '../actions/pane';
 import Pane from '../components/Pane';
 
 const mapStateToProps = state => {
   return {
-    which: 'RIGHT',
+    viewport: state.app.viewport,
     mode: state.rightPane.mode,
+    otherMode: state.leftPane.mode,
+    shares: state.user.shares,
+    share: state.rightPane.share,
+    path: state.rightPane.path,
+    list: state.rightPaneList,
     isActive: state.rightPane.isActive,
     isDisabled: !state.user.isAuthorized,
     isLoading: state.rightPane.isLoading,
+    isForbidden: state.rightPane.isForbidden,
+    isOtherVisible: state.leftPane.isVisible,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onPaneClick: () => dispatch(setActivePane('RIGHT')),
+    onSetShare: share => dispatch(paneCD('RIGHT', share, '/')),
+    onChangeDirectory: directory => dispatch(paneCD('RIGHT', null, directory)),
+    onToggleOther: () => dispatch(togglePane('LEFT')),
+    onSetOtherMode: mode => dispatch(setPaneMode('LEFT', mode)),
   };
 };
 

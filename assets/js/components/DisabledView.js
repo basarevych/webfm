@@ -3,8 +3,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DisabledView = ({ isActive, onPaneClick }) => (
-  <div className={'view rounded' + (isActive ? ' active' : '')} onClick={onPaneClick}>
+const DisabledView = ({ isActive }) => (
+  <div className={'view rounded' + (isActive ? ' active' : '')}>
     <div className="body disabled">
       {__('not_authorized_message')}
     </div>
@@ -13,7 +13,6 @@ const DisabledView = ({ isActive, onPaneClick }) => (
 
 DisabledView.propTypes = {
   isActive: PropTypes.bool.isRequired,
-  onPaneClick: PropTypes.func.isRequired,
 };
 
 export default DisabledView;

@@ -94,7 +94,7 @@ class ListView extends React.Component {
     }
 
     return (
-      <div className={'view rounded' + (this.props.isActive ? ' active' : '')} onClick={this.props.onPaneClick}>
+      <div className={'view rounded' + (this.props.isActive ? ' active' : '')}>
         <div className={'header' + (this.props.isActive ? ' active' : '')}>
           <div className="share">
             <Dropdown
@@ -139,7 +139,6 @@ ListView.propTypes = {
   isForbidden: PropTypes.bool.isRequired,
   isOtherVisible: PropTypes.bool.isRequired,
   otherMode: PropTypes.string.isRequired,
-  onPaneClick: PropTypes.func.isRequired,
   onSetShare: PropTypes.func.isRequired,
   onChangeDirectory: PropTypes.func.isRequired,
   onToggleOther: PropTypes.func.isRequired,

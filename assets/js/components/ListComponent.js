@@ -21,16 +21,11 @@ class Viewport extends React.Component {
 
     let scrollStartPos = 0;
     this.touchStartHandler = function (event) {
-      if (event.target.nodeName !== 'A') {
-        scrollStartPos = this.scrollTop + event.touches[0].pageY;
-        event.preventDefault();
-      }
+      scrollStartPos = this.scrollTop + event.touches[0].pageY;
     };
     this.touchMoveHandler = function (event) {
-      if (event.target.nodeName !== 'A') {
-        this.scrollTop = scrollStartPos - event.touches[0].pageY;
-        event.preventDefault();
-      }
+      this.scrollTop = scrollStartPos - event.touches[0].pageY;
+      event.preventDefault();
     };
 
     this.viewport.addEventListener("touchstart", this.touchStartHandler, false);

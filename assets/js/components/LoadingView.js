@@ -4,8 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FaCog } from 'react-icons/lib/fa';
 
-const LoadingView = ({ isActive, onPaneClick }) => (
-  <div className={'view rounded' + (isActive ? ' active' : '')} onClick={onPaneClick}>
+const LoadingView = ({ isActive }) => (
+  <div className={'view rounded' + (isActive ? ' active' : '')}>
     <div className="body disabled">
       <h1>
         <FaCog className="rotating" />
@@ -16,7 +16,6 @@ const LoadingView = ({ isActive, onPaneClick }) => (
 
 LoadingView.propTypes = {
   isActive: PropTypes.bool.isRequired,
-  onPaneClick: PropTypes.func.isRequired,
 };
 
 export default LoadingView;

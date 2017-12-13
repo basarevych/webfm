@@ -3,8 +3,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ContentsView = ({ isActive, onPaneClick }) => (
-  <div className={'view rounded' + (isActive ? ' active' : '')} onClick={onPaneClick}>
+const ContentsView = ({ isActive }) => (
+  <div className={'view rounded' + (isActive ? ' active' : '')}>
     <div className="body disabled">
       {__('contents_view_message')}
     </div>
@@ -13,7 +13,6 @@ const ContentsView = ({ isActive, onPaneClick }) => (
 
 ContentsView.propTypes = {
   isActive: PropTypes.bool.isRequired,
-  onPaneClick: PropTypes.func.isRequired,
 };
 
 export default ContentsView;
