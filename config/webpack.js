@@ -10,6 +10,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const NoEmitOnErrorsPlugin = require('webpack/lib/NoEmitOnErrorsPlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const CommonsChunksPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
@@ -282,6 +283,20 @@ module.exports.webpack = {
       new ExtractTextPlugin({
         filename: '[name].css',
         allChunks: true,
+      }),
+
+      /**
+       * Plugin: OptimizeCssAssetsPlugin
+       * Description: Optimize CSS assets
+       *
+       * It will search for CSS assets during the Webpack build and will optimize / minimize the CSS
+       *
+       * See: https://www.npmjs.com/package/optimize-css-assets-webpack-plugin
+       */
+      new OptimizeCssAssetsPlugin({
+        cssProcessor: require('cssnano'),
+        cssProcessorOptions: { discardComments: { removeAll: true } },
+        canPrint: true
       }),
 
       /**
