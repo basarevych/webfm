@@ -1,9 +1,70 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import { GenericScrollBox } from 'react-scroll-box';
 import ReactList from 'react-list';
 import ListItem from './ListItem';
+
+class Viewport extends React.Component {
+  componentDidMount() {
+    this.viewport = null;
+
+    try {
+      document.createEvent("TouchEvent");
+    } catch (error) {
+      return;
+    }
+
+    this.viewport = ReactDOM.findDOMNode(this);
+
+    let scrollStartPos = 0;
+    this.touchStartHandler = function (event) {
+      if (event.target.nodeName !== 'A') {
+        scrollStartPos = this.scrollTop + event.touches[0].pageY;
+        event.preventDefault();
+      }
+    };
+    this.touchMoveHandler = function (event) {
+      if (event.target.nodeName !== 'A') {
+        this.scrollTop = scrollStartPos - event.touches[0].pageY;
+        event.preventDefault();
+      }
+    };
+
+    this.viewport.addEventListener("touchstart", this.touchStartHandler, false);
+    this.viewport.addEventListener("touchmove", this.touchMoveHandler, false);
+  }
+
+  componentWillUnmount() {
+    if (this.viewport) {
+      this.viewport.removeEventListener("touchstart", this.touchStartHandler);
+      this.viewport.removeEventListener("touchmove", this.touchMoveHandler);
+    }
+  }
+
+  render() {
+    return (
+      <div className="scroll-box__viewport">
+        <ReactList
+          length={this.props.length}
+          itemRenderer={this.props.itemRenderer}
+          itemsRenderer={this.props.itemsRenderer}
+          type='uniform'
+          useTranslate3d={true}
+          scrollParentGetter={() => ReactDOM.findDOMNode(this)}
+        />
+      </div>
+    );
+  }
+}
+
+Viewport.propTypes = {
+  length: PropTypes.number.isRequired,
+  itemRenderer: PropTypes.func.isRequired,
+  itemsRenderer: PropTypes.func.isRequired,
+};
 
 class ListComponent extends React.Component {
   constructor(props) {
@@ -39,15 +100,13 @@ class ListComponent extends React.Component {
   render() {
     return (
       <div className="scroll-wrapper">
-        <div className="scroll-box">
-          <ReactList
+        <GenericScrollBox>
+          <Viewport
             length={this.props.list.length}
             itemRenderer={this.renderItem}
             itemsRenderer={this.renderTable}
-            type='uniform'
-            ref={el => { this.scroll = el; }}
           />
-        </div>
+        </GenericScrollBox>
       </div>
     );
   }
