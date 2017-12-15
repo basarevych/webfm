@@ -15,9 +15,6 @@
       flex-direction: column;
       align-items: stretch;
       border: 1px solid lighten($body-bg, 10%);
-      transition: background-color 200ms ease-in,
-      border-color 200ms ease-in,
-      box-shadow 200ms ease-in;
 
       .header {
         background-color: lighten($body-bg, 10%);
@@ -144,6 +141,12 @@
       }
     }
   }
+}
+
+body.loaded .pane-container .pane .view {
+  transition: background-color 200ms ease-in,
+              border-color 200ms ease-in,
+              box-shadow 200ms ease-in;
 }
 
 @mixin narrow {

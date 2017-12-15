@@ -9,3 +9,28 @@
 .w-0 {
   width: 1px;
 }
+
+.page-overlay {
+  z-index: 100000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.shaded {
+    background-color: rgba(0, 0, 0, 0.75);
+  }
+}
+
+.no-connection-window {
+  width: auto;
+  background-color: $secondary;
+  color: $black;
+  padding: 15px 30px;
+  font-size: 18pt;
+  white-space: nowrap;
+}

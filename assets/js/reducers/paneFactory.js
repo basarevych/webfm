@@ -70,7 +70,7 @@ const paneFactory = which => {
           }
         );
       case `STOP_${which}_PANE_LOADING`:
-        if (state.timestamp !== action.timestamp)
+        if (state.timestamp && state.timestamp !== action.timestamp)
           return state;
 
         return Object.assign(

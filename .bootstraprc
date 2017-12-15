@@ -49,7 +49,7 @@ env:
 # For example, _variables.scss contains:
 # $input-color: $gray !default;
 # This means you can define $input-color before we load _variables.scss
-preBootstrapCustomizations: ./assets/styles/bootstrap-variables.scss
+preBootstrapCustomizations: ./assets/styles/variables.scss
 
 # This gets loaded after bootstrap/variables is loaded and before bootstrap is loaded.
 # A good example of this is when you want to override a bootstrap variable to be based
@@ -63,12 +63,12 @@ preBootstrapCustomizations: ./assets/styles/bootstrap-variables.scss
 # this in bootstrapCustomizations to make the input height 10% bigger than the default calculation.
 # Thus you can leverage the default calculations.
 # $input-height: $input-height * 1.10;
-bootstrapCustomizations: ./assets/styles/bootstrap-tweaks.scss
+bootstrapCustomizations: ./assets/styles/index.scss
 
 # Import your custom styles here. You have access to all the bootstrap variables. If you require
 # your sass files separately, you will not have access to the bootstrap variables, mixins, clases, etc.
 # Usually this endpoint-file contains list of @imports of your application styles.
-appStyles: ./assets/styles/index.scss
+#appStyles: ./assets/styles/index.scss
 
 ### Bootstrap styles
 styles:
@@ -119,14 +119,14 @@ styles:
 
 ### Bootstrap scripts
 scripts:
-  alert: true
-  button: true
-  carousel: true
-  collapse: true
-  dropdown: true
-  modal: true
-  popover: true
-  scrollspy: true
-  tab: true
-  tooltip: true
-  util: true
+  alert: false
+  button: false
+  carousel: false
+  collapse: false
+  dropdown: false
+  modal: false
+  popover: false
+  scrollspy: false
+  tab: false
+  tooltip: false
+  util: false

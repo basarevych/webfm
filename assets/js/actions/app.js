@@ -1,10 +1,11 @@
 'use strict';
 
-import style from '../../styles/variables.scss';
-import viewport from '../lib/viewport';
-import { updateStatus } from './user';
-import {setActivePane, showPane, hidePane, initPanes, paneCD} from './pane';
-import {matchLocation} from '../lib/path';
+import { setUser, updateStatus } from './user';
+import {
+  setActivePane, showPane, hidePane, paneCD, setPaneShare, setPanePath, setPaneList,
+  stopLoadingPane
+} from './pane';
+import { matchLocation } from '../lib/path';
 
 export const startApp = () => {
   return {
@@ -12,12 +13,31 @@ export const startApp = () => {
   };
 };
 
+let startTimer = null;
 export const connectApp = () => {
-  return async (dispatch) => {
-    await dispatch(getCSRFToken());
-    await dispatch(updateStatus());
+  if (startTimer) {
+    clearTimeout(startTimer);
+    startTimer = null;
+  }
+
+  let when = Date.now();
+  return async (dispatch, getState) => {
+    {
+      await dispatch(getCSRFToken());
+      let { app } = getState();
+      if (app.ioTimestamp > when)
+        return;
+    }
+    {
+      await dispatch(updateStatus());
+      let { app } = getState();
+      if (app.ioTimestamp > when)
+        return;
+    }
+
     return dispatch({
       type: 'CONNECT_APP',
+      when,
     });
   };
 };
@@ -25,83 +45,92 @@ export const connectApp = () => {
 export const disconnectApp = () => {
   return {
     type: 'DISCONNECT_APP',
+    when: Date.now(),
   };
 };
 
 export const screenResize = () => {
   return async (dispatch, getState) => {
     let { app, rightPane } = getState();
-    let newSize = viewport.current();
-    if (newSize === 'unrecognized' || newSize === app.viewport)
+    let newSize = Breakpoints.current().name;
+    if (!newSize || newSize === app.breakpoint)
       return;
 
-    if (viewport.is('<=sm')) {
+    if (newSize === 'xs') {
       await dispatch(hidePane('RIGHT'));
       if (rightPane.isActive)
         await dispatch(setActivePane('LEFT'));
-    } else {
+    } else if (app.prevBreakpoint === 'xs') {
       await dispatch(showPane('RIGHT'));
     }
 
     return dispatch({
       type: 'SCREEN_RESIZE',
-      viewport: newSize,
+      breakpoint: newSize,
     });
   };
 };
 
 export const getCSRFToken = () => {
   return async dispatch => {
-    return new Promise(resolve => {
-      let retry = () => {
-        $.ajax({
-          url: '/auth/csrf',
-          type: 'GET',
-          success: async data => {
+    return new Promise(async resolve => {
+      let retry = async () => {
+        try {
+          let response = await fetch(
+            '/auth/csrf',
+            {
+              method: 'GET',
+              credentials: 'same-origin',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              }
+            }
+          );
+          if (response.status === 200) {
             await dispatch({
               type: 'SET_CSRF_TOKEN',
-              token: data._csrf,
+              token: (await response.json())._csrf,
             });
-            resolve();
-          },
-          error: () => setTimeout(retry, 1000),
-        });
+            return resolve();
+          }
+        } catch (error) {
+          console.error(error);
+        }
+        setTimeout(retry, 1000);
       };
-      retry();
+      await retry();
     });
   };
 };
 
 export const initApp = history => {
   return async (dispatch, getState) => {
-    if (!window.isLoaded)
-      return;
-
-    let { app } = getState();
+    let { app, leftPane, rightPane } = getState();
     if (app.isStarted)
       return;
 
     await dispatch(startApp());
     await dispatch(screenResize());
     await dispatch(setActivePane('LEFT'));
-    await dispatch(io.socket.isConnected() ? connectApp() : disconnectApp());
-    await dispatch(initPanes());
+
+    let now = Date.now();
+    if (!leftPane.timestamp)
+      dispatch(stopLoadingPane(now, 'LEFT'));
+    if (!rightPane.timestamp)
+      dispatch(stopLoadingPane(now, 'RIGHT'));
+
+    window.addEventListener('resize', () => dispatch(screenResize()));
+    window.addEventListener('orientationchange', () => dispatch(screenResize()));
 
     history.listen(async location => {
       let { user, leftPane, rightPane } = getState();
       if (!user.isAuthorized)
         return;
 
-      let pane, share, path;
-      if (leftPane.isActive) {
-        pane = 'LEFT';
-        share = leftPane.share;
-        path = leftPane.path;
-      } else {
-        pane = 'RIGHT';
-        share = rightPane.share;
-        path = rightPane.path;
-      }
+      let pane = leftPane.isActive ? 'LEFT' : 'RIGHT';
+      let share = leftPane.isActive ? leftPane.share : rightPane.share;
+      let path = leftPane.isActive ? leftPane.path : rightPane.path;
 
       let match = matchLocation(location.pathname);
       if (!match)
@@ -110,10 +139,37 @@ export const initApp = history => {
         dispatch(paneCD(pane, match.share, match.path));
     });
 
-    return new Promise(resolve => {
-      $('body').removeClass('loading');
-      $('#page-loader').fadeOut(style.fadeDuration);
-      $('#app').fadeIn(style.fadeDuration, () => resolve());
-    });
+    startTimer = setTimeout(
+      () => {
+        startTimer = null;
+        dispatch(disconnectApp());
+      },
+      3000
+    );
+
+    io.socket = io.sails
+      .connect()
+      .on('connect', () => dispatch(connectApp()))
+      .on('disconnect', () => dispatch(disconnectApp()));
   };
 };
+
+export const setServerState = params => {
+  return dispatch => {
+    dispatch(setUser(params.login, params.locale, params.shares));
+    dispatch(setPaneShare('LEFT', params.share));
+    dispatch(setPanePath('LEFT', params.path));
+    dispatch(setPaneShare('RIGHT', params.share));
+    dispatch(setPanePath('RIGHT', params.path));
+
+    if (params.list) {
+      dispatch(setPaneList('LEFT', params.list));
+      dispatch(setPaneList('RIGHT', params.list));
+    } else {
+      let now = Date.now();
+      dispatch(stopLoadingPane(now, 'LEFT', true));
+      dispatch(stopLoadingPane(now, 'RIGHT', true));
+    }
+  };
+};
+

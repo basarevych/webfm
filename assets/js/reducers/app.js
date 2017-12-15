@@ -2,10 +2,12 @@
 
 const app = (
   state = {
+    ioTimestamp: 0,
     csrf: '',
-    viewport: '',
+    breakpoint: '',
+    prevBreakpoint: '',
     isStarted: false,
-    isConnected: false,
+    isConnected: true,
   },
   action
 ) => {
@@ -22,7 +24,7 @@ const app = (
         }
       );
     case 'CONNECT_APP':
-      if (state.isConnected)
+      if (state.isConnected || state.ioTimestamp > action.when)
         return state;
 
       return Object.assign(
@@ -30,10 +32,11 @@ const app = (
         state,
         {
           isConnected: true,
+          ioTimestamp: action.when,
         }
       );
     case 'DISCONNECT_APP':
-      if (!state.isConnected)
+      if (!state.isConnected || state.ioTimestamp > action.when)
         return state;
 
       return Object.assign(
@@ -41,17 +44,21 @@ const app = (
         state,
         {
           isConnected: false,
+          ioTimestamp: action.when,
         }
       );
     case 'SCREEN_RESIZE':
-      if (state.viewport === action.viewport)
+      if (state.breakpoint === action.breakpoint)
         return state;
+
+      let prevBreakpoint = state.breakpoint || action.breakpoint;
 
       return Object.assign(
         {},
         state,
         {
-          viewport: action.viewport,
+          breakpoint: action.breakpoint,
+          prevBreakpoint,
         }
       );
     case 'SET_CSRF_TOKEN':

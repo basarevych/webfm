@@ -8,64 +8,86 @@ import {
 } from './signInDialog';
 import { closeNavbar } from './navbar';
 
-export const requestStatus = promise => {
+export const setUser = (login, locale, shares) => {
+  return {
+    type: 'SET_USER',
+    login,
+    locale,
+    shares,
+  };
+};
+
+export const requestStatus = () => {
   return {
     type: 'STATUS_REQUEST',
     requestedAt: Date.now(),
-    promise,
   };
 };
 
 export const receiveStatus = (requestedAt, data) => {
-  return async dispatch => {
-    if (!data.success) {
-      return dispatch({
-        type: 'STATUS_FAILURE',
-        requestedAt,
-      });
-    }
+  return async (dispatch, getState) => {
+    let result = dispatch(
+      data.success
+        ? {
+          type: 'STATUS_SUCCESS',
+          requestedAt,
+          authorized: data.authorized,
+          login: data.login,
+          locale: data.locale,
+          shares: data.shares,
+        }
+        : {
+          type: 'STATUS_FAILURE',
+          requestedAt,
+        }
+    );
 
-    i18n.setLocale(data.locale);
+    let { user } = getState();
 
-    let result = dispatch({
-      type: 'STATUS_SUCCESS',
-      requestedAt,
-      authorized: data.authorized,
-      login: data.login,
-      locale: data.locale,
-      shares: data.shares,
-    });
+    if (i18n.getLocale() !== user.locale)
+      i18n.setLocale(user.locale);
 
-    if (data.authorized && !data.shares.length)
+    if (user.isAuthorized && !user.shares.length)
       await dispatch(signOut());
 
     return result;
   };
 };
 
-export const updateStatus = (force = false) => {
-  return async (dispatch, getState) => {
-    let { user } = getState();
-    if (!force && user.isStatusFetching)
-      return user.statusPromise;
-
-    let request;
-    let promise = new Promise(resolve => {
-      $.ajax({
-        url: '/status',
-        type: 'GET',
-        success: data => resolve(dispatch(receiveStatus(request.requestedAt, data))),
-        error: async () => {
-          let response = await dispatch(receiveStatus(request.requestedAt, { success: false }));
-          if (request.requestedAt !== response.requestedAt)
-            return resolve();
-
-          setTimeout(() => resolve(dispatch(updateStatus())), 1000);
+export const updateStatus = () => {
+  return async dispatch => {
+    let request = await dispatch(requestStatus());
+    return new Promise(async resolve => {
+      let retry = async () => {
+        try {
+          let response = await fetch(
+            '/status',
+            {
+              method: 'GET',
+              credentials: 'same-origin',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              }
+            }
+          );
+          return resolve(
+            dispatch(
+              receiveStatus(
+                request.requestedAt,
+                response.status === 200
+                  ? await response.json()
+                  : { success: false }
+              )
+            )
+          );
+        } catch (error) {
+          console.error(error);
         }
-      });
+        setTimeout(retry, 1000);
+      };
+      await retry();
     });
-    request = await dispatch(requestStatus(promise));
-    return promise;
   };
 };
 
@@ -80,17 +102,28 @@ export const signIn = (when, validate) => {
 
     await dispatch(submitSignInDialog(when));
 
-    return new Promise(resolve => {
-      $.ajax({
-        url: '/auth/sign-in',
-        type: 'POST',
-        data: {
-          login: signInDialog.values.login,
-          password: signInDialog.values.password,
-          _validate: validate,
-          _csrf: app.csrf,
-        },
-        success: async data => {
+    return new Promise(async resolve => {
+      try {
+        let response = await fetch(
+          '/auth/sign-in',
+          {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              login: signInDialog.values.login,
+              password: signInDialog.values.password,
+              _validate: validate,
+              _csrf: app.csrf,
+            })
+          }
+        );
+        if (response.status === 200) {
+          let data = await response.json();
+
           if (validate) {                     // clear previous errors of the field on successful validation
             if (!data.errors[validate])
               data.errors[validate] = {};
@@ -116,20 +149,21 @@ export const signIn = (when, validate) => {
             if (data.success) {
               await dispatch(closeNavbar());
               await dispatch(hideSignInDialog());
-              await dispatch(updateStatus(true));
+              await dispatch(updateStatus());
               dispatch(initPanes());
             }
           }
 
-          resolve();
-        },
-        error: async () => {
-          if (!validate)
-            await dispatch(unlockSignInDialog());
+          return resolve();
+        }
+      } catch (error) {
+        console.error(error);
+      }
 
-          resolve();
-        },
-      });
+      if (!validate)
+        await dispatch(unlockSignInDialog());
+
+      resolve();
     });
   };
 };
@@ -138,17 +172,28 @@ export const signOut = () => {
   return async (dispatch, getState) => {
     let { app } = getState();
 
-    await new Promise(resolve => {
-      $.ajax({
-        url: '/auth/sign-out',
-        type: 'POST',
-        data: {
-          _csrf: app.csrf,
-        },
-        success: () => resolve(),
-        error: () => resolve(),
-      });
+    await new Promise(async resolve => {
+      try {
+        await fetch(
+          '/auth/sign-out',
+          {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              _csrf: app.csrf,
+            })
+          }
+        );
+      } catch (error) {
+        console.error(error);
+      }
+      resolve();
     });
-    return dispatch(updateStatus(true));
+
+    return dispatch(updateStatus());
   };
 };

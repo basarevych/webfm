@@ -12,7 +12,7 @@ class Viewport extends React.Component {
     this.viewport = null;
 
     try {
-      document.createEvent("TouchEvent");
+      document.createEvent('TouchEvent');
     } catch (error) {
       return;
     }
@@ -28,20 +28,20 @@ class Viewport extends React.Component {
       event.preventDefault();
     };
 
-    this.viewport.addEventListener("touchstart", this.touchStartHandler, false);
-    this.viewport.addEventListener("touchmove", this.touchMoveHandler, false);
+    this.viewport.addEventListener('touchstart', this.touchStartHandler, false);
+    this.viewport.addEventListener('touchmove', this.touchMoveHandler, false);
   }
 
   componentWillUnmount() {
     if (this.viewport) {
-      this.viewport.removeEventListener("touchstart", this.touchStartHandler);
-      this.viewport.removeEventListener("touchmove", this.touchMoveHandler);
+      this.viewport.removeEventListener('touchstart', this.touchStartHandler);
+      this.viewport.removeEventListener('touchmove', this.touchMoveHandler);
     }
   }
 
   render() {
     return (
-      <div className="scroll-box__viewport">
+      <div className='scroll-box__viewport'>
         <ReactList
           length={this.props.length}
           itemRenderer={this.props.itemRenderer}

@@ -19,5 +19,5 @@ export function matchLocation(location) {
   return {
     share: match[1],
     path: match[2],
-  }
+  };
 }

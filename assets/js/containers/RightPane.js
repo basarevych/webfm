@@ -6,7 +6,7 @@ import Pane from '../components/Pane';
 
 const mapStateToProps = state => {
   return {
-    viewport: state.app.viewport,
+    breakpoint: state.app.breakpoint,
     mode: state.rightPane.mode,
     otherMode: state.leftPane.mode,
     shares: state.user.shares,

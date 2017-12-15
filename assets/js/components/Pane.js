@@ -20,7 +20,7 @@ class Pane extends React.Component {
         case 'LIST':
           view = (
             <ListView
-              viewport={this.props.viewport}
+              breakpoint={this.props.breakpoint}
               shares={this.props.shares}
               share={this.props.share}
               path={this.props.path}
@@ -54,7 +54,7 @@ class Pane extends React.Component {
 }
 
 Pane.propTypes = {
-  viewport: PropTypes.string.isRequired,
+  breakpoint: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   otherMode: PropTypes.string.isRequired,
   shares: PropTypes.array.isRequired,

@@ -16,13 +16,7 @@ module.exports.routes = {
 
   'GET /': '/~',
 
-  'GET /~*': {
-    view: 'pages/app',
-    locals: {
-      layout: 'layouts/app',
-    }
-  },
-
+  'GET /~*': 'app',
 
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗

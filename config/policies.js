@@ -19,6 +19,7 @@ module.exports.policies = {
 
   '*': false,
 
+  'app': true,
   'status': true,
   'security/grant-csrf-token': true,
 

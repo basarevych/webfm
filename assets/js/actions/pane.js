@@ -1,6 +1,6 @@
 'use strict';
 
-import { push } from 'react-router-redux'
+import { push } from 'react-router-redux';
 import { signOut } from './user';
 import { matchLocation } from '../lib/path';
 
@@ -43,10 +43,10 @@ export const togglePane = pane => {
   };
 };
 
-export const startLoadingPane = pane => {
+export const startLoadingPane = (timestamp, pane) => {
   return {
     type: `START_${pane}_PANE_LOADING`,
-    timestamp: Date.now(),
+    timestamp,
   };
 };
 
@@ -107,28 +107,10 @@ export const initPanes = () => {
       return;
 
     let match = matchLocation(router.location.pathname);
-    let share, path;
-    if (match) {
-      share = match.share;
-      path = match.path;
-    } else {
-      share = user.shares[0].share;
-      path = '/';
-    }
+    let share = match ? match.share : user.shares[0].share;
+    let path = match ? match.path : '/';
 
-    return new Promise((resolve, reject) => {
-      let counter = 0;
-      const done = () => {
-        if (++counter >= 2)
-          resolve();
-      };
-      dispatch(paneCD('LEFT', share, path))
-        .then(() => done())
-        .catch(error => reject(error));
-      dispatch(paneCD('RIGHT', share, path))
-        .then(() => done())
-        .catch(error => reject(error));
-    });
+    await dispatch(paneCD('BOTH', share, path));
   };
 };
 
@@ -138,12 +120,16 @@ export const paneCD = (pane, share, path) => {
     if (!user.isAuthorized)
       return;
 
-    let start = await dispatch(startLoadingPane(pane));
+    let start = Date.now();
+    if (pane === 'LEFT' || pane === 'BOTH')
+      await dispatch(startLoadingPane(start, 'LEFT'));
+    if (pane === 'RIGHT' || pane === 'BOTH')
+      await dispatch(startLoadingPane(start, 'RIGHT'));
 
     if (!share)
-      share = pane === 'LEFT' ? leftPane.share : rightPane.share;
+      share = pane !== 'RIGHT' ? leftPane.share : rightPane.share;
     if (!path)
-      path = pane === 'LEFT' ? leftPane.path : rightPane.path;
+      path = pane !== 'RIGHT' ? leftPane.path : rightPane.path;
 
     let params = {
       share,
@@ -155,29 +141,48 @@ export const paneCD = (pane, share, path) => {
       io.socket.post('/pane/cd', params, async (data, response) => {
         let { leftPane, rightPane } = getState();
         if (pane === 'LEFT') {
-          if (leftPane.timestamp !== start.timestamp)
+          if (leftPane.timestamp !== start)
             return resolve();
-        } else {
-          if (rightPane.timestamp !== start.timestamp)
+        } else if (pane === 'RIGHT') {
+          if (rightPane.timestamp !== start)
             return resolve();
         }
 
         if (response.statusCode === 403) {
-          await dispatch(setPaneShare(pane, share));
-          await dispatch(setPanePath(pane, path));
-          await dispatch(setPaneList(pane, []));
-          if ((pane === 'LEFT' && leftPane.isActive) || (pane === 'RIGHT' && rightPane.isActive))
+          if (pane === 'LEFT' || pane === 'BOTH') {
+            await dispatch(setPaneShare('LEFT', share));
+            await dispatch(setPanePath('LEFT', path));
+            await dispatch(setPaneList('LEFT', []));
+            await dispatch(stopLoadingPane(start, 'LEFT', true));
+          }
+          if (pane === 'RIGHT' || pane === 'BOTH') {
+            await dispatch(setPaneShare('RIGHT', share));
+            await dispatch(setPanePath('RIGHT', path));
+            await dispatch(setPaneList('RIGHT', []));
+            await dispatch(stopLoadingPane(start, 'RIGHT', true));
+          }
+          if ((pane === 'LEFT' && leftPane.isActive) || (pane === 'RIGHT' && rightPane.isActive) || pane === 'BOTH')
             await dispatch(push(`/~${share}:${path}`));
-          await dispatch(stopLoadingPane(start.timestamp, pane, true));
         } else if (response.statusCode === 200) {
-          await dispatch(setPaneShare(pane, data.share));
-          await dispatch(setPanePath(pane, data.path));
-          await dispatch(setPaneList(pane, data.list));
-          if ((pane === 'LEFT' && leftPane.isActive) || (pane === 'RIGHT' && rightPane.isActive))
+          if (pane === 'LEFT' || pane === 'BOTH') {
+            await dispatch(setPaneShare('LEFT', data.share));
+            await dispatch(setPanePath('LEFT', data.path));
+            await dispatch(setPaneList('LEFT', data.list));
+            await dispatch(stopLoadingPane(start, 'LEFT'));
+          }
+          if (pane === 'RIGHT' || pane === 'BOTH') {
+            await dispatch(setPaneShare('RIGHT', data.share));
+            await dispatch(setPanePath('RIGHT', data.path));
+            await dispatch(setPaneList('RIGHT', data.list));
+            await dispatch(stopLoadingPane(start, 'RIGHT'));
+          }
+          if ((pane === 'LEFT' && leftPane.isActive) || (pane === 'RIGHT' && rightPane.isActive) || pane === 'BOTH')
             await dispatch(push(`/~${data.share}:${data.path}`));
-          await dispatch(stopLoadingPane(start.timestamp, pane));
         } else {
-          await dispatch(stopLoadingPane(start.timestamp, pane));
+          if (pane === 'LEFT' || pane === 'BOTH')
+            await dispatch(stopLoadingPane(start, 'LEFT'));
+          if (pane === 'RIGHT' || pane === 'BOTH')
+            await dispatch(stopLoadingPane(start, 'RIGHT'));
           await dispatch(signOut());
         }
 

@@ -40,7 +40,7 @@ class TopNavbar extends React.Component {
               <DropdownToggle caret nav>
                 <FaUser className="icon-text" /> {this.props.login}
               </DropdownToggle>
-              <DropdownMenu right={this.props.viewport !== 'xs'}>
+              <DropdownMenu right={this.props.breakpoint !== 'xs'}>
                 <DropdownItem onClick={this.props.onSignOut}>{__('sign_out_button')}</DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -72,7 +72,7 @@ class TopNavbar extends React.Component {
 
 TopNavbar.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  viewport: PropTypes.string.isRequired,
+  breakpoint: PropTypes.string.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   login: PropTypes.string,
   onToggleNavbar: PropTypes.func.isRequired,

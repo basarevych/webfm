@@ -51,7 +51,7 @@ class ListView extends React.Component {
     );
 
     let path = null;
-    if (this.props.viewport !== 'xs' && !(this.props.viewport === 'sm' && this.props.isOtherVisible))
+    if (this.props.breakpoint !== 'xs' && !(this.props.breakpoint === 'sm' && this.props.isOtherVisible))
       path = this.props.path;
 
     let modes = null;
@@ -81,7 +81,8 @@ class ListView extends React.Component {
       );
     }
 
-    let bodyClass, listing;
+    let bodyClass;
+    let listing;
     if (this.props.isForbidden) {
       bodyClass = 'body disabled';
       listing = __('forbidden_message');
@@ -130,7 +131,7 @@ class ListView extends React.Component {
 }
 
 ListView.propTypes = {
-  viewport: PropTypes.string.isRequired,
+  breakpoint: PropTypes.string.isRequired,
   shares: PropTypes.array.isRequired,
   share: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,

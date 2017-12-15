@@ -16,7 +16,7 @@ class Node {
         return done(error);
 
       done(null, [this.statsToObject(info.share.id, _path.dirname(info.relPath), _path.basename(info.relPath), stats, select)]);
-    })
+    });
   }
 
   async findByParent({ parent }, select, done) {

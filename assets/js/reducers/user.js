@@ -3,7 +3,6 @@
 const user = (
   state = {
     statusRequestedAt: 0,
-    statusPromise: Promise.resolve(),
     isStatusFetching: false,
     isAuthorized: false,
     login: 'anonymous',
@@ -23,7 +22,6 @@ const user = (
         {
           statusRequestedAt: action.requestedAt,
           isStatusFetching: true,
-          statusPromise: action.promise,
         }
       );
     case 'STATUS_SUCCESS':
@@ -55,6 +53,17 @@ const user = (
           isAuthorized: false,
           login: 'anonymous',
           shares: [],
+        }
+      );
+    case 'SET_USER':
+      return Object.assign(
+        {},
+        state,
+        {
+          isAuthorized: true,
+          login: action.login,
+          locale: action.locale,
+          shares: action.shares,
         }
       );
   }

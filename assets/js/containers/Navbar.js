@@ -9,7 +9,7 @@ import TopNavbar from '../components/TopNavbar';
 const mapStateToProps = state => {
   return {
     isOpen: state.navbar.isOpen,
-    viewport: state.app.viewport,
+    breakpoint: state.app.breakpoint,
     isLoggedIn: state.user.isAuthorized,
     login: state.user.login,
   };
