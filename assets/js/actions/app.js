@@ -13,8 +13,11 @@ export const startApp = () => {
   };
 };
 
+let ioConnected = false;
 let startTimer = null;
 export const connectApp = () => {
+  ioConnected = true;
+
   if (startTimer) {
     clearTimeout(startTimer);
     startTimer = null;
@@ -22,6 +25,11 @@ export const connectApp = () => {
 
   let when = Date.now();
   return async (dispatch, getState) => {
+    {
+      let { app } = getState();
+      if (!app.isStarted)
+        return;
+    }
     {
       await dispatch(getCSRFToken());
       let { app } = getState();
@@ -43,9 +51,17 @@ export const connectApp = () => {
 };
 
 export const disconnectApp = () => {
-  return {
-    type: 'DISCONNECT_APP',
-    when: Date.now(),
+  ioConnected = false;
+
+  return async (dispatch, getState) => {
+    let { app } = getState();
+    if (!app.isStarted)
+      return;
+
+    return dispatch({
+      type: 'DISCONNECT_APP',
+      when: Date.now(),
+    });
   };
 };
 
@@ -53,7 +69,7 @@ export const screenResize = () => {
   return async (dispatch, getState) => {
     let { app, rightPane } = getState();
     let newSize = Breakpoints.current().name;
-    if (!newSize || newSize === app.breakpoint)
+    if (!app.isStarted || !newSize || newSize === app.breakpoint)
       return;
 
     if (newSize === 'xs') {
@@ -116,12 +132,9 @@ export const initApp = history => {
 
     let now = Date.now();
     if (!leftPane.timestamp)
-      dispatch(stopLoadingPane(now, 'LEFT'));
+      await dispatch(stopLoadingPane(now, 'LEFT'));
     if (!rightPane.timestamp)
-      dispatch(stopLoadingPane(now, 'RIGHT'));
-
-    window.addEventListener('resize', () => dispatch(screenResize()));
-    window.addEventListener('orientationchange', () => dispatch(screenResize()));
+      await dispatch(stopLoadingPane(now, 'RIGHT'));
 
     history.listen(async location => {
       let { user, leftPane, rightPane } = getState();
@@ -139,18 +152,17 @@ export const initApp = history => {
         dispatch(paneCD(pane, match.share, match.path));
     });
 
-    startTimer = setTimeout(
-      () => {
-        startTimer = null;
-        dispatch(disconnectApp());
-      },
-      3000
-    );
-
-    io.socket = io.sails
-      .connect()
-      .on('connect', () => dispatch(connectApp()))
-      .on('disconnect', () => dispatch(disconnectApp()));
+    if (ioConnected) {
+      await dispatch(connectApp());
+    } else {
+      startTimer = setTimeout(
+        () => {
+          startTimer = null;
+          dispatch(disconnectApp());
+        },
+        3000
+      );
+    }
   };
 };
 
@@ -172,4 +184,3 @@ export const setServerState = params => {
     }
   };
 };
-

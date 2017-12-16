@@ -34,9 +34,9 @@ module.exports = {
 
   fn: async function (inputs, exits) {
 
-
-    if (!inputs.directory || inputs.directory[0] !== '/')
-      inputs.directory = '/' + (inputs.directory || '');
+    let directory = inputs.directory;
+    if (!directory || directory[0] !== '/')
+      directory = '/' + (directory || '');
 
     let shares = await Share.find({ user: inputs.userId });
     if (!shares.length)
@@ -47,7 +47,7 @@ module.exports = {
       for (let item of shares) {
         if (item.name === inputs.share) {
           let node = await Node.findOne(
-            { share: item.id, path: inputs.directory }
+            { share: item.id, path: directory }
           ).populate(
             'nodes',
             {
@@ -58,6 +58,7 @@ module.exports = {
           if (!node.isDirectory)
             return exits.error('Not a directory');
 
+          directory = node.path;
           list = node.nodes;
           if (node.path !== '/') {
             list.unshift({
@@ -78,7 +79,7 @@ module.exports = {
     if (!list)
       return exits.error('Share not found');
 
-    return exits.success({ share: inputs.share, path: inputs.directory, list });
+    return exits.success({ share: inputs.share, path: directory, list });
 
   }
 

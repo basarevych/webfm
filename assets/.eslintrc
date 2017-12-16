@@ -22,7 +22,7 @@
 
   "env": {
     "browser": true,
-    "node": false
+    "node": true
   },
 
   "parserOptions": {
