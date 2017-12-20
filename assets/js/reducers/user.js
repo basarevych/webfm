@@ -16,24 +16,24 @@ const user = (
       if (action.requestedAt <= state.statusRequestedAt)
         return state;
 
-      return {
+      return _.cloneDeep({
         ...state,
         statusRequestedAt: action.requestedAt,
         isStatusFetching: true,
-      };
+      });
     case 'STATUS_SUCCESS':
       if (action.requestedAt < state.statusRequestedAt)
         return state;
 
-      return {
+      return _.cloneDeep({
         ...state,
         statusRequestedAt: action.requestedAt,
         isStatusFetching: false,
         isAuthorized: action.authorized,
         login: action.login,
         locale: action.locale,
-        shares: action.shares.slice(),
-      };
+        shares: action.shares,
+      });
     case 'STATUS_FAILURE':
       if (action.requestedAt < state.statusRequestedAt)
         return state;
@@ -47,13 +47,13 @@ const user = (
         shares: [],
       };
     case 'SET_USER':
-      return {
+      return _.cloneDeep({
         ...state,
         isAuthorized: true,
         login: action.login,
         locale: action.locale,
-        shares: action.shares.slice(),
-      };
+        shares: action.shares,
+      });
   }
 
   return state;

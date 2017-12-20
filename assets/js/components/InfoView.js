@@ -3,8 +3,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const InfoView = ({ isActive, onPaneClick }) => (
-  <div className={'view rounded' + (isActive ? ' active' : '')} onClick={onPaneClick}>
+const InfoView = ({ isActive }) => (
+  <div className={'view rounded' + (isActive ? ' active' : '')}>
     <div className="body disabled">
       {__('info_view_message')}
     </div>
@@ -13,7 +13,6 @@ const InfoView = ({ isActive, onPaneClick }) => (
 
 InfoView.propTypes = {
   isActive: PropTypes.bool.isRequired,
-  onPaneClick: PropTypes.func.isRequired,
 };
 
 export default InfoView;

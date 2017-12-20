@@ -5,6 +5,12 @@ import { paneCD, setActivePane, setPaneMode, togglePane } from '../actions/pane'
 import Pane from '../components/Pane';
 
 const mapStateToProps = state => {
+  let list = [];
+  if (state.rightPane.share && state.rightPane.path) {
+    let id = `${state.rightPane.share}:${state.rightPane.path}`;
+    list = state.lists[id] || [];
+  }
+
   return {
     breakpoint: state.app.breakpoint,
     mode: state.rightPane.mode,
@@ -12,7 +18,7 @@ const mapStateToProps = state => {
     shares: state.user.shares,
     share: state.rightPane.share,
     path: state.rightPane.path,
-    list: state.rightPaneList,
+    list: list,
     isActive: state.rightPane.isActive,
     isDisabled: !state.user.isAuthorized,
     isLoading: state.rightPane.isLoading,

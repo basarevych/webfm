@@ -1,10 +1,8 @@
 'use strict';
 
 import { setUser, updateStatus } from './user';
-import {
-  setActivePane, showPane, hidePane, paneCD, setPaneShare, setPanePath, setPaneList,
-  stopLoadingPane
-} from './pane';
+import { setActivePane, showPane, hidePane, paneCD, setPaneShare, setPanePath, stopLoadingPane } from './pane';
+import { setList } from './list';
 import { matchLocation } from '../lib/path';
 
 export const startApp = () => {
@@ -175,8 +173,7 @@ export const setServerState = params => {
     dispatch(setPanePath('RIGHT', params.path));
 
     if (params.list) {
-      dispatch(setPaneList('LEFT', params.list));
-      dispatch(setPaneList('RIGHT', params.list));
+      dispatch(setList(`${params.share}:${params.path}`, params.list));
     } else {
       dispatch(stopLoadingPane('LEFT', 0, true));
       dispatch(stopLoadingPane('RIGHT', 0, true));

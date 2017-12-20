@@ -14,61 +14,56 @@ const signInDialog = (
   },
   action
 ) => {
+  let newState;
   switch (action.type) {
     case 'LOCK_SIGN_IN_DIALOG':
-      return {
+      return _.cloneDeep({
         ...state,
         locked: state.locked + 1,
-      };
+      });
     case 'UNLOCK_SIGN_IN_DIALOG':
       if (state.locked === 0)
         return state;
 
-      return {
+      return _.cloneDeep({
         ...state,
         locked: state.locked - 1,
-      };
+      });
     case 'SHOW_SIGN_IN_DIALOG':
       if (state.isOpen)
         return state;
 
-      return {
+      newState = _.cloneDeep({
         ...state,
         isOpen: true,
-        values: {
-          login: state.values.login,
-          password: '',
-        },
-      };
+      });
+      newState.values.password = '';
+      return newState;
     case 'HIDE_SIGN_IN_DIALOG':
       if (!state.isOpen)
         return state;
 
-      return {
+      newState = _.cloneDeep({
         ...state,
         isOpen: false,
-        values: {
-          login: state.values.login,
-          password: '',
-        },
-      };
+      });
+      newState.values.password = '';
+      return newState;
     case 'TOGGLE_SIGN_IN_DIALOG':
-      return {
+      newState = _.cloneDeep({
         ...state,
         isOpen: !state.isOpen,
-        values: {
-          login: state.values.login,
-          password: '',
-        },
-      };
+      });
+      newState.values.password = '';
+      return newState;
     case 'SUBMIT_SIGN_IN_DIALOG':
       if (action.submittedAt <= state.submittedAt)
         return state;
 
-      return {
+      return _.cloneDeep({
         ...state,
         submittedAt: action.submittedAt,
-      };
+      });
     case 'UPDATE_SIGN_IN_DIALOG':
       if (action.submittedAt < state.submittedAt)
         return state;
@@ -79,21 +74,21 @@ const signInDialog = (
       };
 
       if (action.data.values) {
-        newState.values = _.cloneDeep({
+        newState.values = {
           ...state.values,
           ...action.data.values,
-        });
+        };
       }
       if (action.data.errors) {
-        newState.errors = _.cloneDeep({
+        newState.errors = {
           ...state.errors,
           ...action.data.errors,
-        });
+        };
       }
       if (action.data.messages)
-        newState.messages = _.cloneDeep(action.data.messages);
+        newState.messages = action.data.messages;
 
-      return newState;
+      return _.cloneDeep(newState);
   }
 
   return state;

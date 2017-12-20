@@ -69,16 +69,13 @@ class ListComponent extends React.Component {
     this.renderTable = this.renderTable.bind(this);
   }
 
-  componentDidMount() {
-    setTimeout(() => window.dispatchEvent(new Event('resize')));
-  }
-
   renderItem(index, key) {
     let item = this.props.list[index];
     return (
       <ListItem
         key={key}
         node={item}
+        index={index}
         onChangeDirectory={this.props.onChangeDirectory}
       />
     );
@@ -90,6 +87,14 @@ class ListComponent extends React.Component {
         {items}
       </div>
     );
+  }
+
+  componentDidMount() {
+    setTimeout(() => window.dispatchEvent(new Event('resize')));
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return !_.isEqual(nextProps.list, this.props.list);
   }
 
   render() {

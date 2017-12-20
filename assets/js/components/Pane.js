@@ -12,9 +12,9 @@ class Pane extends React.Component {
   render() {
     let view = null;
     if (this.props.isDisabled) {
-      view = <DisabledView isActive={this.props.isActive} />;
+      view = <DisabledView isActive={this.props.isActive}/>;
     } else if (this.props.isLoading) {
-      view = <LoadingView isActive={this.props.isActive} />;
+      view = <LoadingView isActive={this.props.isActive}/>;
     } else {
       switch (this.props.mode) {
         case 'LIST':
