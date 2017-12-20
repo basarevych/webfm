@@ -7,7 +7,7 @@ const paneInfoFactory = which => {
   ) => {
     switch (action.type) {
       case `SET_${which}_PANE_INFO`:
-        return _.isEqual(state, action.info) ? state : Object.assign({}, action.info);
+        return state;
     }
 
     return state;

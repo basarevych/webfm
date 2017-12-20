@@ -16,104 +16,84 @@ const signInDialog = (
 ) => {
   switch (action.type) {
     case 'LOCK_SIGN_IN_DIALOG':
-      return Object.assign(
-        {},
-        state,
-        {
-          locked: state.locked + 1,
-        }
-      );
+      return {
+        ...state,
+        locked: state.locked + 1,
+      };
     case 'UNLOCK_SIGN_IN_DIALOG':
       if (state.locked === 0)
         return state;
 
-      return Object.assign(
-        {},
-        state,
-        {
-          locked: state.locked - 1,
-        }
-      );
+      return {
+        ...state,
+        locked: state.locked - 1,
+      };
     case 'SHOW_SIGN_IN_DIALOG':
       if (state.isOpen)
         return state;
 
-      return Object.assign(
-        {},
-        state,
-        {
-          isOpen: true,
-          values: {
-            login: state.values.login,
-            password: '',
-          },
-        }
-      );
+      return {
+        ...state,
+        isOpen: true,
+        values: {
+          login: state.values.login,
+          password: '',
+        },
+      };
     case 'HIDE_SIGN_IN_DIALOG':
       if (!state.isOpen)
         return state;
 
-      return Object.assign(
-        {},
-        state,
-        {
-          isOpen: false,
-          values: {
-            login: state.values.login,
-            password: '',
-          },
-        }
-      );
+      return {
+        ...state,
+        isOpen: false,
+        values: {
+          login: state.values.login,
+          password: '',
+        },
+      };
     case 'TOGGLE_SIGN_IN_DIALOG':
-      return Object.assign(
-        {},
-        state,
-        {
-          isOpen: !state.isOpen,
-          values: {
-            login: state.values.login,
-            password: '',
-          },
-        }
-      );
+      return {
+        ...state,
+        isOpen: !state.isOpen,
+        values: {
+          login: state.values.login,
+          password: '',
+        },
+      };
     case 'SUBMIT_SIGN_IN_DIALOG':
       if (action.submittedAt <= state.submittedAt)
         return state;
 
-      return Object.assign(
-        {},
-        state,
-        {
-          submittedAt: action.submittedAt,
-        }
-      );
+      return {
+        ...state,
+        submittedAt: action.submittedAt,
+      };
     case 'UPDATE_SIGN_IN_DIALOG':
       if (action.submittedAt < state.submittedAt)
         return state;
 
+      let newState = {
+        ...state,
+        submittedAt: action.submittedAt,
+      };
+
       if (action.data.values) {
-        action.data.values = Object.assign(
-          {},
-          state.values,
-          action.data.values,
-        );
+        newState.values = _.cloneDeep({
+          ...state.values,
+          ...action.data.values,
+        });
       }
       if (action.data.errors) {
-        action.data.errors = Object.assign(
-          {},
-          state.errors,
-          action.data.errors,
-        );
+        newState.errors = _.cloneDeep({
+          ...state.errors,
+          ...action.data.errors,
+        });
       }
+      if (action.data.messages)
+        newState.messages = _.cloneDeep(action.data.messages);
 
-      return Object.assign(
-        {},
-        state,
-        {
-          submittedAt: action.submittedAt,
-          ...action.data
-        }
-      );
+      return newState;
   }
 
   return state;

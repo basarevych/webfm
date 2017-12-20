@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FaToggleOn, FaToggleOff, FaFileTextO, FaAlignLeft } from 'react-icons/lib/fa';
+import { FaToggleOn, FaToggleOff, FaFileTextO, FaAlignLeft, FaFolderOpenO } from 'react-icons/lib/fa';
 import { Button, ButtonGroup } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import ListComponent from './ListComponent';
@@ -16,6 +16,7 @@ class ListView extends React.Component {
     this.toggleShareDropdown = this.toggleShareDropdown.bind(this);
     this.toggleContentsMode = this.toggleContentsMode.bind(this);
     this.toggleInfoMode = this.toggleInfoMode.bind(this);
+    this.setListMode = this.setListMode.bind(this);
   }
 
   toggleShareDropdown() {
@@ -28,6 +29,10 @@ class ListView extends React.Component {
 
   toggleInfoMode() {
     this.props.onSetOtherMode(this.props.otherMode === 'INFO' ? 'LIST' : 'INFO');
+  }
+
+  setListMode() {
+    this.props.onSetOtherMode('LIST');
   }
 
   render() {
@@ -59,6 +64,14 @@ class ListView extends React.Component {
       modes = (
         <span>
           <ButtonGroup>
+            <Button
+              size="sm"
+              disabled={this.props.isDisabled}
+              color={this.props.otherMode === 'LIST' ? 'primary' : 'secondary'}
+              onClick={this.setListMode}
+            >
+              <FaFolderOpenO />
+            </Button>
             <Button
               size="sm"
               disabled={this.props.isDisabled}

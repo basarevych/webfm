@@ -11,32 +11,23 @@ const navbar = (
       if (state.isOpen)
         return state;
 
-      return Object.assign(
-        {},
-        state,
-        {
-          isOpen: true,
-        }
-      );
+      return {
+        ...state,
+        isOpen: true,
+      };
     case 'CLOSE_NAVBAR':
       if (!state.isOpen)
         return state;
 
-      return Object.assign(
-        {},
-        state,
-        {
-          isOpen: false,
-        }
-      );
+      return {
+        ...state,
+        isOpen: false,
+      };
     case 'TOGGLE_NAVBAR':
-      return Object.assign(
-        {},
-        state,
-        {
-          isOpen: !state.isOpen,
-        }
-      );
+      return {
+        ...state,
+        isOpen: !state.isOpen,
+      };
   }
 
   return state;

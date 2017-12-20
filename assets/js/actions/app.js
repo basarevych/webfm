@@ -132,9 +132,9 @@ export const initApp = history => {
 
     let now = Date.now();
     if (!leftPane.timestamp)
-      await dispatch(stopLoadingPane(now, 'LEFT'));
+      await dispatch(stopLoadingPane('LEFT', now));
     if (!rightPane.timestamp)
-      await dispatch(stopLoadingPane(now, 'RIGHT'));
+      await dispatch(stopLoadingPane('RIGHT', now));
 
     history.listen(async location => {
       let { user, leftPane, rightPane } = getState();
@@ -178,9 +178,8 @@ export const setServerState = params => {
       dispatch(setPaneList('LEFT', params.list));
       dispatch(setPaneList('RIGHT', params.list));
     } else {
-      let now = Date.now();
-      dispatch(stopLoadingPane(now, 'LEFT', true));
-      dispatch(stopLoadingPane(now, 'RIGHT', true));
+      dispatch(stopLoadingPane('LEFT', 0, true));
+      dispatch(stopLoadingPane('RIGHT', 0, true));
     }
   };
 };

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FaFolderO, FaFileO, FaBalanceScale, FaCopy, FaCut, FaBan } from 'react-icons/lib/fa';
+import { FaFolderO, FaFileO, FaBalanceScale, FaCopy, FaCut, FaTrash } from 'react-icons/lib/fa';
 import { Button } from 'reactstrap';
 import { join } from '../lib/path';
 import { human } from '../lib/size';
@@ -73,7 +73,7 @@ const ListItem = ({ node, onChangeDirectory }) => {
             </Button>
             &nbsp;
             <Button size="sm" color="secondary">
-              <FaBan />
+              <FaTrash />
             </Button>
           </div>
         </div>
