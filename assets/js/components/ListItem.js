@@ -25,6 +25,12 @@ class ListItem extends React.Component {
     this.setState({ isHovered: false });
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (this.props.index !== nextProps.index ||
+            !_.isEqual(this.props.node, nextProps.node) ||
+            this.state.isHovered !== nextState.isHovered);
+  }
+
   render() {
     let icon;
     if (this.props.node.isDirectory)
@@ -45,8 +51,8 @@ class ListItem extends React.Component {
     } else {
       name = (
         <span>
-        {icon} {this.props.node.name}
-      </span>
+          {icon} {this.props.node.name}
+        </span>
       );
     }
 

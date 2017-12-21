@@ -20,12 +20,20 @@ class Viewport extends React.Component {
     this.viewport = ReactDOM.findDOMNode(this);
 
     let scrollStartPos = 0;
+    let scrollTop = 0;
+    let frameId = null;
+    let frame = () => {
+      frameId = null;
+      this.viewport.scrollTop = scrollTop;
+    };
     this.touchStartHandler = function (event) {
       scrollStartPos = this.scrollTop + event.touches[0].pageY;
     };
     this.touchMoveHandler = function (event) {
-      this.scrollTop = scrollStartPos - event.touches[0].pageY;
       event.preventDefault();
+      scrollTop = scrollStartPos - event.touches[0].pageY;
+      if (!frameId)
+        frameId = requestAnimationFrame(frame);
     };
 
     this.viewport.addEventListener('touchstart', this.touchStartHandler, false);
@@ -44,6 +52,7 @@ class Viewport extends React.Component {
       <div className='scroll-box__viewport'>
         <ReactList
           length={this.props.length}
+          minSize={typeof window === 'undefined' ? 100 : 1}
           itemRenderer={this.props.itemRenderer}
           itemsRenderer={this.props.itemsRenderer}
           type='uniform'

@@ -103,11 +103,11 @@
             }
 
             &.odd {
-              background-color: darken($body-bg, 2%);
+              background-color: darken($body-bg, 1%);
             }
 
             &.even {
-              background-color: lighten($body-bg, 2%);
+              background-color: lighten($body-bg, 1%);
             }
 
             &.hovered {
@@ -153,11 +153,11 @@
 
         .listing-item {
           &.odd {
-            background-color: darken($modal-content-bg, 2%) !important;
+            background-color: darken($modal-content-bg, 1%) !important;
           }
 
           &.even {
-            background-color: lighten($modal-content-bg, 2%) !important;
+            background-color: lighten($modal-content-bg, 1%) !important;
           }
 
           &.hovered {

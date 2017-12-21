@@ -6,6 +6,7 @@ import socketIOClient from 'socket.io-client';
 import sailsIOClient from 'sails.io.js/sails.io';
 import './lib/i18n';
 import Breakpoints from 'breakpoints-js';
+import raf from 'raf';
 import React from 'react';
 import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -18,6 +19,7 @@ import { initApp, connectApp, disconnectApp, screenResize } from './actions/app'
 window._ = _;
 window.io = sailsIOClient(socketIOClient);
 Breakpoints();
+raf.polyfill();
 
 const history = createHistory();
 const store = storeFactory(history, JSON.parse(atob(window.__STATE__)));
