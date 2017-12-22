@@ -15,6 +15,7 @@ class ListItem extends React.Component {
 
     this.handleEnter = this.handleEnter.bind(this);
     this.handleLeave = this.handleLeave.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleEnter() {
@@ -25,8 +26,18 @@ class ListItem extends React.Component {
     this.setState({ isHovered: false });
   }
 
+  handleClick(e) {
+    if (e.shiftKey)
+      this.props.onNodeShiftClick(this.props.index);
+    else if (e.ctrlKey)
+      this.props.onNodeControlClick(this.props.index);
+    else
+      this.props.onNodeClick(this.props.index);
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return (this.props.index !== nextProps.index ||
+            this.props.isSelected !== nextProps.isSelected ||
             !_.isEqual(this.props.node, nextProps.node) ||
             this.state.isHovered !== nextState.isHovered);
   }
@@ -64,10 +75,7 @@ class ListItem extends React.Component {
         size = human(this.props.node.size);
 
       size = (
-        <Button
-          size="sm"
-          color="secondary"
-        >
+        <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
           {size}
         </Button>
       );
@@ -77,9 +85,15 @@ class ListItem extends React.Component {
 
     return (
       <div
-        className={'listing-item ' + (this.state.isHovered ? ' hovered' : (this.props.index % 2 ? 'odd' : 'even'))}
+        className={
+          'listing-item' + (this.props.isSelected ? ' selected' : '') +
+          (this.state.isHovered
+              ? ' hovered'
+              : (this.props.index % 2 ? ' odd' : ' even'))
+        }
         onMouseEnter={this.handleEnter}
         onMouseLeave={this.handleLeave}
+        onClick={this.handleClick}
       >
         <div className="name">
           <div className="fit-width">
@@ -92,15 +106,15 @@ class ListItem extends React.Component {
               {size}
             </div>
             <div className="tools">
-              <Button size="sm" color="secondary">
+              <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
                 <FaCopy />
               </Button>
               &nbsp;
-              <Button size="sm" color="secondary">
+              <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
                 <FaCut />
               </Button>
               &nbsp;
-              <Button size="sm" color="secondary">
+              <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
                 <FaTrash />
               </Button>
             </div>
@@ -114,7 +128,11 @@ class ListItem extends React.Component {
 ListItem.propTypes = {
   node: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
+  isSelected: PropTypes.bool.isRequired,
   onChangeDirectory: PropTypes.func.isRequired,
+  onNodeClick: PropTypes.func.isRequired,
+  onNodeShiftClick: PropTypes.func.isRequired,
+  onNodeControlClick: PropTypes.func.isRequired,
 };
 
 export default ListItem;

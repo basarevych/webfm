@@ -10,6 +10,7 @@ const paneFactory = which => {
       share: '',
       path: '/',
       list: [],
+      selected: [],
       isActive: false,
       isVisible: true,
       isLoading: true,
@@ -95,6 +96,7 @@ const paneFactory = which => {
         return _.cloneDeep({
           ...state,
           list: action.list,
+          selected: [],
         });
       case `SET_${which}_PANE_SORT`:
         if (state.sortField === action.field && state.sortDir === action.dir)
@@ -104,6 +106,15 @@ const paneFactory = which => {
           ...state,
           sortField: action.field,
           sortDir: action.dir,
+        });
+      case `SET_${which}_PANE_SELECTION`:
+        let selected = action.selected.slice().sort();
+        if (_.isEqual(state.selected, selected))
+          return state;
+
+        return _.cloneDeep({
+          ...state,
+          selected,
         });
     }
 

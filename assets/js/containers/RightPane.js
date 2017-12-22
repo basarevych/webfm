@@ -1,7 +1,9 @@
 'use strict';
 
 import { connect } from 'react-redux';
-import { paneCD, paneSort, setActivePane, setPaneMode, togglePane } from '../actions/pane';
+import {
+  paneCD, paneSort, setActivePane, setPaneMode, togglePane, paneSelect, paneSelectRange, paneToggleSelect
+} from '../actions/pane';
 import Pane from '../components/Pane';
 
 const mapStateToProps = state => {
@@ -13,6 +15,7 @@ const mapStateToProps = state => {
     share: state.rightPane.share,
     path: state.rightPane.path,
     list: state.rightPane.list,
+    selected: state.rightPane.selected,
     sortField: state.leftPane.sortField,
     sortDir: state.leftPane.sortDir,
     isActive: state.rightPane.isActive,
@@ -29,6 +32,9 @@ const mapDispatchToProps = dispatch => {
     onSetShare: share => dispatch(paneCD('RIGHT', share, '/')),
     onSetSort: (field, dir) => dispatch(paneSort('RIGHT', field, dir)),
     onChangeDirectory: directory => dispatch(paneCD('RIGHT', null, directory)),
+    onNodeClick: node => dispatch(paneSelect('RIGHT', node)),
+    onNodeShiftClick: node => dispatch(paneSelectRange('RIGHT', node)),
+    onNodeControlClick: node => dispatch(paneToggleSelect('RIGHT', node)),
     onToggleOther: () => dispatch(togglePane('LEFT')),
     onSetOtherMode: mode => dispatch(setPaneMode('LEFT', mode)),
   };

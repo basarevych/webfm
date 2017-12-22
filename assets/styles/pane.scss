@@ -54,6 +54,11 @@
       .body {
         flex: 1 0 0;
         display: flex;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
 
         .listing {
           flex: 1 1 0;
@@ -113,6 +118,15 @@
             &.hovered {
               background-color: lighten($body-bg, 10%);
             }
+
+            &.selected {
+              background-color: darken($secondary, 15%);
+              color: color-yiq(darken($secondary, 15%));
+
+              &.hovered {
+                background-color: darken($secondary, 10%);
+              }
+            }
           }
         }
 
@@ -162,6 +176,15 @@
 
           &.hovered {
             background-color: lighten($modal-content-bg, 10%) !important;
+          }
+
+          &.selected {
+            background-color: darken($secondary, 10%) !important;
+            color: color-yiq(darken($secondary, 10%)) !important;
+
+            &.hovered {
+              background-color: darken($secondary, 5%) !important;
+            }
           }
         }
       }

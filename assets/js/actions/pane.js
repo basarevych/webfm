@@ -234,3 +234,71 @@ export const paneSort = (pane, field, dir) => {
     });
   };
 };
+
+export const paneSelect = (pane, node) => {
+  return {
+    type: `SET_${pane}_PANE_SELECTION`,
+    selected: [node],
+  };
+};
+
+export const paneSelectRange = (pane, node) => {
+  return (dispatch, getState) => {
+    let { leftPane, rightPane } = getState();
+    let selected = (pane === 'LEFT' ? leftPane.selected.slice() : rightPane.selected.slice());
+    let length = (pane === 'LEFT' ? leftPane.list.length : rightPane.list.length);
+
+    let min = -1;
+    let max = -1;
+    let prev = -1;
+    for (let i = node - 1; i >= 0; i--) {
+      if (selected.includes(i)) {
+        prev = i;
+        break;
+      }
+    }
+    if (prev === -1) {
+      let next = -1;
+      for (let i = node + 1; i < length; i++) {
+        if (selected.includes(i)) {
+          next = i;
+          break;
+        }
+      }
+      if (next !== -1) {
+        min = node;
+        max = next - 1;
+      }
+    } else {
+      min = prev + 1;
+      max = node;
+    }
+
+    if (min !== -1 && max !== -1) {
+      for (let i = min; i <= max; i++)
+        selected.push(i);
+      dispatch({
+        type: `SET_${pane}_PANE_SELECTION`,
+        selected,
+      });
+    }
+  };
+};
+
+export const paneToggleSelect = (pane, node) => {
+  return (dispatch, getState) => {
+    let { leftPane, rightPane } = getState();
+    let selected = (pane === 'LEFT' ? leftPane.selected.slice() : rightPane.selected.slice());
+
+    let index = selected.indexOf(node);
+    if (index === -1)
+      selected.push(node);
+    else
+      selected.splice(index, 1);
+
+    dispatch({
+      type: `SET_${pane}_PANE_SELECTION`,
+      selected,
+    });
+  };
+};

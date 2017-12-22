@@ -41,8 +41,12 @@ class Pane extends React.Component {
           />
           <ListView
             list={this.props.list}
+            selected={this.props.selected}
             isForbidden={this.props.isForbidden}
             onChangeDirectory={this.props.onChangeDirectory}
+            onNodeClick={this.props.onNodeClick}
+            onNodeShiftClick={this.props.onNodeShiftClick}
+            onNodeControlClick={this.props.onNodeControlClick}
           />
         </div>
       );
@@ -64,6 +68,7 @@ Pane.propTypes = {
   share: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
+  selected: PropTypes.array.isRequired,
   sortField: PropTypes.string.isRequired,
   sortDir: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
@@ -75,6 +80,9 @@ Pane.propTypes = {
   onSetShare: PropTypes.func.isRequired,
   onSetSort: PropTypes.func.isRequired,
   onChangeDirectory: PropTypes.func.isRequired,
+  onNodeClick: PropTypes.func.isRequired,
+  onNodeShiftClick: PropTypes.func.isRequired,
+  onNodeControlClick: PropTypes.func.isRequired,
   onToggleOther: PropTypes.func.isRequired,
   onSetOtherMode: PropTypes.func.isRequired,
 };
