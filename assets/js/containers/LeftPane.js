@@ -1,16 +1,10 @@
 'use strict';
 
 import { connect } from 'react-redux';
-import { paneCD, setActivePane, setPaneMode, togglePane } from '../actions/pane';
+import { paneCD, paneSort, setActivePane, setPaneMode, togglePane } from '../actions/pane';
 import Pane from '../components/Pane';
 
 const mapStateToProps = state => {
-  let list = [];
-  if (state.leftPane.share && state.leftPane.path) {
-    let id = `${state.leftPane.share}:${state.leftPane.path}`;
-    list = state.lists[id] || [];
-  }
-
   return {
     breakpoint: state.app.breakpoint,
     mode: state.leftPane.mode,
@@ -18,7 +12,9 @@ const mapStateToProps = state => {
     shares: state.user.shares,
     share: state.leftPane.share,
     path: state.leftPane.path,
-    list: list,
+    list: state.leftPane.list,
+    sortField: state.leftPane.sortField,
+    sortDir: state.leftPane.sortDir,
     isActive: state.leftPane.isActive,
     isDisabled: !state.user.isAuthorized,
     isLoading: state.leftPane.isLoading,
@@ -31,6 +27,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onPaneClick: () => dispatch(setActivePane('LEFT')),
     onSetShare: share => dispatch(paneCD('LEFT', share, '/')),
+    onSetSort: (field, dir) => dispatch(paneSort('LEFT', field, dir)),
     onChangeDirectory: directory => dispatch(paneCD('LEFT', null, directory)),
     onToggleOther: () => dispatch(togglePane('RIGHT')),
     onSetOtherMode: mode => dispatch(setPaneMode('RIGHT', mode)),

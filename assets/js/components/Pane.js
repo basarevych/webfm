@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DisabledView from './DisabledView';
 import LoadingView from './LoadingView';
+import Header from './Header';
 import ListView from './ListView';
 import ContentsView from './ContentsView';
 import InfoView from './InfoView';
@@ -15,34 +16,36 @@ class Pane extends React.Component {
       view = <DisabledView isActive={this.props.isActive}/>;
     } else if (this.props.isLoading) {
       view = <LoadingView isActive={this.props.isActive}/>;
+    } else if (this.props.mode === 'CONTENTS') {
+      view = <ContentsView isActive={this.props.isActive}/>;
+    } else if (this.props.mode === 'INFO') {
+      view = <InfoView isActive={this.props.isActive}/>;
     } else {
-      switch (this.props.mode) {
-        case 'LIST':
-          view = (
-            <ListView
-              breakpoint={this.props.breakpoint}
-              shares={this.props.shares}
-              share={this.props.share}
-              path={this.props.path}
-              list={this.props.list}
-              isActive={this.props.isActive}
-              isForbidden={this.props.isForbidden}
-              isOtherVisible={this.props.isOtherVisible}
-              otherMode={this.props.otherMode}
-              onSetShare={this.props.onSetShare}
-              onChangeDirectory={this.props.onChangeDirectory}
-              onToggleOther={this.props.onToggleOther}
-              onSetOtherMode={this.props.onSetOtherMode}
-            />
-          );
-          break;
-        case 'CONTENTS':
-          view = <ContentsView isActive={this.props.isActive} />;
-          break;
-        case 'INFO':
-          view = <InfoView isActive={this.props.isActive} />;
-          break;
-      }
+      view = (
+        <div className={'view rounded' + (this.props.isActive ? ' active' : '')}>
+          <Header
+            breakpoint={this.props.breakpoint}
+            shares={this.props.shares}
+            share={this.props.share}
+            path={this.props.path}
+            mode={this.props.mode}
+            otherMode={this.props.otherMode}
+            sortField={this.props.sortField}
+            sortDir={this.props.sortDir}
+            isActive={this.props.isActive}
+            isOtherVisible={this.props.isOtherVisible}
+            onSetShare={this.props.onSetShare}
+            onSetSort={this.props.onSetSort}
+            onSetOtherMode={this.props.onSetOtherMode}
+            onToggleOther={this.props.onToggleOther}
+          />
+          <ListView
+            list={this.props.list}
+            isForbidden={this.props.isForbidden}
+            onChangeDirectory={this.props.onChangeDirectory}
+          />
+        </div>
+      );
     }
 
     return (
@@ -61,6 +64,8 @@ Pane.propTypes = {
   share: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
+  sortField: PropTypes.string.isRequired,
+  sortDir: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
@@ -68,6 +73,7 @@ Pane.propTypes = {
   isOtherVisible: PropTypes.bool.isRequired,
   onPaneClick: PropTypes.func.isRequired,
   onSetShare: PropTypes.func.isRequired,
+  onSetSort: PropTypes.func.isRequired,
   onChangeDirectory: PropTypes.func.isRequired,
   onToggleOther: PropTypes.func.isRequired,
   onSetOtherMode: PropTypes.func.isRequired,

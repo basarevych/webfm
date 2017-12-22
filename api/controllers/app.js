@@ -27,7 +27,7 @@ module.exports = async function app(req, res) {
     }
   }
 
-  let { html, state } = bundle.render(info);
+  let { html, state } = await bundle.render(info);
   let buffer = Buffer.from(JSON.stringify(state));
   res.view('pages/app', { layout: 'layouts/app', html, state: buffer.toString('base64') });
 };

@@ -1,7 +1,7 @@
 'use strict';
 
 import { setUser, updateStatus } from './user';
-import { setActivePane, showPane, hidePane, paneCD, setPaneShare, setPanePath, stopLoadingPane } from './pane';
+import { setActivePane, showPane, hidePane, paneCD, paneSort, setPaneShare, setPanePath, stopLoadingPane } from './pane';
 import { setList } from './list';
 import { matchLocation } from '../lib/path';
 
@@ -165,18 +165,20 @@ export const initApp = history => {
 };
 
 export const setServerState = params => {
-  return dispatch => {
-    dispatch(setUser(params.login, params.locale, params.shares));
-    dispatch(setPaneShare('LEFT', params.share));
-    dispatch(setPanePath('LEFT', params.path));
-    dispatch(setPaneShare('RIGHT', params.share));
-    dispatch(setPanePath('RIGHT', params.path));
+  return async dispatch => {
+    await dispatch(setUser(params.login, params.locale, params.shares));
+    await dispatch(setPaneShare('LEFT', params.share));
+    await dispatch(setPanePath('LEFT', params.path));
+    await dispatch(setPaneShare('RIGHT', params.share));
+    await dispatch(setPanePath('RIGHT', params.path));
 
     if (params.list) {
-      dispatch(setList(`${params.share}:${params.path}`, params.list));
+      await dispatch(setList(`${params.share}:${params.path}`, params.list));
+      await dispatch(paneSort('LEFT'));
+      await dispatch(paneSort('RIGHT'));
     } else {
-      dispatch(stopLoadingPane('LEFT', 0, true));
-      dispatch(stopLoadingPane('RIGHT', 0, true));
+      await dispatch(stopLoadingPane('LEFT', 0, true));
+      await dispatch(stopLoadingPane('RIGHT', 0, true));
     }
   };
 };

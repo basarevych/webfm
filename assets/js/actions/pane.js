@@ -128,6 +128,7 @@ export const paneCD = (pane, share, path) => {
           if ((pane === 'LEFT' || pane === 'BOTH') && leftPane.timestamp === start) {
             await dispatch(setPaneShare('LEFT', share));
             await dispatch(setPanePath('LEFT', path));
+            await dispatch(paneSort('LEFT'));
             await dispatch(stopLoadingPane('LEFT', finish, true));
             if (leftPane.isActive)
               activePaneChanged = true;
@@ -135,6 +136,7 @@ export const paneCD = (pane, share, path) => {
           if ((pane === 'RIGHT' || pane === 'BOTH') && rightPane.timestamp === start) {
             await dispatch(setPaneShare('RIGHT', share));
             await dispatch(setPanePath('RIGHT', path));
+            await dispatch(paneSort('RIGHT'));
             await dispatch(stopLoadingPane('RIGHT', finish, true));
             if (rightPane.isActive)
               activePaneChanged = true;
@@ -148,6 +150,7 @@ export const paneCD = (pane, share, path) => {
           if ((pane === 'LEFT' || pane === 'BOTH') && leftPane.timestamp === start) {
             await dispatch(setPaneShare('LEFT', data.share));
             await dispatch(setPanePath('LEFT', data.path));
+            await dispatch(paneSort('LEFT'));
             await dispatch(stopLoadingPane('LEFT', finish));
             if (leftPane.isActive)
               activePaneChanged = true;
@@ -155,6 +158,7 @@ export const paneCD = (pane, share, path) => {
           if ((pane === 'RIGHT' || pane === 'BOTH') && rightPane.timestamp === start) {
             await dispatch(setPaneShare('RIGHT', data.share));
             await dispatch(setPanePath('RIGHT', data.path));
+            await dispatch(paneSort('RIGHT'));
             await dispatch(stopLoadingPane('RIGHT', finish));
             if (rightPane.isActive)
               activePaneChanged = true;
@@ -170,6 +174,63 @@ export const paneCD = (pane, share, path) => {
 
         resolve();
       });
+    });
+  };
+};
+
+export const paneSort = (pane, field, dir) => {
+  return (dispatch, getState) => {
+    let state = getState();
+
+    let id;
+    if (pane === 'LEFT' && state.leftPane.share && state.leftPane.path)
+      id = `${state.leftPane.share}:${state.leftPane.path}`;
+    else if (pane === 'RIGHT' && state.rightPane.share && state.rightPane.path)
+      id = `${state.rightPane.share}:${state.rightPane.path}`;
+
+    if (field && dir) {
+      dispatch({
+        type: `SET_${pane}_PANE_SORT`,
+        field,
+        dir,
+      });
+    } else {
+      field = (pane === 'LEFT' ? state.leftPane.sortField : state.rightPane.sortField);
+      dir = (pane === 'LEFT' ? state.leftPane.sortDir : state.rightPane.sortDir);
+    }
+
+    if (!id)
+      return;
+
+    let parent = null;
+    let directories = [];
+    let files = [];
+    for (let item of state.lists[id] || []) {
+      if (item.isDirectory) {
+        if (item.name === '..')
+          parent = item;
+        else
+          directories.push(item);
+      } else {
+        files.push(item);
+      }
+    }
+
+    let sort;
+    if (field === 'NAME')
+      sort = (a, b) => (dir === 'ASC' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name));
+    else
+      sort = (a, b) => (dir === 'ASC' ? a.size - b.size : b.size - a.size);
+
+    directories.sort(sort);
+    files.sort(sort);
+
+    if (parent)
+      directories.unshift(parent);
+
+    dispatch({
+      type: `SET_${pane}_PANE_LIST`,
+      list: directories.concat(files),
     });
   };
 };

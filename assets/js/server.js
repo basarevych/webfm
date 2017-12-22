@@ -11,13 +11,13 @@ import App from './containers/App';
 import { setServerState } from './actions/app';
 
 module.exports.matchLocation = matchLocation;
-module.exports.render = function (params) {
+module.exports.render = async function (params) {
   const history = createHistory();
   const store = storeFactory(history);
 
   history.push(params.url);
   if (params.authorized)
-    store.dispatch(setServerState(params));
+    await store.dispatch(setServerState(params));
 
   let html = renderToString(
     <Provider store={store}>

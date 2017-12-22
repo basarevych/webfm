@@ -54,8 +54,7 @@ class Node {
       if (error)
         return done(error);
 
-      let dirs = [];
-      let files = [];
+      let nodes = [];
       let promises = [];
       for (let entry of entries) {
         promises.push(new Promise((resolve, reject) => {
@@ -63,12 +62,7 @@ class Node {
             if (error)
               return reject(error);
 
-            let item = this.statsToObject(info.share.id, info.relPath, entry, stats, select);
-            if (stats.isDirectory())
-              dirs.push(item);
-            else
-              files.push(item);
-
+            nodes.push(this.statsToObject(info.share.id, info.relPath, entry, stats, select));
             resolve();
           });
         }));
@@ -80,10 +74,7 @@ class Node {
         return done(error);
       }
 
-      dirs.sort((a, b) => a.id.localeCompare(b.id));
-      files.sort((a, b) => a.id.localeCompare(b.id));
-
-      done(null, dirs.concat(files));
+      done(null, nodes);
     });
   }
 
