@@ -2,8 +2,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FaCog } from 'react-icons/lib/fa';
 import { GenericScrollBox } from 'react-scroll-box';
+import { FaCog } from 'react-icons/lib/fa';
+
 
 const ContentsView = ({ isActive, content }) => {
   let bodyClass = 'body disabled';
@@ -17,10 +18,10 @@ const ContentsView = ({ isActive, content }) => {
       body = __('forbidden_message');
     } else if (content.type !== 'TEXT') {
       body = __(`type_${content.type}_message`);
-    } {
+    } else {
       body = (
         <div className="scroll-wrapper">
-          <GenericScrollBox>
+          <GenericScrollBox permitHandleDragInterruption={false}>
             <div className="scroll-box__viewport text-content">
               {content.base64 && atob(content.base64)}
               <br />

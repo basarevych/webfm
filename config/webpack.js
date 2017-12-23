@@ -131,7 +131,7 @@ module.exports.webpack = {
               root('assets/js'),
             ],
             use: [
-              { loader: 'babel-loader', options: { sourceMap: !prod } },
+              { loader: 'babel-loader' },
             ],
           },
 

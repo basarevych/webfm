@@ -113,7 +113,7 @@ class ListComponent extends React.Component {
   render() {
     return (
       <div className="scroll-wrapper">
-        <GenericScrollBox>
+        <GenericScrollBox permitHandleDragInterruption={false}>
           <Viewport
             length={this.props.list.length}
             itemRenderer={this.renderItem}
