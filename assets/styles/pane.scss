@@ -18,6 +18,7 @@
 
       .header {
         background-color: lighten($body-bg, 10%);
+        color: darken(color-yiq(lighten($body-bg, 10%)), 35%);
         display: flex;
         align-items: center;
         transition: background-color 200ms linear;
@@ -44,10 +45,6 @@
 
         .tools {
           margin: 5px 10px 5px 0;
-        }
-
-        &.active {
-          background-color: lighten($modal-content-bg, 10%);
         }
       }
 
@@ -142,6 +139,12 @@
             right: 0;
             bottom: 0;
 
+            .scroll-box__viewport.text-content {
+              white-space: pre;
+              font-family: "Roboto Mono", monospace;
+              padding: 1em;
+            }
+
             .scroll-box__track {
               background-color: rgba($secondary, 0.25);
 
@@ -162,8 +165,14 @@
 
       &.active {
         background-color: $modal-content-bg;
+        color: darken(color-yiq($modal-content-bg), 25%);
         border-color: lighten($modal-content-bg, 10%);
         box-shadow: 0 0 7px 3px $modal-content-bg;
+
+        .header {
+          background-color: lighten($modal-content-bg, 10%);
+          color: darken(color-yiq(lighten($modal-content-bg, 10%)), 25%);
+        }
 
         .listing-item {
           &.odd {

@@ -7,6 +7,10 @@ import {
 import Pane from '../components/Pane';
 
 const mapStateToProps = state => {
+  let selectedId;
+  if (state.rightPane.share && state.rightPane.path && state.rightPane.selectedIndexes.length)
+    selectedId = `${state.rightPane.share}:${state.rightPane.path}:${state.rightPane.list[state.rightPane.selectedIndexes[0]].name}`;
+
   return {
     breakpoint: state.app.breakpoint,
     mode: state.leftPane.mode,
@@ -15,9 +19,10 @@ const mapStateToProps = state => {
     share: state.leftPane.share,
     path: state.leftPane.path,
     list: state.leftPane.list,
-    selected: state.leftPane.selected,
+    selectedIndexes: state.leftPane.selectedIndexes,
     sortField: state.leftPane.sortField,
     sortDir: state.leftPane.sortDir,
+    content: selectedId && state.contents[selectedId],
     isActive: state.leftPane.isActive,
     isDisabled: !state.user.isAuthorized,
     isLoading: state.leftPane.isLoading,

@@ -11,7 +11,12 @@ const infos = (
         [action.id]: action.info,
       });
     case `CLEAR_INFOS`:
-      return state;
+      let newState = {};
+      for (let key of Object.keys(state)) {
+        if (action.keep.includes(key))
+          newState[key] = _.cloneDeep(state[key]);
+      }
+      return newState;
   }
 
   return state;

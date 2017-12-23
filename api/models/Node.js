@@ -42,6 +42,14 @@ module.exports = {
       type: 'boolean',
     },
 
+    isFile: {
+      type: 'boolean',
+    },
+
+    isSymLink: {
+      type: 'boolean',
+    },
+
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝

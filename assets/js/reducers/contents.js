@@ -11,7 +11,12 @@ const contents = (
         [action.id]: action.content,
       });
     case `CLEAR_CONTENTS`:
-      return state;
+      let newState = {};
+      for (let key of Object.keys(state)) {
+        if (action.keep.includes(key))
+          newState[key] = _.cloneDeep(state[key]);
+      }
+      return newState;
   }
 
   return state;

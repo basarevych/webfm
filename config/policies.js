@@ -27,5 +27,6 @@ module.exports.policies = {
   'auth/sign-out': 'isLoggedIn',
 
   'pane/cd': 'isLoggedIn',
+  'pane/content': 'isLoggedIn',
 
 };

@@ -19,7 +19,7 @@ class ListView extends React.Component {
       listing = (
         <ListComponent
           list={this.props.list}
-          selected={this.props.selected}
+          selectedIndexes={this.props.selectedIndexes}
           onChangeDirectory={this.props.onChangeDirectory}
           onNodeClick={this.props.onNodeClick}
           onNodeShiftClick={this.props.onNodeShiftClick}
@@ -38,7 +38,7 @@ class ListView extends React.Component {
 
 ListView.propTypes = {
   list: PropTypes.array.isRequired,
-  selected: PropTypes.array.isRequired,
+  selectedIndexes: PropTypes.array.isRequired,
   isForbidden: PropTypes.bool.isRequired,
   onChangeDirectory: PropTypes.func.isRequired,
   onNodeClick: PropTypes.func.isRequired,

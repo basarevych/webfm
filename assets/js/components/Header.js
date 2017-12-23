@@ -145,7 +145,7 @@ class Header extends React.Component {
     }
 
     return (
-      <div className={'header' + (this.props.isActive ? ' active' : '')}>
+      <div className="header">
         <div className="share">
           <Dropdown
             color="secondary"
@@ -185,7 +185,6 @@ Header.propTypes = {
   otherMode: PropTypes.string.isRequired,
   sortField: PropTypes.string.isRequired,
   sortDir: PropTypes.string.isRequired,
-  isActive: PropTypes.bool.isRequired,
   isOtherVisible: PropTypes.bool.isRequired,
   onSetShare: PropTypes.func.isRequired,
   onSetSort: PropTypes.func.isRequired,

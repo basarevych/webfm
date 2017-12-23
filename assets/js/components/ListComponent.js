@@ -85,7 +85,7 @@ class ListComponent extends React.Component {
         key={key}
         node={item}
         index={index}
-        isSelected={this.props.selected.includes(index)}
+        isSelected={this.props.selectedIndexes.includes(index)}
         onChangeDirectory={this.props.onChangeDirectory}
         onNodeClick={this.props.onNodeClick}
         onNodeShiftClick={this.props.onNodeShiftClick}
@@ -107,7 +107,7 @@ class ListComponent extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return !_.isEqual(nextProps.list, this.props.list) || !_.isEqual(nextProps.selected, this.props.selected);
+    return !_.isEqual(nextProps.list, this.props.list) || !_.isEqual(nextProps.selectedIndexes, this.props.selectedIndexes);
   }
 
   render() {
@@ -127,7 +127,7 @@ class ListComponent extends React.Component {
 
 ListComponent.propTypes = {
   list: PropTypes.array.isRequired,
-  selected: PropTypes.array.isRequired,
+  selectedIndexes: PropTypes.array.isRequired,
   onChangeDirectory: PropTypes.func.isRequired,
   onNodeClick: PropTypes.func.isRequired,
   onNodeShiftClick: PropTypes.func.isRequired,

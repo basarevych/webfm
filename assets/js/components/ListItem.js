@@ -27,6 +27,9 @@ class ListItem extends React.Component {
   }
 
   handleClick(e) {
+    if (this.props.node.name === '..')
+      return;
+
     if (e.shiftKey)
       this.props.onNodeShiftClick(this.props.index);
     else if (e.ctrlKey)

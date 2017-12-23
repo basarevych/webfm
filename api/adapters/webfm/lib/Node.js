@@ -11,7 +11,7 @@ class Node {
       return done(error);
     }
 
-    fs.stat(info.fullPath, (error, stats) => {
+    fs.lstat(info.fullPath, (error, stats) => {
       if (error)
         return done(error);
 
@@ -125,6 +125,10 @@ class Node {
       item.size = stats.isDirectory() ? -1 : stats.size;
     if (_.isArray(select) && select.includes('isDirectory'))
       item.isDirectory = stats.isDirectory();
+    if (_.isArray(select) && select.includes('isFile'))
+      item.isFile = stats.isFile();
+    if (_.isArray(select) && select.includes('isSymLink'))
+      item.isSymLink = stats.isSymbolicLink();
     return item;
   }
 }

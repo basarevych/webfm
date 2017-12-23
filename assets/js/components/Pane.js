@@ -17,7 +17,12 @@ class Pane extends React.Component {
     } else if (this.props.isLoading) {
       view = <LoadingView isActive={this.props.isActive}/>;
     } else if (this.props.mode === 'CONTENTS') {
-      view = <ContentsView isActive={this.props.isActive}/>;
+      view = (
+        <ContentsView
+          isActive={this.props.isActive}
+          content={this.props.content}
+        />
+      );
     } else if (this.props.mode === 'INFO') {
       view = <InfoView isActive={this.props.isActive}/>;
     } else {
@@ -32,7 +37,6 @@ class Pane extends React.Component {
             otherMode={this.props.otherMode}
             sortField={this.props.sortField}
             sortDir={this.props.sortDir}
-            isActive={this.props.isActive}
             isOtherVisible={this.props.isOtherVisible}
             onSetShare={this.props.onSetShare}
             onSetSort={this.props.onSetSort}
@@ -41,7 +45,7 @@ class Pane extends React.Component {
           />
           <ListView
             list={this.props.list}
-            selected={this.props.selected}
+            selectedIndexes={this.props.selectedIndexes}
             isForbidden={this.props.isForbidden}
             onChangeDirectory={this.props.onChangeDirectory}
             onNodeClick={this.props.onNodeClick}
@@ -68,9 +72,10 @@ Pane.propTypes = {
   share: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
-  selected: PropTypes.array.isRequired,
+  selectedIndexes: PropTypes.array.isRequired,
   sortField: PropTypes.string.isRequired,
   sortDir: PropTypes.string.isRequired,
+  content: PropTypes.object,
   isActive: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
