@@ -6,7 +6,7 @@ import { GenericScrollBox } from 'react-scroll-box';
 import { FaCog } from 'react-icons/lib/fa';
 
 
-const ContentsView = ({ isActive, content }) => {
+const ContentView = ({ content }) => {
   let bodyClass = 'body disabled';
   let body;
   if (!content) {
@@ -34,17 +34,14 @@ const ContentsView = ({ isActive, content }) => {
   }
 
   return (
-    <div className={'view rounded' + (isActive ? ' active' : '')}>
-      <div className={bodyClass}>
-        {body}
-      </div>
+    <div className={bodyClass}>
+      {body}
     </div>
   );
 };
 
-ContentsView.propTypes = {
-  isActive: PropTypes.bool.isRequired,
+ContentView.propTypes = {
   content: PropTypes.object,
 };
 
-export default ContentsView;
+export default ContentView;

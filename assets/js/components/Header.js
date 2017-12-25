@@ -65,36 +65,59 @@ class Header extends React.Component {
   }
 
   render() {
-    let selectedShare = null;
-    if (this.props.directory)
-      selectedShare = <span>{this.props.share}</span>;
-    else
-      selectedShare = __('select_share_label');
+    let share = null;
+    if (this.props.mode === 'LIST') {
+      let selectedShare = null;
+      if (this.props.directory)
+        selectedShare = <span>{this.props.share}</span>;
+      else
+        selectedShare = __('select_share_label');
 
-    let shares = null;
-    if (this.props.shares.length) {
-      shares = [];
-      for (let share of this.props.shares) {
-        shares.push(
-          <DropdownItem key={share.name} onClick={() => this.props.onSetShare(share.name)}>
-            {share.name + ' ' + (share.isReadOnly ? __('read_only_label') : __('read_write_label'))}
-          </DropdownItem>
+      let shares = null;
+      if (this.props.shares.length) {
+        shares = [];
+        for (let share of this.props.shares) {
+          shares.push(
+            <DropdownItem key={share.name} onClick={() => this.props.onSetShare(share.name)}>
+              {share.name + ' ' + (share.isReadOnly ? __('read_only_label') : __('read_write_label'))}
+            </DropdownItem>
+          );
+        }
+        shares = (
+          <DropdownMenu>
+            {shares}
+          </DropdownMenu>
         );
       }
-      shares = (
-        <DropdownMenu>
+
+      share = (
+        <Dropdown
+          color="secondary"
+          size="sm"
+          isOpen={this.state.isShareDropdownOpen}
+          toggle={this.toggleShareDropdown}
+        >
+          <DropdownToggle caret>
+            <div className="fit-width">
+              {selectedShare}
+            </div>
+          </DropdownToggle>
           {shares}
-        </DropdownMenu>
+        </Dropdown>
       );
     }
 
-    let directory = null;
-    if (this.props.directory && this.props.breakpoint !== 'xs' &&
-        !(this.props.breakpoint === 'sm' && this.props.isOtherVisible))
-      directory = this.props.directory;
+    let path = null;
+    if (this.mode === 'LIST') {
+      if (this.props.directory && this.props.breakpoint !== 'xs' &&
+         !(this.props.breakpoint === 'sm' && this.props.isOtherVisible))
+        path = this.props.directory;
+    } else {
+      path = this.props.otherPath;
+    }
 
     let sorting = null;
-    if (this.props.directory && this.props.mode === 'LIST') {
+    if (this.props.mode === 'LIST' && this.props.directory) {
       sorting = (
         <span>
           <ButtonGroup>
@@ -123,7 +146,7 @@ class Header extends React.Component {
     }
 
     let modes = null;
-    if (this.props.directory && this.props.isOtherVisible) {
+    if (this.props.mode === 'LIST' && this.props.directory && this.props.isOtherVisible) {
       modes = (
         <span>
           <ButtonGroup>
@@ -163,7 +186,7 @@ class Header extends React.Component {
         </Button>
       </span>
     );
-    if (this.props.breakpoint === 'xs' || (this.props.breakpoint === 'sm' && this.props.isOtherVisible)) {
+    if (this.props.mode === 'LIST' && (this.props.breakpoint === 'xs' || (this.props.breakpoint === 'sm' && this.props.isOtherVisible))) {
       tools = (
         <div>
           <Button size="sm" color="secondary" onClick={this.toggleMenu}>
@@ -179,22 +202,10 @@ class Header extends React.Component {
     return (
       <div className="header">
         <div className="share">
-          <Dropdown
-            color="secondary"
-            size="sm"
-            isOpen={this.state.isShareDropdownOpen}
-            toggle={this.toggleShareDropdown}
-          >
-            <DropdownToggle caret>
-              <div className="fit-width">
-                {selectedShare}
-              </div>
-            </DropdownToggle>
-            {shares}
-          </Dropdown>
+          {share}
         </div>
         <div className="path">
-          {directory}
+          {path}
         </div>
         <div className="tools">
           {tools}
@@ -210,6 +221,7 @@ Header.propTypes = {
   share: PropTypes.string.isRequired,
   directory: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
+  otherPath: PropTypes.string.isRequired,
   otherMode: PropTypes.string.isRequired,
   sortField: PropTypes.string.isRequired,
   sortDir: PropTypes.string.isRequired,

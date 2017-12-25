@@ -15,6 +15,7 @@ const mapStateToProps = state => {
     breakpoint: state.app.breakpoint,
     mode: state.rightPane.mode,
     otherMode: state.leftPane.mode,
+    otherPath: state.leftPane.path,
     shares: state.user.shares,
     share: state.rightPane.share,
     directory: state.rightPane.directory,

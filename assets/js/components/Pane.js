@@ -6,7 +6,7 @@ import DisabledView from './DisabledView';
 import LoadingView from './LoadingView';
 import Header from './Header';
 import ListView from './ListView';
-import ContentsView from './ContentsView';
+import ContentView from './ContentView';
 import InfoView from './InfoView';
 
 class Pane extends React.Component {
@@ -16,33 +16,15 @@ class Pane extends React.Component {
       view = <DisabledView isActive={this.props.isActive}/>;
     } else if (this.props.isLoading) {
       view = <LoadingView isActive={this.props.isActive}/>;
-    } else if (this.props.mode === 'CONTENTS') {
-      view = (
-        <ContentsView
-          isActive={this.props.isActive}
-          content={this.props.content}
-        />
-      );
-    } else if (this.props.mode === 'INFO') {
-      view = <InfoView isActive={this.props.isActive}/>;
     } else {
-      view = (
-        <div className={'view rounded' + (this.props.isActive ? ' active' : '')}>
-          <Header
-            breakpoint={this.props.breakpoint}
-            shares={this.props.shares}
-            share={this.props.share}
-            directory={this.props.directory}
-            mode={this.props.mode}
-            otherMode={this.props.otherMode}
-            sortField={this.props.sortField}
-            sortDir={this.props.sortDir}
-            isOtherVisible={this.props.isOtherVisible}
-            onSetShare={this.props.onSetShare}
-            onSetSort={this.props.onSetSort}
-            onSetOtherMode={this.props.onSetOtherMode}
-            onToggleOther={this.props.onToggleOther}
-          />
+      if (this.props.mode === 'CONTENTS') {
+        view = (
+          <ContentView content={this.props.content} />
+        );
+      } else if (this.props.mode === 'INFO') {
+        view = <InfoView />;
+      } else {
+        view = (
           <ListView
             list={this.props.list}
             selectedIndexes={this.props.selectedIndexes}
@@ -52,6 +34,27 @@ class Pane extends React.Component {
             onNodeShiftClick={this.props.onNodeShiftClick}
             onNodeControlClick={this.props.onNodeControlClick}
           />
+        );
+      }
+      view = (
+        <div className={'view rounded' + (this.props.isActive ? ' active' : '')}>
+          <Header
+            breakpoint={this.props.breakpoint}
+            shares={this.props.shares}
+            share={this.props.share}
+            directory={this.props.directory}
+            mode={this.props.mode}
+            otherMode={this.props.otherMode}
+            otherPath={this.props.otherPath}
+            sortField={this.props.sortField}
+            sortDir={this.props.sortDir}
+            isOtherVisible={this.props.isOtherVisible}
+            onSetShare={this.props.onSetShare}
+            onSetSort={this.props.onSetSort}
+            onSetOtherMode={this.props.onSetOtherMode}
+            onToggleOther={this.props.onToggleOther}
+          />
+          {view}
         </div>
       );
     }
@@ -68,6 +71,7 @@ Pane.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   otherMode: PropTypes.string.isRequired,
+  otherPath: PropTypes.string.isRequired,
   shares: PropTypes.array.isRequired,
   share: PropTypes.string.isRequired,
   directory: PropTypes.string.isRequired,
