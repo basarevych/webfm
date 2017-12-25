@@ -45,6 +45,16 @@
 
         .tools {
           margin: 5px 10px 5px 0;
+          position: relative;
+
+          .submenu {
+            position: absolute;
+            right: -5px;
+            white-space: nowrap;
+            background-color: lighten($body-bg, 20%);
+            padding: 5px;
+            z-index: 1000;
+          }
         }
       }
 
@@ -172,6 +182,10 @@
         .header {
           background-color: lighten($modal-content-bg, 10%);
           color: darken(color-yiq(lighten($modal-content-bg, 10%)), 25%);
+
+          .tools .submenu {
+            background-color: lighten($modal-content-bg, 20%);
+          }
         }
 
         .listing-item {
@@ -254,7 +268,7 @@ body.loaded .pane-container .pane .view {
   max-width: calc(100vw - 20px);
 
   .header .share .fit-width {
-    max-width: 40vw;
+    max-width: 60vw;
   }
 }
 

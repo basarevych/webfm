@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   FaToggleOn, FaToggleOff, FaSortAlphaAsc, FaSortAlphaDesc, FaSortAmountAsc, FaSortAmountDesc,
-  FaFileTextO, FaAlignLeft, FaFolderOpenO
+  FaFileTextO, FaAlignLeft, FaFolderOpenO, FaBars
 } from 'react-icons/lib/fa';
 import { Button, ButtonGroup } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
@@ -13,14 +13,19 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { isShareDropdownOpen: false };
+    this.state = { isShareDropdownOpen: false, isMenuOpen: false };
 
+    this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleShareDropdown = this.toggleShareDropdown.bind(this);
     this.toggleNameSort = this.toggleNameSort.bind(this);
     this.toggleSizeSort = this.toggleSizeSort.bind(this);
     this.setListMode = this.setListMode.bind(this);
     this.setContentsMode = this.setContentsMode.bind(this);
     this.setInfoMode = this.setInfoMode.bind(this);
+  }
+
+  toggleMenu() {
+    this.setState({ isMenuOpen: !this.state.isMenuOpen });
   }
 
   toggleShareDropdown() {
@@ -149,6 +154,28 @@ class Header extends React.Component {
       );
     }
 
+    let tools = (
+      <span>
+        {sorting}
+        {modes}
+        <Button size="sm" color="secondary" onClick={this.props.onToggleOther}>
+          {this.props.isOtherVisible ? <FaToggleOn /> : <FaToggleOff />}
+        </Button>
+      </span>
+    );
+    if (this.props.breakpoint === 'xs' || (this.props.breakpoint === 'sm' && this.props.isOtherVisible)) {
+      tools = (
+        <div>
+          <Button size="sm" color="secondary" onClick={this.toggleMenu}>
+            <FaBars />
+          </Button>
+          <div className={'submenu rounded ' + (this.state.isMenuOpen ? 'd-block' : 'd-none')}>
+            {tools}
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="header">
         <div className="share">
@@ -170,11 +197,7 @@ class Header extends React.Component {
           {directory}
         </div>
         <div className="tools">
-          {sorting}
-          {modes}
-          <Button size="sm" color="secondary" onClick={this.props.onToggleOther}>
-            {this.props.isOtherVisible ? <FaToggleOn /> : <FaToggleOff />}
-          </Button>
+          {tools}
         </div>
       </div>
     );
