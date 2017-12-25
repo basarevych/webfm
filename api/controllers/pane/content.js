@@ -11,40 +11,30 @@ module.exports = async function content(req, res) {
 
     let [share, directory, name] = parts;
 
-    let shares = await Share.find({ user: req.session.userId });
-    if (!shares.length)
-      return res.forbidden('No shares defined for you');
+    let node = await Node.findOne({ share: `${req.session.userId}:${share}`, path: path.join(directory, name) });
+    if (node.isSymLink && !node.isValid) {
+      return res.json({ success: true, type: 'SYMLINK' });
+    } else if (node.isDirectory) {
+      return res.json({ success: true, type: 'DIR' });
+    } else if (node.isFile) {
+      let mime = await sails.helpers.fileType({ filename: node.realPath });
+      let content = await sails.helpers.fileContent({ filename: node.realPath });
 
-    for (let item of shares) {
-      if (item.name === share) {
-        let node = await Node.findOne({ share: `${req.session.userId}:${share}`, path: path.join(directory, name) });
-        if (node.isSymLink) {
-          return res.json({ success: true, type: 'SYMLINK' });
-        } else if (node.isDirectory) {
-          return res.json({ success: true, type: 'DIR' });
-        } else if (node.isFile) {
-          let filename = path.join(item.path, node.path);
-          let mime = await sails.helpers.fileType({ filename });
-          let content = await sails.helpers.fileContent({ filename });
+      let type = 'BINARY';
+      if (mime.startsWith('text/'))
+        type = 'TEXT';
 
-          let type = 'BINARY';
-          if (mime.startsWith('text/'))
-            type = 'TEXT';
-
-          return res.json({
-            success: true,
-            type,
-            mime: mime,
-            base64: (type === 'TEXT') && content,
-          });
-        }
-      }
+      return res.json({
+        success: true,
+        type,
+        mime: mime,
+        base64: (type === 'TEXT') && content,
+      });
     }
-
-    res.forbidden('Not found');
   } catch (error) {
-    console.log(error.message);
-    return res.forbidden(error);
+    // do nothing
   }
+
+  res.json({ success: false });
 
 };

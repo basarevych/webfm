@@ -21,3 +21,12 @@ export function matchLocation(location) {
     path: match[2],
   };
 }
+
+export function splitPath(path) {
+  let parts = path.split('/').filter(i => i.length);
+  if (path.endsWith('/'))
+    return { directory: '/' + parts.join('/'), name: '' };
+
+  let name = parts.pop() || '';
+  return { directory: '/' + parts.join('/'), name };
+}

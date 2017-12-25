@@ -1,6 +1,5 @@
 'use strict';
 
-const path = require('path');
 const { execFile } = require('child_process');
 
 module.exports = {

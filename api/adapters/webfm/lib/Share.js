@@ -123,7 +123,7 @@ class Share {
   _normalize(filename) {
     try {
       filename = fs.realpathSync(filename);
-      if (fs.lstatSync(filename).isDirectory())
+      if (fs.statSync(filename).isDirectory())
         return filename;
     } catch (error) {
       // do nothing

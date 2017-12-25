@@ -14,11 +14,11 @@ export const clearContents = () => {
   return async (dispatch, getState) => {
     let { contents, leftPane, rightPane } = getState();
     let leftId;
-    if (leftPane.share && leftPane.path && leftPane.selectedIndexes.length)
-      leftId = `${leftPane.share}:${leftPane.path}:${leftPane.list[leftPane.selectedIndexes[0]].name}`;
+    if (leftPane.share && leftPane.directory && leftPane.name)
+      leftId = `${leftPane.share}:${leftPane.directory}:${leftPane.name}`;
     let rightId;
-    if (rightPane.share && rightPane.path && rightPane.selectedIndexes.length)
-      rightId= `${rightPane.share}:${rightPane.path}:${rightPane.list[rightPane.selectedIndexes[0]].name}`;
+    if (rightPane.share && rightPane.directory && rightPane.name)
+      rightId= `${rightPane.share}:${rightPane.directory}:${rightPane.name}`;
 
     if (Object.keys(contents).length === 0 ||
         (leftId && rightId && (leftId === rightId
@@ -44,10 +44,10 @@ export const loadContent = pane => {
     let { app, contents, leftPane, rightPane } = getState();
 
     let id;
-    if (pane === 'LEFT' && leftPane.share && leftPane.path && leftPane.selectedIndexes.length)
-      id = `${leftPane.share}:${leftPane.path}:${leftPane.list[leftPane.selectedIndexes[0]].name}`;
-    else if (pane === 'RIGHT' && rightPane.share && rightPane.path && rightPane.selectedIndexes.length)
-      id = `${rightPane.share}:${rightPane.path}:${rightPane.list[rightPane.selectedIndexes[0]].name}`;
+    if (pane === 'LEFT' && leftPane.share && leftPane.directory && leftPane.name)
+      id = `${leftPane.share}:${leftPane.directory}:${leftPane.name}`;
+    else if (pane === 'RIGHT' && rightPane.share && rightPane.directory && rightPane.name)
+      id = `${rightPane.share}:${rightPane.directory}:${rightPane.name}`;
 
     if (!id || contents[id])
       return;
@@ -68,30 +68,31 @@ export const loadContent = pane => {
     );
     return new Promise(resolve => {
       io.socket.get('/pane/content', params, async (data, response) => {
-        if (response.statusCode === 403) {
-          await dispatch(
-            setContent(
-              id,
-              {
-                isLoading: false,
-                isForbidden: true,
-              }
-            )
-          );
-          await dispatch(clearContents());
-        } else if (response.statusCode === 200) {
-          await dispatch(
-            setContent(
-              id,
-              {
-                isLoading: false,
-                isForbidden: false,
-                type: data.type,
-                mime: data.mime,
-                base64: data.base64,
-              }
-            )
-          );
+        if (response.statusCode === 200) {
+          if (data.success) {
+            await dispatch(
+              setContent(
+                id,
+                {
+                  isLoading: false,
+                  isForbidden: false,
+                  type: data.type,
+                  mime: data.mime,
+                  base64: data.base64,
+                }
+              )
+            );
+          } else {
+            await dispatch(
+              setContent(
+                id,
+                {
+                  isLoading: false,
+                  isForbidden: true,
+                }
+              )
+            );
+          }
           await dispatch(clearContents());
         } else {
           await dispatch(signOut());

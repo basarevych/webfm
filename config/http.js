@@ -29,16 +29,16 @@ module.exports.http = {
     *                                                                          *
     ***************************************************************************/
 
-    // order: [
-    //   'cookieParser',
-    //   'session',
-    //   'bodyParser',
-    //   'compress',
-    //   'poweredBy',
-    //   'router',
-    //   'www',
-    //   'favicon',
-    // ],
+    order: [
+      'favicon',
+      'cookieParser',
+      'session',
+      'bodyParser',
+      'compress',
+//      'poweredBy',
+      'router',
+      'www',
+    ],
 
 
     /***************************************************************************

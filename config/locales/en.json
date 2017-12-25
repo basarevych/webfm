@@ -9,6 +9,7 @@
   "type_BINARY_message": "This is a binary data file",
   "info_view_message": "Info view",
   "empty_message": "Empty...",
+  "select_share_label": "Select...",
   "read_only_label": "[read]",
   "read_write_label": "[write]",
   "sign_in_button": "Sign in",

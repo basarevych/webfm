@@ -10,11 +10,10 @@ const EnvironmentPlugin = require('webpack/lib/EnvironmentPlugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const NoEmitOnErrorsPlugin = require('webpack/lib/NoEmitOnErrorsPlugin');
-const IgnorePlugin = require('webpack/lib/IgnorePlugin');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const ProvidePlugin = require('webpack/lib/ProvidePlugin');
+//const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CommonsChunksPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 
@@ -424,7 +423,6 @@ module.exports.webpack = {
       plugins: [
         new EnvironmentPlugin(['NODE_ENV']),
         new NoEmitOnErrorsPlugin(),
-//        new IgnorePlugin(/\.(css|scss)$/),
 
         /**
          * Plugin: WriteFilePlugin
@@ -448,11 +446,15 @@ module.exports.webpack = {
           target: `http://${local.explicitHost === '0.0.0.0' ? 'localhost' : local.explicitHost}:${local.port}`,
           ws: true,
         },
-      }
+      },
+      historyApiFallback: {
+        disableDotRule: true,
+      },
     }
   },
 
   watchOptions: {
-    aggregateTimeout: 300
+    aggregateTimeout: 3000,
+    poll: 1000,
   },
 };

@@ -19,6 +19,18 @@ module.exports = {
       unique: true,
     },
 
+    fullPath: {
+      type: 'string',
+    },
+
+    realPath: {
+      type: 'string',
+    },
+
+    root: {
+      type: 'string',
+    },
+
     path: {
       type: 'string',
       required: true,
@@ -26,12 +38,14 @@ module.exports = {
 
     directory: {
       type: 'string',
-      required: true,
     },
 
     name: {
       type: 'string',
-      required: true,
+    },
+
+    target: {
+      type: 'string',
     },
 
     size: {
@@ -47,6 +61,10 @@ module.exports = {
     },
 
     isSymLink: {
+      type: 'boolean',
+    },
+
+    isValid: {
       type: 'boolean',
     },
 

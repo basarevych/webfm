@@ -3,13 +3,14 @@
 module.exports = async function cd(req, res) {
 
   try {
-    res.json(await sails.helpers.shareListing({
+    let listing = await sails.helpers.shareListing({
       userId: req.session.userId,
       share: req.param('share'),
-      directory: req.param('path'),
-    }));
+      path: req.param('path'),
+    });
+    res.json({ success: true, ...listing });
   } catch (error) {
-    return res.forbidden(error);
+    return res.json({ success: false });
   }
 
 };

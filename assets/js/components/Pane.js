@@ -32,7 +32,7 @@ class Pane extends React.Component {
             breakpoint={this.props.breakpoint}
             shares={this.props.shares}
             share={this.props.share}
-            path={this.props.path}
+            directory={this.props.directory}
             mode={this.props.mode}
             otherMode={this.props.otherMode}
             sortField={this.props.sortField}
@@ -70,7 +70,7 @@ Pane.propTypes = {
   otherMode: PropTypes.string.isRequired,
   shares: PropTypes.array.isRequired,
   share: PropTypes.string.isRequired,
-  path: PropTypes.string.isRequired,
+  directory: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
   selectedIndexes: PropTypes.array.isRequired,
   sortField: PropTypes.string.isRequired,

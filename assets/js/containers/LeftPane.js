@@ -8,8 +8,8 @@ import Pane from '../components/Pane';
 
 const mapStateToProps = state => {
   let selectedId;
-  if (state.rightPane.share && state.rightPane.path && state.rightPane.selectedIndexes.length)
-    selectedId = `${state.rightPane.share}:${state.rightPane.path}:${state.rightPane.list[state.rightPane.selectedIndexes[0]].name}`;
+  if (state.rightPane.share && state.rightPane.directory && state.rightPane.name)
+    selectedId = `${state.rightPane.share}:${state.rightPane.directory}:${state.rightPane.name}`;
 
   return {
     breakpoint: state.app.breakpoint,
@@ -17,7 +17,7 @@ const mapStateToProps = state => {
     otherMode: state.rightPane.mode,
     shares: state.user.shares,
     share: state.leftPane.share,
-    path: state.leftPane.path,
+    directory: state.leftPane.directory,
     list: state.leftPane.list,
     selectedIndexes: state.leftPane.selectedIndexes,
     sortField: state.leftPane.sortField,
@@ -36,7 +36,7 @@ const mapDispatchToProps = dispatch => {
     onPaneClick: () => dispatch(setActivePane('LEFT')),
     onSetShare: share => dispatch(paneCD('LEFT', share, '/')),
     onSetSort: (field, dir) => dispatch(paneSort('LEFT', field, dir)),
-    onChangeDirectory: directory => dispatch(paneCD('LEFT', null, directory)),
+    onChangeDirectory: directory => dispatch(paneCD('LEFT', null, directory === '/' ? '/' : directory + '/')),
     onNodeClick: node => dispatch(paneSelect('LEFT', node)),
     onNodeShiftClick: node => dispatch(paneSelectRange('LEFT', node)),
     onNodeControlClick: node => dispatch(paneToggleSelect('LEFT', node)),

@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
 
 
@@ -24,7 +26,7 @@ module.exports = {
 
   fn: async function (inputs, exits) {
 
-    let authorized = !!inputs.req.session.userId;
+    let authorized = !!(inputs.req.session && inputs.req.session.userId);
     let shares = [];
 
     if (authorized) {

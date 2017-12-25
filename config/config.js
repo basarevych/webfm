@@ -8,7 +8,14 @@ const os = require('os');
 const ini = require('../api/helpers/ini');
 
 let config = {
+  bootstrapTimeout: 15 * 60 * 1000,
   http: {},
+  security: {
+    cors: {
+      allRoutes: true,
+      allowOrigins: [],
+    }
+  },
   session: {},
   sockets: {},
   custom: {
@@ -32,6 +39,7 @@ try {
 
         config.explicitHost = result.server.host;
         config.port = parseInt(result.server.port);
+        config.security.cors.allowOrigins = result.server.url;
 
         if (['yes', 'on', 'true'].includes(result.server.trust_proxy))
           config.http.trustProxy = true;

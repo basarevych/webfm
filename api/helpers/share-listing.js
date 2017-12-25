@@ -1,3 +1,7 @@
+'use strict';
+
+const _path = require('path');
+
 module.exports = {
 
 
@@ -20,7 +24,7 @@ module.exports = {
       description: 'Share name',
     },
 
-    directory: {
+    path: {
       type: 'string',
       description: 'Path inside share',
     },
@@ -34,52 +38,65 @@ module.exports = {
 
   fn: async function (inputs, exits) {
 
-    let directory = inputs.directory;
-    if (!directory || directory[0] !== '/')
-      directory = '/' + (directory || '');
+    let getNode = (share, path) => {
+      return Node.findOne({ share, path }).populate(
+        'nodes',
+        {
+          select: ['id', 'directory', 'name', 'target', 'size', 'isDirectory', 'isSymLink']
+        }
+      );
+    };
+
+    let path = inputs.path;
+    if (!path || path[0] !== '/')
+      path = '/' + (path || '');
 
     let shares = await Share.find({ user: inputs.userId });
     if (!shares.length)
-      return exits.error('No shares defined for you');
+      return exits.error(new Error('No shares defined for you'));
 
+    let directory;
+    let name;
     let list = null;
     try {
       for (let item of shares) {
         if (item.name === inputs.share) {
-          let node = await Node.findOne(
-            { share: item.id, path: directory }
-          ).populate(
-            'nodes',
-            {
-              select: ['id', 'directory', 'name', 'size', 'isDirectory']
-            }
-          );
+          let node = await getNode(item.id, path);
+          if (node.isDirectory && path.endsWith('/')) {
+            path = node.path;
+            if (path !== '/')
+              path += '/';
+            directory = node.path;
+            name = '';
+          } else {
+            path = node.path;
+            directory = node.directory;
+            name = node.name;
+            node = await getNode(item.id, directory);
+          }
 
-          if (!node.isDirectory)
-            return exits.error('Not a directory');
-
-          directory = node.path;
           list = node.nodes;
-          if (node.path !== '/') {
+          if (directory !== '/') {
             list.unshift({
-              id: `${inputs.userId}:${inputs.share}:${node.path}`,
-              directory: node.path,
+              id: `${inputs.userId}:${inputs.share}:${_path.dirname(directory)}`,
+              directory,
               name: '..',
               size: -1,
               isDirectory: true,
+              isSymLink: false,
             });
           }
           break;
         }
       }
     } catch (error) {
-      return exits.error('Could not read path');
+      return exits.error(new Error('Could not read path'));
     }
 
     if (!list)
-      return exits.error('Share not found');
+      return exits.error(new Error('Share not found'));
 
-    return exits.success({ share: inputs.share, path: directory, list });
+    return exits.success({ share: inputs.share, path, directory, name, list });
 
   }
 

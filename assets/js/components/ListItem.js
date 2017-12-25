@@ -15,7 +15,8 @@ class ListItem extends React.Component {
 
     this.handleEnter = this.handleEnter.bind(this);
     this.handleLeave = this.handleLeave.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleNameClick = this.handleNameClick.bind(this);
+    this.handleItemClick = this.handleItemClick.bind(this);
   }
 
   handleEnter() {
@@ -26,7 +27,12 @@ class ListItem extends React.Component {
     this.setState({ isHovered: false });
   }
 
-  handleClick(e) {
+  handleNameClick(e) {
+    e.stopPropagation();
+    this.props.onChangeDirectory(join(this.props.node.directory, this.props.node.name));
+  }
+
+  handleItemClick(e) {
     if (this.props.node.name === '..')
       return;
 
@@ -52,21 +58,17 @@ class ListItem extends React.Component {
     else
       icon = <FaFileO />;
 
-    let name;
+    let name = (
+      <span>
+        {icon} {this.props.node.name}
+        {this.props.node.target && (' ⇨ ' + this.props.node.target)}
+      </span>
+    );
     if (this.props.node.isDirectory) {
       name = (
-        <a
-          className="link"
-          onClick={() => this.props.onChangeDirectory(join(this.props.node.directory, this.props.node.name))}
-        >
-          <strong>{icon} {this.props.node.name}</strong>
+        <a className="link" onClick={this.handleNameClick}>
+          <strong>{name}</strong>
         </a>
-      );
-    } else {
-      name = (
-        <span>
-          {icon} {this.props.node.name}
-        </span>
       );
     }
 
@@ -96,7 +98,7 @@ class ListItem extends React.Component {
         }
         onMouseEnter={this.handleEnter}
         onMouseLeave={this.handleLeave}
-        onClick={this.handleClick}
+        onClick={this.handleItemClick}
       >
         <div className="name">
           <div className="fit-width">

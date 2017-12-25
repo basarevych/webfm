@@ -3,32 +3,66 @@ const fs = require('fs');
 const Share = require('./Share');
 
 class Node {
+  static statsToObject(info, directory, name, stats, select) {
+    let item = { id: `${info.share}:${_path.join(directory, name)}` };
+    if (_.isArray(select) && select.includes('fullPath'))
+      item.fullPath = info.fullPath;
+    if (_.isArray(select) && select.includes('realPath'))
+      item.realPath = info.realPath;
+    if (_.isArray(select) && select.includes('root'))
+      item.root = info.root;
+    if (_.isArray(select) && select.includes('path'))
+      item.path = name ? _path.join(directory, name) : directory;
+    if (_.isArray(select) && select.includes('directory'))
+      item.directory = directory;
+    if (_.isArray(select) && select.includes('name'))
+      item.name = name;
+    if (_.isArray(select) && select.includes('target'))
+      item.target = '';
+    if (_.isArray(select) && select.includes('size'))
+      item.size = stats.isDirectory() ? -1 : stats.size;
+    if (_.isArray(select) && select.includes('isDirectory'))
+      item.isDirectory = stats.isDirectory();
+    if (_.isArray(select) && select.includes('isFile'))
+      item.isFile = stats.isFile();
+    if (_.isArray(select) && select.includes('isSymLink'))
+      item.isSymLink = stats.isSymbolicLink();
+    if (_.isArray(select) && select.includes('isValid'))
+      item.isValid = info.isValid;
+    return item;
+  }
+
   async findByPath({ share, path }, select, done) {
-    let info;
     try {
-      info = await this.loadInfo(share, path);
+      share = await new Promise((resolve, reject) => {
+        new Share().find(share, ['path'], (error, shares) => {
+          if (error)
+            return reject(error);
+
+          if (shares.length !== 1) {
+            let error = new Error('Sandbox escape prevented');
+            error.code = 'NOTSHARED';
+            return reject(error);
+          }
+
+          resolve(shares[0]);
+        });
+      });
+      done(null, [await this.loadInfo(share.id, share.path, path, select)]);
     } catch (error) {
       return done(error);
     }
-
-    fs.lstat(info.fullPath, (error, stats) => {
-      if (error)
-        return done(error);
-
-      done(null, [this.statsToObject(info.share.id, _path.dirname(info.relPath), _path.basename(info.relPath), stats, select)]);
-    });
   }
 
   async findByParent({ parent }, select, done) {
-    let info;
-    try {
-      let parts = parent.split(':');
-      info = await this.loadInfo(`${parts[0]}:${parts[1]}`, parts[2]);
+    let parts = parent.split(':');
+    let share = `${parts[0]}:${parts[1]}`;
 
-      let isDirectory = await new Promise((resolve, reject) => {
+    try {
+      parent = await new Promise((resolve, reject) => {
         this.findByPath(
-          { share: info.share.id, path: info.relPath },
-          ['isDirectory'],
+          { share, path: parts[2] },
+          ['realPath', 'root', 'path', 'isDirectory', 'isValid'],
           (error, nodes) => {
             if (error)
               return reject(error);
@@ -39,97 +73,88 @@ class Node {
               return reject(error);
             }
 
-            resolve(nodes[0].isDirectory);
+            resolve(nodes[0]);
           }
         );
       });
-
-      if (!isDirectory)
+      if (!parent.isDirectory)
         return done(null, []);
+      if (!parent.isValid)
+        return done(new Error('Parent is invalid'));
     } catch (error) {
       return done(error);
     }
 
-    fs.readdir(info.fullPath, async (error, entries) => {
+    fs.readdir(parent.realPath, async (error, entries) => {
       if (error)
         return done(error);
 
-      let nodes = [];
-      let promises = [];
-      for (let entry of entries) {
-        promises.push(new Promise((resolve, reject) => {
-          fs.stat(_path.join(info.fullPath, entry), (error, stats) => {
-            if (error)
-              return reject(error);
-
-            nodes.push(this.statsToObject(info.share.id, info.relPath, entry, stats, select));
-            resolve();
-          });
-        }));
-      }
-
       try {
-        await Promise.all(promises);
+        let nodes = [];
+        for (let entry of entries)
+          nodes.push(await this.loadInfo(share, parent.root, _path.join(parent.path, entry), select));
+        done(null, nodes);
       } catch (error) {
         return done(error);
       }
-
-      done(null, nodes);
     });
   }
 
-  async loadInfo(share, path) {
-    let info = {};
+  async loadInfo(share, root, path, select) {
+    let info = { share, root };
 
     if (!path)
       path = '/';
     if (path[0] !== '/')
       path = '/' + path;
 
-    info.share = await new Promise((resolve, reject) => {
-      new Share().find(share, ['path'], (error, shares) => {
-        if (error)
-          return reject(error);
+    info.fullPath = _path.resolve(_path.join(root, path));
+    info.relPath = info.fullPath.slice(root.length) || '/';
 
-        if (shares.length !== 1) {
-          let error = new Error('Sandbox escape prevented');
-          error.code = 'NOTSHARED';
-          return reject(error);
-        }
-
-        resolve(shares[0]);
-      });
-    });
-
-    info.fullPath = _path.resolve(_path.join(info.share.path, path));
-    if (info.fullPath !== info.share.path && !(info.fullPath + '/').startsWith(info.share.path + '/')) {
+    if (!(info.fullPath + '/').startsWith(root + '/')) {
       let error = new Error('Sandbox escape prevented');
       error.code = 'FORBIDDEN';
       throw error;
     }
 
-    info.relPath = info.fullPath.slice(info.share.path.length) || '/';
+    await new Promise((resolve, reject) => {
+      fs.realpath(info.fullPath, (error, target) => {
+        if (error)
+          return reject(error);
 
-    return info;
-  }
+        info.realPath = target;
+        info.isValid = (target + '/').startsWith(root + '/');
+        resolve();
+      });
+    });
 
-  statsToObject(share, directory, name, stats, select) {
-    let item = { id: `${share}:${_path.join(directory, name)}` };
-    if (_.isArray(select) && select.includes('path'))
-      item.path = _path.join(directory, name);
-    if (_.isArray(select) && select.includes('directory'))
-      item.directory = directory;
-    if (_.isArray(select) && select.includes('name'))
-      item.name = name;
-    if (_.isArray(select) && select.includes('size'))
-      item.size = stats.isDirectory() ? -1 : stats.size;
-    if (_.isArray(select) && select.includes('isDirectory'))
-      item.isDirectory = stats.isDirectory();
-    if (_.isArray(select) && select.includes('isFile'))
-      item.isFile = stats.isFile();
-    if (_.isArray(select) && select.includes('isSymLink'))
-      item.isSymLink = stats.isSymbolicLink();
-    return item;
+    return new Promise((resolve, reject) => {
+      fs.lstat(info.fullPath, (error, stats) => {
+        if (error)
+          return reject(error);
+
+        if (!stats.isSymbolicLink()) {
+          return resolve(this.constructor.statsToObject(info, _path.dirname(info.relPath), _path.basename(info.relPath), stats, select));
+        }
+
+        fs.readlink(info.fullPath, (error, target) => {
+          if (error)
+            return reject(error);
+
+          fs.stat(info.realPath, (error, stats) => {
+            if (error)
+              return reject(error);
+
+            let result = this.constructor.statsToObject(info, _path.dirname(info.relPath), _path.basename(info.relPath), stats, select);
+            if (_.isArray(select) && select.includes('target'))
+              result.target = target;
+            if (_.isArray(select) && select.includes('isSymLink'))
+              result.isSymLink = true;
+            resolve(result);
+          });
+        });
+      });
+    });
   }
 }
 
