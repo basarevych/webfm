@@ -5,70 +5,8 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { GenericScrollBox } from 'react-scroll-box';
 import ReactList from 'react-list';
+import Viewport from './ScrollViewport';
 import ListItem from './ListItem';
-
-class Viewport extends React.Component {
-  componentDidMount() {
-    this.viewport = null;
-
-    try {
-      document.createEvent('TouchEvent');
-    } catch (error) {
-      return;
-    }
-
-    this.viewport = ReactDOM.findDOMNode(this);
-
-    let scrollStartPos = 0;
-    let scrollTop = 0;
-    let frameId = null;
-    let frame = () => {
-      frameId = null;
-      this.viewport.scrollTop = scrollTop;
-    };
-    this.touchStartHandler = function (event) {
-      scrollStartPos = this.scrollTop + event.touches[0].pageY;
-    };
-    this.touchMoveHandler = function (event) {
-      event.preventDefault();
-      scrollTop = scrollStartPos - event.touches[0].pageY;
-      if (!frameId)
-        frameId = requestAnimationFrame(frame);
-    };
-
-    this.viewport.addEventListener('touchstart', this.touchStartHandler, false);
-    this.viewport.addEventListener('touchmove', this.touchMoveHandler, false);
-  }
-
-  componentWillUnmount() {
-    if (this.viewport) {
-      this.viewport.removeEventListener('touchstart', this.touchStartHandler);
-      this.viewport.removeEventListener('touchmove', this.touchMoveHandler);
-    }
-  }
-
-  render() {
-    return (
-      <div className='scroll-box__viewport'>
-        <ReactList
-          length={this.props.length}
-          minSize={typeof window === 'undefined' ? 100 : 1}
-          itemRenderer={this.props.itemRenderer}
-          itemsRenderer={this.props.itemsRenderer}
-          type='uniform'
-          useTranslate3d={true}
-          scrollParentGetter={() => ReactDOM.findDOMNode(this)}
-        />
-      </div>
-    );
-  }
-}
-
-Viewport.propTypes = {
-  length: PropTypes.number.isRequired,
-  itemRenderer: PropTypes.func.isRequired,
-  itemsRenderer: PropTypes.func.isRequired,
-};
 
 class ListComponent extends React.Component {
   constructor(props) {
@@ -79,11 +17,10 @@ class ListComponent extends React.Component {
   }
 
   renderItem(index, key) {
-    let item = this.props.list[index];
     return (
       <ListItem
         key={key}
-        node={item}
+        node={this.props.list[index]}
         index={index}
         isSelected={this.props.selectedIndexes.includes(index)}
         onChangeDirectory={this.props.onChangeDirectory}
@@ -114,11 +51,16 @@ class ListComponent extends React.Component {
     return (
       <div className="scroll-wrapper">
         <GenericScrollBox permitHandleDragInterruption={false}>
-          <Viewport
-            length={this.props.list.length}
-            itemRenderer={this.renderItem}
-            itemsRenderer={this.renderTable}
-          />
+          <Viewport reactList={true}>
+            <ReactList
+              length={this.props.list.length}
+              minSize={typeof window === 'undefined' ? 100 : 1}
+              itemRenderer={this.renderItem}
+              itemsRenderer={this.renderTable}
+              type='uniform'
+              useTranslate3d={true}
+            />
+          </Viewport>
         </GenericScrollBox>
       </div>
     );

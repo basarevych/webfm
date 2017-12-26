@@ -84,7 +84,7 @@ const paneFactory = which => {
           share: action.share,
         });
       case `SET_${which}_PANE_PATH`:
-        if (state.path === action.path)
+        if (state.path === action.path && state.directory === action.directory && state.name === action.name)
           return state;
 
         return _.cloneDeep({

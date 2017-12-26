@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { GenericScrollBox } from 'react-scroll-box';
 import { FaCog } from 'react-icons/lib/fa';
-
+import Viewport from './ScrollViewport';
 
 const ContentView = ({ content }) => {
   let bodyClass = 'body disabled';
@@ -22,10 +22,10 @@ const ContentView = ({ content }) => {
       body = (
         <div className="scroll-wrapper">
           <GenericScrollBox permitHandleDragInterruption={false}>
-            <div className="scroll-box__viewport text-content">
+            <Viewport classes="text-content">
               {content.base64 && atob(content.base64)}
               <br />
-            </div>
+            </Viewport>
           </GenericScrollBox>
         </div>
       );
