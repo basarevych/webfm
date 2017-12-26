@@ -1,5 +1,6 @@
 'use strict';
 
+import packageJson from '../../../package.json';
 import i18n from '../lib/i18n';
 import { initPanes } from './pane';
 import {
@@ -49,6 +50,9 @@ export const receiveStatus = (requestedAt, data) => {
 
     if (user.isAuthorized && !user.shares.length)
       await dispatch(signOut());
+
+    if (data.success && data.version !== packageJson.version)
+      window.location.reload(true);
 
     return result;
   };
