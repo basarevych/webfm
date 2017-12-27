@@ -1,6 +1,6 @@
 class User {
   find(id, select, done) {
-    let config = sails.helpers.ini({ filename: sails.config.custom.configPath }).execSync();
+    let config = sails.helpers.ini(sails.config.custom.configPath);
     for (let key of Object.keys(config)) {
       let parts = key.split(':');
       let type = parts.pop();

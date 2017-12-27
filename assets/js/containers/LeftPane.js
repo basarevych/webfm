@@ -24,6 +24,7 @@ const mapStateToProps = state => {
     sortField: state.leftPane.sortField,
     sortDir: state.leftPane.sortDir,
     content: selectedId && state.contents[selectedId],
+    info: selectedId && state.infos[selectedId],
     isActive: state.leftPane.isActive,
     isDisabled: !state.user.isAuthorized,
     isLoading: state.leftPane.isLoading,

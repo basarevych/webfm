@@ -17,8 +17,8 @@ module.exports = async function content(req, res) {
     } else if (node.isDirectory) {
       return res.json({ success: true, type: 'DIR' });
     } else if (node.isFile) {
-      let mime = await sails.helpers.fileType({ filename: node.realPath });
-      let content = await sails.helpers.fileContent({ filename: node.realPath });
+      let mime = await sails.helpers.fileType(node.realPath);
+      let content = await sails.helpers.fileContent(node.realPath);
 
       let type = 'BINARY';
       if (mime.startsWith('text/'))

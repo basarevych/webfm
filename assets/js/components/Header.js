@@ -108,7 +108,7 @@ class Header extends React.Component {
     }
 
     let path = null;
-    if (this.mode === 'LIST') {
+    if (this.props.mode === 'LIST') {
       if (this.props.directory && this.props.breakpoint !== 'xs' &&
          !(this.props.breakpoint === 'sm' && this.props.isOtherVisible))
         path = this.props.directory;

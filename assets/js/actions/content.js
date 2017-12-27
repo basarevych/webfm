@@ -10,7 +10,7 @@ export const setContent = (id, content) => {
   };
 };
 
-export const clearContents = () => {
+export const clearContent = () => {
   return async (dispatch, getState) => {
     let { contents, leftPane, rightPane } = getState();
     let leftId;
@@ -33,7 +33,7 @@ export const clearContents = () => {
       keep.push(rightId);
 
     await dispatch({
-      type: `CLEAR_CONTENTS`,
+      type: `CLEAR_CONTENT`,
       keep,
     });
   };
@@ -93,7 +93,7 @@ export const loadContent = pane => {
               )
             );
           }
-          await dispatch(clearContents());
+          await dispatch(clearContent());
         } else {
           await dispatch(signOut());
         }

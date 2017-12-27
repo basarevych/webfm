@@ -2,7 +2,7 @@
 
 module.exports = async function app(req, res) {
   let bundle = require('../../.tmp/public/server.bundle.js');
-  let info = await sails.helpers.userInfo({ req });
+  let info = await sails.helpers.userInfo(req);
   let match = bundle.matchLocation(req.path);
   if (info.authorized && !match)
     return res.redirect(`/~${info.shares[0].name}:/`);
@@ -11,11 +11,7 @@ module.exports = async function app(req, res) {
 
   if (info.authorized) {
     try {
-      let listing = await sails.helpers.shareListing({
-        userId: req.session.userId,
-        share: match.share,
-        path: match.path,
-      });
+      let listing = await sails.helpers.shareListing(req.session.userId, match.share, match.path);
       info.share = listing.share;
       info.path = listing.path;
       info.directory = listing.directory;

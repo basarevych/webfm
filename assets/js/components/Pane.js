@@ -18,11 +18,9 @@ class Pane extends React.Component {
       view = <LoadingView isActive={this.props.isActive}/>;
     } else {
       if (this.props.mode === 'CONTENTS') {
-        view = (
-          <ContentView content={this.props.content} />
-        );
+        view = <ContentView content={this.props.content} />;
       } else if (this.props.mode === 'INFO') {
-        view = <InfoView />;
+        view = <InfoView info={this.props.info} />;
       } else {
         view = (
           <ListView
@@ -80,6 +78,7 @@ Pane.propTypes = {
   sortField: PropTypes.string.isRequired,
   sortDir: PropTypes.string.isRequired,
   content: PropTypes.object,
+  info: PropTypes.object,
   isActive: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,

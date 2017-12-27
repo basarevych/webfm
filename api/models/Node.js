@@ -52,6 +52,30 @@ module.exports = {
       type: 'number',
     },
 
+    modeNumber: {
+      type: 'number',
+    },
+
+    modeString: {
+      type: 'string',
+    },
+
+    userId: {
+      type: 'number',
+    },
+
+    userName: {
+      type: 'string',
+    },
+
+    groupId: {
+      type: 'number',
+    },
+
+    groupName: {
+      type: 'string',
+    },
+
     isDirectory: {
       type: 'boolean',
     },

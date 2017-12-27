@@ -74,18 +74,45 @@ class ListItem extends React.Component {
 
     let size;
     if (this.props.node.isDirectory) {
-      if (this.props.node.size < 0)
-        size = <FaBalanceScale />;
-      else
-        size = human(this.props.node.size);
-
       size = (
         <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
-          {size}
+          <FaBalanceScale />
         </Button>
       );
     } else {
       size = human(this.props.node.size);
+    }
+
+    let aux = null;
+    if (this.props.node.name === '..') {
+      aux = (
+        <div className="wrapper">
+          <div className="size">
+            <em>{__('two_dots_label')}</em>
+          </div>
+        </div>
+      );
+    } else {
+      aux = (
+        <div className="wrapper">
+          <div className="size">
+            {size}
+          </div>
+          <div className="tools">
+            <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
+              <FaCopy />
+            </Button>
+            &nbsp;
+            <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
+              <FaCut />
+            </Button>
+            &nbsp;
+            <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
+              <FaTrash />
+            </Button>
+          </div>
+        </div>
+      );
     }
 
     return (
@@ -106,24 +133,7 @@ class ListItem extends React.Component {
           </div>
         </div>
         <div className="info">
-          <div className="wrapper">
-            <div className="size">
-              {size}
-            </div>
-            <div className="tools">
-              <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
-                <FaCopy />
-              </Button>
-              &nbsp;
-              <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
-                <FaCut />
-              </Button>
-              &nbsp;
-              <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
-                <FaTrash />
-              </Button>
-            </div>
-          </div>
+          {aux}
         </div>
       </div>
     );

@@ -6,7 +6,7 @@ class Share {
     let userPart = parts.shift();
     let sharePart = parts.join(':');
 
-    let config = sails.helpers.ini({ filename: sails.config.custom.configPath }).execSync();
+    let config = sails.helpers.ini(sails.config.custom.configPath);
     for (let key of Object.keys(config)) {
       let parts = key.split(':');
       let type = parts.pop();
@@ -59,7 +59,7 @@ class Share {
   }
 
   findByUser(user, select, done) {
-    let config = sails.helpers.ini({ filename: sails.config.custom.configPath }).execSync();
+    let config = sails.helpers.ini(sails.config.custom.configPath);
     for (let key of Object.keys(config)) {
       let parts = key.split(':');
       let type = parts.pop();

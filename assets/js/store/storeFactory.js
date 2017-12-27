@@ -8,9 +8,7 @@ import user from '../reducers/user';
 import navbar from '../reducers/navbar';
 import signInDialog from '../reducers/signInDialog';
 import paneFactory from '../reducers/paneFactory';
-import lists from '../reducers/lists';
-import contents from '../reducers/contents';
-import infos from '../reducers/infos';
+import infoListFactory from '../reducers/infoListFactory';
 
 const storeFactory = (history, initialState) =>
   applyMiddleware(thunk, routerMiddleware(history))(createStore)(
@@ -22,9 +20,9 @@ const storeFactory = (history, initialState) =>
       signInDialog,
       leftPane: paneFactory('LEFT'),
       rightPane: paneFactory('RIGHT'),
-      lists,
-      contents,
-      infos,
+      lists: infoListFactory('list'),
+      contents: infoListFactory('content'),
+      infos: infoListFactory('info'),
     }),
     initialState,
   );

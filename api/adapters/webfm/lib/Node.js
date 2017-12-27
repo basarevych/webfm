@@ -1,5 +1,7 @@
 const _path = require('path');
 const fs = require('fs');
+const userid = require('userid');
+const Mode = require('stat-mode');
 const Share = require('./Share');
 
 class Node {
@@ -20,7 +22,21 @@ class Node {
     if (_.isArray(select) && select.includes('target'))
       item.target = '';
     if (_.isArray(select) && select.includes('size'))
-      item.size = stats.isDirectory() ? -1 : stats.size;
+      item.size = stats.size;
+    if (_.isArray(select) && select.includes('modeNumber'))
+      item.modeNumber = stats.mode;
+    if (_.isArray(select) && select.includes('modeString')) {
+      let mode = new Mode(stats);
+      item.modeString = mode.toString();
+    }
+    if (_.isArray(select) && select.includes('userId'))
+      item.userId = stats.uid;
+    if (_.isArray(select) && select.includes('userName'))
+      item.userName = userid.username(stats.uid);
+    if (_.isArray(select) && select.includes('groupId'))
+      item.groupId = stats.gid;
+    if (_.isArray(select) && select.includes('groupName'))
+      item.groupName = userid.groupname(stats.gid);
     if (_.isArray(select) && select.includes('isDirectory'))
       item.isDirectory = stats.isDirectory();
     if (_.isArray(select) && select.includes('isFile'))

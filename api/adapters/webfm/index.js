@@ -443,7 +443,7 @@ module.exports = {
     switch (query.using) {
       case 'user':
         if (!login || Object.keys(query.criteria.where).length !== 1) {
-          sails.log.debug(query);
+          //sails.log.debug(query);
           return done(new Error('Adapter method (`find`) can only search users by login.'));
         }
         dsEntry.manager.user.find(login, query.criteria.select, done);
@@ -457,7 +457,7 @@ module.exports = {
         if (user) {
           dsEntry.manager.share.findByUser(user, query.criteria.select, done);
         } else {
-          sails.log.debug(query);
+          //sails.log.debug(query);
           return done(new Error('Adapter method (`find`) can only search shares by user.'));
         }
 
@@ -468,7 +468,7 @@ module.exports = {
         } else if (and && Object.keys(query.criteria.where).length === 1 && and.length === 1 && and[0].parent) {
           dsEntry.manager.node.findByParent({ parent: and[0].parent }, query.criteria.select, done);
         } else {
-          sails.log.debug(query);
+          //sails.log.debug(query);
           return done(new Error('Adapter method (`find`) can only search nodes by share and directory.'));
         }
         break;

@@ -3,18 +3,11 @@
 const crypto = require('crypto');
 
 module.exports = async function signIn(req, res) {
-  let validate = req.param('_validate');
+  let validate = !!req.param('_validate');
   let login = _.isString(req.param('login')) ? _.trim(req.param('login')) : '';
   let password = _.isString(req.param('password')) ? _.trim(req.param('password')) : '';
 
-  let form = await sails.helpers.form({
-    model: User,
-    values: {
-      login,
-      password,
-    },
-    validate,
-  });
+  let form = await sails.helpers.form(User, { login, password }, validate);
 
   if (validate)
     return res.json(form);

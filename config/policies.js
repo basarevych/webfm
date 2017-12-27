@@ -28,5 +28,6 @@ module.exports.policies = {
 
   'pane/cd': 'isLoggedIn',
   'pane/content': 'isLoggedIn',
+  'pane/info': 'isLoggedIn',
 
 };

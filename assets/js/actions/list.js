@@ -23,7 +23,7 @@ export const clearLists = () => {
       keep.push(rightId);
 
     await dispatch({
-      type: `CLEAR_LISTS`,
+      type: `CLEAR_LIST`,
       keep,
     });
   };
