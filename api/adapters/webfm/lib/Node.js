@@ -37,6 +37,12 @@ class Node {
       item.groupId = stats.gid;
     if (_.isArray(select) && select.includes('groupName'))
       item.groupName = userid.groupname(stats.gid);
+    if (_.isArray(select) && select.includes('atime'))
+      item.atime = stats.atimeMs;
+    if (_.isArray(select) && select.includes('mtime'))
+      item.mtime = stats.mtimeMs;
+    if (_.isArray(select) && select.includes('ctime'))
+      item.ctime = stats.ctimeMs;
     if (_.isArray(select) && select.includes('isDirectory'))
       item.isDirectory = stats.isDirectory();
     if (_.isArray(select) && select.includes('isFile'))

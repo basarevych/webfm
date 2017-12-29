@@ -1,6 +1,8 @@
 'use strict';
 
+import { setSize, clearSizes } from './size';
 import { signOut } from './user';
+import { join } from '../lib/path';
 
 export const setInfo = (id, info) => {
   return {
@@ -10,7 +12,7 @@ export const setInfo = (id, info) => {
   };
 };
 
-export const clearInfo = () => {
+export const clearInfos = () => {
   return async (dispatch, getState) => {
     let { infos, leftPane, rightPane } = getState();
     let leftId;
@@ -44,10 +46,14 @@ export const loadInfo = pane => {
     let { app, infos, leftPane, rightPane } = getState();
 
     let id;
-    if (pane === 'LEFT' && leftPane.share && leftPane.directory && leftPane.name)
+    let sizeId;
+    if (pane === 'LEFT' && leftPane.share && leftPane.directory && leftPane.name) {
       id = `${leftPane.share}:${leftPane.directory}:${leftPane.name}`;
-    else if (pane === 'RIGHT' && rightPane.share && rightPane.directory && rightPane.name)
+      sizeId = `${leftPane.share}:${join(leftPane.directory, leftPane.name)}`;
+    } else if (pane === 'RIGHT' && rightPane.share && rightPane.directory && rightPane.name) {
       id = `${rightPane.share}:${rightPane.directory}:${rightPane.name}`;
+      sizeId = `${rightPane.share}:${join(rightPane.directory, rightPane.name)}`;
+    }
 
     if (!id || infos[id])
       return;
@@ -66,6 +72,16 @@ export const loadInfo = pane => {
         }
       )
     );
+    await dispatch(
+      setSize(
+        sizeId,
+        {
+          isLoading: true,
+          isForbidden: false,
+        }
+      )
+    );
+
     return new Promise(resolve => {
       io.socket.get('/pane/info', params, async (data, response) => {
         if (response.statusCode === 200) {
@@ -86,6 +102,19 @@ export const loadInfo = pane => {
                   userName: data.userName,
                   groupId: data.groupId,
                   groupName: data.groupName,
+                  atime: data.atime,
+                  mtime: data.mtime,
+                  ctime: data.ctime,
+                }
+              )
+            );
+            await dispatch(
+              setSize(
+                sizeId,
+                {
+                  isLoading: false,
+                  isForbidden: false,
+                  du: data.du,
                 }
               )
             );
@@ -99,8 +128,18 @@ export const loadInfo = pane => {
                 }
               )
             );
+            await dispatch(
+              setSize(
+                sizeId,
+                {
+                  isLoading: false,
+                  isForbidden: true,
+                }
+              )
+            );
           }
-          await dispatch(clearInfo());
+          await dispatch(clearInfos());
+          await dispatch(clearSizes());
         } else {
           await dispatch(signOut());
         }

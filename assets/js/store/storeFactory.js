@@ -23,6 +23,7 @@ const storeFactory = (history, initialState) =>
       lists: infoListFactory('list'),
       contents: infoListFactory('content'),
       infos: infoListFactory('info'),
+      sizes: infoListFactory('size'),
     }),
     initialState,
   );

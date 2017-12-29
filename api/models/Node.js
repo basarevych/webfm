@@ -76,6 +76,18 @@ module.exports = {
       type: 'string',
     },
 
+    atime: {
+      type: 'number',
+    },
+
+    mtime: {
+      type: 'number',
+    },
+
+    ctime: {
+      type: 'number',
+    },
+
     isDirectory: {
       type: 'boolean',
     },

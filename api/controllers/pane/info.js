@@ -25,6 +25,9 @@ module.exports = async function info(req, res) {
         userName: node.userName,
         groupId: node.groupId,
         groupName: node.groupName,
+        atime: node.atime,
+        mtime: node.mtime,
+        ctime: node.ctime,
       });
     }
   } catch (error) {

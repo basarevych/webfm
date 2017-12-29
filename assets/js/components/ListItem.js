@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FaFolderO, FaFileO, FaBalanceScale, FaCopy, FaCut, FaTrash } from 'react-icons/lib/fa';
+import { FaFolderO, FaFileO, FaBalanceScale, FaCopy, FaCut, FaTrash, FaCog } from 'react-icons/lib/fa';
 import { Button } from 'reactstrap';
 import { join } from '../lib/path';
 import { human } from '../lib/size';
@@ -47,7 +47,8 @@ class ListItem extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return (this.props.index !== nextProps.index ||
             this.props.isSelected !== nextProps.isSelected ||
-            !_.isEqual(this.props.node, nextProps.node) ||
+           !_.isEqual(this.props.node, nextProps.node) ||
+           !_.isEqual(this.props.size, nextProps.size) ||
             this.state.isHovered !== nextState.isHovered);
   }
 
@@ -74,9 +75,18 @@ class ListItem extends React.Component {
 
     let size;
     if (this.props.node.isDirectory) {
+      if (this.props.size && !this.props.size.isForbidden) {
+        if (this.props.size.isLoading)
+          size = <FaCog className="rotating" />;
+        else
+          size = human(this.props.size.du);
+      } else {
+        size = <FaBalanceScale />;
+      }
+
       size = (
-        <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
-          <FaBalanceScale />
+        <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'} onClick={this.props.onSizeClick}>
+          {size}
         </Button>
       );
     } else {
@@ -102,11 +112,11 @@ class ListItem extends React.Component {
             <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
               <FaCopy />
             </Button>
-            &nbsp;
+            {' '}
             <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
               <FaCut />
             </Button>
-            &nbsp;
+            {' '}
             <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
               <FaTrash />
             </Button>
@@ -142,12 +152,14 @@ class ListItem extends React.Component {
 
 ListItem.propTypes = {
   node: PropTypes.object.isRequired,
+  size: PropTypes.object,
   index: PropTypes.number.isRequired,
   isSelected: PropTypes.bool.isRequired,
   onChangeDirectory: PropTypes.func.isRequired,
   onNodeClick: PropTypes.func.isRequired,
   onNodeShiftClick: PropTypes.func.isRequired,
   onNodeControlClick: PropTypes.func.isRequired,
+  onSizeClick: PropTypes.func.isRequired,
 };
 
 export default ListItem;

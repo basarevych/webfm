@@ -18,12 +18,15 @@ class ListView extends React.Component {
       bodyClass = 'body';
       listing = (
         <ListComponent
+          share={this.props.share}
           list={this.props.list}
+          sizes={this.props.sizes}
           selectedIndexes={this.props.selectedIndexes}
           onChangeDirectory={this.props.onChangeDirectory}
           onNodeClick={this.props.onNodeClick}
           onNodeShiftClick={this.props.onNodeShiftClick}
           onNodeControlClick={this.props.onNodeControlClick}
+          onSizeClick={this.props.onSizeClick}
         />
       );
     }
@@ -37,13 +40,16 @@ class ListView extends React.Component {
 }
 
 ListView.propTypes = {
+  share: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
+  sizes: PropTypes.object.isRequired,
   selectedIndexes: PropTypes.array.isRequired,
   isForbidden: PropTypes.bool.isRequired,
   onChangeDirectory: PropTypes.func.isRequired,
   onNodeClick: PropTypes.func.isRequired,
   onNodeShiftClick: PropTypes.func.isRequired,
   onNodeControlClick: PropTypes.func.isRequired,
+  onSizeClick: PropTypes.func.isRequired,
 };
 
 export default ListView;

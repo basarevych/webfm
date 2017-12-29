@@ -31,6 +31,7 @@ module.exports.routes = {
   'POST /pane/cd': 'pane/cd',
   'GET /pane/content': 'pane/content',
   'GET /pane/info': 'pane/info',
+  'GET /pane/size': 'pane/size',
 
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
   //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗

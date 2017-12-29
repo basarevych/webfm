@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { GenericScrollBox } from 'react-scroll-box';
 import { FaCog } from 'react-icons/lib/fa';
+import moment from 'moment-timezone';
 import Viewport from './ScrollViewport';
 import { human } from '../lib/size';
 
@@ -188,6 +189,48 @@ const InfoView = ({ info }) => {
                   <div className="name">
                     <div className="fit-width fixed-margin">
                       <strong>{info.groupName}</strong>
+                    </div>
+                  </div>
+                </div>
+                <div className="listing-item odd">
+                  <div className="info">
+                    <div className="wrapper">
+                      <div className="data">
+                        {__('info_atime_label')}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="name">
+                    <div className="fit-width fixed-margin">
+                      <strong>{moment(info.atime).format('YYYY-MM-DD HH:mm:ss')}</strong>
+                    </div>
+                  </div>
+                </div>
+                <div className="listing-item even">
+                  <div className="info">
+                    <div className="wrapper">
+                      <div className="data">
+                        {__('info_mtime_label')}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="name">
+                    <div className="fit-width fixed-margin">
+                      <strong>{moment(info.mtime).format('YYYY-MM-DD HH:mm:ss')}</strong>
+                    </div>
+                  </div>
+                </div>
+                <div className="listing-item odd">
+                  <div className="info">
+                    <div className="wrapper">
+                      <div className="data">
+                        {__('info_ctime_label')}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="name">
+                    <div className="fit-width fixed-margin">
+                      <strong>{moment(info.ctime).format('YYYY-MM-DD HH:mm:ss')}</strong>
                     </div>
                   </div>
                 </div>

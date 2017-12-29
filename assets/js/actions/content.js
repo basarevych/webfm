@@ -10,7 +10,7 @@ export const setContent = (id, content) => {
   };
 };
 
-export const clearContent = () => {
+export const clearContents = () => {
   return async (dispatch, getState) => {
     let { contents, leftPane, rightPane } = getState();
     let leftId;
@@ -66,6 +66,7 @@ export const loadContent = pane => {
         }
       )
     );
+
     return new Promise(resolve => {
       io.socket.get('/pane/content', params, async (data, response) => {
         if (response.statusCode === 200) {
@@ -93,7 +94,7 @@ export const loadContent = pane => {
               )
             );
           }
-          await dispatch(clearContent());
+          await dispatch(clearContents());
         } else {
           await dispatch(signOut());
         }

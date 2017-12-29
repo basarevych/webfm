@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
   paneCD, paneSort, setActivePane, setPaneMode, togglePane, paneSelect, paneSelectRange, paneToggleSelect
 } from '../actions/pane';
+import { loadSize } from '../actions/size';
 import Pane from '../components/Pane';
 
 const mapStateToProps = state => {
@@ -20,6 +21,7 @@ const mapStateToProps = state => {
     share: state.rightPane.share,
     directory: state.rightPane.directory,
     list: state.rightPane.list,
+    sizes: state.sizes,
     selectedIndexes: state.rightPane.selectedIndexes,
     sortField: state.leftPane.sortField,
     sortDir: state.leftPane.sortDir,
@@ -42,6 +44,7 @@ const mapDispatchToProps = dispatch => {
     onNodeClick: node => dispatch(paneSelect('RIGHT', node)),
     onNodeShiftClick: node => dispatch(paneSelectRange('RIGHT', node)),
     onNodeControlClick: node => dispatch(paneToggleSelect('RIGHT', node)),
+    onSizeClick: id => dispatch(loadSize(id)),
     onToggleOther: () => dispatch(togglePane('LEFT')),
     onSetOtherMode: mode => dispatch(setPaneMode('LEFT', mode)),
   };
