@@ -25,6 +25,7 @@ class Pane extends React.Component {
         view = (
           <ListView
             share={this.props.share}
+            directory={this.props.directory}
             list={this.props.list}
             sizes={this.props.sizes}
             selectedIndexes={this.props.selectedIndexes}

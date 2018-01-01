@@ -29,6 +29,7 @@ module.exports.routes = {
   'POST /auth/sign-out': 'auth/sign-out',
 
   'POST /pane/cd': 'pane/cd',
+  'POST /pane/watch': 'pane/watch',
   'GET /pane/content': 'pane/content',
   'GET /pane/info': 'pane/info',
   'GET /pane/size': 'pane/size',

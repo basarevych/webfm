@@ -69,13 +69,10 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
 
-  // afterDisconnect: function(session, socket, done) {
-  //
-  //   // By default: do nothing.
-  //   // (but always trigger the callback)
-  //   return done();
-  //
-  // },
+  afterDisconnect: async function(session, socket, done) {
+    await sails.hooks.watcher.unregister(socket.id);
+    return done();
+  },
 
 
   /***************************************************************************

@@ -3,7 +3,7 @@
 import { setUser, updateStatus } from './user';
 import {
   setActivePane, showPane, hidePane, paneCD, paneSort, paneSelect,
-  setPaneShare, setPanePath, stopLoadingPane
+  setPaneShare, setPanePath, stopLoadingPane, paneUpdate
 } from './pane';
 import { setList } from './list';
 import { matchLocation } from '../lib/path';
@@ -31,6 +31,12 @@ export const connectApp = () => {
       if (!app.isStarted)
         return;
     }
+
+    dispatch({
+      type: 'CONNECT_APP',
+      when,
+    });
+
     {
       await dispatch(getCSRFToken());
       let { app } = getState();
@@ -43,11 +49,23 @@ export const connectApp = () => {
       if (app.ioTimestamp > when)
         return;
     }
-
-    return dispatch({
-      type: 'CONNECT_APP',
-      when,
-    });
+    {
+      let { app, leftPane, rightPane } = getState();
+      let params = {
+        left: {
+          share: leftPane.share,
+          directory: leftPane.directory,
+        },
+        right: {
+          share: rightPane.share,
+          directory: rightPane.directory,
+        },
+        _csrf: app.csrf,
+      };
+      return new Promise(resolve => {
+        io.socket.post('/pane/watch', params, () => resolve());
+      });
+    }
   };
 };
 
@@ -146,6 +164,8 @@ export const initApp = history => {
       let match = matchLocation(location.pathname);
       dispatch(paneCD(pane, match ? match.share : user.shares[0].name, match ? match.path : '/'));
     });
+
+    io.socket.on('watch', data => dispatch(paneUpdate(data)));
 
     if (ioConnected) {
       await dispatch(connectApp());

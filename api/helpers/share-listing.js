@@ -55,6 +55,7 @@ module.exports = {
     if (!shares.length)
       return exits.error(new Error('No shares defined for you'));
 
+    let root;
     let directory;
     let name;
     let list = null;
@@ -75,6 +76,7 @@ module.exports = {
             node = await getNode(item.id, directory);
           }
 
+          root = node.id;
           list = node.nodes;
           if (directory !== '/') {
             list.unshift({
@@ -96,7 +98,7 @@ module.exports = {
     if (!list)
       return exits.error(new Error('Share not found'));
 
-    return exits.success({ share: inputs.share, path, directory, name, list });
+    return exits.success({ root, share: inputs.share, path, directory, name, list });
 
   }
 

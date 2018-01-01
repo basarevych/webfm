@@ -12,6 +12,8 @@ class ListComponent extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = { initialIndex: 0 };
+
     this.renderItem = this.renderItem.bind(this);
     this.renderTable = this.renderTable.bind(this);
   }
@@ -54,6 +56,15 @@ class ListComponent extends React.Component {
            !_.isEqual(nextProps.selectedIndexes, this.props.selectedIndexes);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.list && nextProps.share === this.props.share && nextProps.directory === this.props.directory) {
+      let [first] = this.list.getVisibleRange();
+      this.setState({ initialIndex: first || 0 });
+    } else {
+      this.setState({ initialIndex: 0 });
+    }
+  }
+
   render() {
     return (
       <div className="scroll-wrapper">
@@ -62,10 +73,12 @@ class ListComponent extends React.Component {
             <ReactList
               length={this.props.list.length}
               minSize={typeof window === 'undefined' ? 100 : 1}
+              initialIndex={this.state.initialIndex}
               itemRenderer={this.renderItem}
               itemsRenderer={this.renderTable}
               type='uniform'
               useTranslate3d={true}
+              ref={el => { this.list = el; }}
             />
           </Viewport>
         </GenericScrollBox>
@@ -76,6 +89,7 @@ class ListComponent extends React.Component {
 
 ListComponent.propTypes = {
   share: PropTypes.string.isRequired,
+  directory: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
   sizes: PropTypes.object.isRequired,
   selectedIndexes: PropTypes.array.isRequired,

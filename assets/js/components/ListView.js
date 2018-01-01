@@ -19,6 +19,7 @@ class ListView extends React.Component {
       listing = (
         <ListComponent
           share={this.props.share}
+          directory={this.props.directory}
           list={this.props.list}
           sizes={this.props.sizes}
           selectedIndexes={this.props.selectedIndexes}
@@ -41,6 +42,7 @@ class ListView extends React.Component {
 
 ListView.propTypes = {
   share: PropTypes.string.isRequired,
+  directory: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
   sizes: PropTypes.object.isRequired,
   selectedIndexes: PropTypes.array.isRequired,
