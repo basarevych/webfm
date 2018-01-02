@@ -62,6 +62,8 @@ module.exports = function defineWatcherHook(sails) {
       return done();
     },
 
+    trigger,
+
     register: async function (socketId, pane, root) {
 
       try {
