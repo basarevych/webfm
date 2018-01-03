@@ -7,6 +7,7 @@ import { FaCog } from 'react-icons/lib/fa';
 import Fade from './Fade';
 import Navbar from '../containers/Navbar';
 import SignInDialog from '../containers/SignInDialog';
+import MkdirDialog from '../containers/MkdirDialog';
 import LeftPane from '../containers/LeftPane';
 import RightPane from '../containers/RightPane';
 
@@ -31,6 +32,7 @@ const Screen = ({ isConnected, isLeftPaneVisible, isRightPaneVisible }) => {
         <div>
           <Navbar />
           <SignInDialog />
+          <MkdirDialog />
         </div>
         <TransitionGroup className="pane-container">
           {isLeftPaneVisible ? <Fade><LeftPane /></Fade> : null}

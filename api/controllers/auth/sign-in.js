@@ -3,7 +3,7 @@
 const crypto = require('crypto');
 
 module.exports = async function signIn(req, res) {
-  let validate = !!req.param('_validate');
+  let validate = req.param('_validate');
   let login = _.isString(req.param('login')) ? _.trim(req.param('login')) : '';
   let password = _.isString(req.param('password')) ? _.trim(req.param('password')) : '';
 
@@ -29,5 +29,5 @@ module.exports = async function signIn(req, res) {
     }
   }
 
-  return res.json(form);
+  return res.json(form.toJSON());
 };

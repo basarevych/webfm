@@ -27,7 +27,7 @@ $navbar-dark-disabled-color:      rgba(#ffffff, .25);
 
 $input-bg:                        $body-bg;
 $input-color:                     rgba(#ffffff, .8);
-$input-disabled-bg:               $secondary;
+$input-disabled-bg:               lighten($body-bg, 8%);
 $input-border-color:              $secondary;
 
 $dropdown-bg:                     $primary;

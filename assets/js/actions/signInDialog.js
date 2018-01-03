@@ -12,6 +12,12 @@ export const unlockSignInDialog = () => {
   };
 };
 
+export const resetSignInDialog = values => {
+  let action = { type: 'RESET_SIGN_IN_DIALOG' };
+  if (values)
+    action.values = values;
+  return action;
+};
 
 export const showSignInDialog = () => {
   return async (dispatch, getState) => {
@@ -19,7 +25,7 @@ export const showSignInDialog = () => {
     if (signInDialog.locked)
       return;
 
-    await dispatch(updateSignInDialog({ messages: {}, errors: {} }));
+    await dispatch(resetSignInDialog());
 
     return dispatch({
       type: 'SHOW_SIGN_IN_DIALOG',
@@ -33,7 +39,7 @@ export const hideSignInDialog = () => {
     if (signInDialog.locked)
       return;
 
-    await dispatch(updateSignInDialog({ messages: {}, errors: {} }));
+    await dispatch(resetSignInDialog());
 
     return dispatch({
       type: 'HIDE_SIGN_IN_DIALOG',
@@ -47,11 +53,7 @@ export const toggleSignInDialog = () => {
     if (signInDialog.locked)
       return;
 
-    await dispatch(updateSignInDialog({ messages: {}, errors: {} }));
-
-    return dispatch({
-      type: 'TOGGLE_SIGN_IN_DIALOG',
-    });
+    return dispatch(signInDialog.isOpen ? hideSignInDialog() : showSignInDialog());
   };
 };
 

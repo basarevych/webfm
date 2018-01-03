@@ -26,6 +26,9 @@ class TopNavbar extends React.Component {
       commands = (
         <Nav navbar>
           <NavItem>
+            <NavLink className="link" onClick={this.props.onMkdir}>{__('mkdir_button')}</NavLink>
+          </NavItem>
+          <NavItem>
             <NavLink>{__('copy_command')}</NavLink>
           </NavItem>
         </Nav>
@@ -76,6 +79,7 @@ TopNavbar.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   login: PropTypes.string,
   onToggleNavbar: PropTypes.func.isRequired,
+  onMkdir: PropTypes.func.isRequired,
   onSignIn: PropTypes.func.isRequired,
   onSignOut: PropTypes.func.isRequired,
 };

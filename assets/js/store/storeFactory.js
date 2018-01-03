@@ -7,6 +7,7 @@ import app from '../reducers/app';
 import user from '../reducers/user';
 import navbar from '../reducers/navbar';
 import signInDialog from '../reducers/signInDialog';
+import mkdirDialog from '../reducers/mkdirDialog';
 import paneFactory from '../reducers/paneFactory';
 import infoListFactory from '../reducers/infoListFactory';
 
@@ -18,6 +19,7 @@ const storeFactory = (history, initialState) =>
       user,
       navbar,
       signInDialog,
+      mkdirDialog,
       leftPane: paneFactory('LEFT'),
       rightPane: paneFactory('RIGHT'),
       lists: infoListFactory('list'),

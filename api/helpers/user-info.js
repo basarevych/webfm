@@ -34,6 +34,8 @@ module.exports = {
         where: { user: inputs.req.session.userId },
         select: ['name', 'isReadOnly'],
       });
+      if (!shares.length)
+        authorized = false;
     }
 
     return exits.success({

@@ -1,13 +1,14 @@
 'use strict';
 
-const signInDialog = (
+const mkdirDialog = (
   state = {
     submittedAt: 0,
     isOpen: false,
     locked: 0,
     values: {
-      login: '',
-      password: '',
+      share: '',
+      directory: '',
+      name: '',
     },
     messages: {},
     errors: {},
@@ -16,12 +17,12 @@ const signInDialog = (
 ) => {
   let newState;
   switch (action.type) {
-    case 'LOCK_SIGN_IN_DIALOG':
+    case 'LOCK_MKDIR_DIALOG':
       return _.cloneDeep({
         ...state,
         locked: state.locked + 1,
       });
-    case 'UNLOCK_SIGN_IN_DIALOG':
+    case 'UNLOCK_MKDIR_DIALOG':
       if (state.locked === 0)
         return state;
 
@@ -29,27 +30,23 @@ const signInDialog = (
         ...state,
         locked: state.locked - 1,
       });
-    case 'SHOW_SIGN_IN_DIALOG':
+    case 'SHOW_MKDIR_DIALOG':
       if (state.isOpen)
         return state;
 
-      newState = _.cloneDeep({
+      return _.cloneDeep({
         ...state,
         isOpen: true,
       });
-      newState.values.password = '';
-      return newState;
-    case 'HIDE_SIGN_IN_DIALOG':
+    case 'HIDE_MKDIR_DIALOG':
       if (!state.isOpen)
         return state;
 
-      newState = _.cloneDeep({
+      return _.cloneDeep({
         ...state,
         isOpen: false,
       });
-      newState.values.password = '';
-      return newState;
-    case 'RESET_SIGN_IN_DIALOG':
+    case 'RESET_MKDIR_DIALOG':
       newState = {
         ...state,
         errors: {},
@@ -60,7 +57,7 @@ const signInDialog = (
         newState.values = action.values;
 
       return _.cloneDeep(newState);
-    case 'SUBMIT_SIGN_IN_DIALOG':
+    case 'SUBMIT_MKDIR_DIALOG':
       if (action.submittedAt <= state.submittedAt)
         return state;
 
@@ -68,7 +65,7 @@ const signInDialog = (
         ...state,
         submittedAt: action.submittedAt,
       });
-    case 'UPDATE_SIGN_IN_DIALOG':
+    case 'UPDATE_MKDIR_DIALOG':
       if (action.submittedAt < state.submittedAt)
         return state;
 
@@ -98,4 +95,4 @@ const signInDialog = (
   return state;
 };
 
-export default signInDialog;
+export default mkdirDialog;

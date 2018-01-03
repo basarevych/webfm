@@ -8,7 +8,7 @@ import RequiredFieldLabel from './RequiredFieldLabel';
 import FormMessages from './FormMessages';
 import FieldErrors from './FieldErrors';
 
-class SignInModal extends React.Component {
+class MkdirModal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -33,11 +33,15 @@ class SignInModal extends React.Component {
       return;
 
     switch (event.target.name) {
-      case 'login':
-        if (this.passwordInput)
-          setTimeout(() => this.passwordInput.focus(), 0);
+      case 'share':
+        if (this.directoryInput)
+          setTimeout(() => this.directoryInput.focus(), 0);
         break;
-      case 'password':
+      case 'directory':
+        if (this.nameInput)
+          setTimeout(() => this.nameInput.focus(), 0);
+        break;
+      case 'name':
         this.handleSubmit();
         break;
     }
@@ -86,13 +90,17 @@ class SignInModal extends React.Component {
           continue;
 
         switch (key) {
-          case 'login':
-            if (this.loginInput)
-              setTimeout(() => this.loginInput.focus(), 0);
+          case 'share':
+            if (this.shareInput)
+              setTimeout(() => this.shareInput.focus(), 0);
             break;
-          case 'password':
-            if (this.passwordInput)
-              setTimeout(() => this.passwordInput.focus(), 0);
+          case 'directory':
+            if (this.directoryInput)
+              setTimeout(() => this.directoryInput.focus(), 0);
+            break;
+          case 'name':
+            if (this.nameInput)
+              setTimeout(() => this.nameInput.focus(), 0);
             break;
         }
         break;
@@ -109,53 +117,71 @@ class SignInModal extends React.Component {
         backdrop="static"
         fade={true}
       >
-        <ModalHeader toggle={this.props.onToggle}>{__('sign_in_title')}</ModalHeader>
+        <ModalHeader toggle={this.props.onToggle}>{__('mkdir_title')}</ModalHeader>
         <ModalBody>
           <Form>
             <FormMessages messages={this.props.messages} />
             <FormGroup row>
-              <Label for="signInLogin" sm={4} className="text-sm-right">
-                {__('login_label')}
+              <Label for="mkdirShare" sm={4} className="text-sm-right">
+                {__('share_label')}
+              </Label>
+              <Col sm={8}>
+                <Input
+                  type="text"
+                  name="share"
+                  id="mkdirShare"
+                  disabled={true}
+                  valid={(!this.props.errors.share || !Object.keys(this.props.errors.share).length) && undefined}
+                  value={this.props.values.share}
+                  onKeyPress={this.handleKeyPress}
+                  onFocus={this.handleFocus}
+                  onBlur={this.handleBlur}
+                  innerRef={(input) => { this.shareInput = input; }}
+                />
+                <FieldErrors errors={this.props.errors.share} />
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label for="mkdirDirectory" sm={4} className="text-sm-right">
+                {__('directory_label')}
+              </Label>
+              <Col sm={8}>
+                <Input
+                  type="text"
+                  name="directory"
+                  id="mkdirDirectory"
+                  disabled={true}
+                  valid={(!this.props.errors.directory || !Object.keys(this.props.errors.directory).length) && undefined}
+                  value={this.props.values.directory}
+                  onKeyPress={this.handleKeyPress}
+                  onFocus={this.handleFocus}
+                  onBlur={this.handleBlur}
+                  innerRef={(input) => { this.directoryInput = input; }}
+                />
+                <FieldErrors errors={this.props.errors.directory} />
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label for="mkdirName" sm={4} className="text-sm-right">
+                {__('name_label')}
                 <RequiredFieldLabel />
               </Label>
               <Col sm={8}>
                 <Input
                   type="text"
-                  name="login"
-                  id="signInLogin"
+                  name="name"
+                  id="mkdirName"
                   disabled={this.props.isLocked}
                   autoFocus
-                  valid={(!this.props.errors.login || !Object.keys(this.props.errors.login).length) && undefined}
-                  value={this.props.values.login}
+                  valid={(!this.props.errors.name || !Object.keys(this.props.errors.name).length) && undefined}
+                  value={this.props.values.name}
                   onChange={this.handleInput}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
-                  innerRef={(input) => { this.loginInput = input; }}
+                  innerRef={(input) => { this.nameInput = input; }}
                 />
-                <FieldErrors errors={this.props.errors.login} />
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Label for="signInPassword" sm={4} className="text-sm-right">
-                {__('password_label')}
-                <RequiredFieldLabel />
-              </Label>
-              <Col sm={8}>
-                <Input
-                  type="password"
-                  name="password"
-                  id="signInPassword"
-                  disabled={this.props.isLocked}
-                  valid={(!this.props.errors.password || !Object.keys(this.props.errors.password).length) && undefined}
-                  value={this.props.values.password}
-                  onChange={this.handleInput}
-                  onKeyPress={this.handleKeyPress}
-                  onFocus={this.handleFocus}
-                  onBlur={this.handleBlur}
-                  innerRef={(input) => { this.passwordInput = input; }}
-                />
-                <FieldErrors errors={this.props.errors.password} />
+                <FieldErrors errors={this.props.errors.name} />
               </Col>
             </FormGroup>
           </Form>
@@ -174,7 +200,7 @@ class SignInModal extends React.Component {
   }
 }
 
-SignInModal.propTypes = {
+MkdirModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   isLocked: PropTypes.bool.isRequired,
   values: PropTypes.object.isRequired,
@@ -185,4 +211,4 @@ SignInModal.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default SignInModal;
+export default MkdirModal;

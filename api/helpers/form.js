@@ -1,36 +1,6 @@
 'use strict';
 
-class Form {
-  constructor(values) {
-    this.success = true;
-    this.values = values;
-    this.messages = {};
-    this.errors = {};
-  }
-
-  addMessage(key, message, type = 'error') {
-    this.messages[key] = { type, message: message || sails.__(key) };
-  }
-
-  removeMessage(key) {
-    delete this.messages[key];
-  }
-
-  addError(field, key, message) {
-    if (!this.errors[field])
-      this.errors[field] = {};
-
-    this.errors[field][key] = { message: message || sails.__(key) };
-  }
-
-  removeError(field, key) {
-    if (this.errors[field]) {
-      delete this.errors[field][key];
-      if (!Object.keys(this.errors[field]))
-        delete this.errors[field];
-    }
-  }
-}
+const Form = require('../../lib/Form');
 
 module.exports = {
 
@@ -74,21 +44,17 @@ module.exports = {
       try {
         form.values[attr] = inputs.model.validate(attr, form.values[attr]);
       } catch (error) {
-        let key = `${inputs.model.identity}.${attr}.${error.code}`;
-        let translated = sails.__(key);
-        form.addError(attr, error.code, translated === key ? _.escape(error.message) : translated);
+        let code = error.code || 'ERROR';
+        let key = `${inputs.model.identity}.${attr}.${code}`;
+        let translated = (code === 'ERROR' ? key : sails.__(key)); // New __(key) will create the key with the same content
+        form.addError(attr, code, translated === key ? _.escape(error.message) : translated);
       }
     }
 
     if (typeof inputs.model.postValidate === 'function')
       await inputs.model.postValidate({ form, validate: inputs.validate });
 
-    if (form.success)
-      form.success = !Object.keys(form.errors).length;
-
     return exits.success(form);
   },
 
-
 };
-
