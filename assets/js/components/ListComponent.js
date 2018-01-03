@@ -20,20 +20,18 @@ class ListComponent extends React.Component {
 
   renderItem(index, key) {
     let node = this.props.list[index];
-    let sizeId = `${this.props.share}:${join(node.directory, node.name)}`;
-    let size = this.props.sizes[sizeId];
     return (
       <ListItem
         key={key}
         node={node}
-        size={size}
+        size={this.props.sizes[`${this.props.share}:${node.path}`]}
         index={index}
         isSelected={this.props.selectedIndexes.includes(index)}
         onChangeDirectory={this.props.onChangeDirectory}
         onNodeClick={this.props.onNodeClick}
         onNodeShiftClick={this.props.onNodeShiftClick}
         onNodeControlClick={this.props.onNodeControlClick}
-        onSizeClick={() => this.props.onSizeClick(sizeId)}
+        onSizeClick={() => this.props.onSizeClick(this.props.share, node.path)}
       />
     );
   }

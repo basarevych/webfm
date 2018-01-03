@@ -84,23 +84,29 @@ module.exports = function defineWatcherHook(sails) {
         }
 
         if ((pane === 'LEFT' || pane === 'BOTH') && info.left !== root) {
-          if (info.left)
+          if (info.left) {
             sails.sockets.leave(socketId, info.left);
-          await unwatch(info.left);
+            await unwatch(info.left);
+          }
           info.left = root;
-          await watch(info.left, node.realPath);
-          if (info.left)
+          if (info.left) {
             sails.sockets.join(socketId, info.left);
+            await watch(info.left, node.realPath);
+          }
         }
 
         if ((pane === 'RIGHT' || pane === 'BOTH') && info.right !== root) {
-          if (info.right && info.right !== info.left)
-            sails.sockets.leave(socketId, info.right);
-          await unwatch(info.right);
+          if (info.right) {
+            if (info.right !== info.left)
+              sails.sockets.leave(socketId, info.right);
+            await unwatch(info.right);
+          }
           info.right = root;
-          await watch(info.right, node.realPath);
-          if (info.right && info.right !== info.left)
-            sails.sockets.join(socketId, info.right);
+          if (info.right) {
+            if (info.right !== info.left)
+              sails.sockets.join(socketId, info.right);
+            await watch(info.right, node.realPath);
+          }
         }
       } catch (error) {
         sails.log.debug(`Could not install watcher: ${error.message}`);
@@ -112,12 +118,15 @@ module.exports = function defineWatcherHook(sails) {
 
       let info = sockets.get(socketId);
       if (info) {
-        if (info.left)
+        if (info.left) {
           sails.sockets.leave(socketId, info.left);
-        if (info.right && info.right !== info.left)
-          sails.sockets.leave(socketId, info.right);
-        await unwatch(info.left);
-        await unwatch(info.right);
+          await unwatch(info.left);
+        }
+        if (info.right) {
+          if (info.right !== info.left)
+            sails.sockets.leave(socketId, info.right);
+          await unwatch(info.right);
+        }
         sockets.delete(socketId);
       }
 

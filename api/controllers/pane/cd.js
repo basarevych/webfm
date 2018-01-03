@@ -5,6 +5,9 @@ module.exports = async function cd(req, res) {
   if (!req.isSocket)
     return res.badRequest('Not a socket');
 
+  if (!['LEFT', 'RIGHT', 'BOTH'].includes(req.param('pane')))
+    return res.badRequest('Invalid pane');
+
   try {
     let listing = await sails.helpers.shareListing(req.session.userId, req.param('share'), req.param('path'));
 

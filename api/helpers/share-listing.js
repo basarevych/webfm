@@ -42,7 +42,7 @@ module.exports = {
       return Node.findOne({ share, path }).populate(
         'nodes',
         {
-          select: ['id', 'directory', 'name', 'target', 'size', 'isDirectory', 'isSymLink']
+          select: ['id', 'path', 'directory', 'name', 'target', 'size', 'isDirectory', 'isSymLink']
         }
       );
     };

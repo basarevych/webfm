@@ -2,7 +2,6 @@
 
 import { setSize, clearSizes } from './size';
 import { signOut } from './user';
-import { join } from '../lib/path';
 
 export const setInfo = (id, info) => {
   return {
@@ -16,11 +15,11 @@ export const clearInfos = () => {
   return async (dispatch, getState) => {
     let { infos, leftPane, rightPane } = getState();
     let leftId;
-    if (leftPane.share && leftPane.directory && leftPane.name)
-      leftId = `${leftPane.share}:${leftPane.directory}:${leftPane.name}`;
+    if (leftPane.share && leftPane.path)
+      leftId = `${leftPane.share}:${leftPane.path}`;
     let rightId;
-    if (rightPane.share && rightPane.directory && rightPane.name)
-      rightId= `${rightPane.share}:${rightPane.directory}:${rightPane.name}`;
+    if (rightPane.share && rightPane.path)
+      rightId= `${rightPane.share}:${rightPane.path}`;
 
     if (Object.keys(infos).length === 0 ||
       (leftId && rightId && (leftId === rightId
@@ -46,20 +45,24 @@ export const loadInfo = pane => {
     let { app, infos, leftPane, rightPane } = getState();
 
     let id;
-    let sizeId;
-    if (pane === 'LEFT' && leftPane.share && leftPane.directory && leftPane.name) {
-      id = `${leftPane.share}:${leftPane.directory}:${leftPane.name}`;
-      sizeId = `${leftPane.share}:${join(leftPane.directory, leftPane.name)}`;
-    } else if (pane === 'RIGHT' && rightPane.share && rightPane.directory && rightPane.name) {
-      id = `${rightPane.share}:${rightPane.directory}:${rightPane.name}`;
-      sizeId = `${rightPane.share}:${join(rightPane.directory, rightPane.name)}`;
+    let share;
+    let path;
+    if (pane === 'LEFT' && leftPane.share && leftPane.name) {
+      share = leftPane.share;
+      path = leftPane.path;
+      id = `${share}:${path}`;
+    } else if (pane === 'RIGHT' && rightPane.share && rightPane.name) {
+      share = rightPane.share;
+      path = rightPane.path;
+      id = `${share}:${path}`;
     }
 
     if (!id || infos[id])
       return;
 
     let params = {
-      id,
+      share,
+      path,
       _csrf: app.csrf,
     };
 
@@ -74,7 +77,7 @@ export const loadInfo = pane => {
     );
     await dispatch(
       setSize(
-        sizeId,
+        id,
         {
           isLoading: true,
           isForbidden: false,
@@ -110,7 +113,7 @@ export const loadInfo = pane => {
             );
             await dispatch(
               setSize(
-                sizeId,
+                id,
                 {
                   isLoading: false,
                   isForbidden: false,
@@ -130,7 +133,7 @@ export const loadInfo = pane => {
             );
             await dispatch(
               setSize(
-                sizeId,
+                id,
                 {
                   isLoading: false,
                   isForbidden: true,

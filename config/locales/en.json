@@ -5,7 +5,7 @@
   "forbidden_message": "No access or not found",
   "contents_view_message": "Contents view",
   "type_DIR_message": "This is a directory",
-  "type_SYMLINK_message": "This is a symbolic link",
+  "type_SYMLINK_message": "This is a symbolic link to outside of the share",
   "type_BINARY_message": "This is a binary data file",
   "info_view_message": "Info view",
   "empty_message": "Empty...",

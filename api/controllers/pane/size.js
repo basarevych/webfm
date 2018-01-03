@@ -3,13 +3,7 @@
 module.exports = async function size(req, res) {
 
   try {
-    let parts = (req.param('id') || '').split(':');
-    if (parts.length !== 2)
-      throw new Error('Invalid ID');
-
-    let [share, path] = parts;
-
-    let node = await Node.findOne({ share: `${req.session.userId}:${share}`, path });
+    let node = await Node.findOne({ share: `${req.session.userId}:${req.param('share')}`, path: req.param('path') });
     if (node.isValid) {
       return res.json({
         success: true,

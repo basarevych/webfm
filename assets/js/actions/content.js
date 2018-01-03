@@ -14,11 +14,11 @@ export const clearContents = () => {
   return async (dispatch, getState) => {
     let { contents, leftPane, rightPane } = getState();
     let leftId;
-    if (leftPane.share && leftPane.directory && leftPane.name)
-      leftId = `${leftPane.share}:${leftPane.directory}:${leftPane.name}`;
+    if (leftPane.share && leftPane.path)
+      leftId = `${leftPane.share}:${leftPane.path}`;
     let rightId;
-    if (rightPane.share && rightPane.directory && rightPane.name)
-      rightId= `${rightPane.share}:${rightPane.directory}:${rightPane.name}`;
+    if (rightPane.share && rightPane.path)
+      rightId= `${rightPane.share}:${rightPane.path}`;
 
     if (Object.keys(contents).length === 0 ||
         (leftId && rightId && (leftId === rightId
@@ -44,16 +44,24 @@ export const loadContent = pane => {
     let { app, contents, leftPane, rightPane } = getState();
 
     let id;
-    if (pane === 'LEFT' && leftPane.share && leftPane.directory && leftPane.name)
-      id = `${leftPane.share}:${leftPane.directory}:${leftPane.name}`;
-    else if (pane === 'RIGHT' && rightPane.share && rightPane.directory && rightPane.name)
-      id = `${rightPane.share}:${rightPane.directory}:${rightPane.name}`;
+    let share;
+    let path;
+    if (pane === 'LEFT' && leftPane.share && leftPane.name) {
+      share = leftPane.share;
+      path = leftPane.path;
+      id = `${share}:${path}`;
+    } else if (pane === 'RIGHT' && rightPane.share && rightPane.name) {
+      share = rightPane.share;
+      path = rightPane.path;
+      id = `${share}:${path}`;
+    }
 
     if (!id || contents[id])
       return;
 
     let params = {
-      id,
+      share,
+      path,
       _csrf: app.csrf,
     };
 

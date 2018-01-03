@@ -9,8 +9,8 @@ import Pane from '../components/Pane';
 
 const mapStateToProps = state => {
   let selectedId;
-  if (state.leftPane.share && state.leftPane.directory && state.leftPane.name)
-    selectedId = `${state.leftPane.share}:${state.leftPane.directory}:${state.leftPane.name}`;
+  if (state.leftPane.share && state.leftPane.name)
+    selectedId = `${state.leftPane.share}:${state.leftPane.path}`;
 
   return {
     breakpoint: state.app.breakpoint,
@@ -44,7 +44,7 @@ const mapDispatchToProps = dispatch => {
     onNodeClick: node => dispatch(paneSelect('RIGHT', node)),
     onNodeShiftClick: node => dispatch(paneSelectRange('RIGHT', node)),
     onNodeControlClick: node => dispatch(paneToggleSelect('RIGHT', node)),
-    onSizeClick: id => dispatch(loadSize(id)),
+    onSizeClick: (share, path) => dispatch(loadSize(share, path)),
     onToggleOther: () => dispatch(togglePane('LEFT')),
     onSetOtherMode: mode => dispatch(setPaneMode('LEFT', mode)),
   };

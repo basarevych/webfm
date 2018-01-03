@@ -1,6 +1,7 @@
 'use strict';
 
 import { signOut } from './user';
+import {join} from '../lib/path';
 
 export const setSize = (id, size) => {
   size.timestamp = Date.now();
@@ -28,15 +29,17 @@ export const clearSizes = () => {
   };
 };
 
-export const loadSize = id => {
+export const loadSize = (share, path) => {
   return async (dispatch, getState) => {
     let { app, sizes } = getState();
 
+    let id = `${share}:${path}`;
     if (sizes[id] && sizes[id].isLoading)
       return;
 
     let params = {
-      id,
+      share,
+      path,
       _csrf: app.csrf,
     };
 
