@@ -70,7 +70,14 @@ module.exports = function defineWatcherHook(sails) {
         let parts = root.split(':');
         let path = parts.pop();
         let share = parts.join(':');
-        let node = await Node.findOne({ share, path });
+
+        let node;
+        try {
+          node = await Node.findOne({share, path});
+        } catch (error) {
+          return;
+        }
+
         if (!node.isValid || !node.isDirectory)
           throw new Error('Node is invalid');
 

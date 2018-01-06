@@ -41,13 +41,14 @@ module.exports.bootstrap = async function(done) {
   {
     try {
       let stats = fs.statSync(serverBundle);
-      if (stats.mtimeMs > Date.now() - 1000)
+      if (stats.mtimeMs > Date.now() - 2000)
         throw new Error('Server bundle is not ready');
       if (process.env.NODE_ENV === 'production') {
         stats = fs.statSync(clientBundle);
-        if (stats.mtimeMs > Date.now() - 1000)
+        if (stats.mtimeMs > Date.now() - 2000)
           throw new Error('Client bundle is not ready');
       }
+      sails.hooks.broadcaster.started = true;
       return done();
     } catch (error) {
       setTimeout(load, 1000);

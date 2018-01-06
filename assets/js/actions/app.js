@@ -6,6 +6,7 @@ import {
   setPaneShare, setPanePath, stopLoadingPane, paneUpdate
 } from './pane';
 import { setList } from './list';
+import { startProgress, updateProgress, finishProgress } from './progressDialog';
 import { matchLocation } from '../lib/path';
 
 export const startApp = () => {
@@ -14,11 +15,8 @@ export const startApp = () => {
   };
 };
 
-let ioConnected = false;
 let startTimer = null;
 export const connectApp = () => {
-  ioConnected = true;
-
   if (startTimer) {
     clearTimeout(startTimer);
     startTimer = null;
@@ -28,15 +26,14 @@ export const connectApp = () => {
   return async (dispatch, getState) => {
     {
       let { app } = getState();
-      if (!app.isStarted)
+      if (app.ioTimestamp > when)
         return;
+
+      dispatch({
+        type: app.isConnected ? 'CONNECT_APP' : 'DISCONNECT_APP',
+        when,
+      });
     }
-
-    dispatch({
-      type: 'CONNECT_APP',
-      when,
-    });
-
     {
       await dispatch(getCSRFToken());
       let { app } = getState();
@@ -62,25 +59,27 @@ export const connectApp = () => {
         },
         _csrf: app.csrf,
       };
-      return new Promise(resolve => {
+      await new Promise(resolve => {
         io.socket.post('/pane/watch', params, () => resolve());
+      });
+    }
+    {
+      let { app } = getState();
+      if (app.ioTimestamp > when || app.isConnected)
+        return;
+
+      dispatch({
+        type: 'CONNECT_APP',
+        when,
       });
     }
   };
 };
 
 export const disconnectApp = () => {
-  ioConnected = false;
-
-  return async (dispatch, getState) => {
-    let { app } = getState();
-    if (!app.isStarted)
-      return;
-
-    return dispatch({
-      type: 'DISCONNECT_APP',
-      when: Date.now(),
-    });
+  return {
+    type: 'DISCONNECT_APP',
+    when: Date.now(),
   };
 };
 
@@ -165,19 +164,22 @@ export const initApp = history => {
       dispatch(paneCD(pane, match ? match.share : user.shares[0].name, match ? match.path : '/'));
     });
 
+    io.socket = io.sails.connect();
+    io.socket.on('connect', () => dispatch(connectApp()));
+    io.socket.on('disconnect', () => dispatch(disconnectApp()));
     io.socket.on('watch', data => dispatch(paneUpdate(data)));
+    io.socket.on('progress-start', data => dispatch(startProgress(data)));
+    io.socket.on('progress-more', data => dispatch(updateProgress(data)));
+    io.socket.on('progress-finish', data => dispatch(finishProgress(data)));
 
-    if (ioConnected) {
-      await dispatch(connectApp());
-    } else {
-      startTimer = setTimeout(
-        () => {
-          startTimer = null;
-          dispatch(disconnectApp());
-        },
-        3000
-      );
-    }
+    startTimer = setTimeout(
+      () => {
+        startTimer = null;
+        dispatch(disconnectApp());
+      },
+      3000
+    );
+
   };
 };
 

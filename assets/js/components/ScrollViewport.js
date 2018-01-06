@@ -5,16 +5,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Viewport extends React.Component {
+  scrollDown() {
+    if (!this.touching)
+      this.viewport.scrollTop = this.viewport.scrollHeight;
+  }
+
   componentDidMount() {
-    this.viewport = null;
+    this.viewport = ReactDOM.findDOMNode(this);
+    this.touching = false;
 
     try {
       document.createEvent('TouchEvent');
     } catch (error) {
       return;
     }
-
-    this.viewport = ReactDOM.findDOMNode(this);
 
     let scrollStartTop = 0;
     let scrollStartLeft = 0;
@@ -27,6 +31,7 @@ class Viewport extends React.Component {
       this.viewport.scrollLeft = scrollLeft;
     };
     this.touchStartHandler = function (event) {
+      this.touching = true;
       scrollStartTop = this.scrollTop + event.touches[0].pageY;
       scrollStartLeft = this.scrollLeft + event.touches[0].pageX;
     };
@@ -37,15 +42,29 @@ class Viewport extends React.Component {
       if (!frameId)
         frameId = requestAnimationFrame(frame);
     };
+    this.touchEndHandler = function () {
+      this.touching = false;
+    };
 
     this.viewport.addEventListener('touchstart', this.touchStartHandler, false);
     this.viewport.addEventListener('touchmove', this.touchMoveHandler, false);
+    this.viewport.addEventListener('touchend', this.touchEndHandler, false);
   }
 
   componentWillUnmount() {
-    if (this.viewport) {
+    if (this.touchStartHandler) {
       this.viewport.removeEventListener('touchstart', this.touchStartHandler);
+      this.touchStartHandler = null;
+    }
+
+    if (this.touchMoveHandler) {
       this.viewport.removeEventListener('touchmove', this.touchMoveHandler);
+      this.touchMoveHandler = null;
+    }
+
+    if (this.touchEndHandler) {
+      this.viewport.removeEventListener('touchend', this.touchEndHandler);
+      this.touchEndHandler = null;
     }
   }
 
@@ -67,6 +86,11 @@ class Viewport extends React.Component {
 Viewport.propTypes = {
   classes: PropTypes.string,
   reactList: PropTypes.bool,
+};
+
+Viewport.defaultProps = {
+  classes: '',
+  reactList: false,
 };
 
 export default Viewport;

@@ -14,21 +14,19 @@ import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter } from 'react-router-redux';
 import storeFactory from './store/storeFactory';
 import App from './containers/App';
-import { initApp, connectApp, disconnectApp, screenResize } from './actions/app';
+import { initApp, screenResize } from './actions/app';
 
 window._ = _;
 window.io = sailsIOClient(socketIOClient);
+window.io.sails.autoConnect = false;
+window.io.sails.reconnection = true;
+
 Breakpoints();
 raf.polyfill();
 
 const history = createHistory();
 const store = storeFactory(history, JSON.parse(atob(window.__STATE__)));
 delete window.__STATE__;
-
-io.sails.reconnection = true;
-io.socket
-  .on('connect', () => store.dispatch(connectApp()))
-  .on('disconnect', () => store.dispatch(disconnectApp()));
 
 window.addEventListener('resize', () => store.dispatch(screenResize()));
 window.addEventListener('orientationchange', () => store.dispatch(screenResize()));

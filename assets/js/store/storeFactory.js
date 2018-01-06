@@ -6,8 +6,10 @@ import { routerMiddleware, routerReducer } from 'react-router-redux';
 import app from '../reducers/app';
 import user from '../reducers/user';
 import navbar from '../reducers/navbar';
+import progress from '../reducers/progress';
 import signInDialog from '../reducers/signInDialog';
 import mkdirDialog from '../reducers/mkdirDialog';
+import copyDialog from '../reducers/copyDialog';
 import paneFactory from '../reducers/paneFactory';
 import infoListFactory from '../reducers/infoListFactory';
 
@@ -18,8 +20,10 @@ const storeFactory = (history, initialState) =>
       app,
       user,
       navbar,
+      progress,
       signInDialog,
       mkdirDialog,
+      copyDialog,
       leftPane: paneFactory('LEFT'),
       rightPane: paneFactory('RIGHT'),
       lists: infoListFactory('list'),

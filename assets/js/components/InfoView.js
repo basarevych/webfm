@@ -22,7 +22,7 @@ const InfoView = ({ info }) => {
       body = (
         <div className="scroll-wrapper">
           <GenericScrollBox permitHandleDragInterruption={false}>
-            <Viewport>
+            <Viewport reactList={false}>
               <div className="listing">
                 <div className="listing-item odd">
                   <div className="info">

@@ -31,6 +31,8 @@ module.exports.routes = {
   'POST /pane/cd': 'pane/cd',
   'POST /pane/watch': 'pane/watch',
   'POST /pane/mkdir': 'pane/mkdir',
+  'POST /pane/find': 'pane/find',
+  'POST /pane/copy': 'pane/copy',
   'GET /pane/content': 'pane/content',
   'GET /pane/info': 'pane/info',
   'GET /pane/size': 'pane/size',

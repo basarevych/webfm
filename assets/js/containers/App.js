@@ -11,10 +11,9 @@ const mapStateToProps = state => {
   };
 };
 
-
 const App = connect(
   mapStateToProps,
-  null
+  null,
 )(Screen);
 
 export default App;

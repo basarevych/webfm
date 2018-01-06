@@ -1,0 +1,21 @@
+.found-nodes {
+  height: 5em;
+
+  .processing {
+    padding-top: 0.5em;
+    font-size: 24pt;
+    text-align: center;
+  }
+
+  .scroll-wrapper {
+    @include scroll-wrapper();
+  }
+}
+
+.progress-widget {
+  height: 10em;
+
+  .scroll-wrapper {
+    @include scroll-wrapper();
+  }
+}

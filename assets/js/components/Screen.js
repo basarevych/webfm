@@ -7,14 +7,20 @@ import { FaCog } from 'react-icons/lib/fa';
 import Fade from './Fade';
 import Navbar from '../containers/Navbar';
 import SignInDialog from '../containers/SignInDialog';
+import ProgressDialog from '../containers/ProgressDialog';
 import MkdirDialog from '../containers/MkdirDialog';
+import CopyDialog from '../containers/CopyDialog';
 import LeftPane from '../containers/LeftPane';
 import RightPane from '../containers/RightPane';
 
-const Screen = ({ isConnected, isLeftPaneVisible, isRightPaneVisible }) => {
-  let notConnected = null;
+const Screen = ({
+  isConnected,
+  isLeftPaneVisible,
+  isRightPaneVisible,
+}) => {
+  let overlay = null;
   if (!isConnected) {
-    notConnected = (
+    overlay = (
       <div className="page-overlay shaded">
         <div className="no-connection-window rounded">
           <FaCog className="rotating icon-text" />
@@ -27,12 +33,14 @@ const Screen = ({ isConnected, isLeftPaneVisible, isRightPaneVisible }) => {
 
   return (
     <div className="w-100 h-100">
-      {notConnected}
+      {overlay}
       <div className="w-100 h-100 d-flex flex-column">
         <div>
           <Navbar />
           <SignInDialog />
+          <ProgressDialog />
           <MkdirDialog />
+          <CopyDialog />
         </div>
         <TransitionGroup className="pane-container">
           {isLeftPaneVisible ? <Fade><LeftPane /></Fade> : null}

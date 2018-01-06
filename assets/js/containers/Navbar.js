@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { toggleNavbar } from '../actions/navbar';
 import { toggleSignInDialog } from '../actions/signInDialog';
 import { toggleMkdirDialog } from '../actions/mkdirDialog';
+import { toggleCopyDialog } from '../actions/copyDialog';
 import { signOut } from '../actions/user';
 import TopNavbar from '../components/TopNavbar';
 
@@ -19,7 +20,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onToggleNavbar: () => dispatch(toggleNavbar()),
-    onMkdir: () => dispatch(toggleMkdirDialog()),
+    onMkdirCommand: () => dispatch(toggleMkdirDialog()),
+    onCopyCommand: () => dispatch(toggleCopyDialog()),
     onSignIn: () => dispatch(toggleSignInDialog()),
     onSignOut: () => dispatch(signOut()),
   };

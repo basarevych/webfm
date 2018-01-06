@@ -130,8 +130,8 @@ class ListItem extends React.Component {
         className={
           'listing-item' + (this.props.isSelected ? ' selected' : '') +
           (this.state.isHovered
-              ? ' hovered'
-              : (this.props.index % 2 ? ' odd' : ' even'))
+            ? ' hovered'
+            : (this.props.index % 2 ? ' odd' : ' even'))
         }
         onMouseEnter={this.handleEnter}
         onMouseLeave={this.handleLeave}

@@ -10,7 +10,7 @@ module.exports = async function signIn(req, res) {
   let form = await sails.helpers.form(User, { login, password }, validate);
 
   if (validate)
-    return res.json(form);
+    return res.json(form.toJSON());
 
   if (form.success) {
     let model = await User.findOne({ login });

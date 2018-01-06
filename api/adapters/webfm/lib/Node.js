@@ -70,7 +70,7 @@ class Node {
           resolve(shares[0]);
         });
       });
-      done(null, [await this.loadInfo(share.id, share.path, path, select)]);
+      return done(null, [await this.loadInfo(share.id, share.path, path, select)]);
     } catch (error) {
       return done(error);
     }
@@ -115,7 +115,7 @@ class Node {
         let nodes = [];
         for (let entry of entries)
           nodes.push(await this.loadInfo(share, parent.root, _path.join(parent.path, entry), select));
-        done(null, nodes);
+        return done(null, nodes);
       } catch (error) {
         return done(error);
       }
@@ -155,9 +155,8 @@ class Node {
         if (error)
           return reject(error);
 
-        if (!stats.isSymbolicLink()) {
+        if (!stats.isSymbolicLink())
           return resolve(this.constructor.statsToObject(info, _path.dirname(info.relPath), _path.basename(info.relPath), stats, select));
-        }
 
         fs.readlink(info.fullPath, (error, target) => {
           if (error)

@@ -5,7 +5,7 @@ const _path = require('path');
 const Form = require('../../../lib/Form');
 
 module.exports = async function mkdir(req, res) {
-  let validate = !!req.param('_validate');
+  let validate = req.param('_validate');
   let share = _.isString(req.param('share')) ? _.trim(req.param('share')) : '';
   let directory = _.isString(req.param('directory')) ? _.trim(req.param('directory')) : '';
   let name = _.isString(req.param('name')) ? _.trim(req.param('name')) : '';
@@ -15,44 +15,53 @@ module.exports = async function mkdir(req, res) {
   let shareFound = false;
   for (let item of await Share.find({ user: req.session.userId })) {
     if (item.name === share) {
-      if (item.isReadOnly)
+      if (item.isReadOnly && (!validate || validate === 'share'))
         form.addError('share', 'E_READ_ONLY', __('mkdir.share.E_READ_ONLY'));
       shareFound = true;
       break;
     }
   }
-  if (!shareFound)
+  if (!shareFound && (!validate || validate === 'share'))
     form.addError('share', 'E_NOT_FOUND', __('mkdir.share.E_NOT_FOUND'));
 
   let parent;
-  try {
-    parent = await Node.findOne({ share: `${req.session.userId}:${share}`, path: directory });
-    if (!parent.isDirectory) {
-      parent = null;
-      form.addError('directory', 'E_NOT_DIR', __('mkdir.directory.E_NOT_DIR'));
-    } else if (!parent.isValid) {
-      parent = null;
-      form.addError('directory', 'E_INVALID', __('mkdir.directory.E_INVALID'));
+  if (shareFound) {
+    try {
+      parent = await Node.findOne({share: `${req.session.userId}:${share}`, path: directory});
+      if (!parent.isDirectory) {
+        parent = null;
+        if (!validate || validate === 'directory')
+          form.addError('directory', 'E_NOT_DIR', __('mkdir.directory.E_NOT_DIR'));
+      } else if (!parent.isValid) {
+        parent = null;
+        if (!validate || validate === 'directory')
+          form.addError('directory', 'E_OUTSIDE', __('mkdir.directory.E_OUTSIDE'));
+      }
+    } catch (error) {
+      let code = error.code || 'ERROR';
+      let key = `mkdir.directory.${code}`;
+      let translated = (code === 'ERROR' ? key : sails.__(key));
+      if (!validate || validate === 'directory')
+        form.addError('directory', code, translated === key ? _.escape(error.message) : translated);
     }
-  } catch (error) {
-    let code = error.code || 'ERROR';
-    let key = `mkdir.directory.${code}`;
-    let translated = (code === 'ERROR' ? key : sails.__(key));
-    form.addError('directory', code, translated === key ? _.escape(error.message) : translated);
   }
 
   let target;
   if (name) {
-    if (parent)
+    if (name.includes('/')) {
+      if (!validate || validate === 'name')
+        form.addError('name', 'E_INVALID', __('mkdir.name.E_INVALID'));
+    } else if (parent) {
       target = _path.join(parent.realPath, name);
-  } else {
+    }
+  } else if (!validate || validate === 'name') {
     form.addError('name', 'E_REQUIRED', __('mkdir.name.E_REQUIRED'));
   }
 
   if (target) {
     await new Promise(resolve => {
       fs.access(target, fs.constants.F_OK, error => {
-        if (!error)
+        if (!error && (!validate || validate === 'name'))
           form.addError('name', 'E_EXISTS', __('mkdir.name.E_EXISTS'));
         resolve();
       });
@@ -60,7 +69,7 @@ module.exports = async function mkdir(req, res) {
   }
 
   if (validate)
-    return res.json(form);
+    return res.json(form.toJSON());
 
   if (form.success) {
     try {

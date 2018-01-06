@@ -38,14 +38,14 @@ const user = (
       if (action.requestedAt < state.statusRequestedAt)
         return state;
 
-      return {
+      return _.cloneDeep({
         ...state,
         statusRequestedAt: action.requestedAt,
         isStatusFetching: false,
         isAuthorized: false,
         login: 'anonymous',
         shares: [],
-      };
+      });
     case 'SET_USER':
       return _.cloneDeep({
         ...state,

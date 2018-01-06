@@ -1,3 +1,35 @@
+@mixin scroll-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .scroll-box {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    .scroll-box__viewport.text-content {
+      white-space: pre;
+      font-family: "Roboto Mono", monospace;
+      padding: 1em;
+
+      &.condensed {
+        font-family: "Roboto Condensed", sans-serif;
+      }
+    }
+
+    .scroll-box__track {
+      background-color: rgba($secondary, 0.25);
+
+      .scroll-box__handle {
+        background-color: $secondary;
+      }
+    }
+  }
+}
+
 .pane-container {
   flex: 1 0 0;
   display: flex;
@@ -141,31 +173,7 @@
         }
 
         .scroll-wrapper {
-          position: relative;
-          width: 100%;
-          height: 100%;
-
-          .scroll-box {
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-
-            .scroll-box__viewport.text-content {
-              white-space: pre;
-              font-family: "Roboto Mono", monospace;
-              padding: 1em;
-            }
-
-            .scroll-box__track {
-              background-color: rgba($secondary, 0.25);
-
-              .scroll-box__handle {
-                background-color: $secondary;
-              }
-            }
-          }
+          @include scroll-wrapper();
         }
 
         &.disabled {

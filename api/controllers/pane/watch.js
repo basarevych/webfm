@@ -4,8 +4,13 @@ module.exports = async function watch(req, res) {
 
   if (!req.isSocket)
     return res.badRequest('Not a socket');
+  if (!req.session.userId)
+    return res.badRequest('Not authorized');
 
   try {
+    let id = sails.sockets.getId(req);
+    sails.hooks.broadcaster.register(id, req.session.userId);
+
     let leftData = req.param('left');
     if (!_.isObject(leftData))
       return res.badRequest('No left pane info');
@@ -14,7 +19,6 @@ module.exports = async function watch(req, res) {
     if (!_.isObject(rightData))
       return res.badRequest('No right pane info');
 
-    let id = sails.sockets.getId(req);
     let leftRoot = `${req.session.userId}:${leftData.share}:${leftData.directory}`;
     let rightRoot = `${req.session.userId}:${rightData.share}:${rightData.directory}`;
 

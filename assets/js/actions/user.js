@@ -98,7 +98,7 @@ export const updateStatus = () => {
 export const signIn = (when, validate) => {
   return async (dispatch, getState) => {
     let { app, signInDialog } = getState();
-    if (signInDialog.locked || signInDialog.submittedAt >= when)
+    if (signInDialog.submittedAt >= when)
       return;
 
     if (!validate)

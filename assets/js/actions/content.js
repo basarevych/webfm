@@ -23,7 +23,7 @@ export const clearContents = () => {
     if (Object.keys(contents).length === 0 ||
         (leftId && rightId && (leftId === rightId
           ? Object.keys(contents).length === 1
-         : Object.keys(contents).length === 2)))
+          : Object.keys(contents).length === 2)))
       return;
 
     let keep = [];

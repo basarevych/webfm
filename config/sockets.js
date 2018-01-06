@@ -56,7 +56,7 @@ module.exports.sockets = {
   beforeConnect: function(handshake, proceed) {
     // `true` allows the socket to connect.
     // (`false` would reject the connection)
-    return proceed(undefined, true);
+    return proceed(undefined, sails.hooks.broadcaster.started);
   },
 
 
@@ -71,6 +71,7 @@ module.exports.sockets = {
 
   afterDisconnect: async function(session, socket, done) {
     await sails.hooks.watcher.unregister(socket.id);
+    await sails.hooks.broadcaster.unregister(socket.id);
     return done();
   },
 

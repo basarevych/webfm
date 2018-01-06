@@ -50,14 +50,14 @@ const signInDialog = (
       newState.values.password = '';
       return newState;
     case 'RESET_SIGN_IN_DIALOG':
-      newState = {
+      newState = _.cloneDeep({
         ...state,
         errors: {},
         messages: {},
-      };
+      });
 
       if (action.values)
-        newState.values = action.values;
+        newState.values = _.cloneDeep(action.values);
 
       return _.cloneDeep(newState);
     case 'SUBMIT_SIGN_IN_DIALOG':
@@ -72,27 +72,27 @@ const signInDialog = (
       if (action.submittedAt < state.submittedAt)
         return state;
 
-      newState = {
+      newState = _.cloneDeep({
         ...state,
         submittedAt: action.submittedAt,
-      };
+      });
 
       if (action.data.values) {
-        newState.values = {
+        newState.values = _.cloneDeep({
           ...state.values,
           ...action.data.values,
-        };
+        });
       }
       if (action.data.errors) {
-        newState.errors = {
+        newState.errors = _.cloneDeep({
           ...state.errors,
           ...action.data.errors,
-        };
+        });
       }
       if (action.data.messages)
-        newState.messages = action.data.messages;
+        newState.messages = _.cloneDeep(action.data.messages);
 
-      return _.cloneDeep(newState);
+      return newState;
   }
 
   return state;

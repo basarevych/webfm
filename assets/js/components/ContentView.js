@@ -22,7 +22,7 @@ const ContentView = ({ content }) => {
       body = (
         <div className="scroll-wrapper">
           <GenericScrollBox permitHandleDragInterruption={false}>
-            <Viewport classes="text-content">
+            <Viewport classes="text-content" reactList={false}>
               {content.base64 && atob(content.base64)}
               <br />
             </Viewport>
