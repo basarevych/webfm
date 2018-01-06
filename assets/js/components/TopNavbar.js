@@ -31,6 +31,9 @@ class TopNavbar extends React.Component {
           <NavItem>
             <NavLink className="link" onClick={this.props.onCopyCommand}>{__('copy_command')}</NavLink>
           </NavItem>
+          <NavItem>
+            <NavLink className="link" onClick={this.props.onMoveCommand}>{__('move_command')}</NavLink>
+          </NavItem>
         </Nav>
       );
       signing = (
@@ -81,6 +84,7 @@ TopNavbar.propTypes = {
   onToggleNavbar: PropTypes.func.isRequired,
   onMkdirCommand: PropTypes.func.isRequired,
   onCopyCommand: PropTypes.func.isRequired,
+  onMoveCommand: PropTypes.func.isRequired,
   onSignIn: PropTypes.func.isRequired,
   onSignOut: PropTypes.func.isRequired,
 };

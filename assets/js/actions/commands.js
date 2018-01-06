@@ -8,6 +8,10 @@ import {
   hideCopyDialog, lockCopyDialog, submitCopyDialog, unlockCopyDialog, updateCopyDialog,
   startCopyDialogFind, stopCopyDialogFind
 } from './copyDialog';
+import {
+  hideMoveDialog, lockMoveDialog, submitMoveDialog, unlockMoveDialog, updateMoveDialog,
+  startMoveDialogFind, stopMoveDialogFind
+} from './moveDialog';
 
 export const mkdir = (when, validate) => {
   return async (dispatch, getState) => {
@@ -89,8 +93,10 @@ export const mkdir = (when, validate) => {
 
 export const find = what => {
   return async (dispatch, getState) => {
-    let { app, copyDialog } = getState();
+    let { app, copyDialog, moveDialog } = getState();
     if (what === 'COPY' && copyDialog.locked)
+      return;
+    if (what === 'MOVE' && moveDialog.locked)
       return;
 
     let share;
@@ -107,6 +113,17 @@ export const find = what => {
         if (copyDialog.errors.srcName && Object.keys(copyDialog.errors.srcName).length)
           return await dispatch(unlockCopyDialog());
         await dispatch(startCopyDialogFind());
+        break;
+      case 'MOVE':
+        share = moveDialog.values.srcShare;
+        directory = moveDialog.values.srcDirectory;
+        name = moveDialog.values.srcName;
+        await dispatch(lockMoveDialog());
+        await dispatch(move(Date.now(), 'srcName'));
+        moveDialog = getState().moveDialog;
+        if (moveDialog.errors.srcName && Object.keys(moveDialog.errors.srcName).length)
+          return await dispatch(unlockMoveDialog());
+        await dispatch(startMoveDialogFind());
         break;
     }
 
@@ -149,6 +166,10 @@ export const find = what => {
               await dispatch(stopCopyDialogFind(nodes));
               await dispatch(unlockCopyDialog());
               break;
+            case 'MOVE':
+              await dispatch(stopMoveDialogFind(nodes));
+              await dispatch(unlockMoveDialog());
+              break;
           }
 
           return resolve();
@@ -161,6 +182,10 @@ export const find = what => {
         case 'COPY':
           await dispatch(stopCopyDialogFind(false));
           await dispatch(unlockCopyDialog());
+          break;
+        case 'MOVE':
+          await dispatch(stopMoveDialogFind(false));
+          await dispatch(unlockMoveDialog());
           break;
       }
 
@@ -247,6 +272,90 @@ export const copy = (when, validate) => {
 
       if (!validate)
         await dispatch(unlockCopyDialog());
+
+      resolve();
+    });
+  };
+};
+
+export const move = (when, validate) => {
+  return async (dispatch, getState) => {
+    let { app, moveDialog } = getState();
+    if (moveDialog.submittedAt >= when)
+      return;
+
+    if (!validate)
+      await dispatch(lockMoveDialog());
+
+    await dispatch(submitMoveDialog(when));
+
+    return new Promise(async resolve => {
+      try {
+        let response = await fetch(
+          '/pane/move',
+          {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              srcShare: moveDialog.values.srcShare,
+              srcDirectory: moveDialog.values.srcDirectory,
+              srcName: moveDialog.values.srcName,
+              dstShare: moveDialog.values.dstShare,
+              dstDirectory: moveDialog.values.dstDirectory,
+              _validate: validate,
+              _csrf: app.csrf,
+            })
+          }
+        );
+        if (response.status === 200) {
+          let data = await response.json();
+
+          if (validate) {                     // clear previous errors of the field on successful validation
+            if (!data.errors[validate])
+              data.errors[validate] = {};
+          } else {                            // clear all successful fields previous errors on submit
+            if (!data.errors.srcShare)
+              data.errors.srcShare = {};
+            if (!data.errors.srcDirectory)
+              data.errors.srcDirectory = {};
+            if (!data.errors.srcName)
+              data.errors.srcName = {};
+            if (!data.errors.dstShare)
+              data.errors.dstShare = {};
+            if (!data.errors.dstDirectory)
+              data.errors.dstDirectory = {};
+          }
+
+          await dispatch(updateMoveDialog(
+            {
+              values: data.values,
+              messages: data.messages,
+              errors: data.errors,
+            },
+            when
+          ));
+
+          if (!validate) {
+            await dispatch(unlockMoveDialog());
+
+            if (data.success) {
+              await dispatch(closeNavbar());
+              await dispatch(hideMoveDialog());
+            }
+          }
+
+          return resolve();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+
+      if (!validate)
+        await dispatch(unlockMoveDialog());
 
       resolve();
     });

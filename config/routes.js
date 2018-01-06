@@ -33,6 +33,7 @@ module.exports.routes = {
   'POST /pane/mkdir': 'pane/mkdir',
   'POST /pane/find': 'pane/find',
   'POST /pane/copy': 'pane/copy',
+  'POST /pane/move': 'pane/move',
   'GET /pane/content': 'pane/content',
   'GET /pane/info': 'pane/info',
   'GET /pane/size': 'pane/size',

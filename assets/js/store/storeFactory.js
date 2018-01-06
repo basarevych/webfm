@@ -10,6 +10,7 @@ import progress from '../reducers/progress';
 import signInDialog from '../reducers/signInDialog';
 import mkdirDialog from '../reducers/mkdirDialog';
 import copyDialog from '../reducers/copyDialog';
+import moveDialog from '../reducers/moveDialog';
 import paneFactory from '../reducers/paneFactory';
 import infoListFactory from '../reducers/infoListFactory';
 
@@ -24,6 +25,7 @@ const storeFactory = (history, initialState) =>
       signInDialog,
       mkdirDialog,
       copyDialog,
+      moveDialog,
       leftPane: paneFactory('LEFT'),
       rightPane: paneFactory('RIGHT'),
       lists: infoListFactory('list'),

@@ -9,13 +9,31 @@ import { setList } from './list';
 import { startProgress, updateProgress, finishProgress } from './progressDialog';
 import { matchLocation } from '../lib/path';
 
+let startTimer = null;
 export const startApp = () => {
-  return {
-    type: 'START_APP',
+  return dispatch => {
+    dispatch({
+      type: 'START_APP',
+    });
+
+    io.socket = io.sails.connect();
+    io.socket.on('connect', () => dispatch(connectApp()));
+    io.socket.on('disconnect', () => dispatch(disconnectApp()));
+    io.socket.on('watch', data => dispatch(paneUpdate(data)));
+    io.socket.on('progress-start', data => dispatch(startProgress(data)));
+    io.socket.on('progress-more', data => dispatch(updateProgress(data)));
+    io.socket.on('progress-finish', data => dispatch(finishProgress(data)));
+
+    startTimer = setTimeout(
+      () => {
+        startTimer = null;
+        dispatch(disconnectApp());
+      },
+      3000
+    );
   };
 };
 
-let startTimer = null;
 export const connectApp = () => {
   if (startTimer) {
     clearTimeout(startTimer);
@@ -163,23 +181,6 @@ export const initApp = history => {
       let match = matchLocation(location.pathname);
       dispatch(paneCD(pane, match ? match.share : user.shares[0].name, match ? match.path : '/'));
     });
-
-    io.socket = io.sails.connect();
-    io.socket.on('connect', () => dispatch(connectApp()));
-    io.socket.on('disconnect', () => dispatch(disconnectApp()));
-    io.socket.on('watch', data => dispatch(paneUpdate(data)));
-    io.socket.on('progress-start', data => dispatch(startProgress(data)));
-    io.socket.on('progress-more', data => dispatch(updateProgress(data)));
-    io.socket.on('progress-finish', data => dispatch(finishProgress(data)));
-
-    startTimer = setTimeout(
-      () => {
-        startTimer = null;
-        dispatch(disconnectApp());
-      },
-      3000
-    );
-
   };
 };
 

@@ -10,6 +10,7 @@ import SignInDialog from '../containers/SignInDialog';
 import ProgressDialog from '../containers/ProgressDialog';
 import MkdirDialog from '../containers/MkdirDialog';
 import CopyDialog from '../containers/CopyDialog';
+import MoveDialog from '../containers/MoveDialog';
 import LeftPane from '../containers/LeftPane';
 import RightPane from '../containers/RightPane';
 
@@ -41,6 +42,7 @@ const Screen = ({
           <ProgressDialog />
           <MkdirDialog />
           <CopyDialog />
+          <MoveDialog />
         </div>
         <TransitionGroup className="pane-container">
           {isLeftPaneVisible ? <Fade><LeftPane /></Fade> : null}
