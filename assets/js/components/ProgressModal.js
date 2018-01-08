@@ -41,7 +41,7 @@ class ProgressModal extends React.Component {
         <ModalHeader>{__('progress_title')}</ModalHeader>
         <ModalBody>
           {this.props.isFinished
-            ? <Progress color="warning" value={100}>{__('done_message')}</Progress>
+            ? <Progress color="primary" value={100}>{__('done_message')}</Progress>
             : <Progress color="warning" animated value={this.state.progress} />}
           <br />
           <div className="progress-widget">

@@ -244,7 +244,7 @@ class MoveModal extends React.Component {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label for="moveSrcShare" sm={4} className="text-sm-right">
+              <Label for="moveDstShare" sm={4} className="text-sm-right">
                 {__('dst_share_label')}
               </Label>
               <Col sm={8}>

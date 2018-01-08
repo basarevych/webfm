@@ -11,7 +11,7 @@ import FormMessages from './FormMessages';
 import FieldErrors from './FieldErrors';
 import Viewport from './ScrollViewport';
 
-class CopyModal extends React.Component {
+class DeleteModal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -36,23 +36,15 @@ class CopyModal extends React.Component {
       return;
 
     switch (event.target.name) {
-      case 'srcShare':
-        if (this.srcDirectoryInput)
-          setTimeout(() => this.srcDirectoryInput.focus(), 0);
+      case 'share':
+        if (this.directoryInput)
+          setTimeout(() => this.directoryInput.focus(), 0);
         break;
-      case 'srcDirectory':
-        if (this.srcNameInput)
-          setTimeout(() => this.srcNameInput.focus(), 0);
+      case 'directory':
+        if (this.nameInput)
+          setTimeout(() => this.nameInput.focus(), 0);
         break;
-      case 'srcName':
-        if (this.dstShareInput)
-          setTimeout(() => this.dstShareInput.focus(), 0);
-        break;
-      case 'dstShare':
-        if (this.dstDirectoryInput)
-          setTimeout(() => this.dstDirectoryInput.focus(), 0);
-        break;
-      case 'dstDirectory':
+      case 'name':
         this.handleSubmit();
         break;
     }
@@ -101,25 +93,17 @@ class CopyModal extends React.Component {
           continue;
 
         switch (key) {
-          case 'srcShare':
-            if (this.srcShareInput)
-              setTimeout(() => this.srcShareInput.focus(), 250);
+          case 'share':
+            if (this.shareInput)
+              setTimeout(() => this.shareInput.focus(), 250);
             break;
-          case 'srcDirectory':
-            if (this.srcDirectoryInput)
-              setTimeout(() => this.srcDirectoryInput.focus(), 250);
+          case 'directory':
+            if (this.directoryInput)
+              setTimeout(() => this.directoryInput.focus(), 250);
             break;
-          case 'srcName':
-            if (this.srcNameInput)
-              setTimeout(() => this.srcNameInput.focus(), 250);
-            break;
-          case 'dstShare':
-            if (this.dstShareInput)
-              setTimeout(() => this.dstShareInput.focus(), 250);
-            break;
-          case 'dstDirectory':
-            if (this.dstDirectoryInput)
-              setTimeout(() => this.dstDirectoryInput.focus(), 250);
+          case 'name':
+            if (this.nameInput)
+              setTimeout(() => this.nameInput.focus(), 250);
             break;
         }
         break;
@@ -129,7 +113,7 @@ class CopyModal extends React.Component {
 
   render() {
     let find = null;
-    if (!this.props.errors.srcName || !Object.keys(this.props.errors.srcName).length) {
+    if (!this.props.errors.name || !Object.keys(this.props.errors.name).length) {
       if (this.props.found.isLoaded) {
         find = [];
         for (let node of this.props.found.nodes) {
@@ -168,119 +152,79 @@ class CopyModal extends React.Component {
         backdrop="static"
         fade={true}
       >
-        <ModalHeader toggle={this.props.onToggle}>{__('copy_title')}</ModalHeader>
+        <ModalHeader toggle={this.props.onToggle}>{__('delete_title')}</ModalHeader>
         <ModalBody>
           <Form>
             <FormMessages messages={this.props.messages} />
             <FormGroup row>
-              <Label for="copySrcShare" sm={4} className="text-sm-right">
-                {__('src_share_label')}
+              <Label for="deleteShare" sm={4} className="text-sm-right">
+                {__('share_label')}
               </Label>
               <Col sm={8}>
                 <Input
                   type="text"
-                  name="srcShare"
-                  id="copySrcShare"
+                  name="share"
+                  id="deleteShare"
                   disabled={true}
-                  valid={(!this.props.errors.srcShare || !Object.keys(this.props.errors.srcShare).length) && undefined}
-                  value={this.props.values.srcShare}
+                  valid={(!this.props.errors.share || !Object.keys(this.props.errors.share).length) && undefined}
+                  value={this.props.values.share}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
-                  innerRef={(input) => { this.srcShareInput = input; }}
+                  innerRef={(input) => { this.shareInput = input; }}
                 />
-                <FieldErrors errors={this.props.errors.srcShare} />
+                <FieldErrors errors={this.props.errors.share} />
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label for="copySrcDirectory" sm={4} className="text-sm-right">
-                {__('src_directory_label')}
+              <Label for="deleteDirectory" sm={4} className="text-sm-right">
+                {__('directory_label')}
               </Label>
               <Col sm={8}>
                 <Input
                   type="text"
-                  name="srcDirectory"
-                  id="copySrcDirectory"
+                  name="directory"
+                  id="deleteDirectory"
                   disabled={true}
-                  valid={(!this.props.errors.srcDirectory || !Object.keys(this.props.errors.srcDirectory).length) && undefined}
-                  value={this.props.values.srcDirectory}
+                  valid={(!this.props.errors.directory || !Object.keys(this.props.errors.directory).length) && undefined}
+                  value={this.props.values.directory}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
-                  innerRef={(input) => { this.srcDirectoryInput = input; }}
+                  innerRef={(input) => { this.directoryInput = input; }}
                 />
-                <FieldErrors errors={this.props.errors.srcDirectory} />
+                <FieldErrors errors={this.props.errors.directory} />
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label for="copySrcName" sm={4} className="text-sm-right">
-                {__('src_name_label')}
+              <Label for="deleteName" sm={4} className="text-sm-right">
+                {__('name_label')}
                 <RequiredFieldLabel />
               </Label>
               <Col sm={8}>
                 <InputGroup>
                   <Input
                     type="text"
-                    name="srcName"
-                    id="copySrcName"
+                    name="name"
+                    id="deleteName"
                     disabled={this.props.isLocked}
                     autoFocus
-                    valid={(!this.props.errors.srcName || !Object.keys(this.props.errors.srcName).length) && undefined}
-                    value={this.props.values.srcName}
+                    valid={(!this.props.errors.name || !Object.keys(this.props.errors.name).length) && undefined}
+                    value={this.props.values.name}
                     onChange={this.handleInput}
                     onKeyPress={this.handleKeyPress}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}
-                    innerRef={(input) => { this.srcNameInput = input; }}
+                    innerRef={(input) => { this.nameInput = input; }}
                   />
                   <InputGroupButton>
                     <Button color="secondary" disabled={this.props.isLocked} onClick={this.props.onFind}>
                       {__('src_find_button')}
                     </Button>
                   </InputGroupButton>
-                  <FieldErrors errors={this.props.errors.srcName} />
+                  <FieldErrors errors={this.props.errors.name} />
                 </InputGroup>
                 {find}
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Label for="copyDstShare" sm={4} className="text-sm-right">
-                {__('dst_share_label')}
-              </Label>
-              <Col sm={8}>
-                <Input
-                  type="text"
-                  name="dstShare"
-                  id="copyDstShare"
-                  disabled={true}
-                  valid={(!this.props.errors.dstShare || !Object.keys(this.props.errors.dstShare).length) && undefined}
-                  value={this.props.values.dstShare}
-                  onKeyPress={this.handleKeyPress}
-                  onFocus={this.handleFocus}
-                  onBlur={this.handleBlur}
-                  innerRef={(input) => { this.dstShareInput = input; }}
-                />
-                <FieldErrors errors={this.props.errors.dstShare} />
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Label for="copyDstDirectory" sm={4} className="text-sm-right">
-                {__('dst_directory_label')}
-              </Label>
-              <Col sm={8}>
-                <Input
-                  type="text"
-                  name="dstDirectory"
-                  id="copyDstDirectory"
-                  disabled={true}
-                  valid={(!this.props.errors.dstDirectory || !Object.keys(this.props.errors.dstDirectory).length) && undefined}
-                  value={this.props.values.dstDirectory}
-                  onKeyPress={this.handleKeyPress}
-                  onFocus={this.handleFocus}
-                  onBlur={this.handleBlur}
-                  innerRef={(input) => { this.dstDirectoryInput = input; }}
-                />
-                <FieldErrors errors={this.props.errors.dstDirectory} />
               </Col>
             </FormGroup>
           </Form>
@@ -299,7 +243,7 @@ class CopyModal extends React.Component {
   }
 }
 
-CopyModal.propTypes = {
+DeleteModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   isLocked: PropTypes.bool.isRequired,
   values: PropTypes.object.isRequired,
@@ -312,4 +256,4 @@ CopyModal.propTypes = {
   onFind: PropTypes.func.isRequired,
 };
 
-export default CopyModal;
+export default DeleteModal;

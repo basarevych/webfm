@@ -33,6 +33,7 @@ module.exports.policies = {
   'pane/find': 'isLoggedIn',
   'pane/copy': 'isLoggedIn',
   'pane/move': 'isLoggedIn',
+  'pane/del': 'isLoggedIn',
   'pane/content': 'isLoggedIn',
   'pane/info': 'isLoggedIn',
   'pane/size': 'isLoggedIn',

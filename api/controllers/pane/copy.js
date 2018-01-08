@@ -152,16 +152,28 @@ module.exports = async function copy(req, res) {
         reject(error);
       };
 
-      let onClose = async whichOne => {
-        if (whichOne === 'reader')
+      let readerRc;
+      let writerRc;
+      let onClose = async (whichOne, rc) => {
+        if (whichOne === 'reader') {
           reader = null;
-        else if (whichOne === 'writer')
+          readerRc = rc;
+        } else if (whichOne === 'writer') {
           writer = null;
+          writerRc = rc;
+        }
 
         if (rejected || ++counter < 2)
           return;
 
-        await sails.hooks.broadcaster.moreProgress(req.session.userId, `${node.path} ==> ${_path.join(dstParent.path, node.name)}\n`);
+        await sails.hooks.broadcaster.moreProgress(
+          req.session.userId,
+          __(
+            (!readerRc && !writerRc) ? 'copy_success_message' : 'copy_failure_message',
+            node.path,
+            _path.join(dstParent.path, node.name)
+          ) + '\n'
+        );
         resolve(doCopy());
       };
 
@@ -180,7 +192,7 @@ module.exports = async function copy(req, res) {
           }
         );
         reader.on('error', onError);
-        reader.on('close', () => onClose('reader'));
+        reader.on('close', rc => onClose('reader', rc));
 
         writer = spawn(
           'tar',
@@ -196,9 +208,12 @@ module.exports = async function copy(req, res) {
           }
         );
         writer.on('error', onError);
-        writer.on('close', () => onClose('writer'));
+        writer.on('close', rc => onClose('writer', rc));
 
         reader.stdout.pipe(writer.stdin);
+        reader.stderr.resume();
+        writer.stdout.resume();
+        writer.stderr.resume();
       } catch (error) {
         onError(error);
       }

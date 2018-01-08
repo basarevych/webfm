@@ -15,6 +15,10 @@ import {
   hideMoveDialog, lockMoveDialog, submitMoveDialog, unlockMoveDialog, updateMoveDialog,
   startMoveDialogFind, stopMoveDialogFind
 } from './moveDialog';
+import {
+  hideDeleteDialog, lockDeleteDialog, submitDeleteDialog, unlockDeleteDialog, updateDeleteDialog,
+  startDeleteDialogFind, stopDeleteDialogFind
+} from './deleteDialog';
 
 export const mkdir = (when, validate) => {
   return async (dispatch, getState) => {
@@ -177,10 +181,12 @@ export const rename = (when, validate) => {
 
 export const find = what => {
   return async (dispatch, getState) => {
-    let { app, copyDialog, moveDialog } = getState();
+    let { app, copyDialog, moveDialog, deleteDialog } = getState();
     if (what === 'COPY' && copyDialog.locked)
       return;
     if (what === 'MOVE' && moveDialog.locked)
+      return;
+    if (what === 'DELETE' && deleteDialog.locked)
       return;
 
     let share;
@@ -208,6 +214,17 @@ export const find = what => {
         if (moveDialog.errors.srcName && Object.keys(moveDialog.errors.srcName).length)
           return await dispatch(unlockMoveDialog());
         await dispatch(startMoveDialogFind());
+        break;
+      case 'DELETE':
+        share = deleteDialog.values.share;
+        directory = deleteDialog.values.directory;
+        name = deleteDialog.values.name;
+        await dispatch(lockDeleteDialog());
+        await dispatch(copy(Date.now(), 'name'));
+        deleteDialog = getState().deleteDialog;
+        if (deleteDialog.errors.name && Object.keys(deleteDialog.errors.name).length)
+          return await dispatch(unlockDeleteDialog());
+        await dispatch(startDeleteDialogFind());
         break;
     }
 
@@ -254,6 +271,10 @@ export const find = what => {
               await dispatch(stopMoveDialogFind(nodes));
               await dispatch(unlockMoveDialog());
               break;
+            case 'DELETE':
+              await dispatch(stopDeleteDialogFind(nodes));
+              await dispatch(unlockDeleteDialog());
+              break;
           }
 
           return resolve();
@@ -270,6 +291,10 @@ export const find = what => {
         case 'MOVE':
           await dispatch(stopMoveDialogFind(false));
           await dispatch(unlockMoveDialog());
+          break;
+        case 'DELETE':
+          await dispatch(stopDeleteDialogFind(false));
+          await dispatch(unlockDeleteDialog());
           break;
       }
 
@@ -440,6 +465,84 @@ export const move = (when, validate) => {
 
       if (!validate)
         await dispatch(unlockMoveDialog());
+
+      resolve();
+    });
+  };
+};
+
+export const del = (when, validate) => {
+  return async (dispatch, getState) => {
+    let { app, deleteDialog } = getState();
+    if (deleteDialog.submittedAt >= when)
+      return;
+
+    if (!validate)
+      await dispatch(lockDeleteDialog());
+
+    await dispatch(submitDeleteDialog(when));
+
+    return new Promise(async resolve => {
+      try {
+        let response = await fetch(
+          '/pane/del',
+          {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              share: deleteDialog.values.share,
+              directory: deleteDialog.values.directory,
+              name: deleteDialog.values.name,
+              _validate: validate,
+              _csrf: app.csrf,
+            })
+          }
+        );
+        if (response.status === 200) {
+          let data = await response.json();
+
+          if (validate) {                     // clear previous errors of the field on successful validation
+            if (!data.errors[validate])
+              data.errors[validate] = {};
+          } else {                            // clear all successful fields previous errors on submit
+            if (!data.errors.share)
+              data.errors.share = {};
+            if (!data.errors.directory)
+              data.errors.directory = {};
+            if (!data.errors.name)
+              data.errors.name = {};
+          }
+
+          await dispatch(updateDeleteDialog(
+            {
+              values: data.values,
+              messages: data.messages,
+              errors: data.errors,
+            },
+            when
+          ));
+
+          if (!validate) {
+            await dispatch(unlockDeleteDialog());
+
+            if (data.success) {
+              await dispatch(closeNavbar());
+              await dispatch(hideDeleteDialog());
+            }
+          }
+
+          return resolve();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+
+      if (!validate)
+        await dispatch(unlockDeleteDialog());
 
       resolve();
     });

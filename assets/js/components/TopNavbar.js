@@ -32,10 +32,13 @@ class TopNavbar extends React.Component {
             <NavLink className="link" onClick={this.props.onRenameCommand} disabled={!this.props.hasSelection}>{__('rename_command')}</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink className="link" onClick={this.props.onCopyCommand} disabled={!this.props.hasSelection}>{__('copy_command')}</NavLink>
+            <NavLink className="link" onClick={this.props.onCopyCommand}>{__('copy_command')}</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink className="link" onClick={this.props.onMoveCommand} disabled={!this.props.hasSelection}>{__('move_command')}</NavLink>
+            <NavLink className="link" onClick={this.props.onMoveCommand}>{__('move_command')}</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink className="link" onClick={this.props.onDeleteCommand}>{__('delete_command')}</NavLink>
           </NavItem>
         </Nav>
       );
@@ -90,6 +93,7 @@ TopNavbar.propTypes = {
   onRenameCommand: PropTypes.func.isRequired,
   onCopyCommand: PropTypes.func.isRequired,
   onMoveCommand: PropTypes.func.isRequired,
+  onDeleteCommand: PropTypes.func.isRequired,
   onSignIn: PropTypes.func.isRequired,
   onSignOut: PropTypes.func.isRequired,
 };

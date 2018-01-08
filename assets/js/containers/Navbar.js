@@ -7,6 +7,7 @@ import { toggleMkdirDialog } from '../actions/mkdirDialog';
 import { toggleRenameDialog } from '../actions/renameDialog';
 import { toggleCopyDialog } from '../actions/copyDialog';
 import { toggleMoveDialog } from '../actions/moveDialog';
+import { toggleDeleteDialog } from '../actions/deleteDialog';
 import { signOut } from '../actions/user';
 import TopNavbar from '../components/TopNavbar';
 
@@ -27,6 +28,7 @@ const mapDispatchToProps = dispatch => {
     onRenameCommand: () => dispatch(toggleRenameDialog()),
     onCopyCommand: () => dispatch(toggleCopyDialog()),
     onMoveCommand: () => dispatch(toggleMoveDialog()),
+    onDeleteCommand: () => dispatch(toggleDeleteDialog()),
     onSignIn: () => dispatch(toggleSignInDialog()),
     onSignOut: () => dispatch(signOut()),
   };

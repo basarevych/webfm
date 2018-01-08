@@ -12,6 +12,7 @@ import mkdirDialog from '../reducers/mkdirDialog';
 import renameDialog from '../reducers/renameDialog';
 import copyDialog from '../reducers/copyDialog';
 import moveDialog from '../reducers/moveDialog';
+import deleteDialog from '../reducers/deleteDialog';
 import paneFactory from '../reducers/paneFactory';
 import infoListFactory from '../reducers/infoListFactory';
 
@@ -28,6 +29,7 @@ const storeFactory = (history, initialState) =>
       renameDialog,
       copyDialog,
       moveDialog,
+      deleteDialog,
       leftPane: paneFactory('LEFT'),
       rightPane: paneFactory('RIGHT'),
       lists: infoListFactory('list'),

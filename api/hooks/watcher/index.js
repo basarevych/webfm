@@ -16,7 +16,7 @@ module.exports = function defineWatcherHook(sails) {
       timers.set(root, now);
 
       let [userId, share, path] = root.split(':');
-      let listing = await sails.helpers.shareListing(userId, share, path + '/');
+      let listing = await sails.helpers.shareListing(userId, share, path === '/' ? path : path + '/');
 
       if (timers.get(root) === now)
         sails.sockets.broadcast(root, 'watch', { share: listing.share, directory: listing.directory, list: listing.list });

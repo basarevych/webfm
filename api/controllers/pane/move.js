@@ -5,7 +5,7 @@ const _path = require('path');
 const Form = require('../../../lib/Form');
 const { spawn } = require('child_process');
 
-module.exports = async function copy(req, res) {
+module.exports = async function move(req, res) {
   let validate = req.param('_validate');
   let srcShare = _.isString(req.param('srcShare')) ? _.trim(req.param('srcShare')) : '';
   let srcDirectory = _.isString(req.param('srcDirectory')) ? _.trim(req.param('srcDirectory')) : '';
@@ -156,16 +156,25 @@ module.exports = async function copy(req, res) {
             }
           }
         );
+        task.stdout.resume();
+        task.stderr.resume();
         task.on('error', error => {
           task.kill('SIGKILL');
           rejected = true;
           reject(error);
         });
-        task.on('close', async () => {
+        task.on('close', async rc => {
           if (rejected)
             return;
 
-          await sails.hooks.broadcaster.moreProgress(req.session.userId, `${node.path} ==> ${_path.join(dstParent.path, node.name)}\n`);
+          await sails.hooks.broadcaster.moreProgress(
+            req.session.userId,
+            __(
+              rc ? 'move_failure_message' : 'move_success_message',
+              node.path,
+              _path.join(dstParent.path, node.name)
+            ) + '\n'
+          );
           resolve(doMove());
         });
       } catch (error) {

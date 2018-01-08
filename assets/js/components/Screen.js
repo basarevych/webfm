@@ -12,6 +12,7 @@ import MkdirDialog from '../containers/MkdirDialog';
 import RenameDialog from '../containers/RenameDialog';
 import CopyDialog from '../containers/CopyDialog';
 import MoveDialog from '../containers/MoveDialog';
+import DeleteDialog from '../containers/DeleteDialog';
 import LeftPane from '../containers/LeftPane';
 import RightPane from '../containers/RightPane';
 
@@ -45,6 +46,7 @@ const Screen = ({
           <RenameDialog />
           <CopyDialog />
           <MoveDialog />
+          <DeleteDialog />
         </div>
         <TransitionGroup className="pane-container">
           {isLeftPaneVisible ? <Fade><LeftPane /></Fade> : null}
