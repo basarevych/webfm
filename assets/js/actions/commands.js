@@ -5,6 +5,9 @@ import {
   hideMkdirDialog, lockMkdirDialog, submitMkdirDialog, unlockMkdirDialog, updateMkdirDialog
 } from './mkdirDialog';
 import {
+  hideRenameDialog, lockRenameDialog, submitRenameDialog, unlockRenameDialog, updateRenameDialog
+} from './renameDialog';
+import {
   hideCopyDialog, lockCopyDialog, submitCopyDialog, unlockCopyDialog, updateCopyDialog,
   startCopyDialogFind, stopCopyDialogFind
 } from './copyDialog';
@@ -85,6 +88,87 @@ export const mkdir = (when, validate) => {
 
       if (!validate)
         await dispatch(unlockMkdirDialog());
+
+      resolve();
+    });
+  };
+};
+
+export const rename = (when, validate) => {
+  return async (dispatch, getState) => {
+    let { app, renameDialog } = getState();
+    if (renameDialog.submittedAt >= when)
+      return;
+
+    if (!validate)
+      await dispatch(lockRenameDialog());
+
+    await dispatch(submitRenameDialog(when));
+
+    return new Promise(async resolve => {
+      try {
+        let response = await fetch(
+          '/pane/rename',
+          {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              share: renameDialog.values.share,
+              directory: renameDialog.values.directory,
+              name: renameDialog.values.name,
+              newName: renameDialog.values.newName,
+              _validate: validate,
+              _csrf: app.csrf,
+            })
+          }
+        );
+        if (response.status === 200) {
+          let data = await response.json();
+
+          if (validate) {                     // clear previous errors of the field on successful validation
+            if (!data.errors[validate])
+              data.errors[validate] = {};
+          } else {                            // clear all successful fields previous errors on submit
+            if (!data.errors.share)
+              data.errors.share = {};
+            if (!data.errors.directory)
+              data.errors.directory = {};
+            if (!data.errors.name)
+              data.errors.name = {};
+            if (!data.errors.newName)
+              data.errors.newName = {};
+          }
+
+          await dispatch(updateRenameDialog(
+            {
+              values: data.values,
+              messages: data.messages,
+              errors: data.errors,
+            },
+            when
+          ));
+
+          if (!validate) {
+            await dispatch(unlockRenameDialog());
+
+            if (data.success) {
+              await dispatch(closeNavbar());
+              await dispatch(hideRenameDialog());
+            }
+          }
+
+          return resolve();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+
+      if (!validate)
+        await dispatch(unlockRenameDialog());
 
       resolve();
     });

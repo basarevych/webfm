@@ -9,6 +9,7 @@ import Navbar from '../containers/Navbar';
 import SignInDialog from '../containers/SignInDialog';
 import ProgressDialog from '../containers/ProgressDialog';
 import MkdirDialog from '../containers/MkdirDialog';
+import RenameDialog from '../containers/RenameDialog';
 import CopyDialog from '../containers/CopyDialog';
 import MoveDialog from '../containers/MoveDialog';
 import LeftPane from '../containers/LeftPane';
@@ -41,6 +42,7 @@ const Screen = ({
           <SignInDialog />
           <ProgressDialog />
           <MkdirDialog />
+          <RenameDialog />
           <CopyDialog />
           <MoveDialog />
         </div>

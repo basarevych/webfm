@@ -9,6 +9,7 @@ import navbar from '../reducers/navbar';
 import progress from '../reducers/progress';
 import signInDialog from '../reducers/signInDialog';
 import mkdirDialog from '../reducers/mkdirDialog';
+import renameDialog from '../reducers/renameDialog';
 import copyDialog from '../reducers/copyDialog';
 import moveDialog from '../reducers/moveDialog';
 import paneFactory from '../reducers/paneFactory';
@@ -24,6 +25,7 @@ const storeFactory = (history, initialState) =>
       progress,
       signInDialog,
       mkdirDialog,
+      renameDialog,
       copyDialog,
       moveDialog,
       leftPane: paneFactory('LEFT'),

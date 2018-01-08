@@ -29,10 +29,13 @@ class TopNavbar extends React.Component {
             <NavLink className="link" onClick={this.props.onMkdirCommand}>{__('mkdir_command')}</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink className="link" onClick={this.props.onCopyCommand}>{__('copy_command')}</NavLink>
+            <NavLink className="link" onClick={this.props.onRenameCommand} disabled={!this.props.hasSelection}>{__('rename_command')}</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink className="link" onClick={this.props.onMoveCommand}>{__('move_command')}</NavLink>
+            <NavLink className="link" onClick={this.props.onCopyCommand} disabled={!this.props.hasSelection}>{__('copy_command')}</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink className="link" onClick={this.props.onMoveCommand} disabled={!this.props.hasSelection}>{__('move_command')}</NavLink>
           </NavItem>
         </Nav>
       );
@@ -81,8 +84,10 @@ TopNavbar.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   login: PropTypes.string,
+  hasSelection: PropTypes.bool.isRequired,
   onToggleNavbar: PropTypes.func.isRequired,
   onMkdirCommand: PropTypes.func.isRequired,
+  onRenameCommand: PropTypes.func.isRequired,
   onCopyCommand: PropTypes.func.isRequired,
   onMoveCommand: PropTypes.func.isRequired,
   onSignIn: PropTypes.func.isRequired,
