@@ -6,6 +6,7 @@ const Form = require('../../../lib/Form');
 const { spawn } = require('child_process');
 
 module.exports = async function copy(req, res) {
+  let fast = !!req.param('_fast');
   let validate = req.param('_validate');
   let srcShare = _.isString(req.param('srcShare')) ? _.trim(req.param('srcShare')) : '';
   let srcDirectory = _.isString(req.param('srcDirectory')) ? _.trim(req.param('srcDirectory')) : '';
@@ -124,10 +125,14 @@ module.exports = async function copy(req, res) {
     }
   }
 
-  res.json(form.toJSON());
+  if (!fast)
+    res.json(form.toJSON());
 
-  if (!nodes.length || !form.success)
+  if (!nodes.length || !form.success) {
+    if (fast)
+      res.json(form.toJSON());
     return;
+  }
 
   let lang = (os.platform() === 'freebsd' ? 'en_US.UTF-8' : 'C.UTF-8');
   async function doCopy() {
@@ -166,14 +171,16 @@ module.exports = async function copy(req, res) {
         if (rejected || ++counter < 2)
           return;
 
-        await sails.hooks.broadcaster.moreProgress(
-          req.session.userId,
-          __(
-            (!readerRc && !writerRc) ? 'copy_success_message' : 'copy_failure_message',
-            node.path,
-            _path.join(dstParent.path, node.name)
-          ) + '\n'
-        );
+        if (!fast) {
+          await sails.hooks.broadcaster.moreProgress(
+            req.session.userId,
+            __(
+              (!readerRc && !writerRc) ? 'copy_success_message' : 'copy_failure_message',
+              node.path,
+              _path.join(dstParent.path, node.name)
+            ) + '\n'
+          );
+        }
         resolve(doCopy());
       };
 
@@ -220,11 +227,25 @@ module.exports = async function copy(req, res) {
     });
   }
 
-  await sails.hooks.broadcaster.startProgress(req.session.userId, __('copy_start_message') + '\n');
+  if (!fast)
+    await sails.hooks.broadcaster.startProgress(req.session.userId, __('copy_start_message') + '\n');
+
   try {
     await doCopy();
   } catch (error) {
-    await sails.hooks.broadcaster.moreProgress(req.session.userId, error.stack || error.message);
+    if (!fast) {
+      await sails.hooks.broadcaster.moreProgress(req.session.userId, error.stack || error.message);
+    } else {
+      let code = error.code || 'ERROR';
+      let key = `copy.result.${code}`;
+      let translated = (code === 'ERROR' ? key : sails.__(key));
+      form.addMessage(code, translated === key ? _.escape(error.message) : translated);
+      form.success = false;
+    }
   }
-  await sails.hooks.broadcaster.finishProgress(req.session.userId);
+
+  if (!fast)
+    await sails.hooks.broadcaster.finishProgress(req.session.userId);
+  else
+    res.json(form.toJSON());
 };

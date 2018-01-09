@@ -109,15 +109,15 @@ class ListItem extends React.Component {
             {size}
           </div>
           <div className="tools">
-            <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
+            <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'} onClick={() => this.props.onCopyClick(this.props.node.name)}>
               <FaCopy />
             </Button>
             {' '}
-            <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
+            <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'} onClick={() => this.props.onMoveClick(this.props.node.name)}>
               <FaCut />
             </Button>
             {' '}
-            <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'}>
+            <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'} onClick={() => this.props.onDeleteClick(this.props.node.name)}>
               <FaTrash />
             </Button>
           </div>
@@ -160,6 +160,9 @@ ListItem.propTypes = {
   onNodeShiftClick: PropTypes.func.isRequired,
   onNodeControlClick: PropTypes.func.isRequired,
   onSizeClick: PropTypes.func.isRequired,
+  onCopyClick: PropTypes.func.isRequired,
+  onMoveClick: PropTypes.func.isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
 };
 
 export default ListItem;

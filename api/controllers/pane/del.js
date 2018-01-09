@@ -6,6 +6,7 @@ const Form = require('../../../lib/Form');
 const { spawn } = require('child_process');
 
 module.exports = async function del(req, res) {
+  let fast = !!req.param('_fast');
   let validate = req.param('_validate');
   let share = _.isString(req.param('share')) ? _.trim(req.param('share')) : '';
   let directory = _.isString(req.param('directory')) ? _.trim(req.param('directory')) : '';
@@ -89,10 +90,14 @@ module.exports = async function del(req, res) {
     }
   }
 
-  res.json(form.toJSON());
+  if (!fast)
+    res.json(form.toJSON());
 
-  if (!nodes.length || !form.success)
+  if (!nodes.length || !form.success) {
+    if (fast)
+      res.json(form.toJSON());
     return;
+  }
 
   let lang = (os.platform() === 'freebsd' ? 'en_US.UTF-8' : 'C.UTF-8');
   async function doDelete() {
@@ -129,13 +134,15 @@ module.exports = async function del(req, res) {
           if (rejected)
             return;
 
-          await sails.hooks.broadcaster.moreProgress(
-            req.session.userId,
-            __(
-              rc ? 'delete_failure_message' : 'delete_success_message',
-              node.path
-            ) + '\n'
-          );
+          if (!fast) {
+            await sails.hooks.broadcaster.moreProgress(
+              req.session.userId,
+              __(
+                rc ? 'delete_failure_message' : 'delete_success_message',
+                node.path
+              ) + '\n'
+            );
+          }
           resolve(doDelete());
         });
       } catch (error) {
@@ -145,11 +152,25 @@ module.exports = async function del(req, res) {
     });
   }
 
-  await sails.hooks.broadcaster.startProgress(req.session.userId, __('delete_start_message') + '\n');
+  if (!fast)
+    await sails.hooks.broadcaster.startProgress(req.session.userId, __('delete_start_message') + '\n');
+
   try {
     await doDelete();
   } catch (error) {
-    await sails.hooks.broadcaster.moreProgress(req.session.userId, error.stack || error.message);
+    if (!fast) {
+      await sails.hooks.broadcaster.moreProgress(req.session.userId, error.stack || error.message);
+    } else {
+      let code = error.code || 'ERROR';
+      let key = `delete.result.${code}`;
+      let translated = (code === 'ERROR' ? key : sails.__(key));
+      form.addMessage(code, translated === key ? _.escape(error.message) : translated);
+      form.success = false;
+    }
   }
-  await sails.hooks.broadcaster.finishProgress(req.session.userId);
+
+  if (!fast)
+    await sails.hooks.broadcaster.finishProgress(req.session.userId);
+  else
+    res.json(form.toJSON());
 };

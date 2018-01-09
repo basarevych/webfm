@@ -6,6 +6,7 @@ import {
 } from '../actions/pane';
 import { loadSize } from '../actions/size';
 import Pane from '../components/Pane';
+import { fastCopy, fastMove, fastDel } from '../actions/commands';
 
 const mapStateToProps = state => {
   let selectedId;
@@ -47,6 +48,9 @@ const mapDispatchToProps = dispatch => {
     onSizeClick: (share, path) => dispatch(loadSize(share, path)),
     onToggleOther: () => dispatch(togglePane('LEFT')),
     onSetOtherMode: mode => dispatch(setPaneMode('LEFT', mode)),
+    onCopyClick: name => dispatch(fastCopy('RIGHT', name)),
+    onMoveClick: name => dispatch(fastMove('RIGHT', name)),
+    onDeleteClick: name => dispatch(fastDel('RIGHT', name)),
   };
 };
 

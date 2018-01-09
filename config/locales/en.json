@@ -112,8 +112,19 @@
   "delete_title": "Copy",
   "delete_start_message": "Deleting...",
   "delete.share.E_NOT_FOUND": "Share not found",
+  "delete.share.E_READ_ONLY": "No write access to this share",
   "delete.directory.E_NOT_DIR": "This is not a directory",
   "delete.directory.E_OUTSIDE": "Source directory is not inside the share",
   "delete.name.E_REQUIRED": "Name is required",
-  "delete.name.E_INVALID": "Name is invalid"
+  "delete.name.E_INVALID": "Name is invalid",
+  "failure_title": "Failure",
+  "field_share_label": "Share:",
+  "field_directory_label": "Directory:",
+  "field_name_label": "Name:",
+  "field_srcShare_label": "Source share:",
+  "field_srcDirectory_label": "Source directory:",
+  "field_srcName_label": "Source name:",
+  "field_dstShare_label": "Destination share:",
+  "field_dstDirectory_label": "Destination directory:",
+  "field_dstName_label": "Destination name:"
 }

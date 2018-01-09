@@ -28,6 +28,9 @@ class ListView extends React.Component {
           onNodeShiftClick={this.props.onNodeShiftClick}
           onNodeControlClick={this.props.onNodeControlClick}
           onSizeClick={this.props.onSizeClick}
+          onCopyClick={this.props.onCopyClick}
+          onMoveClick={this.props.onMoveClick}
+          onDeleteClick={this.props.onDeleteClick}
         />
       );
     }
@@ -52,6 +55,9 @@ ListView.propTypes = {
   onNodeShiftClick: PropTypes.func.isRequired,
   onNodeControlClick: PropTypes.func.isRequired,
   onSizeClick: PropTypes.func.isRequired,
+  onCopyClick: PropTypes.func.isRequired,
+  onMoveClick: PropTypes.func.isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
 };
 
 export default ListView;

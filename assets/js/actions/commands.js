@@ -19,6 +19,7 @@ import {
   hideDeleteDialog, lockDeleteDialog, submitDeleteDialog, unlockDeleteDialog, updateDeleteDialog,
   startDeleteDialogFind, stopDeleteDialogFind
 } from './deleteDialog';
+import { showFailureDialog } from './failureDialog';
 
 export const mkdir = (when, validate) => {
   return async (dispatch, getState) => {
@@ -387,6 +388,49 @@ export const copy = (when, validate) => {
   };
 };
 
+export const fastCopy = (pane, name) => {
+  return async (dispatch, getState) => {
+    let { app, leftPane, rightPane } = getState();
+
+    return new Promise(async resolve => {
+      try {
+        let response = await fetch(
+          '/pane/copy',
+          {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              srcShare: pane === 'LEFT' ? leftPane.share : rightPane.share,
+              srcDirectory: pane === 'LEFT' ? leftPane.directory : rightPane.directory,
+              srcName: name,
+              dstShare: pane === 'LEFT' ? rightPane.share : leftPane.share,
+              dstDirectory: pane === 'LEFT' ? rightPane.directory : leftPane.directory,
+              _fast: true,
+              _csrf: app.csrf,
+            })
+          }
+        );
+        if (response.status === 200) {
+          let data = await response.json();
+
+          if (!data.success)
+            await dispatch(showFailureDialog(data.messages || {}, data.errors || {}));
+
+          return resolve();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+
+      resolve();
+    });
+  };
+};
+
 export const move = (when, validate) => {
   return async (dispatch, getState) => {
     let { app, moveDialog } = getState();
@@ -471,6 +515,49 @@ export const move = (when, validate) => {
   };
 };
 
+export const fastMove = (pane, name) => {
+  return async (dispatch, getState) => {
+    let { app, leftPane, rightPane } = getState();
+
+    return new Promise(async resolve => {
+      try {
+        let response = await fetch(
+          '/pane/move',
+          {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              srcShare: pane === 'LEFT' ? leftPane.share : rightPane.share,
+              srcDirectory: pane === 'LEFT' ? leftPane.directory : rightPane.directory,
+              srcName: name,
+              dstShare: pane === 'LEFT' ? rightPane.share : leftPane.share,
+              dstDirectory: pane === 'LEFT' ? rightPane.directory : leftPane.directory,
+              _fast: true,
+              _csrf: app.csrf,
+            })
+          }
+        );
+        if (response.status === 200) {
+          let data = await response.json();
+
+          if (!data.success)
+            await dispatch(showFailureDialog(data.messages || {}, data.errors || {}));
+
+          return resolve();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+
+      resolve();
+    });
+  };
+};
+
 export const del = (when, validate) => {
   return async (dispatch, getState) => {
     let { app, deleteDialog } = getState();
@@ -543,6 +630,47 @@ export const del = (when, validate) => {
 
       if (!validate)
         await dispatch(unlockDeleteDialog());
+
+      resolve();
+    });
+  };
+};
+
+export const fastDel = (pane, name) => {
+  return async (dispatch, getState) => {
+    let { app, leftPane, rightPane } = getState();
+
+    return new Promise(async resolve => {
+      try {
+        let response = await fetch(
+          '/pane/del',
+          {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              share: pane === 'LEFT' ? leftPane.share : rightPane.share,
+              directory: pane === 'LEFT' ? leftPane.directory : rightPane.directory,
+              name: name,
+              _fast: true,
+              _csrf: app.csrf,
+            })
+          }
+        );
+        if (response.status === 200) {
+          let data = await response.json();
+
+          if (!data.success)
+            await dispatch(showFailureDialog(data.messages || {}, data.errors || {}));
+
+          return resolve();
+        }
+      } catch (error) {
+        console.error(error);
+      }
 
       resolve();
     });

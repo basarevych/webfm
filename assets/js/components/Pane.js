@@ -35,6 +35,9 @@ class Pane extends React.Component {
             onNodeShiftClick={this.props.onNodeShiftClick}
             onNodeControlClick={this.props.onNodeControlClick}
             onSizeClick={this.props.onSizeClick}
+            onCopyClick={this.props.onCopyClick}
+            onMoveClick={this.props.onMoveClick}
+            onDeleteClick={this.props.onDeleteClick}
           />
         );
       }
