@@ -6,23 +6,22 @@ import { FormFeedback } from 'reactstrap';
 import { TransitionGroup } from 'react-transition-group';
 import Fade from './Fade';
 
-const FieldErrors = ({ errors }) => {
-  if (!errors)
-    errors = {};
-
-  let codes = Object.keys(errors);
-  return (
-    <FormFeedback>
-      <TransitionGroup>
-        {codes.map(code =>
-          <Fade key={code}>
-            <div dangerouslySetInnerHTML={{ __html: errors[code].message }} />
-          </Fade>
-        )}
-      </TransitionGroup>
-    </FormFeedback>
-  );
-};
+class FieldErrors extends React.PureComponent {
+  render() {
+    let codes = Object.keys(this.props.errors || {});
+    return (
+      <FormFeedback>
+        <TransitionGroup>
+          {codes.map(code =>
+            <Fade key={code}>
+              <div dangerouslySetInnerHTML={{ __html: this.props.errors[code].message }} />
+            </Fade>
+          )}
+        </TransitionGroup>
+      </FormFeedback>
+    );
+  }
+}
 
 FieldErrors.propTypes = {
   errors: PropTypes.object,

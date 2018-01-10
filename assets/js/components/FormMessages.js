@@ -19,25 +19,25 @@ const mapTypeToClass = type => {
   return 'alert alert-primary text-center';
 };
 
-const FormMessages = ({ messages }) => {
-  if (!messages)
-    messages = {};
+class FormMessages extends React.PureComponent {
+  render() {
+    let codes = Object.keys(this.props.messages || {});
+    return (
+      <TransitionGroup>
+        {codes.map(code =>
+          <Fade key={code}>
+            <div
+              className={mapTypeToClass(this.props.messages[code].type)}
+              role="alert"
+              dangerouslySetInnerHTML={{ __html: this.props.messages[code].message }}
+            />
+          </Fade>
+        )}
+      </TransitionGroup>
+    );
+  }
+}
 
-  let codes = Object.keys(messages);
-  return (
-    <TransitionGroup>
-      {codes.map(code =>
-        <Fade key={code}>
-          <div
-            className={mapTypeToClass(messages[code].type)}
-            role="alert"
-            dangerouslySetInnerHTML={{ __html: messages[code].message }}
-          />
-        </Fade>
-      )}
-    </TransitionGroup>
-  );
-};
 
 FormMessages.propTypes = {
   messages: PropTypes.object,

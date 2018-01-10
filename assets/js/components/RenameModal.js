@@ -8,7 +8,7 @@ import RequiredFieldLabel from './RequiredFieldLabel';
 import FormMessages from './FormMessages';
 import FieldErrors from './FieldErrors';
 
-class RenameModal extends React.Component {
+class RenameModal extends React.PureComponent {
   constructor(props) {
     super(props);
 

@@ -7,7 +7,7 @@ import { Button } from 'reactstrap';
 import { join } from '../lib/path';
 import { human } from '../lib/size';
 
-class ListItem extends React.Component {
+class ListItem extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -42,14 +42,6 @@ class ListItem extends React.Component {
       this.props.onNodeControlClick(this.props.index);
     else
       this.props.onNodeClick(this.props.index);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return (this.props.index !== nextProps.index ||
-            this.props.isSelected !== nextProps.isSelected ||
-           !_.isEqual(this.props.node, nextProps.node) ||
-           !_.isEqual(this.props.size, nextProps.size) ||
-            this.state.isHovered !== nextState.isHovered);
   }
 
   render() {

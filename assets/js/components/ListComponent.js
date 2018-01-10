@@ -8,7 +8,7 @@ import Viewport from './ScrollViewport';
 import ListItem from './ListItem';
 import { join } from '../lib/path';
 
-class ListComponent extends React.Component {
+class ListComponent extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -49,12 +49,6 @@ class ListComponent extends React.Component {
 
   componentDidMount() {
     setTimeout(() => window.dispatchEvent(new Event('resize')));
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return !_.isEqual(nextProps.list, this.props.list) ||
-           !_.isEqual(nextProps.sizes, this.props.sizes) ||
-           !_.isEqual(nextProps.selectedIndexes, this.props.selectedIndexes);
   }
 
   componentWillReceiveProps(nextProps) {

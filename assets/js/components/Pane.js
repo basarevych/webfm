@@ -9,7 +9,7 @@ import ListView from './ListView';
 import ContentView from './ContentView';
 import InfoView from './InfoView';
 
-class Pane extends React.Component {
+class Pane extends React.PureComponent {
   render() {
     let view = null;
     if (this.props.isDisabled) {

@@ -2,10 +2,14 @@
 
 import React from 'react';
 
-const InputRequiredLabel = () => (
-  <div className="control-required">
-    {__('required_field')}
-  </div>
-);
+class InputRequiredLabel extends React.PureComponent {
+  render() {
+    return (
+      <div className="control-required">
+        {__('required_field')}
+      </div>
+    );
+  }
+}
 
 export default InputRequiredLabel;

@@ -11,7 +11,7 @@ import FormMessages from './FormMessages';
 import FieldErrors from './FieldErrors';
 import Viewport from './ScrollViewport';
 
-class MoveModal extends React.Component {
+class MoveModal extends React.PureComponent {
   constructor(props) {
     super(props);
 

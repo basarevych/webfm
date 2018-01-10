@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ListComponent from './ListComponent';
 
-class ListView extends React.Component {
+class ListView extends React.PureComponent {
   render() {
     let bodyClass;
     let listing;

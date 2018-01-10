@@ -8,7 +8,7 @@ import RequiredFieldLabel from './RequiredFieldLabel';
 import FormMessages from './FormMessages';
 import FieldErrors from './FieldErrors';
 
-class SignInModal extends React.Component {
+class SignInModal extends React.PureComponent {
   constructor(props) {
     super(props);
 

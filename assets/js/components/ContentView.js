@@ -6,39 +6,41 @@ import { GenericScrollBox } from 'react-scroll-box';
 import { FaCog } from 'react-icons/lib/fa';
 import Viewport from './ScrollViewport';
 
-const ContentView = ({ content }) => {
-  let bodyClass = 'body disabled';
-  let body;
-  if (!content) {
-    body = __('contents_view_message');
-  } else {
-    if (content.isLoading) {
-      body = <h1><FaCog className="rotating"/></h1>;
-    } else if (content.isForbidden) {
-      body = __('forbidden_message');
-    } else if (content.type !== 'TEXT') {
-      body = __(`type_${content.type}_message`);
+class ContentView extends React.PureComponent {
+  render() {
+    let bodyClass = 'body disabled';
+    let body;
+    if (!this.props.content) {
+      body = __('contents_view_message');
     } else {
-      body = (
-        <div className="scroll-wrapper">
-          <GenericScrollBox permitHandleDragInterruption={false}>
-            <Viewport classes="text-content" reactList={false}>
-              {content.base64 && atob(content.base64)}
-              <br />
-            </Viewport>
-          </GenericScrollBox>
-        </div>
-      );
-      bodyClass = 'body';
+      if (this.props.content.isLoading) {
+        body = <h1><FaCog className="rotating" /></h1>;
+      } else if (this.props.content.isForbidden) {
+        body = __('forbidden_message');
+      } else if (this.props.content.type !== 'TEXT') {
+        body = __(`type_${this.props.content.type}_message`);
+      } else {
+        body = (
+          <div className="scroll-wrapper">
+            <GenericScrollBox permitHandleDragInterruption={false}>
+              <Viewport classes="text-content" reactList={false}>
+                {this.props.content.base64 && atob(this.props.content.base64)}
+                <br/>
+              </Viewport>
+            </GenericScrollBox>
+          </div>
+        );
+        bodyClass = 'body';
+      }
     }
-  }
 
-  return (
-    <div className={bodyClass}>
-      {body}
-    </div>
-  );
-};
+    return (
+      <div className={bodyClass}>
+        {body}
+      </div>
+    );
+  };
+}
 
 ContentView.propTypes = {
   content: PropTypes.object,

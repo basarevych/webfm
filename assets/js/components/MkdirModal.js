@@ -8,7 +8,7 @@ import RequiredFieldLabel from './RequiredFieldLabel';
 import FormMessages from './FormMessages';
 import FieldErrors from './FieldErrors';
 
-class MkdirModal extends React.Component {
+class MkdirModal extends React.PureComponent {
   constructor(props) {
     super(props);
 

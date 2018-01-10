@@ -11,7 +11,7 @@ import FormMessages from './FormMessages';
 import FieldErrors from './FieldErrors';
 import Viewport from './ScrollViewport';
 
-class CopyModal extends React.Component {
+class CopyModal extends React.PureComponent {
   constructor(props) {
     super(props);
 

@@ -11,7 +11,7 @@ import FormMessages from './FormMessages';
 import FieldErrors from './FieldErrors';
 import Viewport from './ScrollViewport';
 
-class DeleteModal extends React.Component {
+class DeleteModal extends React.PureComponent {
   constructor(props) {
     super(props);
 
