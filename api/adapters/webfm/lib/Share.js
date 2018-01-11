@@ -15,25 +15,6 @@ class Share {
 
       let login = parts.join(':');
       if (userPart === login) {
-        for (let share of config[key].read) {
-          let [name, ...paths] = share.split(':');
-          if (name !== sharePart || !paths.length)
-            continue;
-
-          let target = this._normalize(paths.join(':'));
-          if (!target)
-            continue;
-
-          let item = { id: `${login}:${name}` };
-          if (_.isArray(select) && select.includes('name'))
-            item.name = name;
-          if (_.isArray(select) && select.includes('path'))
-            item.path = target;
-          if (_.isArray(select) && select.includes('isReadOnly'))
-            item.isReadOnly = true;
-
-          return done(null, [item]);
-        }
         for (let share of config[key].write) {
           let [name, ...paths] = share.split(':');
           if (name !== sharePart || !paths.length)
@@ -50,6 +31,25 @@ class Share {
             item.path = target;
           if (_.isArray(select) && select.includes('isReadOnly'))
             item.isReadOnly = false;
+
+          return done(null, [item]);
+        }
+        for (let share of config[key].read) {
+          let [name, ...paths] = share.split(':');
+          if (name !== sharePart || !paths.length)
+            continue;
+
+          let target = this._normalize(paths.join(':'));
+          if (!target)
+            continue;
+
+          let item = { id: `${login}:${name}` };
+          if (_.isArray(select) && select.includes('name'))
+            item.name = name;
+          if (_.isArray(select) && select.includes('path'))
+            item.path = target;
+          if (_.isArray(select) && select.includes('isReadOnly'))
+            item.isReadOnly = true;
 
           return done(null, [item]);
         }
@@ -70,27 +70,6 @@ class Share {
       if (user === login) {
         let result = [];
         let knownIds = [];
-        for (let share of config[key].read) {
-          let [name, ...paths] = share.split(':');
-          let id = `${login}:${name}`;
-          if (!name || !paths.length || knownIds.includes(id))
-            continue;
-
-          let target = this._normalize(paths.join(':'));
-          if (!target)
-            continue;
-
-          let item = { id };
-          if (_.isArray(select) && select.includes('name'))
-            item.name = name;
-          if (_.isArray(select) && select.includes('path'))
-            item.path = target;
-          if (_.isArray(select) && select.includes('isReadOnly'))
-            item.isReadOnly = true;
-
-          result.push(item);
-          knownIds.push(id);
-        }
         for (let share of config[key].write) {
           let [name, ...paths] = share.split(':');
           let id = `${login}:${name}`;
@@ -108,6 +87,27 @@ class Share {
             item.path = target;
           if (_.isArray(select) && select.includes('isReadOnly'))
             item.isReadOnly = false;
+
+          result.push(item);
+          knownIds.push(id);
+        }
+        for (let share of config[key].read) {
+          let [name, ...paths] = share.split(':');
+          let id = `${login}:${name}`;
+          if (!name || !paths.length || knownIds.includes(id))
+            continue;
+
+          let target = this._normalize(paths.join(':'));
+          if (!target)
+            continue;
+
+          let item = { id };
+          if (_.isArray(select) && select.includes('name'))
+            item.name = name;
+          if (_.isArray(select) && select.includes('path'))
+            item.path = target;
+          if (_.isArray(select) && select.includes('isReadOnly'))
+            item.isReadOnly = true;
 
           result.push(item);
           knownIds.push(id);
