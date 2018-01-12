@@ -1,7 +1,6 @@
 #!/bin/sh
 
-basepath=`dirname "$0"`
-basepath=`cd "$basepath" && cd .. && pwd`
+a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; basepath=$(cd $a; pwd)
 if [ ! -d "$basepath" ]; then
     echo "Could not get base path"
 fi
