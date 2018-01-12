@@ -1,6 +1,7 @@
 #!/bin/sh
 
-if [ ! -x realpath ]; then
+which realpath > /dev/null 2>&1
+if [ $? -ne 0 ]; then
   echo "Please install realpath utility"
   exit 1
 fi
