@@ -1,9 +1,11 @@
 {
   "name": "webfm",
-  "private": true,
   "version": "0.9.0",
   "description": "Two pane file manager for the Web",
-  "keywords": [],
+  "keywords": [
+    "file manager",
+    "two pane"
+  ],
   "license": "MIT",
   "author": "Ross Basarevych <basarevych@gmail.com>",
   "repository": {
