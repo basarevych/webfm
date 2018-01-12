@@ -1,6 +1,6 @@
 const path = require('path');
 const root = path.join.bind(path, path.resolve(__dirname), '..');
-const local = require('./config');
+const local = require('./local');
 const nodeExternals = require('webpack-node-externals');
 
 /**

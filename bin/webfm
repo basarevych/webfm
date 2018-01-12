@@ -1,0 +1,42 @@
+#!/bin/sh
+
+basepath=`dirname "$0"`
+basepath=`cd "$basepath" && cd .. && pwd`
+if [ ! -d "$basepath" ]; then
+    echo "Could not get base path"
+fi
+
+case $1 in
+install)
+  if [ `uname -s` = 'FreeBSD' ]; then
+    conf_dir=/usr/local/etc/webfm
+  else
+    conf_dir=/etc/webfm
+  fi
+
+  mkdir -p $conf_dir
+  if [ ! -f $conf_dir/webfm.conf ]; then
+    cp $basepath/init/webfm.conf $conf_dir/webfm.conf
+  fi
+  ;;
+pm2)
+  if [ -x pm2 ]; then
+    echo "Starting webfm using pm2..."
+    echo
+    pm2 start $basepath/ecosystem.config.js --env production
+    echo
+    echo "You might want to also run 'pm2 save' now"
+  else
+    echo "pm2 not found"
+  fi
+  ;;
+run)
+  env NODE_ENV=production node --preserve-symlinks $basepath/app.js
+  ;;
+*)
+  echo "Usage: webfm [run|install|pm2]"
+  exit 1
+  ;;
+esac
+
+exit 0

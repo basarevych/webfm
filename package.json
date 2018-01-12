@@ -2,13 +2,16 @@
   "name": "webfm",
   "private": true,
   "version": "0.9.0",
-  "description": "a Sails application",
+  "description": "Two pane file manager for the Web",
   "keywords": [],
   "license": "MIT",
   "author": "Ross Basarevych <basarevych@gmail.com>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/basarevych/webfm.git"
+  },
+  "bin": {
+    "webfm": "bin/webfm"
   },
   "dependencies": {
     "async": "~2.6.0",
@@ -79,16 +82,15 @@
     "write-file-webpack-plugin": "~4.2.0"
   },
   "devDependencies": {
-    "eslint": "~4.14.0",
+    "eslint": "~4.15.0",
     "htmlhint": "~0.9.13",
-    "webpack-dev-server": "~2.9.7"
+    "webpack-dev-server": "~2.10.1"
   },
   "scripts": {
-    "start": "env NODE_ENV=production node app.js",
+    "start": "env NODE_ENV=production node --preserve-symlinks app.js",
     "test": "npm run lint && npm run custom-tests && echo 'Done.'",
     "lint": "node ./node_modules/eslint/bin/eslint . --max-warnings=0 && node ./node_modules/htmlhint/bin/htmlhint ./assets/templates && echo '✔  Your code looks good.'",
-    "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
-    "debug": "node debug app.js"
+    "debug": "node --preserve-symlinks debug app.js"
   },
   "main": "app.js",
   "engines": {

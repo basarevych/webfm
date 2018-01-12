@@ -1,9 +1,13 @@
 /**
- * /etc configuration reader
+ * Local environment settings
+ *
+ * For more information, check out:
+ * https://sailsjs.com/docs/concepts/configuration/the-local-js-file
  */
 'use strict';
 
 const _ = require('lodash');
+const fs = require('fs');
 const os = require('os');
 const ini = require('../api/helpers/ini');
 
@@ -16,7 +20,9 @@ let config = {
       allowOrigins: [],
     }
   },
-  session: {},
+  session: {
+    cookie: {}
+  },
   sockets: {},
   custom: {
     configPath: os.platform() === 'freebsd' ? '/usr/local/etc/webfm/webfm.conf' : '/etc/webfm/webfm.conf',
@@ -40,6 +46,15 @@ try {
         config.explicitHost = result.server.host;
         config.port = parseInt(result.server.port);
         config.security.cors.allowOrigins = result.server.url;
+
+        if (['yes', 'on', 'true'].includes(result.server.ssl)) {
+          config.session.cookie.secure = true;
+          config.ssl = {
+            key: result.server.key_file && fs.readFileSync(result.server.key_file),
+            cert: result.server.cert_file && fs.readFileSync(result.server.cert_file),
+            ca: result.server.ca_file && fs.readFileSync(result.server.ca_file),
+          };
+        }
 
         if (['yes', 'on', 'true'].includes(result.server.trust_proxy))
           config.http.trustProxy = true;
