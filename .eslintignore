@@ -21,6 +21,7 @@
 #
 ################################################
 
+*.config.js
 config/**/*.js
 assets/dependencies/**/*.js
 views/**/*.ejs // (but see https://github.com/roadhump/SublimeLinter-eslint/issues/87)

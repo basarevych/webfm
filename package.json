@@ -87,8 +87,7 @@
   },
   "scripts": {
     "start": "env NODE_ENV=production node --preserve-symlinks app.js",
-    "test": "npm run lint && npm run custom-tests && echo 'Done.'",
-    "lint": "node ./node_modules/eslint/bin/eslint . --max-warnings=0 && node ./node_modules/htmlhint/bin/htmlhint ./assets/templates && echo '✔  Your code looks good.'",
+    "lint": "node ./node_modules/eslint/bin/eslint . --max-warnings=0 && node ./node_modules/htmlhint/bin/htmlhint ./assets/templates",
     "debug": "node --preserve-symlinks debug app.js"
   },
   "main": "app.js",

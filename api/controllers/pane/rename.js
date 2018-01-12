@@ -49,9 +49,8 @@ module.exports = async function rename(req, res) {
 
   let source;
   if (name) {
-    if (parent) {
+    if (parent)
       source = _path.join(parent.realPath, name);
-    }
   } else if (!validate || validate === 'name') {
     form.addError('name', 'E_REQUIRED', __('rename.name.E_REQUIRED'));
   }
