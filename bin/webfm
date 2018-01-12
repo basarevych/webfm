@@ -1,8 +1,17 @@
 #!/bin/sh
 
-a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; basepath=$(cd $a; pwd)
+if [ ! -x realpath ]; then
+  echo "Please install realpath utility"
+  exit 1
+fi
+
+basepath=`realpath $0`
+basepath=`dirname "$basepath"`
+basepath=`dirname "$basepath"`
+basepath=`cd "$basepath" && pwd`
 if [ ! -d "$basepath" ]; then
     echo "Could not get base path"
+    exit 1
 fi
 
 case $1 in
