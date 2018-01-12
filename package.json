@@ -1,6 +1,6 @@
 {
   "name": "webfm",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "Two pane file manager for the Web",
   "keywords": [
     "file manager",
@@ -11,9 +11,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/basarevych/webfm.git"
-  },
-  "bin": {
-    "webfm": "bin/webfm"
   },
   "dependencies": {
     "async": "~2.6.0",

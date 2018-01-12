@@ -8,7 +8,7 @@
 
 const _ = require('lodash');
 const fs = require('fs');
-const os = require('os');
+const path = require('path');
 const ini = require('../api/helpers/ini');
 
 let config = {
@@ -25,7 +25,7 @@ let config = {
   },
   sockets: {},
   custom: {
-    configPath: os.platform() === 'freebsd' ? '/usr/local/etc/webfm/webfm.conf' : '/etc/webfm/webfm.conf',
+    configPath: path.join(__dirname, '..', 'webfm.conf'),
   }
 };
 

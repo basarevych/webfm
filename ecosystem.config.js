@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   /**
    * Application configuration section
@@ -6,7 +8,7 @@ module.exports = {
   apps : [
     {
       name      : 'webfm',
-      script    : 'app.js',
+      script    : path.join(__dirname, 'app.js'),
       node_args : '--preserve-symlinks',
       env: {
       },
