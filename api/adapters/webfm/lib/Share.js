@@ -15,7 +15,7 @@ class Share {
 
       let login = parts.join(':');
       if (userPart === login) {
-        for (let share of config[key].write) {
+        for (let share of config[key].write || []) {
           let [name, ...paths] = share.split(':');
           if (name !== sharePart || !paths.length)
             continue;
@@ -34,7 +34,7 @@ class Share {
 
           return done(null, [item]);
         }
-        for (let share of config[key].read) {
+        for (let share of config[key].read || []) {
           let [name, ...paths] = share.split(':');
           if (name !== sharePart || !paths.length)
             continue;
@@ -70,7 +70,7 @@ class Share {
       if (user === login) {
         let result = [];
         let knownIds = [];
-        for (let share of config[key].write) {
+        for (let share of config[key].write || []) {
           let [name, ...paths] = share.split(':');
           let id = `${login}:${name}`;
           if (!name || !paths.length || knownIds.includes(id))
@@ -91,7 +91,7 @@ class Share {
           result.push(item);
           knownIds.push(id);
         }
-        for (let share of config[key].read) {
+        for (let share of config[key].read || []) {
           let [name, ...paths] = share.split(':');
           let id = `${login}:${name}`;
           if (!name || !paths.length || knownIds.includes(id))
