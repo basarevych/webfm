@@ -20,15 +20,7 @@ install)
   fi
   ;;
 pm2)
-  if [ -x pm2 ]; then
-    echo "Starting webfm using pm2..."
-    echo
-    pm2 start $basepath/ecosystem.config.js --env production
-    echo
-    echo "You might want to also run 'pm2 save' now"
-  else
-    echo "pm2 not found"
-  fi
+  echo $basepath/ecosystem.config.js
   ;;
 run)
   env NODE_ENV=production node --preserve-symlinks $basepath/app.js
