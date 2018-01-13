@@ -138,6 +138,7 @@ module.exports = async function move(req, res) {
   }
 
   let lang = (os.platform() === 'freebsd' ? 'en_US.UTF-8' : 'C.UTF-8');
+  let progressBuffer = '';
   async function doMove() {
     return new Promise(async (resolve, reject) => {
       let rejected = false;
@@ -172,16 +173,17 @@ module.exports = async function move(req, res) {
           if (rejected)
             return;
 
-          if (!fast) {
-            await sails.hooks.broadcaster.moreProgress(
-              req.session.userId,
-              __(
-                rc ? 'move_failure_message' : 'move_success_message',
-                node.path,
-                _path.join(dstParent.path, node.name)
-              ) + '\n'
-            );
-          }
+          let msg = __(
+            rc ? 'move_failure_message' : 'move_success_message',
+            node.path,
+            _path.join(dstParent.path, node.name)
+          ) + '\n';
+
+          if (!fast)
+            await sails.hooks.broadcaster.moreProgress(req.session.userId, msg);
+          else
+            progressBuffer += msg;
+
           resolve(doMove());
         });
       } catch (error) {
@@ -191,8 +193,16 @@ module.exports = async function move(req, res) {
     });
   }
 
-  if (!fast)
+  let fastTimer = null;
+  if (!fast) {
     await sails.hooks.broadcaster.startProgress(req.session.userId, __('move_start_message') + '\n');
+  } else {
+    fastTimer = setTimeout(async () => {
+      fast = false;
+      fastTimer = null;
+      await sails.hooks.broadcaster.startProgress(req.session.userId, __('move_start_message') + '\n' + progressBuffer);
+    }, 2000);
+  }
 
   try {
     await doMove();
@@ -208,10 +218,16 @@ module.exports = async function move(req, res) {
     }
   }
 
-  if (!fast)
+  if (fastTimer)
+    clearTimeout(fastTimer);
+
+  if (!fast) {
     await sails.hooks.broadcaster.finishProgress(req.session.userId);
-  else
+    if (!res.headersSent)
+      res.json({ success: true });
+  } else {
     res.json(form.toJSON());
+  }
 
   await sails.hooks.watcher.trigger(srcParent.realPath);
   await sails.hooks.watcher.trigger(dstParent.realPath);

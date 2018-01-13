@@ -135,6 +135,7 @@ module.exports = async function copy(req, res) {
   }
 
   let lang = (os.platform() === 'freebsd' ? 'en_US.UTF-8' : 'C.UTF-8');
+  let progressBuffer = '';
   async function doCopy() {
     return new Promise(async (resolve, reject) => {
       let rejected = false;
@@ -171,16 +172,17 @@ module.exports = async function copy(req, res) {
         if (rejected || ++counter < 2)
           return;
 
-        if (!fast) {
-          await sails.hooks.broadcaster.moreProgress(
-            req.session.userId,
-            __(
-              (!readerRc && !writerRc) ? 'copy_success_message' : 'copy_failure_message',
-              node.path,
-              _path.join(dstParent.path, node.name)
-            ) + '\n'
-          );
-        }
+        let msg = __(
+          (!readerRc && !writerRc) ? 'copy_success_message' : 'copy_failure_message',
+          node.path,
+          _path.join(dstParent.path, node.name)
+        ) + '\n';
+
+        if (!fast)
+          await sails.hooks.broadcaster.moreProgress(req.session.userId, msg );
+        else
+          progressBuffer += msg;
+
         resolve(doCopy());
       };
 
@@ -227,8 +229,16 @@ module.exports = async function copy(req, res) {
     });
   }
 
-  if (!fast)
+  let fastTimer = null;
+  if (!fast) {
     await sails.hooks.broadcaster.startProgress(req.session.userId, __('copy_start_message') + '\n');
+  } else {
+    fastTimer = setTimeout(async () => {
+      fast = false;
+      fastTimer = null;
+      await sails.hooks.broadcaster.startProgress(req.session.userId, __('copy_start_message') + '\n' + progressBuffer);
+    }, 2000);
+  }
 
   try {
     await doCopy();
@@ -244,10 +254,16 @@ module.exports = async function copy(req, res) {
     }
   }
 
-  if (!fast)
+  if (fastTimer)
+    clearTimeout(fastTimer);
+
+  if (!fast) {
     await sails.hooks.broadcaster.finishProgress(req.session.userId);
-  else
+    if (!res.headersSent)
+      res.json({ success: true });
+  } else {
     res.json(form.toJSON());
+  }
 
   await sails.hooks.watcher.trigger(dstParent.realPath);
 };

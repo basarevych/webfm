@@ -100,6 +100,7 @@ module.exports = async function del(req, res) {
   }
 
   let lang = (os.platform() === 'freebsd' ? 'en_US.UTF-8' : 'C.UTF-8');
+  let progressBuffer = '';
   async function doDelete() {
     return new Promise(async (resolve, reject) => {
       let rejected = false;
@@ -134,15 +135,16 @@ module.exports = async function del(req, res) {
           if (rejected)
             return;
 
-          if (!fast) {
-            await sails.hooks.broadcaster.moreProgress(
-              req.session.userId,
-              __(
-                rc ? 'delete_failure_message' : 'delete_success_message',
-                node.path
-              ) + '\n'
-            );
-          }
+          let msg = __(
+            rc ? 'delete_failure_message' : 'delete_success_message',
+            node.path
+          ) + '\n';
+
+          if (!fast)
+            await sails.hooks.broadcaster.moreProgress(req.session.userId, msg);
+          else
+            progressBuffer += msg;
+
           resolve(doDelete());
         });
       } catch (error) {
@@ -152,8 +154,16 @@ module.exports = async function del(req, res) {
     });
   }
 
-  if (!fast)
+  let fastTimer = null;
+  if (!fast) {
     await sails.hooks.broadcaster.startProgress(req.session.userId, __('delete_start_message') + '\n');
+  } else {
+    fastTimer = setTimeout(async () => {
+      fast = false;
+      fastTimer = null;
+      await sails.hooks.broadcaster.startProgress(req.session.userId, __('delete_start_message') + '\n' + progressBuffer);
+    }, 2000);
+  }
 
   try {
     await doDelete();
@@ -169,10 +179,16 @@ module.exports = async function del(req, res) {
     }
   }
 
-  if (!fast)
+  if (fastTimer)
+    clearTimeout(fastTimer);
+
+  if (!fast) {
     await sails.hooks.broadcaster.finishProgress(req.session.userId);
-  else
+    if (!res.headersSent)
+      res.json({ success: true });
+  } else {
     res.json(form.toJSON());
+  }
 
   await sails.hooks.watcher.trigger(parent.realPath);
 };
