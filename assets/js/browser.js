@@ -18,7 +18,7 @@ import { initApp, screenResize } from './actions/app';
 
 window._ = _;
 window.io = sailsIOClient(socketIOClient);
-window.io.sails.autoConnect = false;
+window.io.sails.autoConnect = true;
 window.io.sails.reconnection = true;
 
 Breakpoints();
@@ -41,5 +41,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('app')
   );
   document.body.className = 'loaded';
-  store.dispatch(initApp(history));
+  setTimeout(() => store.dispatch(initApp(history)));
 });

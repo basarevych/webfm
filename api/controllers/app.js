@@ -1,5 +1,7 @@
 'use strict';
 
+const path = require('path');
+
 module.exports = async function app(req, res) {
   let bundle = require('../../.tmp/public/server.bundle.js');
   let info = await sails.helpers.userInfo(req);
@@ -12,13 +14,16 @@ module.exports = async function app(req, res) {
   if (info.authorized) {
     try {
       let listing = await sails.helpers.shareListing(req.session.userId, match.share, match.path);
+      if (listing.path !== match.path)
+        return res.redirect(`/~${listing.share}:${listing.path}`);
+
       info.share = listing.share;
       info.path = listing.path;
       info.directory = listing.directory;
       info.name = listing.name;
       info.list = listing.list;
     } catch (error) {
-      info.share = match.share;
+      info.share = '';
       info.path = match.path;
       info.directory = '';
       info.name = '';

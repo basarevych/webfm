@@ -98,5 +98,8 @@ module.exports = async function mkdir(req, res) {
     }
   }
 
-  return res.json(form.toJSON());
+  res.json(form.toJSON());
+
+  if (form.success)
+    await sails.hooks.watcher.trigger(parent.realPath);
 };

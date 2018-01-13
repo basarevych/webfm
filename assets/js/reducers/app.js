@@ -7,7 +7,7 @@ const app = (
     breakpoint: '',
     prevBreakpoint: '',
     isStarted: false,
-    isConnected: true,
+    isConnected: false,
   },
   action
 ) => {
@@ -21,18 +21,12 @@ const app = (
         isStarted: true,
       };
     case 'CONNECT_APP':
-      if (state.isConnected || state.ioTimestamp > action.when)
-        return state;
-
       return {
         ...state,
         isConnected: true,
         ioTimestamp: action.when,
       };
     case 'DISCONNECT_APP':
-      if (!state.isConnected || state.ioTimestamp > action.when)
-        return state;
-
       return {
         ...state,
         isConnected: false,

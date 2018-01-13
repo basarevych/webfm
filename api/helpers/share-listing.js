@@ -55,14 +55,26 @@ module.exports = {
     if (!shares.length)
       return exits.error(new Error('No shares defined for you'));
 
-    let root;
+    let realParentPath;
     let directory;
     let name;
     let list = null;
     try {
       for (let item of shares) {
         if (item.name === inputs.share) {
-          let node = await getNode(item.id, path);
+          let node;
+          try {
+            node = await getNode(item.id, path);
+          } catch (error) {
+            if (path.endsWith('/')) {
+              throw error;
+            } else {
+              path = _path.dirname(_path.resolve(path));
+              if (path !== '/')
+                path += '/';
+              node = await getNode(item.id, path);
+            }
+          }
           if (node.isDirectory && path.endsWith('/')) {
             path = node.path;
             if (path !== '/')
@@ -76,7 +88,7 @@ module.exports = {
             node = await getNode(item.id, directory);
           }
 
-          root = node.id;
+          realParentPath = node.realPath;
           list = node.nodes;
           if (directory !== '/') {
             list.unshift({
@@ -98,7 +110,7 @@ module.exports = {
     if (!list)
       return exits.error(new Error('Share not found'));
 
-    return exits.success({ root, share: inputs.share, path, directory, name, list });
+    return exits.success({ realParentPath, share: inputs.share, path, directory, name, list });
 
   }
 

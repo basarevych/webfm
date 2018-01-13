@@ -29,7 +29,7 @@ module.exports.routes = {
   'POST /auth/sign-out': 'auth/sign-out',
 
   'POST /pane/cd': 'pane/cd',
-  'POST /pane/watch': 'pane/watch',
+  'POST /pane/loaded': 'pane/loaded',
   'POST /pane/mkdir': 'pane/mkdir',
   'POST /pane/rename': 'pane/rename',
   'POST /pane/find': 'pane/find',

@@ -15,7 +15,7 @@ const paneFactory = which => {
       selectedIndexes: [],
       isActive: false,
       isVisible: true,
-      isLoading: true,
+      isLoading: false,
       isForbidden: false,
     },
     action

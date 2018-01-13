@@ -173,4 +173,6 @@ module.exports = async function del(req, res) {
     await sails.hooks.broadcaster.finishProgress(req.session.userId);
   else
     res.json(form.toJSON());
+
+  await sails.hooks.watcher.trigger(parent.realPath);
 };

@@ -1,4 +1,7 @@
-<script>window.__STATE__ = "<%= state %>"</script>
+<script>
+  window.__TIMESTAMP__ = <%= Date.now() %>;
+  window.__STATE__ = "<%= state %>";
+</script>
 
 <div id="app" style="width: 100%; height: 100%;"><%- html %></div>
 

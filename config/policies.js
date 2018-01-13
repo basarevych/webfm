@@ -27,7 +27,7 @@ module.exports.policies = {
   'auth/sign-out': 'isLoggedIn',
 
   'pane/cd': 'isLoggedIn',
-  'pane/watch': 'isLoggedIn',
+  'pane/loaded': 'isLoggedIn',
   'pane/mkdir': 'isLoggedIn',
   'pane/rename': 'isLoggedIn',
   'pane/find': 'isLoggedIn',

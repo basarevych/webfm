@@ -9,37 +9,25 @@ import { setList } from './list';
 import { startProgress, updateProgress, finishProgress } from './progressDialog';
 import { matchLocation } from '../lib/path';
 
-let startTimer = null;
 export const startApp = () => {
   return dispatch => {
     dispatch({
       type: 'START_APP',
     });
 
-    io.socket = io.sails.connect();
     io.socket.on('connect', () => dispatch(connectApp()));
     io.socket.on('disconnect', () => dispatch(disconnectApp()));
-    io.socket.on('watch', data => dispatch(paneUpdate(data)));
+    io.socket.on('update', data => dispatch(paneUpdate(data)));
     io.socket.on('progress-start', data => dispatch(startProgress(data)));
     io.socket.on('progress-more', data => dispatch(updateProgress(data)));
     io.socket.on('progress-finish', data => dispatch(finishProgress(data)));
 
-    startTimer = setTimeout(
-      () => {
-        startTimer = null;
-        dispatch(disconnectApp());
-      },
-      3000
-    );
+    if (io.socket.isConnected())
+      dispatch(connectApp());
   };
 };
 
 export const connectApp = () => {
-  if (startTimer) {
-    clearTimeout(startTimer);
-    startTimer = null;
-  }
-
   let when = Date.now();
   return async (dispatch, getState) => {
     {
@@ -55,18 +43,19 @@ export const connectApp = () => {
     {
       await dispatch(getCSRFToken());
       let { app } = getState();
-      if (app.ioTimestamp > when)
+      if (app.ioTimestamp !== when)
         return;
     }
     {
       await dispatch(updateStatus());
       let { app } = getState();
-      if (app.ioTimestamp > when)
+      if (app.ioTimestamp !== when)
         return;
     }
     {
       let { app, leftPane, rightPane } = getState();
       let params = {
+        timestamp: window.__TIMESTAMP__,
         left: {
           share: leftPane.share,
           directory: leftPane.directory,
@@ -78,12 +67,12 @@ export const connectApp = () => {
         _csrf: app.csrf,
       };
       await new Promise(resolve => {
-        io.socket.post('/pane/watch', params, () => resolve());
+        io.socket.post('/pane/loaded', params, () => resolve());
       });
     }
     {
       let { app } = getState();
-      if (app.ioTimestamp > when || app.isConnected)
+      if (app.ioTimestamp !== when)
         return;
 
       dispatch({
@@ -95,9 +84,11 @@ export const connectApp = () => {
 };
 
 export const disconnectApp = () => {
+  let now = Date.now();
+  window.__TIMESTAMP__ = now;
   return {
     type: 'DISCONNECT_APP',
-    when: Date.now(),
+    when: now,
   };
 };
 
@@ -158,19 +149,13 @@ export const getCSRFToken = () => {
 
 export const initApp = history => {
   return async (dispatch, getState) => {
-    let { app, leftPane, rightPane } = getState();
+    let { app } = getState();
     if (app.isStarted)
       return;
 
     await dispatch(startApp());
     await dispatch(screenResize());
     await dispatch(setActivePane('LEFT'));
-
-    let now = Date.now();
-    if (leftPane.isLoading)
-      await dispatch(stopLoadingPane('LEFT', now));
-    if (rightPane.isLoading)
-      await dispatch(stopLoadingPane('RIGHT', now));
 
     history.listen(async location => {
       let { user, leftPane } = getState();
