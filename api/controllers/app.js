@@ -1,7 +1,5 @@
 'use strict';
 
-const path = require('path');
-
 module.exports = async function app(req, res) {
   let bundle = require('../../.tmp/public/server.bundle.js');
   let info = await sails.helpers.userInfo(req);

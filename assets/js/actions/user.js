@@ -40,7 +40,7 @@ export const updateStatus = () => {
           window.location.reload(true);
 
         resolve();
-      })
+      });
     });
   };
 };
