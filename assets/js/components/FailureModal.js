@@ -17,7 +17,7 @@ class FailureModal extends React.PureComponent {
       }
       list.push(
         <dl className="row" key={key}>
-          <dt className="col-sm-4 text-right">
+          <dt className="col-sm-4 text-sm-right">
             {__(`field_${key}_label`)}
           </dt>
           <dd className="col-sm-8">

@@ -67,7 +67,7 @@ class ListComponent extends React.PureComponent {
           <Viewport reactList={true}>
             <ReactList
               length={this.props.list.length}
-              minSize={typeof window === 'undefined' ? 100 : 1}
+              minSize={100}
               initialIndex={this.state.initialIndex}
               itemRenderer={this.renderItem}
               itemsRenderer={this.renderTable}
