@@ -2,8 +2,6 @@
 
 const user = (
   state = {
-    statusRequestedAt: 0,
-    isStatusFetching: false,
     isAuthorized: false,
     login: 'anonymous',
     locale: 'en',
@@ -12,47 +10,12 @@ const user = (
   action
 ) => {
   switch (action.type) {
-    case 'STATUS_REQUEST':
-      if (action.requestedAt <= state.statusRequestedAt)
-        return state;
-
-      return _.cloneDeep({
-        ...state,
-        statusRequestedAt: action.requestedAt,
-        isStatusFetching: true,
-      });
-    case 'STATUS_SUCCESS':
-      if (action.requestedAt < state.statusRequestedAt)
-        return state;
-
-      return _.cloneDeep({
-        ...state,
-        statusRequestedAt: action.requestedAt,
-        isStatusFetching: false,
-        isAuthorized: action.authorized,
-        login: action.login,
-        locale: action.locale,
-        shares: action.shares,
-      });
-    case 'STATUS_FAILURE':
-      if (action.requestedAt < state.statusRequestedAt)
-        return state;
-
-      return _.cloneDeep({
-        ...state,
-        statusRequestedAt: action.requestedAt,
-        isStatusFetching: false,
-        isAuthorized: false,
-        login: 'anonymous',
-        shares: [],
-      });
     case 'SET_USER':
       return _.cloneDeep({
-        ...state,
-        isAuthorized: true,
-        login: action.login,
-        locale: action.locale,
-        shares: action.shares,
+        isAuthorized: action.isAuthorized || false,
+        login: action.login || 'anonymous',
+        locale: action.locale || state.locale,
+        shares: action.shares || [],
       });
   }
 

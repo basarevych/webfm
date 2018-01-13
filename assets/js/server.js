@@ -16,7 +16,7 @@ module.exports.render = async function (params) {
   const store = storeFactory(history);
 
   history.push(params.url);
-  if (params.authorized)
+  if (params.isAuthorized)
     await store.dispatch(setServerState(params));
 
   let html = renderToString(

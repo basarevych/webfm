@@ -171,7 +171,7 @@ export const initApp = history => {
 
 export const setServerState = params => {
   return async dispatch => {
-    await dispatch(setUser(params.login, params.locale, params.shares));
+    await dispatch(setUser(true, params.login, params.locale, params.shares));
     await dispatch(setPaneShare('LEFT', params.share));
     await dispatch(setPanePath('LEFT', params.path, params.directory, params.name));
     await dispatch(setPaneShare('RIGHT', params.share));

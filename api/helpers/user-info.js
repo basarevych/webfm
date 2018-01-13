@@ -26,21 +26,21 @@ module.exports = {
 
   fn: async function (inputs, exits) {
 
-    let authorized = !!(inputs.req.session && inputs.req.session.userId);
+    let isAuthorized = !!(inputs.req.session && inputs.req.session.userId);
     let shares = [];
 
-    if (authorized) {
+    if (isAuthorized) {
       shares = await Share.find({
         where: { user: inputs.req.session.userId },
         select: ['name', 'isReadOnly'],
       });
       if (!shares.length)
-        authorized = false;
+        isAuthorized = false;
     }
 
     return exits.success({
-      authorized,
-      login: authorized ? inputs.req.session.userId : 'anonymous',
+      isAuthorized,
+      login: isAuthorized ? inputs.req.session.userId : 'anonymous',
       locale: inputs.req.getLocale(),
       shares,
     });

@@ -9,88 +9,38 @@ import {
 } from './signInDialog';
 import { closeNavbar } from './navbar';
 
-export const setUser = (login, locale, shares) => {
+export const setUser = (isAuthorized, login, locale, shares) => {
   return {
     type: 'SET_USER',
+    isAuthorized,
     login,
     locale,
     shares,
   };
 };
 
-export const requestStatus = () => {
-  return {
-    type: 'STATUS_REQUEST',
-    requestedAt: Date.now(),
-  };
-};
-
-export const receiveStatus = (requestedAt, data) => {
-  return async (dispatch, getState) => {
-    let result = dispatch(
-      data.success
-        ? {
-          type: 'STATUS_SUCCESS',
-          requestedAt,
-          authorized: data.authorized,
-          login: data.login,
-          locale: data.locale,
-          shares: data.shares,
-        }
-        : {
-          type: 'STATUS_FAILURE',
-          requestedAt,
-        }
-    );
-
-    let { user } = getState();
-
-    if (i18n.getLocale() !== user.locale)
-      i18n.setLocale(user.locale);
-
-    if (user.isAuthorized && !user.shares.length)
-      await dispatch(signOut());
-
-    if (data.success && data.version !== packageJson.version)
-      window.location.reload(true);
-
-    return result;
-  };
-};
-
 export const updateStatus = () => {
-  return async dispatch => {
-    let request = await dispatch(requestStatus());
+  return async (dispatch, getState) => {
     return new Promise(async resolve => {
-      let retry = async () => {
-        try {
-          let response = await fetch(
-            '/status',
-            {
-              method: 'GET',
-              credentials: 'same-origin',
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-              }
-            }
-          );
-          return resolve(
-            dispatch(
-              receiveStatus(
-                request.requestedAt,
-                response.status === 200
-                  ? await response.json()
-                  : { success: false }
-              )
-            )
-          );
-        } catch (error) {
-          console.error(error);
-        }
-        setTimeout(retry, 1000);
-      };
-      await retry();
+      io.socket.get('/status', async (data, response) => {
+        if (response.statusCode === 200)
+          await dispatch(setUser(data.isAuthorized, data.login, data.locale, data.shares));
+        else
+          await dispatch(setUser());
+
+        let { user } = getState();
+
+        if (i18n.getLocale() !== user.locale)
+          i18n.setLocale(user.locale);
+
+        if (user.isAuthorized && !user.shares.length)
+          await dispatch(signOut());
+
+        if (data.success && data.version !== packageJson.version)
+          window.location.reload(true);
+
+        resolve();
+      })
     });
   };
 };

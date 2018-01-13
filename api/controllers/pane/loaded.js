@@ -16,7 +16,6 @@ module.exports = async function watch(req, res) {
 
   try {
     let socketId = sails.sockets.getId(req);
-    sails.hooks.broadcaster.register(socketId, req.session.userId);
 
     let leftNode = await Node.findOne({ share: `${req.session.userId}:${left.share}`, path: left.directory });
     if (leftNode.isValid && leftNode.isDirectory)
