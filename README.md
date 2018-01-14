@@ -12,6 +12,9 @@ Login/Password: guest/guest
   ORM models and queries to work with the shares and files.
 
   The rest is simple REST server accessed via WebSockets.
+  
+  Backend is under [api/](https://github.com/basarevych/webfm/tree/master/api)
+  directory.
 
 * Frontend is React/Redux on Bootstrap 4
 
@@ -19,6 +22,9 @@ Login/Password: guest/guest
   React, using custom CSS when needed (mainly flexgrid).
 
   Initial markup comes prepared on the server utilizing Server Side Rendering.
+
+  Frontend is under [assets/js/](https://github.com/basarevych/webfm/tree/master/assets/js)
+  directory.
 
 * Everything is powered by JavaScript ES2017, native on Node and processed with
 Babel/Webpack for the browser.
