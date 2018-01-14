@@ -24,6 +24,7 @@ class Pane extends React.PureComponent {
       } else {
         view = (
           <ListView
+            which={this.props.which}
             share={this.props.share}
             directory={this.props.directory}
             list={this.props.list}
@@ -44,6 +45,7 @@ class Pane extends React.PureComponent {
       view = (
         <div className={'view rounded' + (this.props.isActive ? ' active' : '')}>
           <Header
+            which={this.props.which}
             breakpoint={this.props.breakpoint}
             shares={this.props.shares}
             share={this.props.share}
@@ -73,6 +75,7 @@ class Pane extends React.PureComponent {
 }
 
 Pane.propTypes = {
+  which: PropTypes.string.isRequired,
   breakpoint: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   otherMode: PropTypes.string.isRequired,

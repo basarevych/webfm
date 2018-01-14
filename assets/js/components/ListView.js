@@ -18,6 +18,7 @@ class ListView extends React.PureComponent {
       bodyClass = 'body';
       listing = (
         <ListComponent
+          which={this.props.which}
           share={this.props.share}
           directory={this.props.directory}
           list={this.props.list}
@@ -44,6 +45,7 @@ class ListView extends React.PureComponent {
 }
 
 ListView.propTypes = {
+  which: PropTypes.string.isRequired,
   share: PropTypes.string.isRequired,
   directory: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,

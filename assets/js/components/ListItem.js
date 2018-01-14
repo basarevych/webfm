@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FaFolderO, FaFileO, FaBalanceScale, FaCopy, FaCut, FaTrash, FaCog } from 'react-icons/lib/fa';
 import { Button } from 'reactstrap';
+import { UncontrolledTooltip } from 'reactstrap';
 import { join } from '../lib/path';
 import { human } from '../lib/size';
 
@@ -77,9 +78,21 @@ class ListItem extends React.PureComponent {
       }
 
       size = (
-        <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'} onClick={this.props.onSizeClick}>
-          {size}
-        </Button>
+        <div>
+          <Button
+            id={this.props.which + '-btn-size-' + this.props.index}
+            size="sm"
+            color={this.props.isSelected ? 'primary' : 'secondary'}
+            onClick={this.props.onSizeClick}
+          >
+            {size}
+          </Button>
+          <UncontrolledTooltip
+            placement="bottom"
+            target={this.props.which + '-btn-size-' + this.props.index}
+            dangerouslySetInnerHTML={{ __html: __('size_button_hint') }}
+          />
+        </div>
       );
     } else {
       size = human(this.props.node.size);
@@ -101,17 +114,47 @@ class ListItem extends React.PureComponent {
             {size}
           </div>
           <div className="tools">
-            <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'} onClick={() => this.props.onCopyClick(this.props.node.name)}>
+            <Button
+              id={this.props.which + '-btn-copy-' + this.props.index}
+              size="sm"
+              color={this.props.isSelected ? 'primary' : 'secondary'}
+              onClick={() => this.props.onCopyClick(this.props.node.name)}
+            >
               <FaCopy />
             </Button>
+            <UncontrolledTooltip
+              placement="bottom"
+              target={this.props.which + '-btn-copy-' + this.props.index}
+              dangerouslySetInnerHTML={{ __html: __('copy_button_hint') }}
+            />
             {' '}
-            <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'} onClick={() => this.props.onMoveClick(this.props.node.name)}>
+            <Button
+              id={this.props.which + '-btn-move-' + this.props.index}
+              size="sm"
+              color={this.props.isSelected ? 'primary' : 'secondary'}
+              onClick={() => this.props.onMoveClick(this.props.node.name)}
+            >
               <FaCut />
             </Button>
+            <UncontrolledTooltip
+              placement="bottom"
+              target={this.props.which + '-btn-move-' + this.props.index}
+              dangerouslySetInnerHTML={{ __html: __('move_button_hint') }}
+            />
             {' '}
-            <Button size="sm" color={this.props.isSelected ? 'primary' : 'secondary'} onClick={() => this.props.onDeleteClick(this.props.node.name)}>
+            <Button
+              id={this.props.which + '-btn-delete-' + this.props.index}
+              size="sm"
+              color={this.props.isSelected ? 'primary' : 'secondary'}
+              onClick={() => this.props.onDeleteClick(this.props.node.name)}
+            >
               <FaTrash />
             </Button>
+            <UncontrolledTooltip
+              placement="bottom"
+              target={this.props.which + '-btn-delete-' + this.props.index}
+              dangerouslySetInnerHTML={{ __html: __('delete_button_hint') }}
+            />
           </div>
         </div>
       );
@@ -143,6 +186,7 @@ class ListItem extends React.PureComponent {
 }
 
 ListItem.propTypes = {
+  which: PropTypes.string.isRequired,
   node: PropTypes.object.isRequired,
   size: PropTypes.object,
   index: PropTypes.number.isRequired,

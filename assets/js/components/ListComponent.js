@@ -22,6 +22,7 @@ class ListComponent extends React.PureComponent {
     let node = this.props.list[index];
     return (
       <ListItem
+        which={this.props.which}
         key={key}
         node={node}
         size={this.props.sizes[`${this.props.share}:${node.path}`]}
@@ -83,6 +84,7 @@ class ListComponent extends React.PureComponent {
 }
 
 ListComponent.propTypes = {
+  which: PropTypes.string.isRequired,
   share: PropTypes.string.isRequired,
   directory: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,

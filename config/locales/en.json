@@ -126,5 +126,15 @@
   "field_srcName_label": "Source name:",
   "field_dstShare_label": "Destination share:",
   "field_dstDirectory_label": "Destination directory:",
-  "field_dstName_label": "Destination name:"
+  "field_dstName_label": "Destination name:",
+  "sort_name_hint": "Sort by name<br>(toggle direction)",
+  "sort_size_hint": "Sort by size<br>(toggle direction)",
+  "mode_list_hint": "Display list of files",
+  "mode_contents_hint": "Display contents of the selected in the other pane file",
+  "mode_info_hint": "Display info of the selected in the other pane file",
+  "toggle_pane_hint": "Toggle visibility<br>of the other pane",
+  "size_button_hint": "Calculate size<br>of this item",
+  "copy_button_hint": "Copy this item<br>to the other pane",
+  "move_button_hint": "Move this item<br>to the other pane",
+  "delete_button_hint": "Delete this item"
 }

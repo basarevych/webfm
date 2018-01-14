@@ -14,6 +14,7 @@ const mapStateToProps = state => {
     selectedId = `${state.rightPane.share}:${state.rightPane.path}`;
 
   return {
+    which: 'LEFT',
     breakpoint: state.app.breakpoint,
     mode: state.leftPane.mode,
     otherMode: state.rightPane.mode,

@@ -8,6 +8,7 @@ import {
 } from 'react-icons/lib/fa';
 import { Button, ButtonGroup } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { UncontrolledTooltip } from 'reactstrap';
 
 class Header extends React.PureComponent {
   constructor(props) {
@@ -122,6 +123,7 @@ class Header extends React.PureComponent {
         <span>
           <ButtonGroup>
             <Button
+              id={this.props.which + '-btn-sort-name'}
               size="sm"
               color={this.props.sortField === 'NAME' ? 'primary' : 'secondary'}
               onClick={this.toggleNameSort}
@@ -130,7 +132,13 @@ class Header extends React.PureComponent {
                 ? (this.props.sortDir === 'ASC' ? <FaSortAlphaAsc /> : <FaSortAlphaDesc />)
                 : <FaSortAlphaAsc />}
             </Button>
+            <UncontrolledTooltip
+              placement="bottom"
+              target={this.props.which + '-btn-sort-name'}
+              dangerouslySetInnerHTML={{ __html: __('sort_name_hint') }}
+            />
             <Button
+              id={this.props.which + '-btn-sort-size'}
               size="sm"
               color={this.props.sortField === 'SIZE' ? 'primary' : 'secondary'}
               onClick={this.toggleSizeSort}
@@ -139,6 +147,11 @@ class Header extends React.PureComponent {
                 ? (this.props.sortDir === 'ASC' ? <FaSortAmountAsc /> : <FaSortAmountDesc />)
                 : <FaSortAmountAsc />}
             </Button>
+            <UncontrolledTooltip
+              placement="bottom"
+              target={this.props.which + '-btn-sort-size'}
+              dangerouslySetInnerHTML={{ __html: __('sort_size_hint') }}
+            />
           </ButtonGroup>
           &nbsp;
         </span>
@@ -151,26 +164,44 @@ class Header extends React.PureComponent {
         <span>
           <ButtonGroup>
             <Button
+              id={this.props.which + '-btn-mode-list'}
               size="sm"
               color={this.props.otherMode === 'LIST' ? 'primary' : 'secondary'}
               onClick={this.setListMode}
             >
               <FaFolderOpenO />
             </Button>
+            <UncontrolledTooltip
+              placement="bottom"
+              target={this.props.which + '-btn-mode-list'}
+              dangerouslySetInnerHTML={{ __html: __('mode_list_hint') }}
+            />
             <Button
+              id={this.props.which + '-btn-mode-contents'}
               size="sm"
               color={this.props.otherMode === 'CONTENTS' ? 'primary' : 'secondary'}
               onClick={this.setContentsMode}
             >
               <FaFileTextO />
             </Button>
+            <UncontrolledTooltip
+              placement="bottom"
+              target={this.props.which + '-btn-mode-contents'}
+              dangerouslySetInnerHTML={{ __html: __('mode_contents_hint') }}
+            />
             <Button
+              id={this.props.which + '-btn-mode-info'}
               size="sm"
               color={this.props.otherMode === 'INFO' ? 'primary' : 'secondary'}
               onClick={this.setInfoMode}
             >
               <FaAlignLeft />
             </Button>
+            <UncontrolledTooltip
+              placement="bottom"
+              target={this.props.which + '-btn-mode-info'}
+              dangerouslySetInnerHTML={{ __html: __('mode_info_hint') }}
+            />
           </ButtonGroup>
           &nbsp;
         </span>
@@ -181,9 +212,19 @@ class Header extends React.PureComponent {
       <span>
         {sorting}
         {modes}
-        <Button size="sm" color="secondary" onClick={this.props.onToggleOther}>
+        <Button
+          id={this.props.which + '-btn-toggle-pane'}
+          size="sm"
+          color="secondary"
+          onClick={this.props.onToggleOther}
+        >
           {this.props.isOtherVisible ? <FaToggleOn /> : <FaToggleOff />}
         </Button>
+        <UncontrolledTooltip
+          placement="bottom"
+          target={this.props.which + '-btn-toggle-pane'}
+          dangerouslySetInnerHTML={{ __html: __('toggle_pane_hint') }}
+        />
       </span>
     );
     if (this.props.mode === 'LIST' && (this.props.breakpoint === 'xs' || (this.props.breakpoint === 'sm' && this.props.isOtherVisible))) {
@@ -216,6 +257,7 @@ class Header extends React.PureComponent {
 }
 
 Header.propTypes = {
+  which: PropTypes.string.isRequired,
   breakpoint: PropTypes.string.isRequired,
   shares: PropTypes.array.isRequired,
   share: PropTypes.string.isRequired,
