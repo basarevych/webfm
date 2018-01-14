@@ -1,12 +1,32 @@
-# webfm
+## Two pane file manager for the web.
 
-a [Sails v1](https://sailsjs.com) application
+Demo: [webfm.daemon-notes.com](https://webfm.daemon-notes.com)
 
+Login/Password: guest/guest
 
-### Links
+# WebFM
 
-+ [Sails framework documentation](https://sailsjs.com/documentation)
-+ [Version notes / upgrading](https://sailsjs.com/documentation/upgrading)
-+ [Deployment tips](https://sailsjs.com/documentation/concepts/deployment)
-+ [Community support options](https://sailsjs.com/support)
-+ [Professional / enterprise options](https://sailsjs.com/enterprise)
+* Backend is Sails v1 application on Node v8
+
+  Custom ORM adapter is created for file system access. Basically I am using
+  ORM models and queries to work with the shares and files.
+
+  The rest is simple REST server accessed via WebSockets.
+
+* Frontend is React/Redux on Bootstrap 4
+
+  Fully responsive application created using Reactstrap, which is Bootstrap 4 for
+  React, using custom CSS when needed (mainly flexgrid).
+
+  Initial markup comes prepared on the server utilizing Server Side Rendering.
+
+* Everything is powered by JavaScript ES2017, native on Node and processed with
+Babel/Webpack for the browser.
+
+## License
+
+MIT
+
+## TODO
+
+* Turn this React/Redux demo into a real application for everyday use.
