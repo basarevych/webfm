@@ -125,29 +125,9 @@ export const signIn = (when, validate) => {
 export const signOut = () => {
   return async (dispatch, getState) => {
     let { app } = getState();
-
-    await new Promise(async resolve => {
-      try {
-        await fetch(
-          '/auth/sign-out',
-          {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
-            body: JSON.stringify({
-              _csrf: app.csrf,
-            })
-          }
-        );
-      } catch (error) {
-        console.error(error);
-      }
-      resolve();
+    await new Promise(resolve => {
+      io.socket.post('/auth/sign-out',  { _csrf: app.csrf }, () => resolve());
     });
-
     return dispatch(updateStatus());
   };
 };

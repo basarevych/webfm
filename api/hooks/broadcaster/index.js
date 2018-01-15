@@ -41,7 +41,7 @@ module.exports = function defineBroadcasterHook(sails) {
       socketMap.set(socketId, entry);
 
     entry.sockets.add(socketId);
-    sails.log.debug(`Registered socket ${socketId}`);
+    sails.log.debug(`Broadcaster registered socket ${socketId}`);
 
     if (entry.message && entry.sent)
       sails.sockets.broadcast(socketId, 'progress-start', entry.message.slice(0, entry.sent));
@@ -58,7 +58,7 @@ module.exports = function defineBroadcasterHook(sails) {
     if (!entry.sockets.size)
       userMap.delete(entry.userId);
 
-    sails.log.debug(`Unregistered socket ${socketId}`);
+    sails.log.debug(`Broadcaster unregistered socket ${socketId}`);
   }
 
   async function startProgress(userId, message) {

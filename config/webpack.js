@@ -454,7 +454,6 @@ module.exports.webpack = {
   },
 
   watchOptions: {
-    aggregateTimeout: 3000,
-    poll: 1000,
+    aggregateTimeout: 5000,
   },
 };

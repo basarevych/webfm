@@ -10,9 +10,6 @@ module.exports = async function status(req, res) {
   info.success = true;
   info.version = packageJson.version;
 
-  if (req.session && req.session.userId && !info.isAuthorized)
-    delete req.session.userId;
-
   let socketId = sails.sockets.getId(req);
   if (info.isAuthorized)
     sails.hooks.broadcaster.register(socketId, req.session.userId);

@@ -67,6 +67,8 @@ module.exports = function defineWatcherHook(sails) {
         info.right.share = share;
         info.right.directory = directory;
       }
+
+      sails.log.debug(`Watcher registered socket ${socketId} for ${userId}:${share}:${directory} (${pane})`);
     } catch (error) {
       sails.log.debug(`Could not install watcher: ${error.message}`);
     }
@@ -74,6 +76,7 @@ module.exports = function defineWatcherHook(sails) {
 
   async function unregister(socketId) {
     sockets.delete(socketId);
+    sails.log.debug(`Watcher unregistered socket ${socketId}`);
   }
 
   return {
