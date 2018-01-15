@@ -11,7 +11,7 @@ module.exports = async function status(req, res) {
   info.version = packageJson.version;
 
   if (req.session && req.session.userId && !info.isAuthorized)
-    req.session.destroy();
+    delete req.session.userId;
 
   let socketId = sails.sockets.getId(req);
   if (info.isAuthorized)
