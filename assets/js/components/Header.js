@@ -54,15 +54,15 @@ class Header extends React.PureComponent {
   }
 
   setListMode() {
-    this.props.onSetOtherMode('LIST');
+    this.props.onSetMode('LIST');
   }
 
   setContentsMode() {
-    this.props.onSetOtherMode('CONTENTS');
+    this.props.onSetMode('CONTENTS');
   }
 
   setInfoMode() {
-    this.props.onSetOtherMode('INFO');
+    this.props.onSetMode('INFO');
   }
 
   render() {
@@ -158,55 +158,52 @@ class Header extends React.PureComponent {
       );
     }
 
-    let modes = null;
-    if (this.props.mode === 'LIST' && this.props.directory && this.props.isOtherVisible) {
-      modes = (
-        <span>
-          <ButtonGroup>
-            <Button
-              id={this.props.which + '-btn-mode-list'}
-              size="sm"
-              color={this.props.otherMode === 'LIST' ? 'primary' : 'secondary'}
-              onClick={this.setListMode}
-            >
-              <FaFolderOpenO />
-            </Button>
-            <UncontrolledTooltip
-              placement="bottom"
-              target={this.props.which + '-btn-mode-list'}
-              dangerouslySetInnerHTML={{ __html: __('mode_list_hint') }}
-            />
-            <Button
-              id={this.props.which + '-btn-mode-contents'}
-              size="sm"
-              color={this.props.otherMode === 'CONTENTS' ? 'primary' : 'secondary'}
-              onClick={this.setContentsMode}
-            >
-              <FaFileTextO />
-            </Button>
-            <UncontrolledTooltip
-              placement="bottom"
-              target={this.props.which + '-btn-mode-contents'}
-              dangerouslySetInnerHTML={{ __html: __('mode_contents_hint') }}
-            />
-            <Button
-              id={this.props.which + '-btn-mode-info'}
-              size="sm"
-              color={this.props.otherMode === 'INFO' ? 'primary' : 'secondary'}
-              onClick={this.setInfoMode}
-            >
-              <FaAlignLeft />
-            </Button>
-            <UncontrolledTooltip
-              placement="bottom"
-              target={this.props.which + '-btn-mode-info'}
-              dangerouslySetInnerHTML={{ __html: __('mode_info_hint') }}
-            />
-          </ButtonGroup>
-          &nbsp;
-        </span>
-      );
-    }
+    let modes = (
+      <span>
+        <ButtonGroup>
+          <Button
+            id={this.props.which + '-btn-mode-list'}
+            size="sm"
+            color={this.props.mode === 'LIST' ? 'primary' : 'secondary'}
+            onClick={this.setListMode}
+          >
+            <FaFolderOpenO />
+          </Button>
+          <UncontrolledTooltip
+            placement="bottom"
+            target={this.props.which + '-btn-mode-list'}
+            dangerouslySetInnerHTML={{ __html: __('mode_list_hint') }}
+          />
+          <Button
+            id={this.props.which + '-btn-mode-contents'}
+            size="sm"
+            color={this.props.mode === 'CONTENTS' ? 'primary' : 'secondary'}
+            onClick={this.setContentsMode}
+          >
+            <FaFileTextO />
+          </Button>
+          <UncontrolledTooltip
+            placement="bottom"
+            target={this.props.which + '-btn-mode-contents'}
+            dangerouslySetInnerHTML={{ __html: __('mode_contents_hint') }}
+          />
+          <Button
+            id={this.props.which + '-btn-mode-info'}
+            size="sm"
+            color={this.props.mode === 'INFO' ? 'primary' : 'secondary'}
+            onClick={this.setInfoMode}
+          >
+            <FaAlignLeft />
+          </Button>
+          <UncontrolledTooltip
+            placement="bottom"
+            target={this.props.which + '-btn-mode-info'}
+            dangerouslySetInnerHTML={{ __html: __('mode_info_hint') }}
+          />
+        </ButtonGroup>
+        &nbsp;
+      </span>
+    );
 
     let tools = (
       <span>
@@ -227,7 +224,7 @@ class Header extends React.PureComponent {
         />
       </span>
     );
-    if (this.props.mode === 'LIST' && (this.props.breakpoint === 'xs' || (this.props.breakpoint === 'sm' && this.props.isOtherVisible))) {
+    if (this.props.breakpoint === 'xs' || (this.props.breakpoint === 'sm' && this.props.isOtherVisible)) {
       tools = (
         <div>
           <Button size="sm" color="secondary" onClick={this.toggleMenu}>
@@ -264,13 +261,12 @@ Header.propTypes = {
   directory: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   otherPath: PropTypes.string.isRequired,
-  otherMode: PropTypes.string.isRequired,
   sortField: PropTypes.string.isRequired,
   sortDir: PropTypes.string.isRequired,
   isOtherVisible: PropTypes.bool.isRequired,
   onSetShare: PropTypes.func.isRequired,
   onSetSort: PropTypes.func.isRequired,
-  onSetOtherMode: PropTypes.func.isRequired,
+  onSetMode: PropTypes.func.isRequired,
   onToggleOther: PropTypes.func.isRequired,
 };
 

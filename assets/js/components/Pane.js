@@ -51,14 +51,13 @@ class Pane extends React.PureComponent {
             share={this.props.share}
             directory={this.props.directory}
             mode={this.props.mode}
-            otherMode={this.props.otherMode}
             otherPath={this.props.otherPath}
             sortField={this.props.sortField}
             sortDir={this.props.sortDir}
             isOtherVisible={this.props.isOtherVisible}
             onSetShare={this.props.onSetShare}
             onSetSort={this.props.onSetSort}
-            onSetOtherMode={this.props.onSetOtherMode}
+            onSetMode={this.props.onSetMode}
             onToggleOther={this.props.onToggleOther}
           />
           {view}
@@ -78,7 +77,6 @@ Pane.propTypes = {
   which: PropTypes.string.isRequired,
   breakpoint: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
-  otherMode: PropTypes.string.isRequired,
   otherPath: PropTypes.string.isRequired,
   shares: PropTypes.array.isRequired,
   share: PropTypes.string.isRequired,
@@ -104,7 +102,7 @@ Pane.propTypes = {
   onNodeControlClick: PropTypes.func.isRequired,
   onSizeClick: PropTypes.func.isRequired,
   onToggleOther: PropTypes.func.isRequired,
-  onSetOtherMode: PropTypes.func.isRequired,
+  onSetMode: PropTypes.func.isRequired,
 };
 
 export default Pane;
