@@ -7,7 +7,6 @@ module.exports = async function status(req, res) {
     return res.badRequest('Not a socket');
 
   let info = await sails.helpers.userInfo(req);
-  info.success = true;
   info.version = packageJson.version;
 
   let socketId = sails.sockets.getId(req);

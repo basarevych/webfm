@@ -2,6 +2,7 @@
 
 import packageJson from '../../../package.json';
 import i18n from '../lib/i18n';
+import { setAppVersion } from './app';
 import { initPanes } from './pane';
 import {
   hideSignInDialog, lockSignInDialog, unlockSignInDialog,
@@ -23,21 +24,20 @@ export const updateStatus = () => {
   return async (dispatch, getState) => {
     return new Promise(async resolve => {
       io.socket.get('/status', async (data, response) => {
-        if (response.statusCode === 200)
+        if (response.statusCode === 200) {
+          await dispatch(setAppVersion(data.version === packageJson.version));
           await dispatch(setUser(data.isAuthorized, data.login, data.locale, data.shares));
-        else
-          await dispatch(setUser());
 
-        let { user } = getState();
+          let { user } = getState();
 
-        if (i18n.getLocale() !== user.locale)
-          i18n.setLocale(user.locale);
+          if (i18n.getLocale() !== user.locale)
+            i18n.setLocale(user.locale);
 
-        if (user.isAuthorized && !user.shares.length)
-          await dispatch(signOut());
-
-        if (data.success && data.version !== packageJson.version)
+          if (user.isAuthorized && !user.shares.length)
+            await dispatch(signOut());
+        } else {
           window.location.reload(true);
+        }
 
         resolve();
       });

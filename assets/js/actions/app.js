@@ -92,6 +92,22 @@ export const disconnectApp = () => {
   };
 };
 
+let versionTimer = null;
+export const setAppVersion = isSameVersion => {
+  if (versionTimer) {
+    clearTimeout(versionTimer);
+    versionTimer = null;
+  }
+
+  if (!isSameVersion)
+    versionTimer = setTimeout(() => window.location.reload(true), 60 * 1000);
+
+  return {
+    type: 'APP_VERSION',
+    isSameVersion,
+  };
+};
+
 export const screenResize = () => {
   return async (dispatch, getState) => {
     let { app, rightPane } = getState();

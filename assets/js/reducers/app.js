@@ -8,6 +8,7 @@ const app = (
     prevBreakpoint: '',
     isStarted: false,
     isConnected: false,
+    isSameVersion: true,
   },
   action
 ) => {
@@ -31,6 +32,11 @@ const app = (
         ...state,
         isConnected: false,
         ioTimestamp: action.when,
+      };
+    case 'APP_VERSION':
+      return {
+        ...state,
+        isSameVersion: action.isSameVersion,
       };
     case 'SCREEN_RESIZE':
       if (state.breakpoint === action.breakpoint)
