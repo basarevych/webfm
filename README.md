@@ -53,7 +53,7 @@ Babel/Webpack for the browser.
 3. Start
 
     Do **yarn start** or **npm start** to start the thing. To make it permanent you can
-    do **pm2 start ecosystem.config.js** (this **ecosystem.config.js** file is in the
+    do **pm2 start ./ecosystem.config.js --env production** (this **ecosystem.config.js** file is in the
     repo).
 
 ## Development
