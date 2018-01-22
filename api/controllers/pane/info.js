@@ -22,7 +22,7 @@ module.exports = async function info(req, res) {
         ctime: node.ctime,
       });
     }
-  } catch (error) {
+  } catch (unused) {
     // do nothing
   }
 

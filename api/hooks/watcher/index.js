@@ -12,7 +12,7 @@ module.exports = function defineWatcherHook(sails) {
         directory: listing.directory,
         list: listing.list,
       });
-    } catch (error) {
+    } catch (unused) {
       sails.sockets.broadcast(socketId, 'update', {
         share: share,
         directory: directory,

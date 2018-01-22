@@ -24,7 +24,7 @@ module.exports = async function cd(req, res) {
       name: listing.name,
       list: listing.list
     });
-  } catch (error) {
+  } catch (unused) {
     return res.json({ success: false });
   }
 

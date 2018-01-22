@@ -32,9 +32,6 @@ export const updateStatus = () => {
 
           if (i18n.getLocale() !== user.locale)
             i18n.setLocale(user.locale);
-
-          if (user.isAuthorized && !user.shares.length)
-            await dispatch(signOut());
         } else {
           window.location.reload(true);
         }
@@ -42,6 +39,16 @@ export const updateStatus = () => {
         resolve();
       });
     });
+  };
+};
+
+export const signOut = () => {
+  return async (dispatch, getState) => {
+    let { app } = getState();
+    await new Promise(resolve => {
+      io.socket.post('/auth/sign-out',  { _csrf: app.csrf }, () => resolve());
+    });
+    return dispatch(updateStatus());
   };
 };
 
@@ -119,15 +126,5 @@ export const signIn = (when, validate) => {
 
       resolve();
     });
-  };
-};
-
-export const signOut = () => {
-  return async (dispatch, getState) => {
-    let { app } = getState();
-    await new Promise(resolve => {
-      io.socket.post('/auth/sign-out',  { _csrf: app.csrf }, () => resolve());
-    });
-    return dispatch(updateStatus());
   };
 };

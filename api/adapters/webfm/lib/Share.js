@@ -125,7 +125,7 @@ class Share {
       filename = fs.realpathSync(filename);
       if (fs.statSync(filename).isDirectory())
         return filename;
-    } catch (error) {
+    } catch (unused) {
       // do nothing
     }
     return null;

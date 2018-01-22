@@ -151,187 +151,6 @@ export const setPaneIndex = (pane, index) => {
   };
 };
 
-export const initPanes = () => {
-  return async (dispatch, getState) => {
-    let { user, router } = getState();
-    if (!user.isAuthorized)
-      return;
-
-    let match = matchLocation(router.location.pathname);
-    let share = match ? match.share : user.shares[0].name;
-    let path = match ? match.path : '/';
-
-    await dispatch(paneCD('BOTH', share, path));
-  };
-};
-
-export const paneCD = (pane, share, path) => {
-  return async (dispatch, getState) => {
-    let { app, user, leftPane, rightPane } = getState();
-    if (!user.isAuthorized)
-      return;
-
-    if (!share)
-      share = (pane !== 'RIGHT' ? leftPane.share : rightPane.share);
-    if (!path)
-      path = (pane !== 'RIGHT' ? leftPane.path : rightPane.path);
-
-    if (pane === 'LEFT' && leftPane.share === share && leftPane.path === path)
-      return;
-    if (pane === 'RIGHT' && rightPane.share === share && rightPane.path === path)
-      return;
-    if (pane === 'BOTH' && leftPane.share === rightPane.share === share && leftPane.path === rightPane.path === path)
-      return;
-
-    let params = {
-      pane,
-      share,
-      path,
-      _csrf: app.csrf,
-    };
-
-    let start = Date.now();
-    if ((pane === 'LEFT' || pane === 'BOTH') && leftPane.timestamp < start)
-      await dispatch(startLoadingPane('LEFT', start));
-    if ((pane === 'RIGHT' || pane === 'BOTH') && rightPane.timestamp < start)
-      await dispatch(startLoadingPane('RIGHT', start));
-
-    return new Promise((resolve, reject) => {
-      io.socket.post('/pane/cd', params, async (data, response) => {
-        try {
-          let finish = Date.now();
-          if (response.statusCode !== 200) {
-            await dispatch(stopLoadingPane('LEFT'), finish);
-            await dispatch(stopLoadingPane('RIGHT'), finish);
-            await dispatch(signOut());
-            return resolve();
-          }
-
-          let { leftPane, rightPane } = getState();
-
-          if (data.success) {
-            if ((pane === 'LEFT' || pane === 'BOTH') && leftPane.timestamp === start) {
-              await dispatch(setPaneShare('LEFT', data.share));
-              await dispatch(setPanePath('LEFT', data.path, data.directory, data.name));
-              if (leftPane.isActive)
-                await dispatch(push(`/~${data.share}:${data.path}`));
-            }
-
-            if ((pane === 'RIGHT' || pane === 'BOTH') && rightPane.timestamp === start) {
-              await dispatch(setPaneShare('RIGHT', data.share));
-              await dispatch(setPanePath('RIGHT', data.path, data.directory, data.name));
-              if (rightPane.isActive)
-                await dispatch(push(`/~${data.share}:${data.path}`));
-            }
-
-            await dispatch(paneUpdate(data));
-          } else {
-            if ((pane === 'LEFT' || pane === 'BOTH') && leftPane.timestamp === start) {
-              await dispatch(setPaneShare('LEFT', ''));
-              await dispatch(setPanePath('LEFT', path));
-              await dispatch(paneDeselect('LEFT'));
-              await dispatch(paneSort('LEFT'));
-              await dispatch(stopLoadingPane('LEFT', finish, true));
-              if (leftPane.isActive)
-                await dispatch(push(`/~${share}:${path}`));
-            }
-
-            if ((pane === 'RIGHT' || pane === 'BOTH') && rightPane.timestamp === start) {
-              await dispatch(setPaneShare('RIGHT', ''));
-              await dispatch(setPanePath('RIGHT', path));
-              await dispatch(paneDeselect('RIGHT'));
-              await dispatch(paneSort('RIGHT'));
-              await dispatch(stopLoadingPane('RIGHT', finish, true));
-              if (rightPane.isActive)
-                await dispatch(push(`/~${share}:${path}`));
-            }
-          }
-
-          resolve();
-        } catch (error) {
-          reject (error);
-        }
-      });
-    });
-  };
-};
-
-export const paneUpdate = data => {
-  return async (dispatch, getState) => {
-    let { leftPane, rightPane } = getState();
-
-    let now = Date.now();
-    await dispatch(setList(`${data.share}:${data.directory}`, data.list || []));
-
-    let left = new Promise(async (resolve, reject) => {
-      try {
-        if (leftPane.share === data.share && leftPane.directory === data.directory) {
-          await dispatch(paneDeselect('LEFT'));
-          await dispatch(paneSort('LEFT'));
-
-          if (leftPane.name) {
-            let found = false;
-            for (let item of data.list || []) {
-              if (item.name === leftPane.name) {
-                found = true;
-                break;
-              }
-            }
-            if (found) {
-              await dispatch(paneSelect('LEFT'));
-            } else {
-              let newPath = data.directory === '/' ? '/' : data.directory + '/';
-              await dispatch(setPanePath('LEFT', newPath, data.directory, ''));
-              if (leftPane.isActive)
-                await dispatch(push(`/~${data.share}:${newPath}`));
-            }
-          }
-
-          await dispatch(stopLoadingPane('LEFT', now, !data.list));
-        }
-        resolve();
-      } catch (error) {
-        reject(error);
-      }
-    });
-
-    let right = new Promise(async (resolve, reject) => {
-      try {
-        if (rightPane.share === data.share && rightPane.directory === data.directory) {
-          await dispatch(paneDeselect('RIGHT'));
-          await dispatch(paneSort('RIGHT'));
-
-          if (rightPane.name) {
-            let found = false;
-            for (let item of data.list || []) {
-              if (item.name === rightPane.name) {
-                found = true;
-                break;
-              }
-            }
-            if (found) {
-              await dispatch(paneSelect('RIGHT'));
-            } else {
-              let newPath = data.directory === '/' ? '/' : data.directory + '/';
-              await dispatch(setPanePath('RIGHT', newPath, data.directory, ''));
-              if (rightPane.isActive)
-                await dispatch(push(`/~${data.share}:${newPath}`));
-            }
-          }
-
-          await dispatch(stopLoadingPane('RIGHT', now, !data.list));
-        }
-        resolve();
-      } catch (error) {
-        reject(error);
-      }
-    });
-
-    await Promise.all([left, right]);
-    await dispatch(clearLists());
-  };
-};
-
 export const paneSort = (pane, field, dir) => {
   return (dispatch, getState) => {
     let state = getState();
@@ -532,5 +351,186 @@ export const paneToggleSelect = (pane, index) => {
     if ((pane === 'LEFT' && rightPane.mode === 'INFO') ||
       (pane === 'RIGHT' && leftPane.mode === 'INFO'))
       dispatch(loadInfo(pane));
+  };
+};
+
+export const paneUpdate = data => {
+  return async (dispatch, getState) => {
+    let { leftPane, rightPane } = getState();
+
+    let now = Date.now();
+    await dispatch(setList(`${data.share}:${data.directory}`, data.list || []));
+
+    let left = new Promise(async (resolve, reject) => {
+      try {
+        if (leftPane.share === data.share && leftPane.directory === data.directory) {
+          await dispatch(paneDeselect('LEFT'));
+          await dispatch(paneSort('LEFT'));
+
+          if (leftPane.name) {
+            let found = false;
+            for (let item of data.list || []) {
+              if (item.name === leftPane.name) {
+                found = true;
+                break;
+              }
+            }
+            if (found) {
+              await dispatch(paneSelect('LEFT'));
+            } else {
+              let newPath = data.directory === '/' ? '/' : data.directory + '/';
+              await dispatch(setPanePath('LEFT', newPath, data.directory, ''));
+              if (leftPane.isActive)
+                await dispatch(push(`/~${data.share}:${newPath}`));
+            }
+          }
+
+          await dispatch(stopLoadingPane('LEFT', now, !data.list));
+        }
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
+
+    let right = new Promise(async (resolve, reject) => {
+      try {
+        if (rightPane.share === data.share && rightPane.directory === data.directory) {
+          await dispatch(paneDeselect('RIGHT'));
+          await dispatch(paneSort('RIGHT'));
+
+          if (rightPane.name) {
+            let found = false;
+            for (let item of data.list || []) {
+              if (item.name === rightPane.name) {
+                found = true;
+                break;
+              }
+            }
+            if (found) {
+              await dispatch(paneSelect('RIGHT'));
+            } else {
+              let newPath = data.directory === '/' ? '/' : data.directory + '/';
+              await dispatch(setPanePath('RIGHT', newPath, data.directory, ''));
+              if (rightPane.isActive)
+                await dispatch(push(`/~${data.share}:${newPath}`));
+            }
+          }
+
+          await dispatch(stopLoadingPane('RIGHT', now, !data.list));
+        }
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
+
+    await Promise.all([left, right]);
+    await dispatch(clearLists());
+  };
+};
+
+export const paneCD = (pane, share, path) => {
+  return async (dispatch, getState) => {
+    let { app, user, leftPane, rightPane } = getState();
+    if (!user.isAuthorized)
+      return;
+
+    if (!share)
+      share = (pane !== 'RIGHT' ? leftPane.share : rightPane.share);
+    if (!path)
+      path = (pane !== 'RIGHT' ? leftPane.path : rightPane.path);
+
+    if (pane === 'LEFT' && leftPane.share === share && leftPane.path === path)
+      return;
+    if (pane === 'RIGHT' && rightPane.share === share && rightPane.path === path)
+      return;
+    if (pane === 'BOTH' && leftPane.share === rightPane.share === share && leftPane.path === rightPane.path === path)
+      return;
+
+    let params = {
+      pane,
+      share,
+      path,
+      _csrf: app.csrf,
+    };
+
+    let start = Date.now();
+    if ((pane === 'LEFT' || pane === 'BOTH') && leftPane.timestamp < start)
+      await dispatch(startLoadingPane('LEFT', start));
+    if ((pane === 'RIGHT' || pane === 'BOTH') && rightPane.timestamp < start)
+      await dispatch(startLoadingPane('RIGHT', start));
+
+    return new Promise((resolve, reject) => {
+      io.socket.post('/pane/cd', params, async (data, response) => {
+        try {
+          let finish = Date.now();
+          if (response.statusCode !== 200) {
+            await dispatch(stopLoadingPane('LEFT'), finish);
+            await dispatch(stopLoadingPane('RIGHT'), finish);
+            await dispatch(signOut());
+            return resolve();
+          }
+
+          let { leftPane, rightPane } = getState();
+
+          if (data.success) {
+            if ((pane === 'LEFT' || pane === 'BOTH') && leftPane.timestamp === start) {
+              await dispatch(setPaneShare('LEFT', data.share));
+              await dispatch(setPanePath('LEFT', data.path, data.directory, data.name));
+              if (leftPane.isActive)
+                await dispatch(push(`/~${data.share}:${data.path}`));
+            }
+
+            if ((pane === 'RIGHT' || pane === 'BOTH') && rightPane.timestamp === start) {
+              await dispatch(setPaneShare('RIGHT', data.share));
+              await dispatch(setPanePath('RIGHT', data.path, data.directory, data.name));
+              if (rightPane.isActive)
+                await dispatch(push(`/~${data.share}:${data.path}`));
+            }
+
+            await dispatch(paneUpdate(data));
+          } else {
+            if ((pane === 'LEFT' || pane === 'BOTH') && leftPane.timestamp === start) {
+              await dispatch(setPaneShare('LEFT', ''));
+              await dispatch(setPanePath('LEFT', path));
+              await dispatch(paneDeselect('LEFT'));
+              await dispatch(paneSort('LEFT'));
+              await dispatch(stopLoadingPane('LEFT', finish, true));
+              if (leftPane.isActive)
+                await dispatch(push(`/~${share}:${path}`));
+            }
+
+            if ((pane === 'RIGHT' || pane === 'BOTH') && rightPane.timestamp === start) {
+              await dispatch(setPaneShare('RIGHT', ''));
+              await dispatch(setPanePath('RIGHT', path));
+              await dispatch(paneDeselect('RIGHT'));
+              await dispatch(paneSort('RIGHT'));
+              await dispatch(stopLoadingPane('RIGHT', finish, true));
+              if (rightPane.isActive)
+                await dispatch(push(`/~${share}:${path}`));
+            }
+          }
+
+          resolve();
+        } catch (error) {
+          reject (error);
+        }
+      });
+    });
+  };
+};
+
+export const initPanes = () => {
+  return async (dispatch, getState) => {
+    let { user, router } = getState();
+    if (!user.isAuthorized)
+      return;
+
+    let match = matchLocation(router.location.pathname);
+    let share = match ? match.share : user.shares[0].name;
+    let path = match ? match.path : '/';
+
+    await dispatch(paneCD('BOTH', share, path));
   };
 };

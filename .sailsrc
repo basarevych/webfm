@@ -2,7 +2,8 @@
   "generators": {
     "modules": {}
   },
-  "hooks": {
-    "grunt": false
+  "_generatedWith": {
+    "sails": "1.0.0-45",
+    "sails-generate": "1.15.4"
   }
 }

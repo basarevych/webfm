@@ -268,7 +268,7 @@ module.exports = {
     // > TODO: Replace this setTimeout with real logic that calls
     // > `done()` when finished. (Or remove this method from the
     // > adapter altogether
-    setTimeout(function(){
+    setTimeout(() => {
       return done(new Error('Adapter method (`create`) not implemented yet.'));
     }, 16);
 
@@ -308,7 +308,7 @@ module.exports = {
     // > TODO: Replace this setTimeout with real logic that calls
     // > `done()` when finished. (Or remove this method from the
     // > adapter altogether
-    setTimeout(function(){
+    setTimeout(() => {
       return done(new Error('Adapter method (`createEach`) not implemented yet.'));
     }, 16);
 
@@ -349,7 +349,7 @@ module.exports = {
     // > TODO: Replace this setTimeout with real logic that calls
     // > `done()` when finished. (Or remove this method from the
     // > adapter altogether
-    setTimeout(function(){
+    setTimeout(() => {
       return done(new Error('Adapter method (`update`) not implemented yet.'));
     }, 16);
 
@@ -389,7 +389,7 @@ module.exports = {
     // > TODO: Replace this setTimeout with real logic that calls
     // > `done()` when finished. (Or remove this method from the
     // > adapter altogether
-    setTimeout(function(){
+    setTimeout(() => {
       return done(new Error('Adapter method (`destroy`) not implemented yet.'));
     }, 16);
 
@@ -507,7 +507,7 @@ module.exports = {
     // > TODO: Replace this setTimeout with real logic that calls
     // > `done()` when finished. (Or remove this method from the
     // > adapter altogether
-    setTimeout(function(){
+    setTimeout(() => {
       return done(new Error('Adapter method (`count`) not implemented yet.'));
     }, 16);
 
@@ -541,7 +541,7 @@ module.exports = {
     // > TODO: Replace this setTimeout with real logic that calls
     // > `done()` when finished. (Or remove this method from the
     // > adapter altogether
-    setTimeout(function(){
+    setTimeout(() => {
       return done(new Error('Adapter method (`sum`) not implemented yet.'));
     }, 16);
 
@@ -575,7 +575,7 @@ module.exports = {
     // > TODO: Replace this setTimeout with real logic that calls
     // > `done()` when finished. (Or remove this method from the
     // > adapter altogether
-    setTimeout(function(){
+    setTimeout(() => {
       return done(new Error('Adapter method (`avg`) not implemented yet.'));
     }, 16);
 

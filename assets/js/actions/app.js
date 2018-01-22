@@ -9,21 +9,36 @@ import { setList } from './list';
 import { startProgress, updateProgress, finishProgress } from './progressDialog';
 import { matchLocation } from '../lib/path';
 
-export const startApp = () => {
-  return dispatch => {
-    dispatch({
-      type: 'START_APP',
+export const getCSRFToken = () => {
+  return async dispatch => {
+    return new Promise(async resolve => {
+      let retry = async () => {
+        try {
+          let response = await fetch(
+            '/auth/csrf',
+            {
+              method: 'GET',
+              credentials: 'same-origin',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              }
+            }
+          );
+          if (response.status === 200) {
+            await dispatch({
+              type: 'SET_CSRF_TOKEN',
+              token: (await response.json())._csrf,
+            });
+            return resolve();
+          }
+        } catch (error) {
+          console.error(error);
+        }
+        setTimeout(retry, 1000);
+      };
+      await retry();
     });
-
-    io.socket.on('connect', () => dispatch(connectApp()));
-    io.socket.on('disconnect', () => dispatch(disconnectApp()));
-    io.socket.on('update', data => dispatch(paneUpdate(data)));
-    io.socket.on('progress-start', data => dispatch(startProgress(data)));
-    io.socket.on('progress-more', data => dispatch(updateProgress(data)));
-    io.socket.on('progress-finish', data => dispatch(finishProgress(data)));
-
-    if (io.socket.isConnected())
-      dispatch(connectApp());
   };
 };
 
@@ -92,6 +107,24 @@ export const disconnectApp = () => {
   };
 };
 
+export const startApp = () => {
+  return dispatch => {
+    dispatch({
+      type: 'START_APP',
+    });
+
+    io.socket.on('connect', () => dispatch(connectApp()));
+    io.socket.on('disconnect', () => dispatch(disconnectApp()));
+    io.socket.on('update', data => dispatch(paneUpdate(data)));
+    io.socket.on('progress-start', data => dispatch(startProgress(data)));
+    io.socket.on('progress-more', data => dispatch(updateProgress(data)));
+    io.socket.on('progress-finish', data => dispatch(finishProgress(data)));
+
+    if (io.socket.isConnected())
+      dispatch(connectApp());
+  };
+};
+
 let versionTimer = null;
 export const setAppVersion = isSameVersion => {
   if (versionTimer) {
@@ -126,39 +159,6 @@ export const screenResize = () => {
     return dispatch({
       type: 'SCREEN_RESIZE',
       breakpoint: newSize,
-    });
-  };
-};
-
-export const getCSRFToken = () => {
-  return async dispatch => {
-    return new Promise(async resolve => {
-      let retry = async () => {
-        try {
-          let response = await fetch(
-            '/auth/csrf',
-            {
-              method: 'GET',
-              credentials: 'same-origin',
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-              }
-            }
-          );
-          if (response.status === 200) {
-            await dispatch({
-              type: 'SET_CSRF_TOKEN',
-              token: (await response.json())._csrf,
-            });
-            return resolve();
-          }
-        } catch (error) {
-          console.error(error);
-        }
-        setTimeout(retry, 1000);
-      };
-      await retry();
     });
   };
 };

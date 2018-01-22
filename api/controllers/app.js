@@ -20,7 +20,7 @@ module.exports = async function app(req, res) {
       info.directory = listing.directory;
       info.name = listing.name;
       info.list = listing.list;
-    } catch (error) {
+    } catch (unused) {
       info.share = '';
       info.path = match.path;
       info.directory = '';

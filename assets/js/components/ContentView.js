@@ -39,7 +39,7 @@ class ContentView extends React.PureComponent {
         {body}
       </div>
     );
-  };
+  }
 }
 
 ContentView.propTypes = {

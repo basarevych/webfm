@@ -9,9 +9,6 @@ module.exports = {
     {
       name      : 'webfm',
       script    : path.join(__dirname, 'app.js'),
-      node_args : '--preserve-symlinks',
-      env: {
-      },
       env_production : {
         NODE_ENV: 'production'
       }

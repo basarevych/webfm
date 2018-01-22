@@ -103,7 +103,7 @@ module.exports = {
           break;
         }
       }
-    } catch (error) {
+    } catch (unused) {
       return exits.error(new Error('Could not read path'));
     }
 

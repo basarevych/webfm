@@ -21,7 +21,7 @@ module.exports = async function mkdir(req, res) {
     let parent = await Node.findOne({ share: `${req.session.userId}:${share}`, path: directory });
     if (!parent.isDirectory || !parent.isValid)
       return res.forbidden('Parent invalid');
-  } catch (error) {
+  } catch (unused) {
     return res.forbidden('Parent not found');
   }
 
@@ -47,7 +47,7 @@ module.exports = async function mkdir(req, res) {
       nodes.push(node);
     }
     return res.json({ nodes });
-  } catch (error) {
+  } catch (unused) {
     return res.forbidden('Path not found');
   }
 

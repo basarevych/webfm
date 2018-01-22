@@ -1,22 +1,3 @@
-//////////////////////////////////////////////////////////////////////
-//   ┬ ┬┌┬┐┌┬┐┬  ╦ ╦╦╔╗╔╔╦╗┬─┐┌─┐
-//   ├─┤ │ ││││  ╠═╣║║║║ ║ ├┬┘│
-//  o┴ ┴ ┴ ┴ ┴┴─┘╩ ╩╩╝╚╝ ╩ ┴└─└─┘
-//
-// > A few EJS-safe HTML linting rules for your Sails app.
-//
-// This file (`.htmlhintrc`) exists to help you catch common mistakes
-// in markup templates (e.g. views, emails) throughout your Sails app.
-//
-// For the sake of convention, the recommended settings are included
-// here out of the box.  But, of course, feel free to change these
-// as you see fit.  (Note that this file only helps if your text editor
-// supports htmlhint syntax highlighting.  If you'd prefer not to use
-// this approach, don't hesitate to delete this file or swap it out.)
-//
-// [?] If you're unsure, swing by https://sailsjs.com/support
-//
-//////////////////////////////////////////////////////////////////////
 {
   "alt-require": true,
   "attr-lowercase": ["viewBox"],
@@ -30,17 +11,17 @@
   "head-script-disabled": false,
   "href-abs-or-rel": false,
   "id-class-ad-disabled": true,
-  "id-class-value": false,// << This has to be disabled or it freaks out about EJS syntax.
+  "id-class-value": false,
   "id-unique": true,
   "inline-script-disabled": true,
   "inline-style-disabled": false,
   "jshint": false,
   "space-tab-mixed-disabled": "space",
-  "spec-char-escape": false,// << This has to be disabled or it freaks out about EJS syntax.
+  "spec-char-escape": false,
   "src-not-empty": true,
   "style-disabled": false,
   "tag-pair": true,
-  "tag-self-close": false,// << This has to be disabled or it freaks out about EJS syntax.
+  "tag-self-close": false,
   "tagname-lowercase": true,
   "title-require": false
 }

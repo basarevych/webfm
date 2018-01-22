@@ -20,6 +20,7 @@ window._ = _;
 window.io = sailsIOClient(socketIOClient);
 window.io.sails.autoConnect = true;
 window.io.sails.reconnection = true;
+window.io.sails.environment = process.env.NODE_ENV;
 
 Breakpoints();
 raf.polyfill();

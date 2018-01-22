@@ -34,7 +34,7 @@ module.exports = async function watch(req, res) {
       if (rightNode.isValid && (!leftNode.isValid || rightNode.realPath !== leftNode.realPath))
         await sails.hooks.watcher.trigger(rightNode.realPath);
     }
-  } catch (error) {
+  } catch (unused) {
     return res.json({ success: false });
   }
 

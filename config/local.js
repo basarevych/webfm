@@ -46,6 +46,7 @@ try {
         config.explicitHost = result.server.host;
         config.port = parseInt(result.server.port);
         config.security.cors.allowOrigins = result.server.url;
+        config.sockets.onlyAllowOrigins = result.server.url;
 
         if (['yes', 'on', 'true'].includes(result.server.ssl)) {
           config.session.cookie.secure = true;

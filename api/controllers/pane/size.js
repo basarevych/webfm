@@ -10,7 +10,7 @@ module.exports = async function size(req, res) {
         du: await sails.helpers.fileSize(node.realPath) * 1024,
       });
     }
-  } catch (error) {
+  } catch (unused) {
     // do nothing
   }
 

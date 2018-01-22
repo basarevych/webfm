@@ -180,130 +180,6 @@ export const rename = (when, validate) => {
   };
 };
 
-export const find = what => {
-  return async (dispatch, getState) => {
-    let { app, copyDialog, moveDialog, deleteDialog } = getState();
-    if (what === 'COPY' && copyDialog.locked)
-      return;
-    if (what === 'MOVE' && moveDialog.locked)
-      return;
-    if (what === 'DELETE' && deleteDialog.locked)
-      return;
-
-    let share;
-    let directory;
-    let name;
-    switch (what) {
-      case 'COPY':
-        share = copyDialog.values.srcShare;
-        directory = copyDialog.values.srcDirectory;
-        name = copyDialog.values.srcName;
-        await dispatch(lockCopyDialog());
-        await dispatch(copy(Date.now(), 'srcName'));
-        copyDialog = getState().copyDialog;
-        if (copyDialog.errors.srcName && Object.keys(copyDialog.errors.srcName).length)
-          return await dispatch(unlockCopyDialog());
-        await dispatch(startCopyDialogFind());
-        break;
-      case 'MOVE':
-        share = moveDialog.values.srcShare;
-        directory = moveDialog.values.srcDirectory;
-        name = moveDialog.values.srcName;
-        await dispatch(lockMoveDialog());
-        await dispatch(move(Date.now(), 'srcName'));
-        moveDialog = getState().moveDialog;
-        if (moveDialog.errors.srcName && Object.keys(moveDialog.errors.srcName).length)
-          return await dispatch(unlockMoveDialog());
-        await dispatch(startMoveDialogFind());
-        break;
-      case 'DELETE':
-        share = deleteDialog.values.share;
-        directory = deleteDialog.values.directory;
-        name = deleteDialog.values.name;
-        await dispatch(lockDeleteDialog());
-        await dispatch(copy(Date.now(), 'name'));
-        deleteDialog = getState().deleteDialog;
-        if (deleteDialog.errors.name && Object.keys(deleteDialog.errors.name).length)
-          return await dispatch(unlockDeleteDialog());
-        await dispatch(startDeleteDialogFind());
-        break;
-    }
-
-    return new Promise(async resolve => {
-      try {
-        let response = await fetch(
-          '/pane/find',
-          {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
-            body: JSON.stringify({
-              share,
-              directory,
-              name,
-              _csrf: app.csrf,
-            })
-          }
-        );
-        if (response.status === 200) {
-          let data = await response.json();
-
-          let directories = [];
-          let files = [];
-          for (let node of data.nodes) {
-            if (node.isDirectory)
-              directories.push(node);
-            else
-              files.push(node);
-          }
-          directories.sort((a, b) => a.name.localeCompare(b.name));
-          files.sort((a, b) => a.name.localeCompare(b.name));
-          let nodes = directories.concat(files);
-
-          switch (what) {
-            case 'COPY':
-              await dispatch(stopCopyDialogFind(nodes));
-              await dispatch(unlockCopyDialog());
-              break;
-            case 'MOVE':
-              await dispatch(stopMoveDialogFind(nodes));
-              await dispatch(unlockMoveDialog());
-              break;
-            case 'DELETE':
-              await dispatch(stopDeleteDialogFind(nodes));
-              await dispatch(unlockDeleteDialog());
-              break;
-          }
-
-          return resolve();
-        }
-      } catch (error) {
-        console.error(error);
-      }
-
-      switch (what) {
-        case 'COPY':
-          await dispatch(stopCopyDialogFind(false));
-          await dispatch(unlockCopyDialog());
-          break;
-        case 'MOVE':
-          await dispatch(stopMoveDialogFind(false));
-          await dispatch(unlockMoveDialog());
-          break;
-        case 'DELETE':
-          await dispatch(stopDeleteDialogFind(false));
-          await dispatch(unlockDeleteDialog());
-          break;
-      }
-
-      resolve();
-    });
-  };
-};
-
 export const copy = (when, validate) => {
   return async (dispatch, getState) => {
     let { app, copyDialog } = getState();
@@ -670,6 +546,130 @@ export const fastDel = (pane, name) => {
         }
       } catch (error) {
         console.error(error);
+      }
+
+      resolve();
+    });
+  };
+};
+
+export const find = what => {
+  return async (dispatch, getState) => {
+    let { app, copyDialog, moveDialog, deleteDialog } = getState();
+    if (what === 'COPY' && copyDialog.locked)
+      return;
+    if (what === 'MOVE' && moveDialog.locked)
+      return;
+    if (what === 'DELETE' && deleteDialog.locked)
+      return;
+
+    let share;
+    let directory;
+    let name;
+    switch (what) {
+      case 'COPY':
+        share = copyDialog.values.srcShare;
+        directory = copyDialog.values.srcDirectory;
+        name = copyDialog.values.srcName;
+        await dispatch(lockCopyDialog());
+        await dispatch(copy(Date.now(), 'srcName'));
+        copyDialog = getState().copyDialog;
+        if (copyDialog.errors.srcName && Object.keys(copyDialog.errors.srcName).length)
+          return await dispatch(unlockCopyDialog());
+        await dispatch(startCopyDialogFind());
+        break;
+      case 'MOVE':
+        share = moveDialog.values.srcShare;
+        directory = moveDialog.values.srcDirectory;
+        name = moveDialog.values.srcName;
+        await dispatch(lockMoveDialog());
+        await dispatch(move(Date.now(), 'srcName'));
+        moveDialog = getState().moveDialog;
+        if (moveDialog.errors.srcName && Object.keys(moveDialog.errors.srcName).length)
+          return await dispatch(unlockMoveDialog());
+        await dispatch(startMoveDialogFind());
+        break;
+      case 'DELETE':
+        share = deleteDialog.values.share;
+        directory = deleteDialog.values.directory;
+        name = deleteDialog.values.name;
+        await dispatch(lockDeleteDialog());
+        await dispatch(copy(Date.now(), 'name'));
+        deleteDialog = getState().deleteDialog;
+        if (deleteDialog.errors.name && Object.keys(deleteDialog.errors.name).length)
+          return await dispatch(unlockDeleteDialog());
+        await dispatch(startDeleteDialogFind());
+        break;
+    }
+
+    return new Promise(async resolve => {
+      try {
+        let response = await fetch(
+          '/pane/find',
+          {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              share,
+              directory,
+              name,
+              _csrf: app.csrf,
+            })
+          }
+        );
+        if (response.status === 200) {
+          let data = await response.json();
+
+          let directories = [];
+          let files = [];
+          for (let node of data.nodes) {
+            if (node.isDirectory)
+              directories.push(node);
+            else
+              files.push(node);
+          }
+          directories.sort((a, b) => a.name.localeCompare(b.name));
+          files.sort((a, b) => a.name.localeCompare(b.name));
+          let nodes = directories.concat(files);
+
+          switch (what) {
+            case 'COPY':
+              await dispatch(stopCopyDialogFind(nodes));
+              await dispatch(unlockCopyDialog());
+              break;
+            case 'MOVE':
+              await dispatch(stopMoveDialogFind(nodes));
+              await dispatch(unlockMoveDialog());
+              break;
+            case 'DELETE':
+              await dispatch(stopDeleteDialogFind(nodes));
+              await dispatch(unlockDeleteDialog());
+              break;
+          }
+
+          return resolve();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+
+      switch (what) {
+        case 'COPY':
+          await dispatch(stopCopyDialogFind(false));
+          await dispatch(unlockCopyDialog());
+          break;
+        case 'MOVE':
+          await dispatch(stopMoveDialogFind(false));
+          await dispatch(unlockMoveDialog());
+          break;
+        case 'DELETE':
+          await dispatch(stopDeleteDialogFind(false));
+          await dispatch(unlockDeleteDialog());
+          break;
       }
 
       resolve();

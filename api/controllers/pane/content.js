@@ -20,7 +20,7 @@ module.exports = async function content(req, res) {
         base64: (type === 'TEXT') && content,
       });
     }
-  } catch (error) {
+  } catch (unused) {
     // do nothing
   }
 
