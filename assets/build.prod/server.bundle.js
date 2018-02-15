@@ -7661,7 +7661,7 @@ exports.default = Navbar;
 /* 69 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"webfm","version":"0.9.22","description":"Two pane file manager for the Web","keywords":["file manager","two pane","node","react","redux","sails"],"license":"MIT","author":"Ross Basarevych <basarevych@gmail.com>","repository":{"type":"git","url":"git+https://github.com/basarevych/webfm.git"},"dependencies":{"async":"~2.6.0","autoprefixer":"~7.2.5","babel-core":"~6.26.0","babel-loader":"~7.1.2","babel-plugin-transform-class-properties":"~6.24.1","babel-plugin-transform-object-rest-spread":"~6.26.0","babel-plugin-transform-runtime":"~6.23.0","babel-preset-env":"~1.6.1","babel-preset-react":"~6.24.1","babel-preset-react-optimize":"~1.0.1","babel-runtime":"~6.26.0","bootstrap":"~4.0.0","bootstrap-loader":"~2.2.0","breakpoints-js":"~1.0.5","clean-webpack-plugin":"~0.1.17","connect-redis":"~3.3.3","css-loader":"~0.28.9","cssnano":"~3.10.0","exports-loader":"~0.6.4","extract-text-webpack-plugin":"~3.0.2","file-loader":"~1.1.6","grunt":"~1.0.1","history":"~4.7.2","i18n-for-browser":"~0.9.7","ignore-loader":"~0.1.2","imports-loader":"~0.7.1","ini":"~1.3.5","isomorphic-fetch":"~2.2.1","lodash":"~4.17.4","moment-timezone":"~0.5.14","node-sass":"~4.7.2","optimize-css-assets-webpack-plugin":"~3.2.0","popper.js":"~1.12.9","postcss-loader":"~2.0.10","prop-types":"~15.6.0","raf":"~3.4.0","react":"~16.2.0","react-dom":"~16.2.0","react-icons":"~2.2.7","react-list":"~0.8.8","react-redux":"~5.0.6","react-router":"~4.2.0","react-router-redux":"^5.0.0-alpha.9","react-scroll-box":"~0.3.5","react-transition-group":"~2.2.1","reactstrap":"^5.0.0-alpha.4","redux":"~3.7.2","redux-thunk":"~2.2.0","resolve-url-loader":"~2.2.1","sails":"^1.0.0-45","sails-hook-grunt":"~3.0.2","sails-hook-orm":"^2.0.0-22","sails-hook-panic-mode":"~0.1.3","sails-hook-sockets":"~1.4.0","sails.io.js":"~1.1.13","sass-loader":"~6.0.6","socket.io-client":"2.0.3","socket.io-redis":"~4.0.1","stat-mode":"~0.2.2","style-loader":"~0.19.1","uglifyjs-webpack-plugin":"~1.1.6","url-loader":"~0.6.2","userid":"~0.3.1","webpack":"~3.10.0","webpack-node-externals":"~1.6.0"},"devDependencies":{"eslint":"~4.16.0"},"scripts":{"build":"env NODE_ENV=production ./node_modules/.bin/webpack --progress","start":"env NODE_ENV=production node app.js","build:dev":"env NODE_ENV=development ./node_modules/.bin/webpack --watch --progress","start:dev":"env NODE_ENV=development ./node_modules/.bin/sails lift","lint":"node ./node_modules/eslint/bin/eslint . --max-warnings=0","debug":"node debug app.js"},"main":"app.js","engines":{"node":">=8.0.0"}}
+module.exports = {"name":"webfm","version":"0.9.23","description":"Two pane file manager for the Web","keywords":["file manager","two pane","node","react","redux","sails"],"license":"MIT","author":"Ross Basarevych <basarevych@gmail.com>","repository":{"type":"git","url":"git+https://github.com/basarevych/webfm.git"},"dependencies":{"async":"~2.6.0","autoprefixer":"~8.0.0","babel-core":"~6.26.0","babel-loader":"~7.1.2","babel-plugin-transform-class-properties":"~6.24.1","babel-plugin-transform-object-rest-spread":"~6.26.0","babel-plugin-transform-runtime":"~6.23.0","babel-preset-env":"~1.6.1","babel-preset-react":"~6.24.1","babel-preset-react-optimize":"~1.0.1","babel-runtime":"~6.26.0","bootstrap":"~4.0.0","bootstrap-loader":"~2.2.0","breakpoints-js":"~1.0.5","clean-webpack-plugin":"~0.1.18","connect-redis":"~3.3.3","css-loader":"~0.28.9","cssnano":"~3.10.0","exports-loader":"~0.7.0","extract-text-webpack-plugin":"~3.0.2","file-loader":"~1.1.6","grunt":"~1.0.2","history":"~4.7.2","i18n-for-browser":"~0.9.7","ignore-loader":"~0.1.2","imports-loader":"~0.7.1","ini":"~1.3.5","isomorphic-fetch":"~2.2.1","lodash":"~4.17.5","moment-timezone":"~0.5.14","node-sass":"~4.7.2","optimize-css-assets-webpack-plugin":"~3.2.0","popper.js":"~1.12.9","postcss-loader":"~2.1.0","prop-types":"~15.6.0","raf":"~3.4.0","react":"~16.2.0","react-dom":"~16.2.0","react-icons":"~2.2.7","react-list":"~0.8.8","react-redux":"~5.0.6","react-router":"~4.2.0","react-router-redux":"^5.0.0-alpha.9","react-scroll-box":"~0.3.5","react-transition-group":"~2.2.1","reactstrap":"^5.0.0-beta","redux":"~3.7.2","redux-thunk":"~2.2.0","resolve-url-loader":"~2.2.1","sails":"^1.0.0-46","sails-hook-grunt":"~3.0.2","sails-hook-orm":"^2.0.0-23","sails-hook-panic-mode":"~0.1.3","sails-hook-sockets":"~1.4.0","sails.io.js":"~1.1.13","sass-loader":"~6.0.6","socket.io-client":"2.0.3","socket.io-redis":"~4.0.1","stat-mode":"~0.2.2","style-loader":"~0.20.1","uglifyjs-webpack-plugin":"~1.1.8","url-loader":"~0.6.2","userid":"~0.3.1","webpack":"~3.11.0","webpack-node-externals":"~1.6.0"},"devDependencies":{"eslint":"~4.17.0"},"scripts":{"build":"env NODE_ENV=production ./node_modules/.bin/webpack --progress","start":"env NODE_ENV=production node app.js","build:dev":"env NODE_ENV=development ./node_modules/.bin/webpack --watch --progress","start:dev":"env NODE_ENV=development ./node_modules/.bin/sails lift","lint":"node ./node_modules/eslint/bin/eslint . --max-warnings=0","debug":"node debug app.js"},"main":"app.js","engines":{"node":">=8.0.0"}}
 
 /***/ }),
 /* 70 */
@@ -10074,7 +10074,9 @@ var CopyModal = function (_React$PureComponent) {
         innerRef: function innerRef(input) {
           _this5.srcNameInput = input;
         }
-      }), (0, _jsx3.default)(_reactstrap.InputGroupButton, {}, void 0, (0, _jsx3.default)(_reactstrap.Button, {
+      }), (0, _jsx3.default)(_reactstrap.InputGroupAddon, {
+        addonType: 'append'
+      }, void 0, (0, _jsx3.default)(_reactstrap.Button, {
         color: 'secondary',
         disabled: this.props.isLocked,
         onClick: this.props.onFind
@@ -10579,7 +10581,9 @@ var MoveModal = function (_React$PureComponent) {
         innerRef: function innerRef(input) {
           _this5.srcNameInput = input;
         }
-      }), (0, _jsx3.default)(_reactstrap.InputGroupButton, {}, void 0, (0, _jsx3.default)(_reactstrap.Button, {
+      }), (0, _jsx3.default)(_reactstrap.InputGroupAddon, {
+        addonType: 'append'
+      }, void 0, (0, _jsx3.default)(_reactstrap.Button, {
         color: 'secondary',
         disabled: this.props.isLocked,
         onClick: this.props.onFind
@@ -11064,7 +11068,9 @@ var DeleteModal = function (_React$PureComponent) {
         innerRef: function innerRef(input) {
           _this5.nameInput = input;
         }
-      }), (0, _jsx3.default)(_reactstrap.InputGroupButton, {}, void 0, (0, _jsx3.default)(_reactstrap.Button, {
+      }), (0, _jsx3.default)(_reactstrap.InputGroupAddon, {
+        addonType: 'append'
+      }, void 0, (0, _jsx3.default)(_reactstrap.Button, {
         color: 'secondary',
         disabled: this.props.isLocked,
         onClick: this.props.onFind
@@ -11601,10 +11607,25 @@ var Header = function (_React$PureComponent) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Header.__proto__ || (0, _getPrototypeOf2.default)(Header)).call(this, props));
 
-    _this.state = { isShareDropdownOpen: false, isMenuOpen: false };
+    _this.state = {
+      isShareDropdownOpen: false,
+      isMenuOpen: false,
+      isSortNameTooltipOpen: false,
+      isSortSizeTooltipOpen: false,
+      isModeListTooltipOpen: false,
+      isModeContentsTooltipOpen: false,
+      isModeInfoTooltipOpen: false,
+      isPaneTooltipOpen: false
+    };
 
     _this.toggleMenu = _this.toggleMenu.bind(_this);
     _this.toggleShareDropdown = _this.toggleShareDropdown.bind(_this);
+    _this.toggleSortNameTooltip = _this.toggleSortNameTooltip.bind(_this);
+    _this.toggleSortSizeTooltip = _this.toggleSortSizeTooltip.bind(_this);
+    _this.toggleModeListTooltip = _this.toggleModeListTooltip.bind(_this);
+    _this.toggleModeContentsTooltip = _this.toggleModeContentsTooltip.bind(_this);
+    _this.toggleModeInfoTooltip = _this.toggleModeInfoTooltip.bind(_this);
+    _this.togglePaneTooltip = _this.togglePaneTooltip.bind(_this);
     _this.toggleNameSort = _this.toggleNameSort.bind(_this);
     _this.toggleSizeSort = _this.toggleSizeSort.bind(_this);
     _this.setListMode = _this.setListMode.bind(_this);
@@ -11622,6 +11643,36 @@ var Header = function (_React$PureComponent) {
     key: 'toggleShareDropdown',
     value: function toggleShareDropdown() {
       this.setState({ isShareDropdownOpen: !this.state.isShareDropdownOpen });
+    }
+  }, {
+    key: 'toggleSortNameTooltip',
+    value: function toggleSortNameTooltip() {
+      this.setState({ isSortNameTooltipOpen: !this.state.isSortNameTooltipOpen });
+    }
+  }, {
+    key: 'toggleSortSizeTooltip',
+    value: function toggleSortSizeTooltip() {
+      this.setState({ isSortSizeTooltipOpen: !this.state.isSortSizeTooltipOpen });
+    }
+  }, {
+    key: 'toggleModeListTooltip',
+    value: function toggleModeListTooltip() {
+      this.setState({ isModeListTooltipOpen: !this.state.isModeListTooltipOpen });
+    }
+  }, {
+    key: 'toggleModeContentsTooltip',
+    value: function toggleModeContentsTooltip() {
+      this.setState({ isModeContentsTooltipOpen: !this.state.isModeContentsTooltipOpen });
+    }
+  }, {
+    key: 'toggleModeInfoTooltip',
+    value: function toggleModeInfoTooltip() {
+      this.setState({ isModeInfoTooltipOpen: !this.state.isModeInfoTooltipOpen });
+    }
+  }, {
+    key: 'togglePaneTooltip',
+    value: function togglePaneTooltip() {
+      this.setState({ isPaneTooltipOpen: !this.state.isPaneTooltipOpen });
     }
   }, {
     key: 'toggleNameSort',
@@ -11730,18 +11781,28 @@ var Header = function (_React$PureComponent) {
           size: 'sm',
           color: this.props.sortField === 'NAME' ? 'primary' : 'secondary',
           onClick: this.toggleNameSort
-        }, void 0, this.props.sortField === 'NAME' ? this.props.sortDir === 'ASC' ? _ref : _ref2 : _ref3), (0, _jsx3.default)(_reactstrap.UncontrolledTooltip, {
+        }, void 0, this.props.sortField === 'NAME' ? this.props.sortDir === 'ASC' ? _ref : _ref2 : _ref3), _react2.default.createElement(_reactstrap.Tooltip, {
           placement: 'bottom',
           target: this.props.which + '-btn-sort-name',
+          isOpen: this.sortNameTooltip && this.state.isSortNameTooltipOpen,
+          toggle: this.toggleSortNameTooltip,
+          ref: function ref(el) {
+            _this2.sortNameTooltip = el;
+          },
           dangerouslySetInnerHTML: { __html: __('sort_name_hint') }
         }), (0, _jsx3.default)(_reactstrap.Button, {
           id: this.props.which + '-btn-sort-size',
           size: 'sm',
           color: this.props.sortField === 'SIZE' ? 'primary' : 'secondary',
           onClick: this.toggleSizeSort
-        }, void 0, this.props.sortField === 'SIZE' ? this.props.sortDir === 'ASC' ? _ref4 : _ref5 : _ref6), (0, _jsx3.default)(_reactstrap.UncontrolledTooltip, {
+        }, void 0, this.props.sortField === 'SIZE' ? this.props.sortDir === 'ASC' ? _ref4 : _ref5 : _ref6), _react2.default.createElement(_reactstrap.Tooltip, {
           placement: 'bottom',
           target: this.props.which + '-btn-sort-size',
+          isOpen: this.sortSizeTooltip && this.state.isSortSizeTooltipOpen,
+          toggle: this.toggleSortSizeTooltip,
+          ref: function ref(el) {
+            _this2.sortSizeTooltip = el;
+          },
           dangerouslySetInnerHTML: { __html: __('sort_size_hint') }
         })), '\xA0');
       }
@@ -11751,27 +11812,42 @@ var Header = function (_React$PureComponent) {
         size: 'sm',
         color: this.props.mode === 'LIST' ? 'primary' : 'secondary',
         onClick: this.setListMode
-      }, void 0, _ref7), (0, _jsx3.default)(_reactstrap.UncontrolledTooltip, {
+      }, void 0, _ref7), _react2.default.createElement(_reactstrap.Tooltip, {
         placement: 'bottom',
         target: this.props.which + '-btn-mode-list',
+        isOpen: this.modeListTooltip && this.state.isModeListTooltipOpen,
+        toggle: this.toggleModeListTooltip,
+        ref: function ref(el) {
+          _this2.modeListTooltip = el;
+        },
         dangerouslySetInnerHTML: { __html: __('mode_list_hint') }
       }), (0, _jsx3.default)(_reactstrap.Button, {
         id: this.props.which + '-btn-mode-contents',
         size: 'sm',
         color: this.props.mode === 'CONTENTS' ? 'primary' : 'secondary',
         onClick: this.setContentsMode
-      }, void 0, _ref8), (0, _jsx3.default)(_reactstrap.UncontrolledTooltip, {
+      }, void 0, _ref8), _react2.default.createElement(_reactstrap.Tooltip, {
         placement: 'bottom',
         target: this.props.which + '-btn-mode-contents',
+        isOpen: this.modeContentsTooltip && this.state.isModeContentsTooltipOpen,
+        toggle: this.toggleModeContentsTooltip,
+        ref: function ref(el) {
+          _this2.modeContentsTooltip = el;
+        },
         dangerouslySetInnerHTML: { __html: __('mode_contents_hint') }
       }), (0, _jsx3.default)(_reactstrap.Button, {
         id: this.props.which + '-btn-mode-info',
         size: 'sm',
         color: this.props.mode === 'INFO' ? 'primary' : 'secondary',
         onClick: this.setInfoMode
-      }, void 0, _ref9), (0, _jsx3.default)(_reactstrap.UncontrolledTooltip, {
+      }, void 0, _ref9), _react2.default.createElement(_reactstrap.Tooltip, {
         placement: 'bottom',
         target: this.props.which + '-btn-mode-info',
+        isOpen: this.modeInfoTooltip && this.state.isModeInfoTooltipOpen,
+        toggle: this.toggleModeInfoTooltip,
+        ref: function ref(el) {
+          _this2.modeInfoTooltip = el;
+        },
         dangerouslySetInnerHTML: { __html: __('mode_info_hint') }
       })), '\xA0');
 
@@ -11780,9 +11856,14 @@ var Header = function (_React$PureComponent) {
         size: 'sm',
         color: 'secondary',
         onClick: this.props.onToggleOther
-      }, void 0, this.props.isOtherVisible ? _ref10 : _ref11), (0, _jsx3.default)(_reactstrap.UncontrolledTooltip, {
+      }, void 0, this.props.isOtherVisible ? _ref10 : _ref11), _react2.default.createElement(_reactstrap.Tooltip, {
         placement: 'bottom',
         target: this.props.which + '-btn-toggle-pane',
+        isOpen: this.paneTooltip && this.state.isPaneTooltipOpen,
+        toggle: this.togglePaneTooltip,
+        ref: function ref(el) {
+          _this2.paneTooltip = el;
+        },
         dangerouslySetInnerHTML: { __html: __('toggle_pane_hint') }
       }));
       if (this.props.breakpoint === 'xs' || this.props.breakpoint === 'sm' && this.props.isOtherVisible) {
@@ -12161,8 +12242,18 @@ var ListItem = function (_React$PureComponent) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ListItem.__proto__ || (0, _getPrototypeOf2.default)(ListItem)).call(this, props));
 
-    _this.state = { isHovered: false };
+    _this.state = {
+      isHovered: false,
+      isSizeTooltipOpen: false,
+      isCopyTooltipOpen: false,
+      isMoveTooltipOpen: false,
+      isDeleteTooltipOpen: false
+    };
 
+    _this.toggleSizeTooltip = _this.toggleSizeTooltip.bind(_this);
+    _this.toggleCopyTooltip = _this.toggleCopyTooltip.bind(_this);
+    _this.toggleMoveTooltip = _this.toggleMoveTooltip.bind(_this);
+    _this.toggleDeleteTooltip = _this.toggleDeleteTooltip.bind(_this);
     _this.handleEnter = _this.handleEnter.bind(_this);
     _this.handleLeave = _this.handleLeave.bind(_this);
     _this.handleNameClick = _this.handleNameClick.bind(_this);
@@ -12171,6 +12262,26 @@ var ListItem = function (_React$PureComponent) {
   }
 
   (0, _createClass3.default)(ListItem, [{
+    key: 'toggleSizeTooltip',
+    value: function toggleSizeTooltip() {
+      this.setState({ isSizeTooltipOpen: !this.state.isSizeTooltipOpen });
+    }
+  }, {
+    key: 'toggleCopyTooltip',
+    value: function toggleCopyTooltip() {
+      this.setState({ isCopyTooltipOpen: !this.state.isCopyTooltipOpen });
+    }
+  }, {
+    key: 'toggleMoveTooltip',
+    value: function toggleMoveTooltip() {
+      this.setState({ isMoveTooltipOpen: !this.state.isMoveTooltipOpen });
+    }
+  }, {
+    key: 'toggleDeleteTooltip',
+    value: function toggleDeleteTooltip() {
+      this.setState({ isDeleteTooltipOpen: !this.state.isDeleteTooltipOpen });
+    }
+  }, {
     key: 'handleEnter',
     value: function handleEnter() {
       this.setState({ isHovered: true });
@@ -12222,9 +12333,14 @@ var ListItem = function (_React$PureComponent) {
           size: 'sm',
           color: this.props.isSelected ? 'primary' : 'secondary',
           onClick: this.props.onSizeClick
-        }, void 0, size), (0, _jsx3.default)(_reactstrap.UncontrolledTooltip, {
+        }, void 0, size), _react2.default.createElement(_reactstrap.Tooltip, {
           placement: 'bottom',
           target: this.props.which + '-btn-size-' + this.props.index,
+          isOpen: this.sizeTooltip && this.state.isSizeTooltipOpen,
+          toggle: this.toggleSizeTooltip,
+          ref: function ref(el) {
+            _this2.sizeTooltip = el;
+          },
           dangerouslySetInnerHTML: { __html: __('size_button_hint') }
         }));
       } else {
@@ -12252,9 +12368,14 @@ var ListItem = function (_React$PureComponent) {
           onClick: function onClick() {
             return _this2.props.onCopyClick(_this2.props.node.name);
           }
-        }, void 0, _ref5), (0, _jsx3.default)(_reactstrap.UncontrolledTooltip, {
+        }, void 0, _ref5), _react2.default.createElement(_reactstrap.Tooltip, {
           placement: 'bottom',
           target: this.props.which + '-btn-copy-' + this.props.index,
+          isOpen: this.copyTooltip && this.state.isCopyTooltipOpen,
+          toggle: this.toggleCopyTooltip,
+          ref: function ref(el) {
+            _this2.copyTooltip = el;
+          },
           dangerouslySetInnerHTML: { __html: __('copy_button_hint') }
         }), ' ', (0, _jsx3.default)(_reactstrap.Button, {
           id: this.props.which + '-btn-move-' + this.props.index,
@@ -12263,9 +12384,14 @@ var ListItem = function (_React$PureComponent) {
           onClick: function onClick() {
             return _this2.props.onMoveClick(_this2.props.node.name);
           }
-        }, void 0, _ref6), (0, _jsx3.default)(_reactstrap.UncontrolledTooltip, {
+        }, void 0, _ref6), _react2.default.createElement(_reactstrap.Tooltip, {
           placement: 'bottom',
           target: this.props.which + '-btn-move-' + this.props.index,
+          isOpen: this.moveTooltip && this.state.isMoveTooltipOpen,
+          toggle: this.toggleMoveTooltip,
+          ref: function ref(el) {
+            _this2.moveTooltip = el;
+          },
           dangerouslySetInnerHTML: { __html: __('move_button_hint') }
         }), ' ', (0, _jsx3.default)(_reactstrap.Button, {
           id: this.props.which + '-btn-delete-' + this.props.index,
@@ -12274,9 +12400,14 @@ var ListItem = function (_React$PureComponent) {
           onClick: function onClick() {
             return _this2.props.onDeleteClick(_this2.props.node.name);
           }
-        }, void 0, _ref7), (0, _jsx3.default)(_reactstrap.UncontrolledTooltip, {
+        }, void 0, _ref7), _react2.default.createElement(_reactstrap.Tooltip, {
           placement: 'bottom',
           target: this.props.which + '-btn-delete-' + this.props.index,
+          isOpen: this.deleteTooltip && this.state.isDeleteTooltipOpen,
+          toggle: this.toggleDeleteTooltip,
+          ref: function ref(el) {
+            _this2.deleteTooltip = el;
+          },
           dangerouslySetInnerHTML: { __html: __('delete_button_hint') }
         })));
       }

@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FaFolderO, FaFileO, FaBalanceScale, FaCopy, FaCut, FaTrash, FaCog } from 'react-icons/lib/fa';
 import { Button } from 'reactstrap';
-import { UncontrolledTooltip } from 'reactstrap';
+import { Tooltip } from 'reactstrap';
 import { join } from '../lib/path';
 import { human } from '../lib/size';
 
@@ -12,12 +12,38 @@ class ListItem extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = { isHovered: false };
+    this.state = {
+      isHovered: false,
+      isSizeTooltipOpen: false,
+      isCopyTooltipOpen: false,
+      isMoveTooltipOpen: false,
+      isDeleteTooltipOpen: false,
+    };
 
+    this.toggleSizeTooltip = this.toggleSizeTooltip.bind(this);
+    this.toggleCopyTooltip = this.toggleCopyTooltip.bind(this);
+    this.toggleMoveTooltip = this.toggleMoveTooltip.bind(this);
+    this.toggleDeleteTooltip = this.toggleDeleteTooltip.bind(this);
     this.handleEnter = this.handleEnter.bind(this);
     this.handleLeave = this.handleLeave.bind(this);
     this.handleNameClick = this.handleNameClick.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
+  }
+
+  toggleSizeTooltip() {
+    this.setState({ isSizeTooltipOpen: !this.state.isSizeTooltipOpen });
+  }
+
+  toggleCopyTooltip() {
+    this.setState({ isCopyTooltipOpen: !this.state.isCopyTooltipOpen });
+  }
+
+  toggleMoveTooltip() {
+    this.setState({ isMoveTooltipOpen: !this.state.isMoveTooltipOpen });
+  }
+
+  toggleDeleteTooltip() {
+    this.setState({ isDeleteTooltipOpen: !this.state.isDeleteTooltipOpen });
   }
 
   handleEnter() {
@@ -87,9 +113,12 @@ class ListItem extends React.PureComponent {
           >
             {size}
           </Button>
-          <UncontrolledTooltip
+          <Tooltip
             placement="bottom"
             target={this.props.which + '-btn-size-' + this.props.index}
+            isOpen={this.sizeTooltip && this.state.isSizeTooltipOpen}
+            toggle={this.toggleSizeTooltip}
+            ref={el => { this.sizeTooltip = el; }}
             dangerouslySetInnerHTML={{ __html: __('size_button_hint') }}
           />
         </div>
@@ -122,9 +151,12 @@ class ListItem extends React.PureComponent {
             >
               <FaCopy />
             </Button>
-            <UncontrolledTooltip
+            <Tooltip
               placement="bottom"
               target={this.props.which + '-btn-copy-' + this.props.index}
+              isOpen={this.copyTooltip && this.state.isCopyTooltipOpen}
+              toggle={this.toggleCopyTooltip}
+              ref={el => { this.copyTooltip = el; }}
               dangerouslySetInnerHTML={{ __html: __('copy_button_hint') }}
             />
             {' '}
@@ -136,9 +168,12 @@ class ListItem extends React.PureComponent {
             >
               <FaCut />
             </Button>
-            <UncontrolledTooltip
+            <Tooltip
               placement="bottom"
               target={this.props.which + '-btn-move-' + this.props.index}
+              isOpen={this.moveTooltip && this.state.isMoveTooltipOpen}
+              toggle={this.toggleMoveTooltip}
+              ref={el => { this.moveTooltip = el; }}
               dangerouslySetInnerHTML={{ __html: __('move_button_hint') }}
             />
             {' '}
@@ -150,9 +185,12 @@ class ListItem extends React.PureComponent {
             >
               <FaTrash />
             </Button>
-            <UncontrolledTooltip
+            <Tooltip
               placement="bottom"
               target={this.props.which + '-btn-delete-' + this.props.index}
+              isOpen={this.deleteTooltip && this.state.isDeleteTooltipOpen}
+              toggle={this.toggleDeleteTooltip}
+              ref={el => { this.deleteTooltip = el; }}
               dangerouslySetInnerHTML={{ __html: __('delete_button_hint') }}
             />
           </div>

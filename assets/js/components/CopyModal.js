@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Form, FormGroup, FormText, Label, Col, Input, InputGroup, InputGroupButton } from 'reactstrap';
+import { Form, FormGroup, FormText, Label, Col, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import { FaFolderO, FaFileO, FaCog } from 'react-icons/lib/fa';
 import { GenericScrollBox } from 'react-scroll-box';
 import RequiredFieldLabel from './RequiredFieldLabel';
@@ -233,11 +233,11 @@ class CopyModal extends React.PureComponent {
                     onBlur={this.handleBlur}
                     innerRef={(input) => { this.srcNameInput = input; }}
                   />
-                  <InputGroupButton>
+                  <InputGroupAddon addonType="append">
                     <Button color="secondary" disabled={this.props.isLocked} onClick={this.props.onFind}>
                       {__('src_find_button')}
                     </Button>
-                  </InputGroupButton>
+                  </InputGroupAddon>
                   <FieldErrors errors={this.props.errors.srcName} />
                 </InputGroup>
                 {find}

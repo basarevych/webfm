@@ -8,16 +8,31 @@ import {
 } from 'react-icons/lib/fa';
 import { Button, ButtonGroup } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { UncontrolledTooltip } from 'reactstrap';
+import { Tooltip } from 'reactstrap';
 
 class Header extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = { isShareDropdownOpen: false, isMenuOpen: false };
+    this.state = {
+      isShareDropdownOpen: false,
+      isMenuOpen: false,
+      isSortNameTooltipOpen: false,
+      isSortSizeTooltipOpen: false,
+      isModeListTooltipOpen: false,
+      isModeContentsTooltipOpen: false,
+      isModeInfoTooltipOpen: false,
+      isPaneTooltipOpen: false,
+    };
 
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleShareDropdown = this.toggleShareDropdown.bind(this);
+    this.toggleSortNameTooltip = this.toggleSortNameTooltip.bind(this);
+    this.toggleSortSizeTooltip = this.toggleSortSizeTooltip.bind(this);
+    this.toggleModeListTooltip = this.toggleModeListTooltip.bind(this);
+    this.toggleModeContentsTooltip = this.toggleModeContentsTooltip.bind(this);
+    this.toggleModeInfoTooltip = this.toggleModeInfoTooltip.bind(this);
+    this.togglePaneTooltip = this.togglePaneTooltip.bind(this);
     this.toggleNameSort = this.toggleNameSort.bind(this);
     this.toggleSizeSort = this.toggleSizeSort.bind(this);
     this.setListMode = this.setListMode.bind(this);
@@ -31,6 +46,30 @@ class Header extends React.PureComponent {
 
   toggleShareDropdown() {
     this.setState({ isShareDropdownOpen: !this.state.isShareDropdownOpen });
+  }
+
+  toggleSortNameTooltip() {
+    this.setState({ isSortNameTooltipOpen: !this.state.isSortNameTooltipOpen });
+  }
+
+  toggleSortSizeTooltip() {
+    this.setState({ isSortSizeTooltipOpen: !this.state.isSortSizeTooltipOpen });
+  }
+
+  toggleModeListTooltip() {
+    this.setState({ isModeListTooltipOpen: !this.state.isModeListTooltipOpen });
+  }
+
+  toggleModeContentsTooltip() {
+    this.setState({ isModeContentsTooltipOpen: !this.state.isModeContentsTooltipOpen });
+  }
+
+  toggleModeInfoTooltip() {
+    this.setState({ isModeInfoTooltipOpen: !this.state.isModeInfoTooltipOpen });
+  }
+
+  togglePaneTooltip() {
+    this.setState({ isPaneTooltipOpen: !this.state.isPaneTooltipOpen });
   }
 
   toggleNameSort() {
@@ -132,9 +171,12 @@ class Header extends React.PureComponent {
                 ? (this.props.sortDir === 'ASC' ? <FaSortAlphaAsc /> : <FaSortAlphaDesc />)
                 : <FaSortAlphaAsc />}
             </Button>
-            <UncontrolledTooltip
+            <Tooltip
               placement="bottom"
               target={this.props.which + '-btn-sort-name'}
+              isOpen={this.sortNameTooltip && this.state.isSortNameTooltipOpen}
+              toggle={this.toggleSortNameTooltip}
+              ref={el => { this.sortNameTooltip = el; }}
               dangerouslySetInnerHTML={{ __html: __('sort_name_hint') }}
             />
             <Button
@@ -147,9 +189,12 @@ class Header extends React.PureComponent {
                 ? (this.props.sortDir === 'ASC' ? <FaSortAmountAsc /> : <FaSortAmountDesc />)
                 : <FaSortAmountAsc />}
             </Button>
-            <UncontrolledTooltip
+            <Tooltip
               placement="bottom"
               target={this.props.which + '-btn-sort-size'}
+              isOpen={this.sortSizeTooltip && this.state.isSortSizeTooltipOpen}
+              toggle={this.toggleSortSizeTooltip}
+              ref={el => { this.sortSizeTooltip = el; }}
               dangerouslySetInnerHTML={{ __html: __('sort_size_hint') }}
             />
           </ButtonGroup>
@@ -169,9 +214,12 @@ class Header extends React.PureComponent {
           >
             <FaFolderOpenO />
           </Button>
-          <UncontrolledTooltip
+          <Tooltip
             placement="bottom"
             target={this.props.which + '-btn-mode-list'}
+            isOpen={this.modeListTooltip && this.state.isModeListTooltipOpen}
+            toggle={this.toggleModeListTooltip}
+            ref={el => { this.modeListTooltip = el; }}
             dangerouslySetInnerHTML={{ __html: __('mode_list_hint') }}
           />
           <Button
@@ -182,9 +230,12 @@ class Header extends React.PureComponent {
           >
             <FaFileTextO />
           </Button>
-          <UncontrolledTooltip
+          <Tooltip
             placement="bottom"
             target={this.props.which + '-btn-mode-contents'}
+            isOpen={this.modeContentsTooltip && this.state.isModeContentsTooltipOpen}
+            toggle={this.toggleModeContentsTooltip}
+            ref={el => { this.modeContentsTooltip = el; }}
             dangerouslySetInnerHTML={{ __html: __('mode_contents_hint') }}
           />
           <Button
@@ -195,9 +246,12 @@ class Header extends React.PureComponent {
           >
             <FaAlignLeft />
           </Button>
-          <UncontrolledTooltip
+          <Tooltip
             placement="bottom"
             target={this.props.which + '-btn-mode-info'}
+            isOpen={this.modeInfoTooltip && this.state.isModeInfoTooltipOpen}
+            toggle={this.toggleModeInfoTooltip}
+            ref={el => { this.modeInfoTooltip = el; }}
             dangerouslySetInnerHTML={{ __html: __('mode_info_hint') }}
           />
         </ButtonGroup>
@@ -217,9 +271,12 @@ class Header extends React.PureComponent {
         >
           {this.props.isOtherVisible ? <FaToggleOn /> : <FaToggleOff />}
         </Button>
-        <UncontrolledTooltip
+        <Tooltip
           placement="bottom"
           target={this.props.which + '-btn-toggle-pane'}
+          isOpen={this.paneTooltip && this.state.isPaneTooltipOpen}
+          toggle={this.togglePaneTooltip}
+          ref={el => { this.paneTooltip = el; }}
           dangerouslySetInnerHTML={{ __html: __('toggle_pane_hint') }}
         />
       </span>
