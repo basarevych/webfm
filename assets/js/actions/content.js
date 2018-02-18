@@ -1,10 +1,11 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
 import { signOut } from './user';
 
 export const setContent = (id, content) => {
   return {
-    type: `SET_CONTENT`,
+    type: actions.SET_CONTENT,
     id,
     content,
   };
@@ -33,7 +34,7 @@ export const clearContents = () => {
       keep.push(rightId);
 
     await dispatch({
-      type: `CLEAR_CONTENT`,
+      type: actions.CLEAR_CONTENT,
       keep,
     });
   };

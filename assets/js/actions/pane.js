@@ -1,5 +1,6 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
 import { push } from 'react-router-redux';
 import { clearLists, setList } from './list';
 import { loadContent } from './content';
@@ -16,10 +17,10 @@ export const setActivePane = pane => {
       return;
 
     await dispatch({
-      type: `DEACTIVATE_${pane === 'LEFT' ? 'RIGHT' : 'LEFT'}_PANE`,
+      type: pane === 'LEFT' ? actions.DEACTIVATE_RIGHT_PANE : actions.DEACTIVATE_LEFT_PANE,
     });
     await dispatch({
-      type: `ACTIVATE_${pane}_PANE`,
+      type: pane === 'LEFT' ? actions.ACTIVATE_LEFT_PANE : actions.ACTIVATE_RIGHT_PANE,
     });
 
     let share = (pane === 'LEFT' ? leftPane.share : rightPane.share);
@@ -31,13 +32,13 @@ export const setActivePane = pane => {
 
 export const showPane = pane => {
   return {
-    type: `SHOW_${pane}_PANE`,
+    type: pane === 'LEFT' ? actions.SHOW_LEFT_PANE : actions.SHOW_RIGHT_PANE,
   };
 };
 
 export const hidePane = pane => {
   return {
-    type: `HIDE_${pane}_PANE`,
+    type: pane === 'LEFT' ? actions.HIDE_LEFT_PANE : actions.HIDE_RIGHT_PANE,
   };
 };
 
@@ -53,14 +54,14 @@ export const togglePane = pane => {
 
 export const startLoadingPane = (pane, timestamp) => {
   return {
-    type: `START_${pane}_PANE_LOADING`,
+    type: pane === 'LEFT' ? actions.START_LEFT_PANE_LOADING : actions.START_RIGHT_PANE_LOADING,
     timestamp,
   };
 };
 
 export const stopLoadingPane = (pane, timestamp, isForbidden = false) => {
   return {
-    type: `STOP_${pane}_PANE_LOADING`,
+    type: pane === 'LEFT' ? actions.STOP_LEFT_PANE_LOADING : actions.STOP_RIGHT_PANE_LOADING,
     timestamp,
     isForbidden,
   };
@@ -74,7 +75,7 @@ export const setPaneMode = (pane, mode) => {
       dispatch(loadInfo(pane === 'LEFT' ? 'RIGHT' : 'LEFT'));
 
     return dispatch({
-      type: `SET_${pane}_PANE_MODE`,
+      type: pane === 'LEFT' ? actions.SET_LEFT_PANE_MODE : actions.SET_RIGHT_PANE_MODE,
       mode,
     });
   };
@@ -82,14 +83,14 @@ export const setPaneMode = (pane, mode) => {
 
 export const setPaneShare = (pane, share) => {
   return {
-    type: `SET_${pane}_PANE_SHARE`,
+    type: pane === 'LEFT' ? actions.SET_LEFT_PANE_SHARE : actions.SET_RIGHT_PANE_SHARE,
     share,
   };
 };
 
 export const setPanePath = (pane, path, directory = '', name = '') => {
   return {
-    type: `SET_${pane}_PANE_PATH`,
+    type: pane === 'LEFT' ? actions.SET_LEFT_PANE_PATH : actions.SET_RIGHT_PANE_PATH,
     path,
     directory,
     name,
@@ -163,7 +164,7 @@ export const paneSort = (pane, field, dir) => {
 
     if (field && dir) {
       dispatch({
-        type: `SET_${pane}_PANE_SORT`,
+        type: pane === 'LEFT' ? actions.SET_LEFT_PANE_SORT : actions.SET_RIGHT_PANE_SORT,
         field,
         dir,
       });
@@ -174,7 +175,7 @@ export const paneSort = (pane, field, dir) => {
 
     if (!id) {
       return dispatch({
-        type: `SET_${pane}_PANE_LIST`,
+        type: pane === 'LEFT' ? actions.SET_LEFT_PANE_LIST : actions.SET_RIGHT_PANE_LIST,
         list: [],
         selectedIndexes: [],
       });
@@ -225,7 +226,7 @@ export const paneSort = (pane, field, dir) => {
     }
 
     dispatch({
-      type: `SET_${pane}_PANE_LIST`,
+      type: pane === 'LEFT' ? actions.SET_LEFT_PANE_LIST : actions.SET_RIGHT_PANE_LIST,
       list,
       selectedIndexes,
     });
@@ -234,7 +235,7 @@ export const paneSort = (pane, field, dir) => {
 
 export const paneDeselect = (pane) => {
   return {
-    type: `SET_${pane}_PANE_SELECTION`,
+    type: pane === 'LEFT' ? actions.SET_LEFT_PANE_SELECTION : actions.SET_RIGHT_PANE_SELECTION,
     selectedIndexes: [],
   };
 };
@@ -257,7 +258,7 @@ export const paneSelect = (pane, index) => {
     }
 
     dispatch({
-      type: `SET_${pane}_PANE_SELECTION`,
+      type: pane === 'LEFT' ? actions.SET_LEFT_PANE_SELECTION : actions.SET_RIGHT_PANE_SELECTION,
       selectedIndexes: index === -1 ? [] : [index],
     });
 
@@ -310,7 +311,7 @@ export const paneSelectRange = (pane, index) => {
         selectedIndexes.push(i);
 
       dispatch({
-        type: `SET_${pane}_PANE_SELECTION`,
+        type: pane === 'LEFT' ? actions.SET_LEFT_PANE_SELECTION : actions.SET_RIGHT_PANE_SELECTION,
         selectedIndexes,
       });
 
@@ -341,7 +342,7 @@ export const paneToggleSelect = (pane, index) => {
     }
 
     dispatch({
-      type: `SET_${pane}_PANE_SELECTION`,
+      type: pane === 'LEFT' ? actions.SET_LEFT_PANE_SELECTION : actions.SET_RIGHT_PANE_SELECTION,
       selectedIndexes,
     });
 

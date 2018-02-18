@@ -1,5 +1,7 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 const paneFactory = which => {
   return (
     state = {
@@ -21,7 +23,7 @@ const paneFactory = which => {
     action
   ) => {
     switch (action.type) {
-      case `ACTIVATE_${which}_PANE`:
+      case (which === 'LEFT' ? actions.ACTIVATE_LEFT_PANE : actions.ACTIVATE_RIGHT_PANE):
         if (state.isActive)
           return state;
 
@@ -29,7 +31,7 @@ const paneFactory = which => {
           ...state,
           isActive: true,
         });
-      case `DEACTIVATE_${which}_PANE`:
+      case (which === 'LEFT' ? actions.DEACTIVATE_LEFT_PANE : actions.DEACTIVATE_RIGHT_PANE):
         if (!state.isActive)
           return state;
 
@@ -37,7 +39,7 @@ const paneFactory = which => {
           ...state,
           isActive: false,
         });
-      case `SHOW_${which}_PANE`:
+      case (which === 'LEFT' ? actions.SHOW_LEFT_PANE : actions.SHOW_RIGHT_PANE):
         if (state.isVisible)
           return state;
 
@@ -45,7 +47,7 @@ const paneFactory = which => {
           ...state,
           isVisible: true,
         });
-      case `HIDE_${which}_PANE`:
+      case (which === 'LEFT' ? actions.HIDE_LEFT_PANE : actions.HIDE_RIGHT_PANE):
         if (!state.isVisible)
           return state;
 
@@ -53,21 +55,21 @@ const paneFactory = which => {
           ...state,
           isVisible: false,
         });
-      case `START_${which}_PANE_LOADING`:
+      case (which === 'LEFT' ? actions.START_LEFT_PANE_LOADING : actions.START_RIGHT_PANE_LOADING):
         return _.cloneDeep({
           ...state,
           timestamp: action.timestamp,
           isLoading: true,
           isForbidden: false,
         });
-      case `STOP_${which}_PANE_LOADING`:
+      case (which === 'LEFT' ? actions.STOP_LEFT_PANE_LOADING : actions.STOP_RIGHT_PANE_LOADING):
         return _.cloneDeep({
           ...state,
           timestamp: action.timestamp,
           isLoading: false,
           isForbidden: action.isForbidden,
         });
-      case `SET_${which}_PANE_MODE`:
+      case (which === 'LEFT' ? actions.SET_LEFT_PANE_MODE : actions.SET_RIGHT_PANE_MODE):
         if (state.mode === action.mode)
           return state;
 
@@ -75,7 +77,7 @@ const paneFactory = which => {
           ...state,
           mode: action.mode,
         });
-      case `SET_${which}_PANE_SHARE`:
+      case (which === 'LEFT' ? actions.SET_LEFT_PANE_SHARE : actions.SET_RIGHT_PANE_SHARE):
         if (state.share === action.share)
           return state;
 
@@ -83,7 +85,7 @@ const paneFactory = which => {
           ...state,
           share: action.share,
         });
-      case `SET_${which}_PANE_PATH`:
+      case (which === 'LEFT' ? actions.SET_LEFT_PANE_PATH : actions.SET_RIGHT_PANE_PATH):
         if (state.path === action.path && state.directory === action.directory && state.name === action.name)
           return state;
 
@@ -93,7 +95,7 @@ const paneFactory = which => {
           directory: action.directory,
           name: action.name,
         });
-      case `SET_${which}_PANE_LIST`:
+      case (which === 'LEFT' ? actions.SET_LEFT_PANE_LIST : actions.SET_RIGHT_PANE_LIST):
         if (_.isEqual(state.list, action.list))
           return state;
 
@@ -102,7 +104,7 @@ const paneFactory = which => {
           list: action.list,
           selectedIndexes: action.selectedIndexes || [],
         });
-      case `SET_${which}_PANE_SORT`:
+      case (which === 'LEFT' ? actions.SET_LEFT_PANE_SORT : actions.SET_RIGHT_PANE_SORT):
         if (state.sortField === action.field && state.sortDir === action.dir)
           return state;
 
@@ -111,7 +113,7 @@ const paneFactory = which => {
           sortField: action.field,
           sortDir: action.dir,
         });
-      case `SET_${which}_PANE_SELECTION`:
+      case (which === 'LEFT' ? actions.SET_LEFT_PANE_SELECTION : actions.SET_RIGHT_PANE_SELECTION):
         let selectedIndexes = action.selectedIndexes.slice().sort();
         if (_.isEqual(state.selectedIndexes, selectedIndexes))
           return state;

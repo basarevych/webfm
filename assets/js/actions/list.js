@@ -1,8 +1,10 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 export const setList = (id, list) => {
   return {
-    type: `SET_LIST`,
+    type: actions.SET_LIST,
     id,
     list,
   };
@@ -31,7 +33,7 @@ export const clearLists = () => {
       keep.push(rightId);
 
     await dispatch({
-      type: `CLEAR_LIST`,
+      type: actions.CLEAR_LIST,
       keep,
     });
   };

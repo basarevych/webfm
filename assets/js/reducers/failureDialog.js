@@ -1,5 +1,7 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 const failureDialog = (
   state = {
     isOpen: false,
@@ -9,13 +11,13 @@ const failureDialog = (
   action
 ) => {
   switch (action.type) {
-    case 'SHOW_FAILURE_DIALOG':
+    case actions.SHOW_FAILURE_DIALOG:
       return _.cloneDeep({
         isOpen: true,
         messages: action.messages,
         errors: action.errors,
       });
-    case 'HIDE_FAILURE_DIALOG':
+    case actions.HIDE_FAILURE_DIALOG:
       return _.cloneDeep({
         ...state,
         isOpen: false,

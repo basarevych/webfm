@@ -1,19 +1,21 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 export const lockCopyDialog = () => {
   return {
-    type: 'LOCK_COPY_DIALOG',
+    type: actions.LOCK_COPY_DIALOG,
   };
 };
 
 export const unlockCopyDialog = () => {
   return {
-    type: 'UNLOCK_COPY_DIALOG',
+    type: actions.UNLOCK_COPY_DIALOG,
   };
 };
 
 export const resetCopyDialog = values => {
-  let action = { type: 'RESET_COPY_DIALOG' };
+  let action = { type: actions.RESET_COPY_DIALOG };
   if (values)
     action.values = values;
   return action;
@@ -38,7 +40,7 @@ export const showCopyDialog = () => {
     await dispatch(resetCopyDialog(values));
 
     return dispatch({
-      type: 'SHOW_COPY_DIALOG',
+      type: actions.SHOW_COPY_DIALOG,
     });
   };
 };
@@ -52,7 +54,7 @@ export const hideCopyDialog = () => {
     await dispatch(resetCopyDialog());
 
     return dispatch({
-      type: 'HIDE_COPY_DIALOG',
+      type: actions.HIDE_COPY_DIALOG,
     });
   };
 };
@@ -69,14 +71,14 @@ export const toggleCopyDialog = () => {
 
 export const submitCopyDialog = submittedAt => {
   return {
-    type: 'SUBMIT_COPY_DIALOG',
+    type: actions.SUBMIT_COPY_DIALOG,
     submittedAt: submittedAt || Date.now(),
   };
 };
 
 export const updateCopyDialog = (data, submittedAt) => {
   return {
-    type: 'UPDATE_COPY_DIALOG',
+    type: actions.UPDATE_COPY_DIALOG,
     submittedAt: submittedAt || Date.now(),
     data
   };
@@ -84,13 +86,13 @@ export const updateCopyDialog = (data, submittedAt) => {
 
 export const startCopyDialogFind = () => {
   return {
-    type: 'START_COPY_DIALOG_FIND',
+    type: actions.START_COPY_DIALOG_FIND,
   };
 };
 
 export const stopCopyDialogFind = nodes => {
   return {
-    type: 'STOP_COPY_DIALOG_FIND',
+    type: actions.STOP_COPY_DIALOG_FIND,
     nodes,
   };
 };

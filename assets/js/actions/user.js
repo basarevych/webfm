@@ -1,5 +1,6 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
 import packageJson from '../../../package.json';
 import i18n from '../lib/i18n';
 import { setAppVersion } from './app';
@@ -12,7 +13,7 @@ import { closeNavbar } from './navbar';
 
 export const setUser = (isAuthorized, login, locale, shares) => {
   return {
-    type: 'SET_USER',
+    type: actions.SET_USER,
     isAuthorized,
     login,
     locale,

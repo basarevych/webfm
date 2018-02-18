@@ -1,5 +1,7 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 const copyDialog = (
   state = {
     submittedAt: 0,
@@ -24,12 +26,12 @@ const copyDialog = (
 ) => {
   let newState;
   switch (action.type) {
-    case 'LOCK_COPY_DIALOG':
+    case actions.LOCK_COPY_DIALOG:
       return _.cloneDeep({
         ...state,
         locked: state.locked + 1,
       });
-    case 'UNLOCK_COPY_DIALOG':
+    case actions.UNLOCK_COPY_DIALOG:
       if (state.locked === 0)
         return state;
 
@@ -37,7 +39,7 @@ const copyDialog = (
         ...state,
         locked: state.locked - 1,
       });
-    case 'SHOW_COPY_DIALOG':
+    case actions.SHOW_COPY_DIALOG:
       if (state.isOpen)
         return state;
 
@@ -45,7 +47,7 @@ const copyDialog = (
         ...state,
         isOpen: true,
       });
-    case 'HIDE_COPY_DIALOG':
+    case actions.HIDE_COPY_DIALOG:
       if (!state.isOpen)
         return state;
 
@@ -53,7 +55,7 @@ const copyDialog = (
         ...state,
         isOpen: false,
       });
-    case 'RESET_COPY_DIALOG':
+    case actions.RESET_COPY_DIALOG:
       newState = _.cloneDeep({
         ...state,
         errors: {},
@@ -69,7 +71,7 @@ const copyDialog = (
         newState.values = _.cloneDeep(action.values);
 
       return newState;
-    case 'SUBMIT_COPY_DIALOG':
+    case actions.SUBMIT_COPY_DIALOG:
       if (action.submittedAt <= state.submittedAt)
         return state;
 
@@ -77,7 +79,7 @@ const copyDialog = (
         ...state,
         submittedAt: action.submittedAt,
       });
-    case 'UPDATE_COPY_DIALOG':
+    case actions.UPDATE_COPY_DIALOG:
       if (action.submittedAt < state.submittedAt)
         return state;
 
@@ -102,13 +104,13 @@ const copyDialog = (
         newState.messages = _.cloneDeep(action.data.messages);
 
       return newState;
-    case 'START_COPY_DIALOG_FIND':
+    case actions.START_COPY_DIALOG_FIND:
       newState = _.cloneDeep(state);
       newState.found.isLoading = true;
       newState.found.isLoaded = false;
       newState.found.nodes = [];
       return newState;
-    case 'STOP_COPY_DIALOG_FIND':
+    case actions.STOP_COPY_DIALOG_FIND:
       newState = _.cloneDeep(state);
       if (action.nodes) {
         newState.found.isLoading = false;

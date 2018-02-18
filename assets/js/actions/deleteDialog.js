@@ -1,19 +1,21 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 export const lockDeleteDialog = () => {
   return {
-    type: 'LOCK_DELETE_DIALOG',
+    type: actions.LOCK_DELETE_DIALOG,
   };
 };
 
 export const unlockDeleteDialog = () => {
   return {
-    type: 'UNLOCK_DELETE_DIALOG',
+    type: actions.UNLOCK_DELETE_DIALOG,
   };
 };
 
 export const resetDeleteDialog = values => {
-  let action = { type: 'RESET_DELETE_DIALOG' };
+  let action = { type: actions.RESET_DELETE_DIALOG };
   if (values)
     action.values = values;
   return action;
@@ -36,7 +38,7 @@ export const showDeleteDialog = () => {
     await dispatch(resetDeleteDialog(values));
 
     return dispatch({
-      type: 'SHOW_DELETE_DIALOG',
+      type: actions.SHOW_DELETE_DIALOG,
     });
   };
 };
@@ -50,7 +52,7 @@ export const hideDeleteDialog = () => {
     await dispatch(resetDeleteDialog());
 
     return dispatch({
-      type: 'HIDE_DELETE_DIALOG',
+      type: actions.HIDE_DELETE_DIALOG,
     });
   };
 };
@@ -67,14 +69,14 @@ export const toggleDeleteDialog = () => {
 
 export const submitDeleteDialog = submittedAt => {
   return {
-    type: 'SUBMIT_DELETE_DIALOG',
+    type: actions.SUBMIT_DELETE_DIALOG,
     submittedAt: submittedAt || Date.now(),
   };
 };
 
 export const updateDeleteDialog = (data, submittedAt) => {
   return {
-    type: 'UPDATE_DELETE_DIALOG',
+    type: actions.UPDATE_DELETE_DIALOG,
     submittedAt: submittedAt || Date.now(),
     data
   };
@@ -82,13 +84,13 @@ export const updateDeleteDialog = (data, submittedAt) => {
 
 export const startDeleteDialogFind = () => {
   return {
-    type: 'START_DELETE_DIALOG_FIND',
+    type: actions.START_DELETE_DIALOG_FIND,
   };
 };
 
 export const stopDeleteDialogFind = nodes => {
   return {
-    type: 'STOP_DELETE_DIALOG_FIND',
+    type: actions.STOP_DELETE_DIALOG_FIND,
     nodes,
   };
 };

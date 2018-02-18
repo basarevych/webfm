@@ -1,5 +1,7 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 const deleteDialog = (
   state = {
     submittedAt: 0,
@@ -22,12 +24,12 @@ const deleteDialog = (
 ) => {
   let newState;
   switch (action.type) {
-    case 'LOCK_DELETE_DIALOG':
+    case actions.LOCK_DELETE_DIALOG:
       return _.cloneDeep({
         ...state,
         locked: state.locked + 1,
       });
-    case 'UNLOCK_DELETE_DIALOG':
+    case actions.UNLOCK_DELETE_DIALOG:
       if (state.locked === 0)
         return state;
 
@@ -35,7 +37,7 @@ const deleteDialog = (
         ...state,
         locked: state.locked - 1,
       });
-    case 'SHOW_DELETE_DIALOG':
+    case actions.SHOW_DELETE_DIALOG:
       if (state.isOpen)
         return state;
 
@@ -43,7 +45,7 @@ const deleteDialog = (
         ...state,
         isOpen: true,
       });
-    case 'HIDE_DELETE_DIALOG':
+    case actions.HIDE_DELETE_DIALOG:
       if (!state.isOpen)
         return state;
 
@@ -51,7 +53,7 @@ const deleteDialog = (
         ...state,
         isOpen: false,
       });
-    case 'RESET_DELETE_DIALOG':
+    case actions.RESET_DELETE_DIALOG:
       newState = _.cloneDeep({
         ...state,
         errors: {},
@@ -67,7 +69,7 @@ const deleteDialog = (
         newState.values = _.cloneDeep(action.values);
 
       return newState;
-    case 'SUBMIT_DELETE_DIALOG':
+    case actions.SUBMIT_DELETE_DIALOG:
       if (action.submittedAt <= state.submittedAt)
         return state;
 
@@ -75,7 +77,7 @@ const deleteDialog = (
         ...state,
         submittedAt: action.submittedAt,
       });
-    case 'UPDATE_DELETE_DIALOG':
+    case actions.UPDATE_DELETE_DIALOG:
       if (action.submittedAt < state.submittedAt)
         return state;
 
@@ -100,13 +102,13 @@ const deleteDialog = (
         newState.messages = _.cloneDeep(action.data.messages);
 
       return newState;
-    case 'START_DELETE_DIALOG_FIND':
+    case actions.START_DELETE_DIALOG_FIND:
       newState = _.cloneDeep(state);
       newState.found.isLoading = true;
       newState.found.isLoaded = false;
       newState.found.nodes = [];
       return newState;
-    case 'STOP_DELETE_DIALOG_FIND':
+    case actions.STOP_DELETE_DIALOG_FIND:
       newState = _.cloneDeep(state);
       if (action.nodes) {
         newState.found.isLoading = false;

@@ -1,5 +1,7 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 const renameDialog = (
   state = {
     submittedAt: 0,
@@ -18,12 +20,12 @@ const renameDialog = (
 ) => {
   let newState;
   switch (action.type) {
-    case 'LOCK_RENAME_DIALOG':
+    case actions.LOCK_RENAME_DIALOG:
       return _.cloneDeep({
         ...state,
         locked: state.locked + 1,
       });
-    case 'UNLOCK_RENAME_DIALOG':
+    case actions.UNLOCK_RENAME_DIALOG:
       if (state.locked === 0)
         return state;
 
@@ -31,7 +33,7 @@ const renameDialog = (
         ...state,
         locked: state.locked - 1,
       });
-    case 'SHOW_RENAME_DIALOG':
+    case actions.SHOW_RENAME_DIALOG:
       if (state.isOpen)
         return state;
 
@@ -39,7 +41,7 @@ const renameDialog = (
         ...state,
         isOpen: true,
       });
-    case 'HIDE_RENAME_DIALOG':
+    case actions.HIDE_RENAME_DIALOG:
       if (!state.isOpen)
         return state;
 
@@ -47,7 +49,7 @@ const renameDialog = (
         ...state,
         isOpen: false,
       });
-    case 'RESET_RENAME_DIALOG':
+    case actions.RESET_RENAME_DIALOG:
       newState = _.cloneDeep({
         ...state,
         errors: {},
@@ -58,7 +60,7 @@ const renameDialog = (
         newState.values = _.cloneDeep(action.values);
 
       return newState;
-    case 'SUBMIT_RENAME_DIALOG':
+    case actions.SUBMIT_RENAME_DIALOG:
       if (action.submittedAt <= state.submittedAt)
         return state;
 
@@ -66,7 +68,7 @@ const renameDialog = (
         ...state,
         submittedAt: action.submittedAt,
       });
-    case 'UPDATE_RENAME_DIALOG':
+    case actions.UPDATE_RENAME_DIALOG:
       if (action.submittedAt < state.submittedAt)
         return state;
 

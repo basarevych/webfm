@@ -1,12 +1,12 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
 import { signOut } from './user';
-import {join} from '../lib/path';
 
 export const setSize = (id, size) => {
   size.timestamp = Date.now();
   return {
-    type: `SET_SIZE`,
+    type: actions.SET_SIZE,
     id,
     size,
   };
@@ -23,7 +23,7 @@ export const clearSizes = () => {
     }
 
     await dispatch({
-      type: `CLEAR_SIZE`,
+      type: actions.CLEAR_SIZE,
       keep,
     });
   };

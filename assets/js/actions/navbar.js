@@ -1,19 +1,21 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 export const openNavbar = () => {
   return {
-    type: 'OPEN_NAVBAR',
+    type: actions.OPEN_NAVBAR,
   };
 };
 
 export const closeNavbar = () => {
   return {
-    type: 'CLOSE_NAVBAR',
+    type: actions.CLOSE_NAVBAR,
   };
 };
 
 export const toggleNavbar = () => {
   return {
-    type: 'TOGGLE_NAVBAR',
+    type: actions.TOGGLE_NAVBAR,
   };
 };

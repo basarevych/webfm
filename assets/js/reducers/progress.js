@@ -1,5 +1,7 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 const progress = (
   state = {
     isStarted: false,
@@ -9,13 +11,13 @@ const progress = (
   action
 ) => {
   switch (action.type) {
-    case 'START_PROGRESS':
+    case actions.START_PROGRESS:
       return {
         isStarted: true,
         isFinished: false,
         message: action.message,
       };
-    case 'UPDATE_PROGRESS':
+    case actions.UPDATE_PROGRESS:
       if (!action.message)
         return state;
 
@@ -24,13 +26,13 @@ const progress = (
         isFinished: false,
         message: state.message + action.message,
       };
-    case 'FINISH_PROGRESS':
+    case actions.FINISH_PROGRESS:
       return {
         isStarted: true,
         isFinished: true,
         message: state.message + action.message || '',
       };
-    case 'CLEAR_PROGRESS':
+    case actions.CLEAR_PROGRESS:
       if (!state.isStarted)
         return state;
 

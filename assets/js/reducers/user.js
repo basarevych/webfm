@@ -1,5 +1,7 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 const user = (
   state = {
     isAuthorized: false,
@@ -10,7 +12,7 @@ const user = (
   action
 ) => {
   switch (action.type) {
-    case 'SET_USER':
+    case actions.SET_USER:
       return _.cloneDeep({
         isAuthorized: action.isAuthorized || false,
         login: action.login || 'anonymous',

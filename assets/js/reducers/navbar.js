@@ -1,5 +1,7 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 const navbar = (
   state = {
     isOpen: false,
@@ -7,7 +9,7 @@ const navbar = (
   action
 ) => {
   switch (action.type) {
-    case 'OPEN_NAVBAR':
+    case actions.OPEN_NAVBAR:
       if (state.isOpen)
         return state;
 
@@ -15,7 +17,7 @@ const navbar = (
         ...state,
         isOpen: true,
       };
-    case 'CLOSE_NAVBAR':
+    case actions.CLOSE_NAVBAR:
       if (!state.isOpen)
         return state;
 
@@ -23,7 +25,7 @@ const navbar = (
         ...state,
         isOpen: false,
       };
-    case 'TOGGLE_NAVBAR':
+    case actions.TOGGLE_NAVBAR:
       return {
         ...state,
         isOpen: !state.isOpen,

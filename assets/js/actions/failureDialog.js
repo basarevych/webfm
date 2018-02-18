@@ -1,8 +1,10 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 export const showFailureDialog = (messages, errors) => {
   return {
-    type: 'SHOW_FAILURE_DIALOG',
+    type: actions.SHOW_FAILURE_DIALOG,
     messages,
     errors,
   };
@@ -10,6 +12,6 @@ export const showFailureDialog = (messages, errors) => {
 
 export const hideFailureDialog = () => {
   return {
-    type: 'HIDE_FAILURE_DIALOG',
+    type: actions.HIDE_FAILURE_DIALOG,
   };
 };

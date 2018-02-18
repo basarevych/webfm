@@ -1,5 +1,7 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 const moveDialog = (
   state = {
     submittedAt: 0,
@@ -24,12 +26,12 @@ const moveDialog = (
 ) => {
   let newState;
   switch (action.type) {
-    case 'LOCK_MOVE_DIALOG':
+    case actions.LOCK_MOVE_DIALOG:
       return _.cloneDeep({
         ...state,
         locked: state.locked + 1,
       });
-    case 'UNLOCK_MOVE_DIALOG':
+    case actions.UNLOCK_MOVE_DIALOG:
       if (state.locked === 0)
         return state;
 
@@ -37,7 +39,7 @@ const moveDialog = (
         ...state,
         locked: state.locked - 1,
       });
-    case 'SHOW_MOVE_DIALOG':
+    case actions.SHOW_MOVE_DIALOG:
       if (state.isOpen)
         return state;
 
@@ -45,7 +47,7 @@ const moveDialog = (
         ...state,
         isOpen: true,
       });
-    case 'HIDE_MOVE_DIALOG':
+    case actions.HIDE_MOVE_DIALOG:
       if (!state.isOpen)
         return state;
 
@@ -53,7 +55,7 @@ const moveDialog = (
         ...state,
         isOpen: false,
       });
-    case 'RESET_MOVE_DIALOG':
+    case actions.RESET_MOVE_DIALOG:
       newState = _.cloneDeep({
         ...state,
         errors: {},
@@ -69,7 +71,7 @@ const moveDialog = (
         newState.values = _.cloneDeep(action.values);
 
       return newState;
-    case 'SUBMIT_MOVE_DIALOG':
+    case actions.SUBMIT_MOVE_DIALOG:
       if (action.submittedAt <= state.submittedAt)
         return state;
 
@@ -77,7 +79,7 @@ const moveDialog = (
         ...state,
         submittedAt: action.submittedAt,
       });
-    case 'UPDATE_MOVE_DIALOG':
+    case actions.UPDATE_MOVE_DIALOG:
       if (action.submittedAt < state.submittedAt)
         return state;
 
@@ -102,13 +104,13 @@ const moveDialog = (
         newState.messages = _.cloneDeep(action.data.messages);
 
       return newState;
-    case 'START_MOVE_DIALOG_FIND':
+    case actions.START_MOVE_DIALOG_FIND:
       newState = _.cloneDeep(state);
       newState.found.isLoading = true;
       newState.found.isLoaded = false;
       newState.found.nodes = [];
       return newState;
-    case 'STOP_MOVE_DIALOG_FIND':
+    case actions.STOP_MOVE_DIALOG_FIND:
       newState = _.cloneDeep(state);
       if (action.nodes) {
         newState.found.isLoading = false;

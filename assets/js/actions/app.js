@@ -1,5 +1,6 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
 import { setUser, updateStatus } from './user';
 import {
   setActivePane, showPane, hidePane, paneCD, paneSort, paneSelect,
@@ -27,7 +28,7 @@ export const getCSRFToken = () => {
           );
           if (response.status === 200) {
             await dispatch({
-              type: 'SET_CSRF_TOKEN',
+              type: actions.SET_CSRF_TOKEN,
               token: (await response.json())._csrf,
             });
             return resolve();
@@ -51,7 +52,7 @@ export const connectApp = () => {
         return;
 
       dispatch({
-        type: app.isConnected ? 'CONNECT_APP' : 'DISCONNECT_APP',
+        type: app.isConnected ? actions.CONNECT_APP : actions.DISCONNECT_APP,
         when,
       });
     }
@@ -91,7 +92,7 @@ export const connectApp = () => {
         return;
 
       dispatch({
-        type: 'CONNECT_APP',
+        type: actions.CONNECT_APP,
         when,
       });
     }
@@ -102,7 +103,7 @@ export const disconnectApp = () => {
   let now = Date.now();
   window.__TIMESTAMP__ = now;
   return {
-    type: 'DISCONNECT_APP',
+    type: actions.DISCONNECT_APP,
     when: now,
   };
 };
@@ -110,7 +111,7 @@ export const disconnectApp = () => {
 export const startApp = () => {
   return dispatch => {
     dispatch({
-      type: 'START_APP',
+      type: actions.START_APP,
     });
 
     io.socket.on('connect', () => dispatch(connectApp()));
@@ -136,7 +137,7 @@ export const setAppVersion = isSameVersion => {
     versionTimer = setTimeout(() => window.location.reload(true), 60 * 1000);
 
   return {
-    type: 'APP_VERSION',
+    type: actions.APP_VERSION,
     isSameVersion,
   };
 };
@@ -157,7 +158,7 @@ export const screenResize = () => {
     }
 
     return dispatch({
-      type: 'SCREEN_RESIZE',
+      type: actions.SCREEN_RESIZE,
       breakpoint: newSize,
     });
   };

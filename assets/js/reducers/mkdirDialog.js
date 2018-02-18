@@ -1,5 +1,7 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 const mkdirDialog = (
   state = {
     submittedAt: 0,
@@ -17,12 +19,12 @@ const mkdirDialog = (
 ) => {
   let newState;
   switch (action.type) {
-    case 'LOCK_MKDIR_DIALOG':
+    case actions.LOCK_MKDIR_DIALOG:
       return _.cloneDeep({
         ...state,
         locked: state.locked + 1,
       });
-    case 'UNLOCK_MKDIR_DIALOG':
+    case actions.UNLOCK_MKDIR_DIALOG:
       if (state.locked === 0)
         return state;
 
@@ -30,7 +32,7 @@ const mkdirDialog = (
         ...state,
         locked: state.locked - 1,
       });
-    case 'SHOW_MKDIR_DIALOG':
+    case actions.SHOW_MKDIR_DIALOG:
       if (state.isOpen)
         return state;
 
@@ -38,7 +40,7 @@ const mkdirDialog = (
         ...state,
         isOpen: true,
       });
-    case 'HIDE_MKDIR_DIALOG':
+    case actions.HIDE_MKDIR_DIALOG:
       if (!state.isOpen)
         return state;
 
@@ -46,7 +48,7 @@ const mkdirDialog = (
         ...state,
         isOpen: false,
       });
-    case 'RESET_MKDIR_DIALOG':
+    case actions.RESET_MKDIR_DIALOG:
       newState = _.cloneDeep({
         ...state,
         errors: {},
@@ -57,7 +59,7 @@ const mkdirDialog = (
         newState.values = _.cloneDeep(action.values);
 
       return newState;
-    case 'SUBMIT_MKDIR_DIALOG':
+    case actions.SUBMIT_MKDIR_DIALOG:
       if (action.submittedAt <= state.submittedAt)
         return state;
 
@@ -65,7 +67,7 @@ const mkdirDialog = (
         ...state,
         submittedAt: action.submittedAt,
       });
-    case 'UPDATE_MKDIR_DIALOG':
+    case actions.UPDATE_MKDIR_DIALOG:
       if (action.submittedAt < state.submittedAt)
         return state;
 

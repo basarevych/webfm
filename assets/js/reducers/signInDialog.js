@@ -1,5 +1,7 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 const signInDialog = (
   state = {
     submittedAt: 0,
@@ -16,12 +18,12 @@ const signInDialog = (
 ) => {
   let newState;
   switch (action.type) {
-    case 'LOCK_SIGN_IN_DIALOG':
+    case actions.LOCK_SIGN_IN_DIALOG:
       return _.cloneDeep({
         ...state,
         locked: state.locked + 1,
       });
-    case 'UNLOCK_SIGN_IN_DIALOG':
+    case actions.UNLOCK_SIGN_IN_DIALOG:
       if (state.locked === 0)
         return state;
 
@@ -29,7 +31,7 @@ const signInDialog = (
         ...state,
         locked: state.locked - 1,
       });
-    case 'SHOW_SIGN_IN_DIALOG':
+    case actions.SHOW_SIGN_IN_DIALOG:
       if (state.isOpen)
         return state;
 
@@ -39,7 +41,7 @@ const signInDialog = (
       });
       newState.values.password = '';
       return newState;
-    case 'HIDE_SIGN_IN_DIALOG':
+    case actions.HIDE_SIGN_IN_DIALOG:
       if (!state.isOpen)
         return state;
 
@@ -49,7 +51,7 @@ const signInDialog = (
       });
       newState.values.password = '';
       return newState;
-    case 'RESET_SIGN_IN_DIALOG':
+    case actions.RESET_SIGN_IN_DIALOG:
       newState = _.cloneDeep({
         ...state,
         errors: {},
@@ -68,7 +70,7 @@ const signInDialog = (
         ...state,
         submittedAt: action.submittedAt,
       });
-    case 'UPDATE_SIGN_IN_DIALOG':
+    case actions.UPDATE_SIGN_IN_DIALOG:
       if (action.submittedAt < state.submittedAt)
         return state;
 

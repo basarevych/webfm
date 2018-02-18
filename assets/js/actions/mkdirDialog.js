@@ -1,19 +1,21 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 export const lockMkdirDialog = () => {
   return {
-    type: 'LOCK_MKDIR_DIALOG',
+    type: actions.LOCK_MKDIR_DIALOG,
   };
 };
 
 export const unlockMkdirDialog = () => {
   return {
-    type: 'UNLOCK_MKDIR_DIALOG',
+    type: actions.UNLOCK_MKDIR_DIALOG,
   };
 };
 
 export const resetMkdirDialog = values => {
-  let action = { type: 'RESET_MKDIR_DIALOG' };
+  let action = { type: actions.RESET_MKDIR_DIALOG };
   if (values)
     action.values = values;
   return action;
@@ -36,7 +38,7 @@ export const showMkdirDialog = () => {
     await dispatch(resetMkdirDialog(values));
 
     return dispatch({
-      type: 'SHOW_MKDIR_DIALOG',
+      type: actions.SHOW_MKDIR_DIALOG,
     });
   };
 };
@@ -50,7 +52,7 @@ export const hideMkdirDialog = () => {
     await dispatch(resetMkdirDialog());
 
     return dispatch({
-      type: 'HIDE_MKDIR_DIALOG',
+      type: actions.HIDE_MKDIR_DIALOG,
     });
   };
 };
@@ -67,14 +69,14 @@ export const toggleMkdirDialog = () => {
 
 export const submitMkdirDialog = submittedAt => {
   return {
-    type: 'SUBMIT_MKDIR_DIALOG',
+    type: actions.SUBMIT_MKDIR_DIALOG,
     submittedAt: submittedAt || Date.now(),
   };
 };
 
 export const updateMkdirDialog = (data, submittedAt) => {
   return {
-    type: 'UPDATE_MKDIR_DIALOG',
+    type: actions.UPDATE_MKDIR_DIALOG,
     submittedAt: submittedAt || Date.now(),
     data
   };

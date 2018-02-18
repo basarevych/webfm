@@ -1,19 +1,21 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 export const lockRenameDialog = () => {
   return {
-    type: 'LOCK_RENAME_DIALOG',
+    type: actions.LOCK_RENAME_DIALOG,
   };
 };
 
 export const unlockRenameDialog = () => {
   return {
-    type: 'UNLOCK_RENAME_DIALOG',
+    type: actions.UNLOCK_RENAME_DIALOG,
   };
 };
 
 export const resetRenameDialog = values => {
-  let action = { type: 'RESET_RENAME_DIALOG' };
+  let action = { type: actions.RESET_RENAME_DIALOG };
   if (values)
     action.values = values;
   return action;
@@ -37,7 +39,7 @@ export const showRenameDialog = () => {
     await dispatch(resetRenameDialog(values));
 
     return dispatch({
-      type: 'SHOW_RENAME_DIALOG',
+      type: actions.SHOW_RENAME_DIALOG,
     });
   };
 };
@@ -51,7 +53,7 @@ export const hideRenameDialog = () => {
     await dispatch(resetRenameDialog());
 
     return dispatch({
-      type: 'HIDE_RENAME_DIALOG',
+      type: actions.HIDE_RENAME_DIALOG,
     });
   };
 };
@@ -68,14 +70,14 @@ export const toggleRenameDialog = () => {
 
 export const submitRenameDialog = submittedAt => {
   return {
-    type: 'SUBMIT_RENAME_DIALOG',
+    type: actions.SUBMIT_RENAME_DIALOG,
     submittedAt: submittedAt || Date.now(),
   };
 };
 
 export const updateRenameDialog = (data, submittedAt) => {
   return {
-    type: 'UPDATE_RENAME_DIALOG',
+    type: actions.UPDATE_RENAME_DIALOG,
     submittedAt: submittedAt || Date.now(),
     data
   };

@@ -1,5 +1,7 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 const app = (
   state = {
     ioTimestamp: 0,
@@ -13,7 +15,7 @@ const app = (
   action
 ) => {
   switch (action.type) {
-    case 'START_APP':
+    case actions.START_APP:
       if (state.isStarted)
         return state;
 
@@ -21,24 +23,24 @@ const app = (
         ...state,
         isStarted: true,
       };
-    case 'CONNECT_APP':
+    case actions.CONNECT_APP:
       return {
         ...state,
         isConnected: true,
         ioTimestamp: action.when,
       };
-    case 'DISCONNECT_APP':
+    case actions.DISCONNECT_APP:
       return {
         ...state,
         isConnected: false,
         ioTimestamp: action.when,
       };
-    case 'APP_VERSION':
+    case actions.APP_VERSION:
       return {
         ...state,
         isSameVersion: action.isSameVersion,
       };
-    case 'SCREEN_RESIZE':
+    case actions.SCREEN_RESIZE:
       if (state.breakpoint === action.breakpoint)
         return state;
 
@@ -49,7 +51,7 @@ const app = (
         breakpoint: action.breakpoint,
         prevBreakpoint,
       };
-    case 'SET_CSRF_TOKEN':
+    case actions.SET_CSRF_TOKEN:
       if (state.csrf === action.token)
         return state;
 

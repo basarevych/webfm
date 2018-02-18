@@ -1,19 +1,21 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
+
 export const lockMoveDialog = () => {
   return {
-    type: 'LOCK_MOVE_DIALOG',
+    type: actions.LOCK_MOVE_DIALOG,
   };
 };
 
 export const unlockMoveDialog = () => {
   return {
-    type: 'UNLOCK_MOVE_DIALOG',
+    type: actions.UNLOCK_MOVE_DIALOG,
   };
 };
 
 export const resetMoveDialog = values => {
-  let action = { type: 'RESET_MOVE_DIALOG' };
+  let action = { type: actions.RESET_MOVE_DIALOG };
   if (values)
     action.values = values;
   return action;
@@ -38,7 +40,7 @@ export const showMoveDialog = () => {
     await dispatch(resetMoveDialog(values));
 
     return dispatch({
-      type: 'SHOW_MOVE_DIALOG',
+      type: actions.SHOW_MOVE_DIALOG,
     });
   };
 };
@@ -52,7 +54,7 @@ export const hideMoveDialog = () => {
     await dispatch(resetMoveDialog());
 
     return dispatch({
-      type: 'HIDE_MOVE_DIALOG',
+      type: actions.HIDE_MOVE_DIALOG,
     });
   };
 };
@@ -69,14 +71,14 @@ export const toggleMoveDialog = () => {
 
 export const submitMoveDialog = submittedAt => {
   return {
-    type: 'SUBMIT_MOVE_DIALOG',
+    type: actions.SUBMIT_MOVE_DIALOG,
     submittedAt: submittedAt || Date.now(),
   };
 };
 
 export const updateMoveDialog = (data, submittedAt) => {
   return {
-    type: 'UPDATE_MOVE_DIALOG',
+    type: actions.UPDATE_MOVE_DIALOG,
     submittedAt: submittedAt || Date.now(),
     data
   };
@@ -84,13 +86,13 @@ export const updateMoveDialog = (data, submittedAt) => {
 
 export const startMoveDialogFind = () => {
   return {
-    type: 'START_MOVE_DIALOG_FIND',
+    type: actions.START_MOVE_DIALOG_FIND,
   };
 };
 
 export const stopMoveDialogFind = nodes => {
   return {
-    type: 'STOP_MOVE_DIALOG_FIND',
+    type: actions.STOP_MOVE_DIALOG_FIND,
     nodes,
   };
 };

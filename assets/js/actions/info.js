@@ -1,11 +1,12 @@
 'use strict';
 
+import * as actions from '../constants/actionTypes';
 import { setSize, clearSizes } from './size';
 import { signOut } from './user';
 
 export const setInfo = (id, info) => {
   return {
-    type: `SET_INFO`,
+    type: actions.SET_INFO,
     id,
     info,
   };
@@ -34,7 +35,7 @@ export const clearInfos = () => {
       keep.push(rightId);
 
     await dispatch({
-      type: `CLEAR_INFO`,
+      type: actions.CLEAR_INFO,
       keep,
     });
   };
