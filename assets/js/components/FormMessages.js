@@ -20,6 +20,10 @@ const mapTypeToClass = type => {
 };
 
 class FormMessages extends React.PureComponent {
+  static propTypes = {
+    messages: PropTypes.object,
+  };
+
   render() {
     let codes = Object.keys(this.props.messages || {});
     return (
@@ -37,10 +41,5 @@ class FormMessages extends React.PureComponent {
     );
   }
 }
-
-
-FormMessages.propTypes = {
-  messages: PropTypes.object,
-};
 
 export default FormMessages;

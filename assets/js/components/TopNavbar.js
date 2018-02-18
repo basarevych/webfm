@@ -7,6 +7,22 @@ import { Navbar, NavbarToggler, NavbarBrand, Collapse, Nav, NavItem, NavLink } f
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 class TopNavbar extends React.PureComponent {
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    breakpoint: PropTypes.string.isRequired,
+    isLoggedIn: PropTypes.bool.isRequired,
+    login: PropTypes.string,
+    hasSelection: PropTypes.bool.isRequired,
+    onToggleNavbar: PropTypes.func.isRequired,
+    onMkdirCommand: PropTypes.func.isRequired,
+    onRenameCommand: PropTypes.func.isRequired,
+    onCopyCommand: PropTypes.func.isRequired,
+    onMoveCommand: PropTypes.func.isRequired,
+    onDeleteCommand: PropTypes.func.isRequired,
+    onSignIn: PropTypes.func.isRequired,
+    onSignOut: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
@@ -81,21 +97,5 @@ class TopNavbar extends React.PureComponent {
     );
   }
 }
-
-TopNavbar.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  breakpoint: PropTypes.string.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
-  login: PropTypes.string,
-  hasSelection: PropTypes.bool.isRequired,
-  onToggleNavbar: PropTypes.func.isRequired,
-  onMkdirCommand: PropTypes.func.isRequired,
-  onRenameCommand: PropTypes.func.isRequired,
-  onCopyCommand: PropTypes.func.isRequired,
-  onMoveCommand: PropTypes.func.isRequired,
-  onDeleteCommand: PropTypes.func.isRequired,
-  onSignIn: PropTypes.func.isRequired,
-  onSignOut: PropTypes.func.isRequired,
-};
 
 export default TopNavbar;

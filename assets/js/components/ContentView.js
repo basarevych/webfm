@@ -7,6 +7,10 @@ import { FaCog } from 'react-icons/lib/fa';
 import Viewport from './ScrollViewport';
 
 class ContentView extends React.PureComponent {
+  static propTypes = {
+    content: PropTypes.object,
+  };
+
   render() {
     let bodyClass = 'body disabled';
     let body;
@@ -41,9 +45,5 @@ class ContentView extends React.PureComponent {
     );
   }
 }
-
-ContentView.propTypes = {
-  content: PropTypes.object,
-};
 
 export default ContentView;

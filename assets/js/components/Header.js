@@ -11,6 +11,23 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import { Tooltip } from 'reactstrap';
 
 class Header extends React.PureComponent {
+  static propTypes = {
+    which: PropTypes.string.isRequired,
+    breakpoint: PropTypes.string.isRequired,
+    shares: PropTypes.array.isRequired,
+    share: PropTypes.string.isRequired,
+    directory: PropTypes.string.isRequired,
+    mode: PropTypes.string.isRequired,
+    otherPath: PropTypes.string.isRequired,
+    sortField: PropTypes.string.isRequired,
+    sortDir: PropTypes.string.isRequired,
+    isOtherVisible: PropTypes.bool.isRequired,
+    onSetShare: PropTypes.func.isRequired,
+    onSetSort: PropTypes.func.isRequired,
+    onSetMode: PropTypes.func.isRequired,
+    onToggleOther: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
@@ -309,22 +326,5 @@ class Header extends React.PureComponent {
     );
   }
 }
-
-Header.propTypes = {
-  which: PropTypes.string.isRequired,
-  breakpoint: PropTypes.string.isRequired,
-  shares: PropTypes.array.isRequired,
-  share: PropTypes.string.isRequired,
-  directory: PropTypes.string.isRequired,
-  mode: PropTypes.string.isRequired,
-  otherPath: PropTypes.string.isRequired,
-  sortField: PropTypes.string.isRequired,
-  sortDir: PropTypes.string.isRequired,
-  isOtherVisible: PropTypes.bool.isRequired,
-  onSetShare: PropTypes.func.isRequired,
-  onSetSort: PropTypes.func.isRequired,
-  onSetMode: PropTypes.func.isRequired,
-  onToggleOther: PropTypes.func.isRequired,
-};
 
 export default Header;

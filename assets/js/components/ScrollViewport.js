@@ -5,6 +5,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Viewport extends React.Component {
+  static propTypes = {
+    classes: PropTypes.string,
+    reactList: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    classes: '',
+    reactList: false,
+  };
+
   scrollDown() {
     if (!this.touching)
       this.viewport.scrollTop = this.viewport.scrollHeight;
@@ -82,15 +92,5 @@ class Viewport extends React.Component {
     );
   }
 }
-
-Viewport.propTypes = {
-  classes: PropTypes.string,
-  reactList: PropTypes.bool,
-};
-
-Viewport.defaultProps = {
-  classes: '',
-  reactList: false,
-};
 
 export default Viewport;

@@ -6,6 +6,13 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import FormMessages from './FormMessages';
 
 class FailureModal extends React.PureComponent {
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    errors: PropTypes.object.isRequired,
+    messages: PropTypes.object.isRequired,
+    onDoneClick: PropTypes.func.isRequired,
+  };
+
   render() {
     let list = [];
     for (let key of Object.keys(this.props.errors)) {
@@ -42,12 +49,5 @@ class FailureModal extends React.PureComponent {
     );
   }
 }
-
-FailureModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  errors: PropTypes.object.isRequired,
-  messages: PropTypes.object.isRequired,
-  onDoneClick: PropTypes.func.isRequired,
-};
 
 export default FailureModal;

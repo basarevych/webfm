@@ -767,7 +767,6 @@ Viewport.defaultProps = {
   classes: '',
   reactList: false
 };
-
 exports.default = Viewport;
 
 /***/ }),
@@ -7532,38 +7531,34 @@ var _RightPane2 = _interopRequireDefault(_RightPane);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _ref2 = (0, _jsx3.default)(_fa.FaCog, {
+var _ref = (0, _jsx3.default)(_fa.FaCog, {
   className: 'rotating icon-text'
 });
 
-var _ref3 = (0, _jsx3.default)('div', {}, void 0, (0, _jsx3.default)(_Navbar2.default, {}), (0, _jsx3.default)(_SignInDialog2.default, {}), (0, _jsx3.default)(_ProgressDialog2.default, {}), (0, _jsx3.default)(_MkdirDialog2.default, {}), (0, _jsx3.default)(_RenameDialog2.default, {}), (0, _jsx3.default)(_CopyDialog2.default, {}), (0, _jsx3.default)(_MoveDialog2.default, {}), (0, _jsx3.default)(_DeleteDialog2.default, {}), (0, _jsx3.default)(_FailureDialog2.default, {}));
+var _ref2 = (0, _jsx3.default)('div', {}, void 0, (0, _jsx3.default)(_Navbar2.default, {}), (0, _jsx3.default)(_SignInDialog2.default, {}), (0, _jsx3.default)(_ProgressDialog2.default, {}), (0, _jsx3.default)(_MkdirDialog2.default, {}), (0, _jsx3.default)(_RenameDialog2.default, {}), (0, _jsx3.default)(_CopyDialog2.default, {}), (0, _jsx3.default)(_MoveDialog2.default, {}), (0, _jsx3.default)(_DeleteDialog2.default, {}), (0, _jsx3.default)(_FailureDialog2.default, {}));
 
-var _ref4 = (0, _jsx3.default)(_Fade2.default, {}, void 0, (0, _jsx3.default)(_LeftPane2.default, {}));
+var _ref3 = (0, _jsx3.default)(_Fade2.default, {}, void 0, (0, _jsx3.default)(_LeftPane2.default, {}));
 
-var _ref5 = (0, _jsx3.default)(_Fade2.default, {}, void 0, (0, _jsx3.default)(_RightPane2.default, {}));
+var _ref4 = (0, _jsx3.default)(_Fade2.default, {}, void 0, (0, _jsx3.default)(_RightPane2.default, {}));
 
-var Screen = function Screen(_ref) {
-  var isConnected = _ref.isConnected,
-      isLeftPaneVisible = _ref.isLeftPaneVisible,
-      isRightPaneVisible = _ref.isRightPaneVisible;
-
+function Screen(props) {
   var overlay = null;
-  if (!isConnected) {
+  if (!props.isConnected) {
     overlay = (0, _jsx3.default)('div', {
       className: 'page-overlay shaded'
     }, void 0, (0, _jsx3.default)('div', {
       className: 'no-connection-window rounded'
-    }, void 0, _ref2, '\xA0', __('not_connected_message')));
+    }, void 0, _ref, '\xA0', __('not_connected_message')));
   }
 
   return (0, _jsx3.default)('div', {
     className: 'w-100 h-100'
   }, void 0, overlay, (0, _jsx3.default)('div', {
     className: 'w-100 h-100 d-flex flex-column'
-  }, void 0, _ref3, (0, _jsx3.default)(_reactTransitionGroup.TransitionGroup, {
+  }, void 0, _ref2, (0, _jsx3.default)(_reactTransitionGroup.TransitionGroup, {
     className: 'pane-container'
-  }, void 0, isLeftPaneVisible ? _ref4 : null, isRightPaneVisible ? _ref5 : null)));
-};
+  }, void 0, props.isLeftPaneVisible ? _ref3 : null, props.isRightPaneVisible ? _ref4 : null)));
+}
 
 exports.default = Screen;
 
@@ -7661,7 +7656,7 @@ exports.default = Navbar;
 /* 69 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"webfm","version":"0.9.23","description":"Two pane file manager for the Web","keywords":["file manager","two pane","node","react","redux","sails"],"license":"MIT","author":"Ross Basarevych <basarevych@gmail.com>","repository":{"type":"git","url":"git+https://github.com/basarevych/webfm.git"},"dependencies":{"async":"~2.6.0","autoprefixer":"~8.0.0","babel-core":"~6.26.0","babel-loader":"~7.1.2","babel-plugin-transform-class-properties":"~6.24.1","babel-plugin-transform-object-rest-spread":"~6.26.0","babel-plugin-transform-runtime":"~6.23.0","babel-preset-env":"~1.6.1","babel-preset-react":"~6.24.1","babel-preset-react-optimize":"~1.0.1","babel-runtime":"~6.26.0","bootstrap":"~4.0.0","bootstrap-loader":"~2.2.0","breakpoints-js":"~1.0.5","clean-webpack-plugin":"~0.1.18","connect-redis":"~3.3.3","css-loader":"~0.28.9","cssnano":"~3.10.0","exports-loader":"~0.7.0","extract-text-webpack-plugin":"~3.0.2","file-loader":"~1.1.6","grunt":"~1.0.2","history":"~4.7.2","i18n-for-browser":"~0.9.7","ignore-loader":"~0.1.2","imports-loader":"~0.7.1","ini":"~1.3.5","isomorphic-fetch":"~2.2.1","lodash":"~4.17.5","moment-timezone":"~0.5.14","node-sass":"~4.7.2","optimize-css-assets-webpack-plugin":"~3.2.0","popper.js":"~1.12.9","postcss-loader":"~2.1.0","prop-types":"~15.6.0","raf":"~3.4.0","react":"~16.2.0","react-dom":"~16.2.0","react-icons":"~2.2.7","react-list":"~0.8.8","react-redux":"~5.0.6","react-router":"~4.2.0","react-router-redux":"^5.0.0-alpha.9","react-scroll-box":"~0.3.5","react-transition-group":"~2.2.1","reactstrap":"^5.0.0-beta","redux":"~3.7.2","redux-thunk":"~2.2.0","resolve-url-loader":"~2.2.1","sails":"^1.0.0-46","sails-hook-grunt":"~3.0.2","sails-hook-orm":"^2.0.0-23","sails-hook-panic-mode":"~0.1.3","sails-hook-sockets":"~1.4.0","sails.io.js":"~1.1.13","sass-loader":"~6.0.6","socket.io-client":"2.0.3","socket.io-redis":"~4.0.1","stat-mode":"~0.2.2","style-loader":"~0.20.1","uglifyjs-webpack-plugin":"~1.1.8","url-loader":"~0.6.2","userid":"~0.3.1","webpack":"~3.11.0","webpack-node-externals":"~1.6.0"},"devDependencies":{"eslint":"~4.17.0"},"scripts":{"build":"env NODE_ENV=production ./node_modules/.bin/webpack --progress","start":"env NODE_ENV=production node app.js","build:dev":"env NODE_ENV=development ./node_modules/.bin/webpack --watch --progress","start:dev":"env NODE_ENV=development ./node_modules/.bin/sails lift","lint":"node ./node_modules/eslint/bin/eslint . --max-warnings=0","debug":"node debug app.js"},"main":"app.js","engines":{"node":">=8.0.0"}}
+module.exports = {"name":"webfm","version":"0.9.23","description":"Two pane file manager for the Web","keywords":["file manager","two pane","node","react","redux","sails"],"license":"MIT","author":"Ross Basarevych <basarevych@gmail.com>","repository":{"type":"git","url":"git+https://github.com/basarevych/webfm.git"},"dependencies":{"async":"~2.6.0","autoprefixer":"~8.0.0","babel-core":"~6.26.0","babel-loader":"~7.1.2","babel-plugin-transform-class-properties":"~6.24.1","babel-plugin-transform-object-rest-spread":"~6.26.0","babel-plugin-transform-runtime":"~6.23.0","babel-preset-env":"~1.6.1","babel-preset-react":"~6.24.1","babel-preset-react-optimize":"~1.0.1","babel-runtime":"~6.26.0","bootstrap":"~4.0.0","bootstrap-loader":"~2.2.0","breakpoints-js":"~1.0.5","clean-webpack-plugin":"~0.1.18","connect-redis":"~3.3.3","css-loader":"~0.28.9","cssnano":"~3.10.0","exports-loader":"~0.7.0","extract-text-webpack-plugin":"~3.0.2","file-loader":"~1.1.6","grunt":"~1.0.2","history":"~4.7.2","i18n-for-browser":"~0.9.7","ignore-loader":"~0.1.2","imports-loader":"~0.7.1","ini":"~1.3.5","isomorphic-fetch":"~2.2.1","lodash":"~4.17.5","moment-timezone":"~0.5.14","node-sass":"~4.7.2","optimize-css-assets-webpack-plugin":"~3.2.0","popper.js":"~1.12.9","postcss-loader":"~2.1.0","prop-types":"~15.6.0","raf":"~3.4.0","react":"~16.2.0","react-dom":"~16.2.0","react-icons":"~2.2.7","react-list":"~0.8.8","react-redux":"~5.0.6","react-router":"~4.2.0","react-router-redux":"^5.0.0-alpha.9","react-scroll-box":"~0.3.5","react-transition-group":"~2.2.1","reactstrap":"^5.0.0-beta","redux":"~3.7.2","redux-thunk":"~2.2.0","resolve-url-loader":"~2.2.1","sails":"^1.0.0-46","sails-hook-grunt":"~3.0.2","sails-hook-orm":"^2.0.0-23","sails-hook-panic-mode":"~0.1.3","sails-hook-sockets":"~1.4.0","sails.io.js":"~1.1.13","sass-loader":"~6.0.6","socket.io-client":"2.0.3","socket.io-redis":"~4.0.1","stat-mode":"~0.2.2","style-loader":"~0.20.1","uglifyjs-webpack-plugin":"~1.1.8","url-loader":"~0.6.2","userid":"~0.3.1","webpack":"~3.11.0","webpack-node-externals":"~1.6.0"},"devDependencies":{"babel-eslint":"~8.2.1","eslint":"~4.17.0"},"scripts":{"build":"env NODE_ENV=production ./node_modules/.bin/webpack --progress","start":"env NODE_ENV=production node app.js","build:dev":"env NODE_ENV=development ./node_modules/.bin/webpack --watch --progress","start:dev":"env NODE_ENV=development ./node_modules/.bin/sails lift","lint":"node ./node_modules/eslint/bin/eslint . --max-warnings=0","debug":"node debug app.js"},"main":"app.js","engines":{"node":">=8.0.0"}}
 
 /***/ }),
 /* 70 */

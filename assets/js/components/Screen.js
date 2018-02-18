@@ -17,52 +17,50 @@ import FailureDialog from '../containers/FailureDialog';
 import LeftPane from '../containers/LeftPane';
 import RightPane from '../containers/RightPane';
 
-const Screen = ({
-  isConnected,
-  isLeftPaneVisible,
-  isRightPaneVisible,
-}) => {
-  let overlay = null;
-  if (!isConnected) {
-    overlay = (
-      <div className="page-overlay shaded">
-        <div className="no-connection-window rounded">
-          <FaCog className="rotating icon-text" />
-          &nbsp;
-          {__('not_connected_message')}
+class Screen extends React.Component {
+  static propTypes = {
+    isConnected: PropTypes.bool.isRequired,
+    isLeftPaneVisible: PropTypes.bool.isRequired,
+    isRightPaneVisible: PropTypes.bool.isRequired,
+  };
+
+  render() {
+    let overlay = null;
+    if (!this.props.isConnected) {
+      overlay = (
+        <div className="page-overlay shaded">
+          <div className="no-connection-window rounded">
+            <FaCog className="rotating icon-text"/>
+            &nbsp;
+            {__('not_connected_message')}
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="w-100 h-100">
+        {overlay}
+        <div className="w-100 h-100 d-flex flex-column">
+          <div>
+            <Navbar/>
+            <SignInDialog/>
+            <ProgressDialog/>
+            <MkdirDialog/>
+            <RenameDialog/>
+            <CopyDialog/>
+            <MoveDialog/>
+            <DeleteDialog/>
+            <FailureDialog/>
+          </div>
+          <TransitionGroup className="pane-container">
+            {this.props.isLeftPaneVisible ? <Fade><LeftPane/></Fade> : null}
+            {this.props.isRightPaneVisible ? <Fade><RightPane/></Fade> : null}
+          </TransitionGroup>
         </div>
       </div>
     );
   }
-
-  return (
-    <div className="w-100 h-100">
-      {overlay}
-      <div className="w-100 h-100 d-flex flex-column">
-        <div>
-          <Navbar />
-          <SignInDialog />
-          <ProgressDialog />
-          <MkdirDialog />
-          <RenameDialog />
-          <CopyDialog />
-          <MoveDialog />
-          <DeleteDialog />
-          <FailureDialog />
-        </div>
-        <TransitionGroup className="pane-container">
-          {isLeftPaneVisible ? <Fade><LeftPane /></Fade> : null}
-          {isRightPaneVisible ? <Fade><RightPane /></Fade> : null}
-        </TransitionGroup>
-      </div>
-    </div>
-  );
-};
-
-Screen.propTypes = {
-  isConnected: PropTypes.bool.isRequired,
-  isLeftPaneVisible: PropTypes.bool.isRequired,
-  isRightPaneVisible: PropTypes.bool.isRequired,
-};
+}
 
 export default Screen;

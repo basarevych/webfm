@@ -7,6 +7,13 @@ import { GenericScrollBox } from 'react-scroll-box';
 import Viewport from './ScrollViewport';
 
 class ProgressModal extends React.Component {
+  static propTypes = {
+    isStarted: PropTypes.bool.isRequired,
+    isFinished: PropTypes.bool.isRequired,
+    message: PropTypes.string.isRequired,
+    onDoneClick: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
@@ -68,12 +75,5 @@ class ProgressModal extends React.Component {
     );
   }
 }
-
-ProgressModal.propTypes = {
-  isStarted: PropTypes.bool.isRequired,
-  isFinished: PropTypes.bool.isRequired,
-  message: PropTypes.string.isRequired,
-  onDoneClick: PropTypes.func.isRequired,
-};
 
 export default ProgressModal;

@@ -9,6 +9,17 @@ import FormMessages from './FormMessages';
 import FieldErrors from './FieldErrors';
 
 class RenameModal extends React.PureComponent {
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    isLocked: PropTypes.bool.isRequired,
+    values: PropTypes.object.isRequired,
+    messages: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired,
+    onToggle: PropTypes.func.isRequired,
+    onInput: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
@@ -227,16 +238,5 @@ class RenameModal extends React.PureComponent {
     );
   }
 }
-
-RenameModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  isLocked: PropTypes.bool.isRequired,
-  values: PropTypes.object.isRequired,
-  messages: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-  onToggle: PropTypes.func.isRequired,
-  onInput: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-};
 
 export default RenameModal;

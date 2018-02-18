@@ -9,6 +9,10 @@ import Viewport from './ScrollViewport';
 import { human } from '../lib/size';
 
 class InfoView extends React.PureComponent {
+  static propTypes = {
+    info: PropTypes.object,
+  };
+
   render() {
     let bodyClass = 'body disabled';
     let body;
@@ -252,9 +256,5 @@ class InfoView extends React.PureComponent {
     );
   }
 }
-
-InfoView.propTypes = {
-  info: PropTypes.object,
-};
 
 export default InfoView;

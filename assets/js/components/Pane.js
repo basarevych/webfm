@@ -10,6 +10,38 @@ import ContentView from './ContentView';
 import InfoView from './InfoView';
 
 class Pane extends React.PureComponent {
+  static propTypes = {
+    which: PropTypes.string.isRequired,
+    breakpoint: PropTypes.string.isRequired,
+    mode: PropTypes.string.isRequired,
+    otherPath: PropTypes.string.isRequired,
+    shares: PropTypes.array.isRequired,
+    share: PropTypes.string.isRequired,
+    directory: PropTypes.string.isRequired,
+    list: PropTypes.array.isRequired,
+    sizes: PropTypes.object.isRequired,
+    selectedIndexes: PropTypes.array.isRequired,
+    sortField: PropTypes.string.isRequired,
+    sortDir: PropTypes.string.isRequired,
+    content: PropTypes.object,
+    info: PropTypes.object,
+    isActive: PropTypes.bool.isRequired,
+    isDisabled: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    isForbidden: PropTypes.bool.isRequired,
+    isOtherVisible: PropTypes.bool.isRequired,
+    onPaneClick: PropTypes.func.isRequired,
+    onSetShare: PropTypes.func.isRequired,
+    onSetSort: PropTypes.func.isRequired,
+    onChangeDirectory: PropTypes.func.isRequired,
+    onNodeClick: PropTypes.func.isRequired,
+    onNodeShiftClick: PropTypes.func.isRequired,
+    onNodeControlClick: PropTypes.func.isRequired,
+    onSizeClick: PropTypes.func.isRequired,
+    onToggleOther: PropTypes.func.isRequired,
+    onSetMode: PropTypes.func.isRequired,
+  };
+
   render() {
     let view = null;
     if (this.props.isDisabled) {
@@ -72,37 +104,5 @@ class Pane extends React.PureComponent {
     );
   }
 }
-
-Pane.propTypes = {
-  which: PropTypes.string.isRequired,
-  breakpoint: PropTypes.string.isRequired,
-  mode: PropTypes.string.isRequired,
-  otherPath: PropTypes.string.isRequired,
-  shares: PropTypes.array.isRequired,
-  share: PropTypes.string.isRequired,
-  directory: PropTypes.string.isRequired,
-  list: PropTypes.array.isRequired,
-  sizes: PropTypes.object.isRequired,
-  selectedIndexes: PropTypes.array.isRequired,
-  sortField: PropTypes.string.isRequired,
-  sortDir: PropTypes.string.isRequired,
-  content: PropTypes.object,
-  info: PropTypes.object,
-  isActive: PropTypes.bool.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  isForbidden: PropTypes.bool.isRequired,
-  isOtherVisible: PropTypes.bool.isRequired,
-  onPaneClick: PropTypes.func.isRequired,
-  onSetShare: PropTypes.func.isRequired,
-  onSetSort: PropTypes.func.isRequired,
-  onChangeDirectory: PropTypes.func.isRequired,
-  onNodeClick: PropTypes.func.isRequired,
-  onNodeShiftClick: PropTypes.func.isRequired,
-  onNodeControlClick: PropTypes.func.isRequired,
-  onSizeClick: PropTypes.func.isRequired,
-  onToggleOther: PropTypes.func.isRequired,
-  onSetMode: PropTypes.func.isRequired,
-};
 
 export default Pane;

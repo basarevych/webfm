@@ -84,6 +84,7 @@
     "webpack-node-externals": "~1.6.0"
   },
   "devDependencies": {
+    "babel-eslint": "~8.2.1",
     "eslint": "~4.17.0"
   },
   "scripts": {

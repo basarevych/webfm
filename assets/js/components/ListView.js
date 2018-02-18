@@ -5,6 +5,24 @@ import PropTypes from 'prop-types';
 import ListComponent from './ListComponent';
 
 class ListView extends React.PureComponent {
+  static propTypes = {
+    which: PropTypes.string.isRequired,
+    share: PropTypes.string.isRequired,
+    directory: PropTypes.string.isRequired,
+    list: PropTypes.array.isRequired,
+    sizes: PropTypes.object.isRequired,
+    selectedIndexes: PropTypes.array.isRequired,
+    isForbidden: PropTypes.bool.isRequired,
+    onChangeDirectory: PropTypes.func.isRequired,
+    onNodeClick: PropTypes.func.isRequired,
+    onNodeShiftClick: PropTypes.func.isRequired,
+    onNodeControlClick: PropTypes.func.isRequired,
+    onSizeClick: PropTypes.func.isRequired,
+    onCopyClick: PropTypes.func.isRequired,
+    onMoveClick: PropTypes.func.isRequired,
+    onDeleteClick: PropTypes.func.isRequired,
+  };
+
   render() {
     let bodyClass;
     let listing;
@@ -43,23 +61,5 @@ class ListView extends React.PureComponent {
     );
   }
 }
-
-ListView.propTypes = {
-  which: PropTypes.string.isRequired,
-  share: PropTypes.string.isRequired,
-  directory: PropTypes.string.isRequired,
-  list: PropTypes.array.isRequired,
-  sizes: PropTypes.object.isRequired,
-  selectedIndexes: PropTypes.array.isRequired,
-  isForbidden: PropTypes.bool.isRequired,
-  onChangeDirectory: PropTypes.func.isRequired,
-  onNodeClick: PropTypes.func.isRequired,
-  onNodeShiftClick: PropTypes.func.isRequired,
-  onNodeControlClick: PropTypes.func.isRequired,
-  onSizeClick: PropTypes.func.isRequired,
-  onCopyClick: PropTypes.func.isRequired,
-  onMoveClick: PropTypes.func.isRequired,
-  onDeleteClick: PropTypes.func.isRequired,
-};
 
 export default ListView;

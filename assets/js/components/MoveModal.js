@@ -12,6 +12,19 @@ import FieldErrors from './FieldErrors';
 import Viewport from './ScrollViewport';
 
 class MoveModal extends React.PureComponent {
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    isLocked: PropTypes.bool.isRequired,
+    values: PropTypes.object.isRequired,
+    messages: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired,
+    found: PropTypes.object.isRequired,
+    onToggle: PropTypes.func.isRequired,
+    onInput: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onFind: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
@@ -298,18 +311,5 @@ class MoveModal extends React.PureComponent {
     );
   }
 }
-
-MoveModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  isLocked: PropTypes.bool.isRequired,
-  values: PropTypes.object.isRequired,
-  messages: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-  found: PropTypes.object.isRequired,
-  onToggle: PropTypes.func.isRequired,
-  onInput: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  onFind: PropTypes.func.isRequired,
-};
 
 export default MoveModal;

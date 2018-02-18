@@ -4,6 +4,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class DisabledView extends React.PureComponent {
+  static propTypes = {
+    isActive: PropTypes.bool.isRequired,
+  };
+
   render() {
     return (
       <div className={'view rounded' + (this.props.isActive ? ' active' : '')}>
@@ -14,9 +18,5 @@ class DisabledView extends React.PureComponent {
     );
   }
 }
-
-DisabledView.propTypes = {
-  isActive: PropTypes.bool.isRequired,
-};
 
 export default DisabledView;

@@ -7,6 +7,10 @@ import { TransitionGroup } from 'react-transition-group';
 import Fade from './Fade';
 
 class FieldErrors extends React.PureComponent {
+  static propTypes = {
+    errors: PropTypes.object,
+  };
+
   render() {
     let codes = Object.keys(this.props.errors || {});
     return (
@@ -22,9 +26,5 @@ class FieldErrors extends React.PureComponent {
     );
   }
 }
-
-FieldErrors.propTypes = {
-  errors: PropTypes.object,
-};
 
 export default FieldErrors;

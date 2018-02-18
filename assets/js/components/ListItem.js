@@ -9,6 +9,22 @@ import { join } from '../lib/path';
 import { human } from '../lib/size';
 
 class ListItem extends React.PureComponent {
+  static propTypes = {
+    which: PropTypes.string.isRequired,
+    node: PropTypes.object.isRequired,
+    size: PropTypes.object,
+    index: PropTypes.number.isRequired,
+    isSelected: PropTypes.bool.isRequired,
+    onChangeDirectory: PropTypes.func.isRequired,
+    onNodeClick: PropTypes.func.isRequired,
+    onNodeShiftClick: PropTypes.func.isRequired,
+    onNodeControlClick: PropTypes.func.isRequired,
+    onSizeClick: PropTypes.func.isRequired,
+    onCopyClick: PropTypes.func.isRequired,
+    onMoveClick: PropTypes.func.isRequired,
+    onDeleteClick: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
@@ -222,21 +238,5 @@ class ListItem extends React.PureComponent {
     );
   }
 }
-
-ListItem.propTypes = {
-  which: PropTypes.string.isRequired,
-  node: PropTypes.object.isRequired,
-  size: PropTypes.object,
-  index: PropTypes.number.isRequired,
-  isSelected: PropTypes.bool.isRequired,
-  onChangeDirectory: PropTypes.func.isRequired,
-  onNodeClick: PropTypes.func.isRequired,
-  onNodeShiftClick: PropTypes.func.isRequired,
-  onNodeControlClick: PropTypes.func.isRequired,
-  onSizeClick: PropTypes.func.isRequired,
-  onCopyClick: PropTypes.func.isRequired,
-  onMoveClick: PropTypes.func.isRequired,
-  onDeleteClick: PropTypes.func.isRequired,
-};
 
 export default ListItem;
