@@ -21,21 +21,21 @@ module.exports = async function move(req, res) {
   for (let item of await Share.find({ user: req.session.userId })) {
     if (item.name === srcShare) {
       if (item.isReadOnly &&  (!validate || validate === 'srcShare'))
-        form.addError('srcShare', 'E_READ_ONLY', __('move.srcShare.E_READ_ONLY'));
+        form.addError('srcShare', 'E_READ_ONLY', sails.__('move.srcShare.E_READ_ONLY'));
       srcShareFound = true;
     }
     if (item.name === dstShare) {
       if (item.isReadOnly &&  (!validate || validate === 'dstShare'))
-        form.addError('dstShare', 'E_READ_ONLY', __('move.dstShare.E_READ_ONLY'));
+        form.addError('dstShare', 'E_READ_ONLY', sails.__('move.dstShare.E_READ_ONLY'));
       dstShareFound = true;
     }
     if (srcShareFound && dstShareFound)
       break;
   }
   if (!srcShareFound && (!validate || validate === 'srcShare'))
-    form.addError('srcShare', 'E_NOT_FOUND', __('move.srcShare.E_NOT_FOUND'));
+    form.addError('srcShare', 'E_NOT_FOUND', sails.__('move.srcShare.E_NOT_FOUND'));
   if (!dstShareFound && (!validate || validate === 'dstShare'))
-    form.addError('dstShare', 'E_NOT_FOUND', __('move.dstShare.E_NOT_FOUND'));
+    form.addError('dstShare', 'E_NOT_FOUND', sails.__('move.dstShare.E_NOT_FOUND'));
 
   let srcParent;
   if (srcShareFound) {
@@ -44,14 +44,14 @@ module.exports = async function move(req, res) {
       if (!srcParent.isDirectory) {
         srcParent = null;
         if (!validate || validate === 'srcDirectory')
-          form.addError('srcDirectory', 'E_NOT_DIR', __('move.srcDirectory.E_NOT_DIR'));
+          form.addError('srcDirectory', 'E_NOT_DIR', sails.__('move.srcDirectory.E_NOT_DIR'));
       } else if (!srcParent.isValid) {
         srcParent = null;
         if (!validate || validate === 'srcDirectory')
-          form.addError('srcDirectory', 'E_OUTSIDE', __('move.srcDirectory.E_OUTSIDE'));
+          form.addError('srcDirectory', 'E_OUTSIDE', sails.__('move.srcDirectory.E_OUTSIDE'));
       }
     } catch (error) {
-      let code = error.code || 'ERROR';
+      let code = (error.raw && error.raw.code) || error.code || 'ERROR';
       let key = `move.srcDirectory.${code}`;
       let translated = (code === 'ERROR' ? key : sails.__(key));
       if (!validate || validate === 'srcDirectory')
@@ -66,19 +66,19 @@ module.exports = async function move(req, res) {
       if (!dstParent.isDirectory) {
         dstParent = null;
         if (!validate || validate === 'dstDirectory')
-          form.addError('dstDirectory', 'E_NOT_DIR', __('move.dstDirectory.E_NOT_DIR'));
+          form.addError('dstDirectory', 'E_NOT_DIR', sails.__('move.dstDirectory.E_NOT_DIR'));
       } else if (!dstParent.isValid) {
         dstParent = null;
         if (!validate || validate === 'dstDirectory')
-          form.addError('dstDirectory', 'E_OUTSIDE', __('move.dstDirectory.E_OUTSIDE'));
+          form.addError('dstDirectory', 'E_OUTSIDE', sails.__('move.dstDirectory.E_OUTSIDE'));
       } else if (srcParent && dstParent.realPath === srcParent.realPath) {
         srcParent = null;
         dstParent = null;
         if (!validate || validate === 'dstDirectory')
-          form.addError('dstDirectory', 'E_SAME', __('move.dstDirectory.E_SAME'));
+          form.addError('dstDirectory', 'E_SAME', sails.__('move.dstDirectory.E_SAME'));
       }
     } catch (error) {
-      let code = error.code || 'ERROR';
+      let code = (error.raw && error.raw.code) || error.code || 'ERROR';
       let key = `move.dstDirectory.${code}`;
       let translated = (code === 'ERROR' ? key : sails.__(key));
       if (!validate || validate === 'dstDirectory')
@@ -90,10 +90,10 @@ module.exports = async function move(req, res) {
     if (srcName.includes('/')) {
       srcName = null;
       if (!validate || validate === 'srcName')
-        form.addError('srcName', 'E_INVALID', __('move.srcName.E_INVALID'));
+        form.addError('srcName', 'E_INVALID', sails.__('move.srcName.E_INVALID'));
     }
   } else if (!validate || validate === 'srcName') {
-    form.addError('srcName', 'E_REQUIRED', __('move.srcName.E_REQUIRED'));
+    form.addError('srcName', 'E_REQUIRED', sails.__('move.srcName.E_REQUIRED'));
   }
 
   if (validate)
@@ -120,11 +120,21 @@ module.exports = async function move(req, res) {
       }
     } catch (error) {
       nodes = [];
-      let code = error.code || 'ERROR';
+      let code = (error.raw && error.raw.code) || error.code || 'ERROR';
       let key = `move.result.${code}`;
       let translated = (code === 'ERROR' ? key : sails.__(key));
       form.addMessage(code, translated === key ? _.escape(error.message) : translated);
       form.success = false;
+    }
+  }
+
+  if (dstParent) {
+    for (let node of nodes) {
+      if ((dstParent.realPath + '/').startsWith(node.realPath + '/')) {
+        if (!validate || validate === 'dstDirectory')
+          form.addError('dstDirectory', 'E_RECURSIVE', sails.__('move.dstDirectory.E_RECURSIVE'));
+        break;
+      }
     }
   }
 
@@ -173,7 +183,7 @@ module.exports = async function move(req, res) {
           if (rejected)
             return;
 
-          let msg = __(
+          let msg = sails.__(
             rc ? 'move_failure_message' : 'move_success_message',
             node.path,
             _path.join(dstParent.path, node.name)
@@ -195,12 +205,12 @@ module.exports = async function move(req, res) {
 
   let fastTimer = null;
   if (!fast) {
-    await sails.hooks.broadcaster.startProgress(req.session.userId, __('move_start_message') + '\n');
+    await sails.hooks.broadcaster.startProgress(req.session.userId, sails.__('move_start_message') + '\n');
   } else {
     fastTimer = setTimeout(async () => {
       fast = false;
       fastTimer = null;
-      await sails.hooks.broadcaster.startProgress(req.session.userId, __('move_start_message') + '\n' + progressBuffer);
+      await sails.hooks.broadcaster.startProgress(req.session.userId, sails.__('move_start_message') + '\n' + progressBuffer);
     }, 2000);
   }
 
@@ -210,7 +220,7 @@ module.exports = async function move(req, res) {
     if (!fast) {
       await sails.hooks.broadcaster.moreProgress(req.session.userId, error.stack || error.message);
     } else {
-      let code = error.code || 'ERROR';
+      let code = (error.raw && error.raw.code) || error.code || 'ERROR';
       let key = `move.result.${code}`;
       let translated = (code === 'ERROR' ? key : sails.__(key));
       form.addMessage(code, translated === key ? _.escape(error.message) : translated);

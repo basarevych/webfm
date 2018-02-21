@@ -44,7 +44,7 @@ module.exports = {
       try {
         form.values[attr] = inputs.model.validate(attr, form.values[attr]);
       } catch (error) {
-        let code = error.code || 'ERROR';
+        let code = (error.raw && error.raw.code) || error.code || 'ERROR';
         let key = `${inputs.model.identity}.${attr}.${code}`;
         let translated = (code === 'ERROR' ? key : sails.__(key)); // New __(key) will create the key with the same content
         form.addError(attr, code, translated === key ? _.escape(error.message) : translated);

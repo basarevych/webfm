@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Form, FormGroup, Label, Col, Input } from 'reactstrap';
 import RequiredFieldLabel from './RequiredFieldLabel';
@@ -12,9 +13,9 @@ class SignInModal extends React.PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     isLocked: PropTypes.bool.isRequired,
-    values: PropTypes.object.isRequired,
-    messages: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired,
+    values: PropTypes.instanceOf(Map).isRequired,
+    messages: PropTypes.instanceOf(Map).isRequired,
+    errors: PropTypes.instanceOf(Map).isRequired,
     onToggle: PropTypes.func.isRequired,
     onInput: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -92,21 +93,15 @@ class SignInModal extends React.PureComponent {
       if (nextProps.isLocked)
         return;
 
-      for (let key of Object.keys(nextProps.errors)) {
-        if (!Object.keys(nextProps.errors[key]).length)
-          continue;
-
-        switch (key) {
-          case 'login':
-            if (this.loginInput)
-              setTimeout(() => this.loginInput.focus(), 0);
-            break;
-          case 'password':
-            if (this.passwordInput)
-              setTimeout(() => this.passwordInput.focus(), 0);
-            break;
-        }
-        break;
+      switch (nextProps.errors.keys().next().value) {
+        case 'login':
+          if (this.loginInput)
+            setTimeout(() => this.loginInput.focus(), 0);
+          break;
+        case 'password':
+          if (this.passwordInput)
+            setTimeout(() => this.passwordInput.focus(), 0);
+          break;
       }
     }
   }
@@ -136,15 +131,15 @@ class SignInModal extends React.PureComponent {
                   id="signInLogin"
                   disabled={this.props.isLocked}
                   autoFocus
-                  valid={(!this.props.errors.login || !Object.keys(this.props.errors.login).length) && undefined}
-                  value={this.props.values.login}
+                  valid={(!this.props.errors.has('login')) && undefined}
+                  value={this.props.values.get('login')}
                   onChange={this.handleInput}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
                   innerRef={(input) => { this.loginInput = input; }}
                 />
-                <FieldErrors errors={this.props.errors.login} />
+                <FieldErrors errors={this.props.errors.get('login')} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -158,15 +153,15 @@ class SignInModal extends React.PureComponent {
                   name="password"
                   id="signInPassword"
                   disabled={this.props.isLocked}
-                  valid={(!this.props.errors.password || !Object.keys(this.props.errors.password).length) && undefined}
-                  value={this.props.values.password}
+                  valid={(!this.props.errors.has('password')) && undefined}
+                  value={this.props.values.get('password')}
                   onChange={this.handleInput}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
                   innerRef={(input) => { this.passwordInput = input; }}
                 />
-                <FieldErrors errors={this.props.errors.password} />
+                <FieldErrors errors={this.props.errors.get('password')} />
               </Col>
             </FormGroup>
           </Form>

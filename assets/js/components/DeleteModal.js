@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Form, FormGroup, FormText, Label, Col, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import { FaFolderO, FaFileO, FaCog } from 'react-icons/lib/fa';
@@ -15,10 +16,10 @@ class DeleteModal extends React.PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     isLocked: PropTypes.bool.isRequired,
-    values: PropTypes.object.isRequired,
-    messages: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired,
-    found: PropTypes.object.isRequired,
+    values: PropTypes.instanceOf(Map).isRequired,
+    messages: PropTypes.instanceOf(Map).isRequired,
+    errors: PropTypes.instanceOf(Map).isRequired,
+    found: PropTypes.instanceOf(Map).isRequired,
     onToggle: PropTypes.func.isRequired,
     onInput: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -101,52 +102,49 @@ class DeleteModal extends React.PureComponent {
       if (nextProps.isLocked)
         return;
 
-      for (let key of Object.keys(nextProps.errors)) {
-        if (!Object.keys(nextProps.errors[key]).length)
-          continue;
-
-        switch (key) {
-          case 'share':
-            if (this.shareInput)
-              setTimeout(() => this.shareInput.focus(), 250);
-            break;
-          case 'directory':
-            if (this.directoryInput)
-              setTimeout(() => this.directoryInput.focus(), 250);
-            break;
-          case 'name':
-            if (this.nameInput)
-              setTimeout(() => this.nameInput.focus(), 250);
-            break;
-        }
-        break;
+      switch (nextProps.errors.keys().next().value) {
+        case 'share':
+          if (this.shareInput)
+            setTimeout(() => this.shareInput.focus(), 250);
+          break;
+        case 'directory':
+          if (this.directoryInput)
+            setTimeout(() => this.directoryInput.focus(), 250);
+          break;
+        case 'name':
+          if (this.nameInput)
+            setTimeout(() => this.nameInput.focus(), 250);
+          break;
       }
     }
   }
 
   render() {
     let find = null;
-    if (!this.props.errors.name || !Object.keys(this.props.errors.name).length) {
-      if (this.props.found.isLoaded) {
+    if (!this.props.errors.has('name')) {
+      if (this.props.found.get('isLoaded')) {
         find = [];
-        for (let node of this.props.found.nodes) {
-          find.push(node.isDirectory
-            ? <div key={node.name}><strong><FaFolderO/> {node.name}</strong></div>
-            : <div key={node.name}><FaFileO/> {node.name}</div>);
+        for (let node of this.props.found.get('nodes')) {
+          let name = node.get('name');
+          find.push(
+            node.get('isDirectory')
+              ? <div key={name}><strong><FaFolderO/> {name}</strong></div>
+              : <div key={name}><FaFileO/> {name}</div>
+          );
         }
         find = (
           <div className="found-nodes">
             <div className="scroll-wrapper">
               <GenericScrollBox permitHandleDragInterruption={false} outsetScrollBarX={true} outsetScrollBarY={true}>
                 <Viewport classes="text-content condensed">
-                  {find}
+                  {find.length ? find : <em>{__('src_find_empty')}</em>}
                   <br />
                 </Viewport>
               </GenericScrollBox>
             </div>
           </div>
         );
-      } else if (this.props.found.isLoading) {
+      } else if (this.props.found.get('isLoading')) {
         find = (
           <div className="found-nodes">
             <div className="processing"><FaCog className="rotating" /></div>
@@ -179,14 +177,14 @@ class DeleteModal extends React.PureComponent {
                   name="share"
                   id="deleteShare"
                   disabled={true}
-                  valid={(!this.props.errors.share || !Object.keys(this.props.errors.share).length) && undefined}
-                  value={this.props.values.share}
+                  valid={(!this.props.errors.has('share')) && undefined}
+                  value={this.props.values.get('share')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
                   innerRef={(input) => { this.shareInput = input; }}
                 />
-                <FieldErrors errors={this.props.errors.share} />
+                <FieldErrors errors={this.props.errors.get('share')} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -199,14 +197,14 @@ class DeleteModal extends React.PureComponent {
                   name="directory"
                   id="deleteDirectory"
                   disabled={true}
-                  valid={(!this.props.errors.directory || !Object.keys(this.props.errors.directory).length) && undefined}
-                  value={this.props.values.directory}
+                  valid={(!this.props.errors.has('directory')) && undefined}
+                  value={this.props.values.get('directory')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
                   innerRef={(input) => { this.directoryInput = input; }}
                 />
-                <FieldErrors errors={this.props.errors.directory} />
+                <FieldErrors errors={this.props.errors.get('directory')} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -222,8 +220,8 @@ class DeleteModal extends React.PureComponent {
                     id="deleteName"
                     disabled={this.props.isLocked}
                     autoFocus
-                    valid={(!this.props.errors.name || !Object.keys(this.props.errors.name).length) && undefined}
-                    value={this.props.values.name}
+                    valid={(!this.props.errors.has('name')) && undefined}
+                    value={this.props.values.get('name')}
                     onChange={this.handleInput}
                     onKeyPress={this.handleKeyPress}
                     onFocus={this.handleFocus}
@@ -235,7 +233,7 @@ class DeleteModal extends React.PureComponent {
                       {__('src_find_button')}
                     </Button>
                   </InputGroupAddon>
-                  <FieldErrors errors={this.props.errors.name} />
+                  <FieldErrors errors={this.props.errors.get('name')} />
                 </InputGroup>
                 {find}
               </Col>

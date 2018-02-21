@@ -47,9 +47,9 @@ class ProgressModal extends React.Component {
       <Modal isOpen={this.props.isStarted} size="lg" backdrop="static" fade={true} toggle={() => {}}>
         <ModalHeader>{__('progress_title')}</ModalHeader>
         <ModalBody>
-          {this.props.isFinished
-            ? <Progress color="primary" value={100}>{__('done_message')}</Progress>
-            : <Progress color="warning" animated value={this.state.progress} />}
+          {(!this.props.isStarted || this.props.isFinished)
+            ? <Progress color="primary" barClassName="text-dark" value={100}>{__('done_message')}</Progress>
+            : <Progress color="warning" barClassName="text-light" animated value={this.state.progress} />}
           <br />
           <div className="progress-widget">
             <div className="scroll-wrapper">

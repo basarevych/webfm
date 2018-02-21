@@ -29,10 +29,10 @@ export const updateStatus = () => {
           await dispatch(setAppVersion(data.version === packageJson.version));
           await dispatch(setUser(data.isAuthorized, data.login, data.locale, data.shares));
 
-          let { user } = getState();
+          let user = getState().get('user');
 
-          if (i18n.getLocale() !== user.locale)
-            i18n.setLocale(user.locale);
+          if (i18n.getLocale() !== user.get('locale'))
+            i18n.setLocale(user.get('locale'));
         } else {
           window.location.reload(true);
         }
@@ -45,9 +45,9 @@ export const updateStatus = () => {
 
 export const signOut = () => {
   return async (dispatch, getState) => {
-    let { app } = getState();
+    let app = getState().get('app');
     await new Promise(resolve => {
-      io.socket.post('/auth/sign-out',  { _csrf: app.csrf }, () => resolve());
+      io.socket.post('/auth/sign-out',  { _csrf: app.get('csrf') }, () => resolve());
     });
     return dispatch(updateStatus());
   };
@@ -55,8 +55,10 @@ export const signOut = () => {
 
 export const signIn = (when, validate) => {
   return async (dispatch, getState) => {
-    let { app, signInDialog } = getState();
-    if (signInDialog.submittedAt >= when)
+    let state = getState();
+    let app = state.get('app');
+    let signInDialog = state.get('signInDialog');
+    if (signInDialog.get('submittedAt') >= when)
       return;
 
     if (!validate)
@@ -76,10 +78,10 @@ export const signIn = (when, validate) => {
               'Accept': 'application/json',
             },
             body: JSON.stringify({
-              login: signInDialog.values.login,
-              password: signInDialog.values.password,
+              login: signInDialog.getIn(['values', 'login']),
+              password: signInDialog.getIn(['values', 'password']),
               _validate: validate,
-              _csrf: app.csrf,
+              _csrf: app.get('csrf'),
             })
           }
         );
@@ -98,9 +100,9 @@ export const signIn = (when, validate) => {
 
           await dispatch(updateSignInDialog(
             {
-              values: data.values,
-              messages: data.messages,
-              errors: data.errors,
+              values: data.values || {},
+              messages: data.messages || {},
+              errors: data.errors || {},
             },
             when
           ));

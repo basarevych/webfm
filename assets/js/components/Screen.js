@@ -24,6 +24,10 @@ class Screen extends React.Component {
     isRightPaneVisible: PropTypes.bool.isRequired,
   };
 
+  componentDidCatch(error) {
+    console.error(error);
+  }
+
   render() {
     let overlay = null;
     if (!this.props.isConnected) {

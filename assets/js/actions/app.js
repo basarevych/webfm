@@ -47,48 +47,49 @@ export const connectApp = () => {
   let when = Date.now();
   return async (dispatch, getState) => {
     {
-      let { app } = getState();
-      if (app.ioTimestamp > when)
+      let state = getState();
+      let app = state.get('app');
+      if (app.get('ioTimestamp') > when)
         return;
 
       dispatch({
-        type: app.isConnected ? actions.CONNECT_APP : actions.DISCONNECT_APP,
+        type: app.get('isConnected') ? actions.CONNECT_APP : actions.DISCONNECT_APP,
         when,
       });
     }
     {
       await dispatch(getCSRFToken());
-      let { app } = getState();
-      if (app.ioTimestamp !== when)
+      if (getState().getIn(['app', 'ioTimestamp']) !== when)
         return;
     }
     {
       await dispatch(updateStatus());
-      let { app } = getState();
-      if (app.ioTimestamp !== when)
+      if (getState().getIn(['app', 'ioTimestamp']) !== when)
         return;
     }
     {
-      let { app, leftPane, rightPane } = getState();
+      let state = getState();
+      let app = state.get('app');
+      let leftPane = state.get('leftPane');
+      let rightPane = state.get('rightPane');
       let params = {
         timestamp: window.__TIMESTAMP__,
         left: {
-          share: leftPane.share,
-          directory: leftPane.directory,
+          share: leftPane.get('share'),
+          directory: leftPane.get('directory'),
         },
         right: {
-          share: rightPane.share,
-          directory: rightPane.directory,
+          share: rightPane.get('share'),
+          directory: rightPane.get('directory'),
         },
-        _csrf: app.csrf,
+        _csrf: app.get('csrf'),
       };
       await new Promise(resolve => {
         io.socket.post('/pane/loaded', params, () => resolve());
       });
     }
     {
-      let { app } = getState();
-      if (app.ioTimestamp !== when)
+      if (getState().getIn(['app', 'ioTimestamp']) !== when)
         return;
 
       dispatch({
@@ -144,16 +145,18 @@ export const setAppVersion = isSameVersion => {
 
 export const screenResize = () => {
   return async (dispatch, getState) => {
-    let { app, rightPane } = getState();
+    let state = getState();
+    let app = state.get('app');
+    let rightPane = state.get('rightPane');
     let newSize = Breakpoints.current().name;
-    if (!app.isStarted || !newSize || newSize === app.breakpoint)
+    if (!app.get('isStarted') || !newSize || newSize === app.get('breakpoint'))
       return;
 
     if (newSize === 'xs') {
       await dispatch(hidePane('RIGHT'));
-      if (rightPane.isActive)
+      if (rightPane.get('isActive'))
         await dispatch(setActivePane('LEFT'));
-    } else if (app.prevBreakpoint === 'xs') {
+    } else if (app.get('prevBreakpoint') === 'xs') {
       await dispatch(showPane('RIGHT'));
     }
 
@@ -166,8 +169,7 @@ export const screenResize = () => {
 
 export const initApp = history => {
   return async (dispatch, getState) => {
-    let { app } = getState();
-    if (app.isStarted)
+    if (getState().getIn(['app', 'isStarted']))
       return;
 
     await dispatch(startApp());
@@ -175,13 +177,15 @@ export const initApp = history => {
     await dispatch(setActivePane('LEFT'));
 
     history.listen(async location => {
-      let { user, leftPane } = getState();
-      if (!user.isAuthorized)
+      let state = getState();
+      let user = state.get('user');
+      let leftPane = state.get('leftPane');
+      if (!user.get('isAuthorized'))
         return;
 
-      let pane = leftPane.isActive ? 'LEFT' : 'RIGHT';
+      let pane = leftPane.get('isActive') ? 'LEFT' : 'RIGHT';
       let match = matchLocation(location.pathname);
-      dispatch(paneCD(pane, match ? match.share : user.shares[0].name, match ? match.path : '/'));
+      dispatch(paneCD(pane, match ? match.share : user.getIn(['shares', 0, 'name']), match ? match.path : '/'));
     });
   };
 };

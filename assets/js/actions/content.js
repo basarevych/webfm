@@ -13,18 +13,18 @@ export const setContent = (id, content) => {
 
 export const clearContents = () => {
   return async (dispatch, getState) => {
-    let { contents, leftPane, rightPane } = getState();
+    let state = getState();
+    let contents = state.get('contents');
+    let leftPane = state.get('leftPane');
+    let rightPane = state.get('rightPane');
     let leftId;
-    if (leftPane.share && leftPane.path)
-      leftId = `${leftPane.share}:${leftPane.path}`;
+    if (leftPane.get('share') && leftPane.get('path'))
+      leftId = `${leftPane.get('share')}:${leftPane.get('path')}`;
     let rightId;
-    if (rightPane.share && rightPane.path)
-      rightId= `${rightPane.share}:${rightPane.path}`;
+    if (rightPane.get('share') && rightPane.get('path'))
+      rightId= `${rightPane.get('share')}:${rightPane.get('path')}`;
 
-    if (Object.keys(contents).length === 0 ||
-        (leftId && rightId && (leftId === rightId
-          ? Object.keys(contents).length === 1
-          : Object.keys(contents).length === 2)))
+    if (contents.size === 0 || (leftId && rightId && (leftId === rightId ? contents.size === 1 : contents.size === 2)))
       return;
 
     let keep = [];
@@ -42,28 +42,32 @@ export const clearContents = () => {
 
 export const loadContent = pane => {
   return async (dispatch, getState) => {
-    let { app, contents, leftPane, rightPane } = getState();
+    let state = getState();
+    let app = state.get('app');
+    let contents = state.get('contents');
+    let leftPane = state.get('leftPane');
+    let rightPane = state.get('rightPane');
 
     let id;
     let share;
     let path;
-    if (pane === 'LEFT' && leftPane.share && leftPane.name) {
-      share = leftPane.share;
-      path = leftPane.path;
+    if (pane === 'LEFT' && leftPane.get('share') && leftPane.get('name')) {
+      share = leftPane.get('share');
+      path = leftPane.get('path');
       id = `${share}:${path}`;
-    } else if (pane === 'RIGHT' && rightPane.share && rightPane.name) {
-      share = rightPane.share;
-      path = rightPane.path;
+    } else if (pane === 'RIGHT' && rightPane.get('share') && rightPane.get('name')) {
+      share = rightPane.get('share');
+      path = rightPane.get('path');
       id = `${share}:${path}`;
     }
 
-    if (!id || contents[id])
+    if (!id || contents.has(id))
       return;
 
     let params = {
       share,
       path,
-      _csrf: app.csrf,
+      _csrf: app.get('csrf'),
     };
 
     await dispatch(

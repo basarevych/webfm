@@ -6,9 +6,9 @@ import FailureModal from '../components/FailureModal';
 
 const mapStateToProps = state => {
   return {
-    isOpen: state.failureDialog.isOpen,
-    messages: state.failureDialog.messages,
-    errors: state.failureDialog.errors,
+    isOpen: state.getIn(['failureDialog', 'isOpen']),
+    messages: state.getIn(['failureDialog', 'messages']),
+    errors: state.getIn(['failureDialog', 'errors']),
   };
 };
 

@@ -18,13 +18,13 @@ module.exports = async function del(req, res) {
   for (let item of await Share.find({ user: req.session.userId })) {
     if (item.name === share) {
       if (item.isReadOnly &&  (!validate || validate === 'share'))
-        form.addError('share', 'E_READ_ONLY', __('delete.share.E_READ_ONLY'));
+        form.addError('share', 'E_READ_ONLY', sails.__('delete.share.E_READ_ONLY'));
       shareFound = true;
       break;
     }
   }
   if (!shareFound && (!validate || validate === 'share'))
-    form.addError('share', 'E_NOT_FOUND', __('delete.share.E_NOT_FOUND'));
+    form.addError('share', 'E_NOT_FOUND', sails.__('delete.share.E_NOT_FOUND'));
 
   let parent;
   if (shareFound) {
@@ -33,14 +33,14 @@ module.exports = async function del(req, res) {
       if (!parent.isDirectory) {
         parent = null;
         if (!validate || validate === 'directory')
-          form.addError('directory', 'E_NOT_DIR', __('delete.directory.E_NOT_DIR'));
+          form.addError('directory', 'E_NOT_DIR', sails.__('delete.directory.E_NOT_DIR'));
       } else if (!parent.isValid) {
         parent = null;
         if (!validate || validate === 'directory')
-          form.addError('directory', 'E_OUTSIDE', __('delete.directory.E_OUTSIDE'));
+          form.addError('directory', 'E_OUTSIDE', sails.__('delete.directory.E_OUTSIDE'));
       }
     } catch (error) {
-      let code = error.code || 'ERROR';
+      let code = (error.raw && error.raw.code) || error.code || 'ERROR';
       let key = `delete.directory.${code}`;
       let translated = (code === 'ERROR' ? key : sails.__(key));
       if (!validate || validate === 'directory')
@@ -52,10 +52,10 @@ module.exports = async function del(req, res) {
     if (name.includes('/')) {
       name = null;
       if (!validate || validate === 'name')
-        form.addError('name', 'E_INVALID', __('delete.name.E_INVALID'));
+        form.addError('name', 'E_INVALID', sails.__('delete.name.E_INVALID'));
     }
   } else if (!validate || validate === 'name') {
-    form.addError('name', 'E_REQUIRED', __('delete.name.E_REQUIRED'));
+    form.addError('name', 'E_REQUIRED', sails.__('delete.name.E_REQUIRED'));
   }
 
   if (validate)
@@ -82,7 +82,7 @@ module.exports = async function del(req, res) {
       }
     } catch (error) {
       nodes = [];
-      let code = error.code || 'ERROR';
+      let code = (error.raw && error.raw.code) || error.code || 'ERROR';
       let key = `delete.result.${code}`;
       let translated = (code === 'ERROR' ? key : sails.__(key));
       form.addMessage(code, translated === key ? _.escape(error.message) : translated);
@@ -135,7 +135,7 @@ module.exports = async function del(req, res) {
           if (rejected)
             return;
 
-          let msg = __(
+          let msg = sails.__(
             rc ? 'delete_failure_message' : 'delete_success_message',
             node.path
           ) + '\n';
@@ -156,12 +156,12 @@ module.exports = async function del(req, res) {
 
   let fastTimer = null;
   if (!fast) {
-    await sails.hooks.broadcaster.startProgress(req.session.userId, __('delete_start_message') + '\n');
+    await sails.hooks.broadcaster.startProgress(req.session.userId, sails.__('delete_start_message') + '\n');
   } else {
     fastTimer = setTimeout(async () => {
       fast = false;
       fastTimer = null;
-      await sails.hooks.broadcaster.startProgress(req.session.userId, __('delete_start_message') + '\n' + progressBuffer);
+      await sails.hooks.broadcaster.startProgress(req.session.userId, sails.__('delete_start_message') + '\n' + progressBuffer);
     }, 2000);
   }
 
@@ -171,7 +171,7 @@ module.exports = async function del(req, res) {
     if (!fast) {
       await sails.hooks.broadcaster.moreProgress(req.session.userId, error.stack || error.message);
     } else {
-      let code = error.code || 'ERROR';
+      let code = (error.raw && error.raw.code) || error.code || 'ERROR';
       let key = `delete.result.${code}`;
       let translated = (code === 'ERROR' ? key : sails.__(key));
       form.addMessage(code, translated === key ? _.escape(error.message) : translated);

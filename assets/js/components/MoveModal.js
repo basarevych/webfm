@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Form, FormGroup, FormText, Label, Col, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import { FaFolderO, FaFileO, FaCog } from 'react-icons/lib/fa';
@@ -15,10 +16,10 @@ class MoveModal extends React.PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     isLocked: PropTypes.bool.isRequired,
-    values: PropTypes.object.isRequired,
-    messages: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired,
-    found: PropTypes.object.isRequired,
+    values: PropTypes.instanceOf(Map).isRequired,
+    messages: PropTypes.instanceOf(Map).isRequired,
+    errors: PropTypes.instanceOf(Map).isRequired,
+    found: PropTypes.instanceOf(Map).isRequired,
     onToggle: PropTypes.func.isRequired,
     onInput: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -109,60 +110,57 @@ class MoveModal extends React.PureComponent {
       if (nextProps.isLocked)
         return;
 
-      for (let key of Object.keys(nextProps.errors)) {
-        if (!Object.keys(nextProps.errors[key]).length)
-          continue;
-
-        switch (key) {
-          case 'srcShare':
-            if (this.srcShareInput)
-              setTimeout(() => this.srcShareInput.focus(), 250);
-            break;
-          case 'srcDirectory':
-            if (this.srcDirectoryInput)
-              setTimeout(() => this.srcDirectoryInput.focus(), 250);
-            break;
-          case 'srcName':
-            if (this.srcNameInput)
-              setTimeout(() => this.srcNameInput.focus(), 250);
-            break;
-          case 'dstShare':
-            if (this.dstShareInput)
-              setTimeout(() => this.dstShareInput.focus(), 250);
-            break;
-          case 'dstDirectory':
-            if (this.dstDirectoryInput)
-              setTimeout(() => this.dstDirectoryInput.focus(), 250);
-            break;
-        }
-        break;
+      switch (nextProps.errors.keys().next().value) {
+        case 'srcShare':
+          if (this.srcShareInput)
+            setTimeout(() => this.srcShareInput.focus(), 250);
+          break;
+        case 'srcDirectory':
+          if (this.srcDirectoryInput)
+            setTimeout(() => this.srcDirectoryInput.focus(), 250);
+          break;
+        case 'srcName':
+          if (this.srcNameInput)
+            setTimeout(() => this.srcNameInput.focus(), 250);
+          break;
+        case 'dstShare':
+          if (this.dstShareInput)
+            setTimeout(() => this.dstShareInput.focus(), 250);
+          break;
+        case 'dstDirectory':
+          if (this.dstDirectoryInput)
+            setTimeout(() => this.dstDirectoryInput.focus(), 250);
+          break;
       }
     }
   }
 
   render() {
     let find = null;
-    if (!this.props.errors.srcName || !Object.keys(this.props.errors.srcName).length) {
-      if (this.props.found.isLoaded) {
+    if (!this.props.errors.has('srcName')) {
+      if (this.props.found.get('isLoaded')) {
         find = [];
-        for (let node of this.props.found.nodes) {
-          find.push(node.isDirectory
-            ? <div key={node.name}><strong><FaFolderO/> {node.name}</strong></div>
-            : <div key={node.name}><FaFileO/> {node.name}</div>);
+        for (let node of this.props.found.get('nodes')) {
+          let name = node.get('name');
+          find.push(
+            node.get('isDirectory')
+              ? <div key={name}><strong><FaFolderO/> {name}</strong></div>
+              : <div key={name}><FaFileO/> {name}</div>
+          );
         }
         find = (
           <div className="found-nodes">
             <div className="scroll-wrapper">
               <GenericScrollBox permitHandleDragInterruption={false} outsetScrollBarX={true} outsetScrollBarY={true}>
                 <Viewport classes="text-content condensed">
-                  {find}
+                  {find.length ? find : <em>{__('src_find_empty')}</em>}
                   <br />
                 </Viewport>
               </GenericScrollBox>
             </div>
           </div>
         );
-      } else if (this.props.found.isLoading) {
+      } else if (this.props.found.get('isLoading')) {
         find = (
           <div className="found-nodes">
             <div className="processing"><FaCog className="rotating" /></div>
@@ -195,14 +193,14 @@ class MoveModal extends React.PureComponent {
                   name="srcShare"
                   id="moveSrcShare"
                   disabled={true}
-                  valid={(!this.props.errors.srcShare || !Object.keys(this.props.errors.srcShare).length) && undefined}
-                  value={this.props.values.srcShare}
+                  valid={(!this.props.errors.has('srcShare')) && undefined}
+                  value={this.props.values.get('srcShare')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
                   innerRef={(input) => { this.srcShareInput = input; }}
                 />
-                <FieldErrors errors={this.props.errors.srcShare} />
+                <FieldErrors errors={this.props.errors.get('srcShare')} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -215,14 +213,14 @@ class MoveModal extends React.PureComponent {
                   name="srcDirectory"
                   id="moveSrcDirectory"
                   disabled={true}
-                  valid={(!this.props.errors.srcDirectory || !Object.keys(this.props.errors.srcDirectory).length) && undefined}
-                  value={this.props.values.srcDirectory}
+                  valid={(!this.props.errors.has('srcDirectory')) && undefined}
+                  value={this.props.values.get('srcDirectory')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
                   innerRef={(input) => { this.srcDirectoryInput = input; }}
                 />
-                <FieldErrors errors={this.props.errors.srcDirectory} />
+                <FieldErrors errors={this.props.errors.get('srcDirectory')} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -238,8 +236,8 @@ class MoveModal extends React.PureComponent {
                     id="moveSrcName"
                     disabled={this.props.isLocked}
                     autoFocus
-                    valid={(!this.props.errors.srcName || !Object.keys(this.props.errors.srcName).length) && undefined}
-                    value={this.props.values.srcName}
+                    valid={(!this.props.errors.has('srcName')) && undefined}
+                    value={this.props.values.get('srcName')}
                     onChange={this.handleInput}
                     onKeyPress={this.handleKeyPress}
                     onFocus={this.handleFocus}
@@ -251,7 +249,7 @@ class MoveModal extends React.PureComponent {
                       {__('src_find_button')}
                     </Button>
                   </InputGroupAddon>
-                  <FieldErrors errors={this.props.errors.srcName} />
+                  <FieldErrors errors={this.props.errors.get('srcName')} />
                 </InputGroup>
                 {find}
               </Col>
@@ -266,14 +264,14 @@ class MoveModal extends React.PureComponent {
                   name="dstShare"
                   id="moveDstShare"
                   disabled={true}
-                  valid={(!this.props.errors.dstShare || !Object.keys(this.props.errors.dstShare).length) && undefined}
-                  value={this.props.values.dstShare}
+                  valid={(!this.props.errors.has('dstShare')) && undefined}
+                  value={this.props.values.get('dstShare')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
                   innerRef={(input) => { this.dstShareInput = input; }}
                 />
-                <FieldErrors errors={this.props.errors.dstShare} />
+                <FieldErrors errors={this.props.errors.get('dstShare')} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -286,14 +284,14 @@ class MoveModal extends React.PureComponent {
                   name="dstDirectory"
                   id="moveDstDirectory"
                   disabled={true}
-                  valid={(!this.props.errors.dstDirectory || !Object.keys(this.props.errors.dstDirectory).length) && undefined}
-                  value={this.props.values.dstDirectory}
+                  valid={(!this.props.errors.has('dstDirectory')) && undefined}
+                  value={this.props.values.get('dstDirectory')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
                   innerRef={(input) => { this.dstDirectoryInput = input; }}
                 />
-                <FieldErrors errors={this.props.errors.dstDirectory} />
+                <FieldErrors errors={this.props.errors.get('dstDirectory')} />
               </Col>
             </FormGroup>
           </Form>

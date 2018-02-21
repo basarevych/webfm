@@ -6,9 +6,9 @@ import ProgressModal from '../components/ProgressModal';
 
 const mapStateToProps = state => {
   return {
-    isStarted: state.progress.isStarted,
-    isFinished: state.progress.isFinished,
-    message: state.progress.message,
+    isStarted: state.getIn(['progress', 'isStarted']),
+    isFinished: state.getIn(['progress', 'isFinished']),
+    message: state.getIn(['progress', 'message']),
   };
 };
 

@@ -121,3 +121,6 @@ export const SHOW_SIGN_IN_DIALOG = 'SHOW_SIGN_IN_DIALOG';
 export const HIDE_SIGN_IN_DIALOG = 'HIDE_SIGN_IN_DIALOG';
 export const SUBMIT_SIGN_IN_DIALOG = 'SUBMIT_SIGN_IN_DIALOG';
 export const UPDATE_SIGN_IN_DIALOG = 'UPDATE_SIGN_IN_DIALOG';
+
+// This will never be fired
+export const UNUSED = 'UNUSED';

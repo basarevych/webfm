@@ -1,46 +1,51 @@
 'use strict';
 
 import * as actions from '../constants/actionTypes';
+import { fromJS } from 'immutable';
 
 const progress = (
-  state = {
+  state = fromJS({
     isStarted: false,
     isFinished: false,
     message: '',
-  },
+  }),
   action
 ) => {
   switch (action.type) {
     case actions.START_PROGRESS:
-      return {
-        isStarted: true,
-        isFinished: false,
-        message: action.message,
-      };
+      return state.withMutations(map => {
+        map
+          .set('isStarted', true)
+          .set('isFinished', false)
+          .set('message', action.message);
+      });
     case actions.UPDATE_PROGRESS:
-      if (!action.message)
+      if (!action.get('message'))
         return state;
 
-      return {
-        isStarted: true,
-        isFinished: false,
-        message: state.message + action.message,
-      };
+      return state.withMutations(map => {
+        map
+          .set('isStarted', true)
+          .set('isFinished', false)
+          .set('message', state.get('message') + action.message);
+      });
     case actions.FINISH_PROGRESS:
-      return {
-        isStarted: true,
-        isFinished: true,
-        message: state.message + action.message || '',
-      };
+      return state.withMutations(map => {
+        map
+          .set('isStarted', true)
+          .set('isFinished', true)
+          .set('message', state.get('message') + action.message || '');
+      });
     case actions.CLEAR_PROGRESS:
-      if (!state.isStarted)
+      if (!state.get('isStarted'))
         return state;
 
-      return {
-        isStarted: false,
-        isFinished: false,
-        message: '',
-      };
+      return state.withMutations(map => {
+        map
+          .set('isStarted', false)
+          .set('isFinished', false)
+          .set('message', '');
+      });
   }
 
   return state;

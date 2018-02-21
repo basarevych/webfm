@@ -7,11 +7,11 @@ import MkdirModal from '../components/MkdirModal';
 
 const mapStateToProps = state => {
   return {
-    isOpen: state.mkdirDialog.isOpen,
-    isLocked: state.mkdirDialog.locked > 0,
-    values: state.mkdirDialog.values,
-    messages: state.mkdirDialog.messages,
-    errors: state.mkdirDialog.errors,
+    isOpen: state.getIn(['mkdirDialog', 'isOpen']),
+    isLocked: state.getIn(['mkdirDialog', 'locked']) > 0,
+    values: state.getIn(['mkdirDialog', 'values']),
+    messages: state.getIn(['mkdirDialog', 'messages']),
+    errors: state.getIn(['mkdirDialog', 'errors']),
   };
 };
 

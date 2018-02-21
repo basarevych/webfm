@@ -7,11 +7,11 @@ import RenameModal from '../components/RenameModal';
 
 const mapStateToProps = state => {
   return {
-    isOpen: state.renameDialog.isOpen,
-    isLocked: state.renameDialog.locked > 0,
-    values: state.renameDialog.values,
-    messages: state.renameDialog.messages,
-    errors: state.renameDialog.errors,
+    isOpen: state.getIn(['renameDialog', 'isOpen']),
+    isLocked: state.getIn(['renameDialog', 'locked']) > 0,
+    values: state.getIn(['renameDialog', 'values']),
+    messages: state.getIn(['renameDialog', 'messages']),
+    errors: state.getIn(['renameDialog', 'errors']),
   };
 };
 

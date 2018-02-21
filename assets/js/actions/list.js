@@ -12,18 +12,19 @@ export const setList = (id, list) => {
 
 export const clearLists = () => {
   return async (dispatch, getState) => {
-    let { lists, leftPane, rightPane } = getState();
-    let leftId;
-    if (leftPane.share && leftPane.directory)
-      leftId = `${leftPane.share}:${leftPane.directory}`;
-    let rightId;
-    if (rightPane.share && rightPane.directory)
-      rightId= `${rightPane.share}:${rightPane.directory}`;
+    let state = getState();
+    let lists = state.get('lists');
+    let leftPane = state.get('leftPane');
+    let rightPane = state.get('rightPane');
 
-    if (Object.keys(lists).length === 0 ||
-      (leftId && rightId && (leftId === rightId
-        ? Object.keys(lists).length === 1
-        : Object.keys(lists).length === 2)))
+    let leftId;
+    if (leftPane.get('share') && leftPane.get('directory'))
+      leftId = `${leftPane.get('share')}:${leftPane.get('directory')}`;
+    let rightId;
+    if (rightPane.get('share') && rightPane.get('directory'))
+      rightId= `${rightPane.get('share')}:${rightPane.get('directory')}`;
+
+    if (lists.size === 0 || (leftId && rightId && (leftId === rightId ? lists.size === 1 : lists.size === 2)))
       return;
 
     let keep = [];

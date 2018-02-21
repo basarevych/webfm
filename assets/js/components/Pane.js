@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { List, Map } from 'immutable';
 import DisabledView from './DisabledView';
 import LoadingView from './LoadingView';
 import Header from './Header';
@@ -15,16 +16,16 @@ class Pane extends React.PureComponent {
     breakpoint: PropTypes.string.isRequired,
     mode: PropTypes.string.isRequired,
     otherPath: PropTypes.string.isRequired,
-    shares: PropTypes.array.isRequired,
+    shares: PropTypes.instanceOf(List).isRequired,
     share: PropTypes.string.isRequired,
     directory: PropTypes.string.isRequired,
-    list: PropTypes.array.isRequired,
-    sizes: PropTypes.object.isRequired,
-    selectedIndexes: PropTypes.array.isRequired,
+    list: PropTypes.instanceOf(List).isRequired,
+    sizes: PropTypes.instanceOf(Map).isRequired,
+    selectedIndexes: PropTypes.instanceOf(List).isRequired,
     sortField: PropTypes.string.isRequired,
     sortDir: PropTypes.string.isRequired,
-    content: PropTypes.object,
-    info: PropTypes.object,
+    content: PropTypes.instanceOf(Map),
+    info: PropTypes.instanceOf(Map),
     isActive: PropTypes.bool.isRequired,
     isDisabled: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -40,6 +41,11 @@ class Pane extends React.PureComponent {
     onSizeClick: PropTypes.func.isRequired,
     onToggleOther: PropTypes.func.isRequired,
     onSetMode: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    content: Map({}),
+    info: Map({}),
   };
 
   render() {

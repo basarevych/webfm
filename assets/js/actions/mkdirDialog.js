@@ -23,13 +23,16 @@ export const resetMkdirDialog = values => {
 
 export const showMkdirDialog = () => {
   return async (dispatch, getState) => {
-    let { mkdirDialog, leftPane, rightPane } = getState();
-    if (mkdirDialog.locked)
+    let state = getState();
+    let mkdirDialog = state.get('mkdirDialog');
+    let leftPane = state.get('leftPane');
+    let rightPane = state.get('rightPane');
+    if (mkdirDialog.get('locked'))
       return;
 
     let values = {
-      share: leftPane.isActive ? leftPane.share : rightPane.share,
-      directory: leftPane.isActive ? leftPane.directory : rightPane.directory,
+      share: leftPane.get('isActive') ? leftPane.get('share') : rightPane.get('share'),
+      directory: leftPane.get('isActive') ? leftPane.get('directory') : rightPane.get('directory'),
       name: '',
     };
     if (!values.share || !values.directory)
@@ -45,8 +48,8 @@ export const showMkdirDialog = () => {
 
 export const hideMkdirDialog = () => {
   return async (dispatch, getState) => {
-    let { mkdirDialog } = getState();
-    if (mkdirDialog.locked)
+    let mkdirDialog = getState().get('mkdirDialog');
+    if (mkdirDialog.get('locked'))
       return;
 
     await dispatch(resetMkdirDialog());
@@ -59,11 +62,11 @@ export const hideMkdirDialog = () => {
 
 export const toggleMkdirDialog = () => {
   return async (dispatch, getState) => {
-    let { mkdirDialog } = getState();
-    if (mkdirDialog.locked)
+    let mkdirDialog = getState().get('mkdirDialog');
+    if (mkdirDialog.get('locked'))
       return;
 
-    return dispatch(mkdirDialog.isOpen ? hideMkdirDialog() : showMkdirDialog());
+    return dispatch(mkdirDialog.get('isOpen') ? hideMkdirDialog() : showMkdirDialog());
   };
 };
 

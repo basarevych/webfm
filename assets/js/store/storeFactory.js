@@ -1,18 +1,16 @@
 'use strict';
 
-import { applyMiddleware, createStore, combineReducers } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
+import { fromJS } from 'immutable';
+import { combineReducers } from 'redux-immutable';
 import thunk from 'redux-thunk';
-import { routerMiddleware, routerReducer } from 'react-router-redux';
+import { routerMiddleware } from 'react-router-redux';
 import app from '../reducers/app';
+import router from '../reducers/router';
 import user from '../reducers/user';
 import navbar from '../reducers/navbar';
 import progress from '../reducers/progress';
-import signInDialog from '../reducers/signInDialog';
-import mkdirDialog from '../reducers/mkdirDialog';
-import renameDialog from '../reducers/renameDialog';
-import copyDialog from '../reducers/copyDialog';
-import moveDialog from '../reducers/moveDialog';
-import deleteDialog from '../reducers/deleteDialog';
+import dialogFactory from '../reducers/dialogFactory';
 import failureDialog from '../reducers/failureDialog';
 import paneFactory from '../reducers/paneFactory';
 import infoListFactory from '../reducers/infoListFactory';
@@ -20,26 +18,26 @@ import infoListFactory from '../reducers/infoListFactory';
 const storeFactory = (history, initialState) =>
   applyMiddleware(thunk, routerMiddleware(history))(createStore)(
     combineReducers({
-      router: routerReducer,
       app,
+      router,
       user,
       navbar,
       progress,
-      signInDialog,
-      mkdirDialog,
-      renameDialog,
-      copyDialog,
-      moveDialog,
-      deleteDialog,
       failureDialog,
+      signInDialog: dialogFactory('SIGN_IN'),
+      mkdirDialog: dialogFactory('MKDIR'),
+      renameDialog: dialogFactory('RENAME'),
+      copyDialog: dialogFactory('COPY'),
+      moveDialog: dialogFactory('MOVE'),
+      deleteDialog: dialogFactory('DELETE'),
       leftPane: paneFactory('LEFT'),
       rightPane: paneFactory('RIGHT'),
-      lists: infoListFactory('list'),
-      contents: infoListFactory('content'),
-      infos: infoListFactory('info'),
-      sizes: infoListFactory('size'),
+      lists: infoListFactory('LIST'),
+      contents: infoListFactory('CONTENT'),
+      infos: infoListFactory('INFO'),
+      sizes: infoListFactory('SIZE'),
     }),
-    initialState,
+    initialState && fromJS(initialState),
   );
 
 export default storeFactory;

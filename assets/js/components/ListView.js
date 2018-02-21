@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { List, Map } from 'immutable';
 import ListComponent from './ListComponent';
 
 class ListView extends React.PureComponent {
@@ -9,9 +10,9 @@ class ListView extends React.PureComponent {
     which: PropTypes.string.isRequired,
     share: PropTypes.string.isRequired,
     directory: PropTypes.string.isRequired,
-    list: PropTypes.array.isRequired,
-    sizes: PropTypes.object.isRequired,
-    selectedIndexes: PropTypes.array.isRequired,
+    list: PropTypes.instanceOf(List).isRequired,
+    sizes: PropTypes.instanceOf(Map).isRequired,
+    selectedIndexes: PropTypes.instanceOf(List).isRequired,
     isForbidden: PropTypes.bool.isRequired,
     onChangeDirectory: PropTypes.func.isRequired,
     onNodeClick: PropTypes.func.isRequired,
@@ -29,7 +30,7 @@ class ListView extends React.PureComponent {
     if (this.props.isForbidden) {
       bodyClass = 'body disabled';
       listing = __('forbidden_message');
-    } else if (!this.props.list.length) {
+    } else if (!this.props.list.size) {
       bodyClass = 'body disabled';
       listing = __('empty_message');
     } else {

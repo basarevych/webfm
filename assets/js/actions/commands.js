@@ -23,8 +23,10 @@ import { showFailureDialog } from './failureDialog';
 
 export const mkdir = (when, validate) => {
   return async (dispatch, getState) => {
-    let { app, mkdirDialog } = getState();
-    if (mkdirDialog.submittedAt >= when)
+    let state = getState();
+    let app = state.get('app');
+    let mkdirDialog = state.get('mkdirDialog');
+    if (mkdirDialog.get('submittedAt') >= when)
       return;
 
     if (!validate)
@@ -44,11 +46,11 @@ export const mkdir = (when, validate) => {
               'Accept': 'application/json',
             },
             body: JSON.stringify({
-              share: mkdirDialog.values.share,
-              directory: mkdirDialog.values.directory,
-              name: mkdirDialog.values.name,
+              share: mkdirDialog.getIn(['values', 'share']),
+              directory: mkdirDialog.getIn(['values', 'directory']),
+              name: mkdirDialog.getIn(['values', 'name']),
               _validate: validate,
-              _csrf: app.csrf,
+              _csrf: app.get('csrf'),
             })
           }
         );
@@ -69,9 +71,9 @@ export const mkdir = (when, validate) => {
 
           await dispatch(updateMkdirDialog(
             {
-              values: data.values,
-              messages: data.messages,
-              errors: data.errors,
+              values: data.values || {},
+              messages: data.messages || {},
+              errors: data.errors || {},
             },
             when
           ));
@@ -101,8 +103,10 @@ export const mkdir = (when, validate) => {
 
 export const rename = (when, validate) => {
   return async (dispatch, getState) => {
-    let { app, renameDialog } = getState();
-    if (renameDialog.submittedAt >= when)
+    let state = getState();
+    let app = state.get('app');
+    let renameDialog = state.get('renameDialog');
+    if (renameDialog.get('submittedAt') >= when)
       return;
 
     if (!validate)
@@ -122,12 +126,12 @@ export const rename = (when, validate) => {
               'Accept': 'application/json',
             },
             body: JSON.stringify({
-              share: renameDialog.values.share,
-              directory: renameDialog.values.directory,
-              name: renameDialog.values.name,
-              newName: renameDialog.values.newName,
+              share: renameDialog.getIn(['values', 'share']),
+              directory: renameDialog.getIn(['values', 'directory']),
+              name: renameDialog.getIn(['values', 'name']),
+              newName: renameDialog.getIn(['values', 'newName']),
               _validate: validate,
-              _csrf: app.csrf,
+              _csrf: app.get('csrf'),
             })
           }
         );
@@ -150,9 +154,9 @@ export const rename = (when, validate) => {
 
           await dispatch(updateRenameDialog(
             {
-              values: data.values,
-              messages: data.messages,
-              errors: data.errors,
+              values: data.values || {},
+              messages: data.messages || {},
+              errors: data.errors || {},
             },
             when
           ));
@@ -182,8 +186,10 @@ export const rename = (when, validate) => {
 
 export const copy = (when, validate) => {
   return async (dispatch, getState) => {
-    let { app, copyDialog } = getState();
-    if (copyDialog.submittedAt >= when)
+    let state = getState();
+    let app = state.get('app');
+    let copyDialog = state.get('copyDialog');
+    if (copyDialog.get('submittedAt') >= when)
       return;
 
     if (!validate)
@@ -203,13 +209,13 @@ export const copy = (when, validate) => {
               'Accept': 'application/json',
             },
             body: JSON.stringify({
-              srcShare: copyDialog.values.srcShare,
-              srcDirectory: copyDialog.values.srcDirectory,
-              srcName: copyDialog.values.srcName,
-              dstShare: copyDialog.values.dstShare,
-              dstDirectory: copyDialog.values.dstDirectory,
+              srcShare: copyDialog.getIn(['values', 'srcShare']),
+              srcDirectory: copyDialog.getIn(['values', 'srcDirectory']),
+              srcName: copyDialog.getIn(['values', 'srcName']),
+              dstShare: copyDialog.getIn(['values', 'dstShare']),
+              dstDirectory: copyDialog.getIn(['values', 'dstDirectory']),
               _validate: validate,
-              _csrf: app.csrf,
+              _csrf: app.get('csrf'),
             })
           }
         );
@@ -234,9 +240,9 @@ export const copy = (when, validate) => {
 
           await dispatch(updateCopyDialog(
             {
-              values: data.values,
-              messages: data.messages,
-              errors: data.errors,
+              values: data.values || {},
+              messages: data.messages || {},
+              errors: data.errors || {},
             },
             when
           ));
@@ -266,7 +272,10 @@ export const copy = (when, validate) => {
 
 export const fastCopy = (pane, name) => {
   return async (dispatch, getState) => {
-    let { app, leftPane, rightPane } = getState();
+    let state = getState();
+    let app = state.get('app');
+    let leftPane = state.get('leftPane');
+    let rightPane = state.get('rightPane');
 
     return new Promise(async resolve => {
       try {
@@ -280,13 +289,13 @@ export const fastCopy = (pane, name) => {
               'Accept': 'application/json',
             },
             body: JSON.stringify({
-              srcShare: pane === 'LEFT' ? leftPane.share : rightPane.share,
-              srcDirectory: pane === 'LEFT' ? leftPane.directory : rightPane.directory,
+              srcShare: pane === 'LEFT' ? leftPane.get('share') : rightPane.get('share'),
+              srcDirectory: pane === 'LEFT' ? leftPane.get('directory') : rightPane.get('directory'),
               srcName: name,
-              dstShare: pane === 'LEFT' ? rightPane.share : leftPane.share,
-              dstDirectory: pane === 'LEFT' ? rightPane.directory : leftPane.directory,
+              dstShare: pane === 'LEFT' ? rightPane.get('share') : leftPane.get('share'),
+              dstDirectory: pane === 'LEFT' ? rightPane.get('directory') : leftPane.get('directory'),
               _fast: true,
-              _csrf: app.csrf,
+              _csrf: app.get('csrf'),
             })
           }
         );
@@ -309,8 +318,10 @@ export const fastCopy = (pane, name) => {
 
 export const move = (when, validate) => {
   return async (dispatch, getState) => {
-    let { app, moveDialog } = getState();
-    if (moveDialog.submittedAt >= when)
+    let state = getState();
+    let app = state.get('app');
+    let moveDialog = state.get('moveDialog');
+    if (moveDialog.get('submittedAt') >= when)
       return;
 
     if (!validate)
@@ -330,13 +341,13 @@ export const move = (when, validate) => {
               'Accept': 'application/json',
             },
             body: JSON.stringify({
-              srcShare: moveDialog.values.srcShare,
-              srcDirectory: moveDialog.values.srcDirectory,
-              srcName: moveDialog.values.srcName,
-              dstShare: moveDialog.values.dstShare,
-              dstDirectory: moveDialog.values.dstDirectory,
+              srcShare: moveDialog.getIn(['values', 'srcShare']),
+              srcDirectory: moveDialog.getIn(['values', 'srcDirectory']),
+              srcName: moveDialog.getIn(['values', 'srcName']),
+              dstShare: moveDialog.getIn(['values', 'dstShare']),
+              dstDirectory: moveDialog.getIn(['values', 'dstDirectory']),
               _validate: validate,
-              _csrf: app.csrf,
+              _csrf: app.get('csrf'),
             })
           }
         );
@@ -361,9 +372,9 @@ export const move = (when, validate) => {
 
           await dispatch(updateMoveDialog(
             {
-              values: data.values,
-              messages: data.messages,
-              errors: data.errors,
+              values: data.values || {},
+              messages: data.messages || {},
+              errors: data.errors || {},
             },
             when
           ));
@@ -393,7 +404,10 @@ export const move = (when, validate) => {
 
 export const fastMove = (pane, name) => {
   return async (dispatch, getState) => {
-    let { app, leftPane, rightPane } = getState();
+    let state = getState();
+    let app = state.get('app');
+    let leftPane = state.get('leftPane');
+    let rightPane = state.get('rightPane');
 
     return new Promise(async resolve => {
       try {
@@ -407,13 +421,13 @@ export const fastMove = (pane, name) => {
               'Accept': 'application/json',
             },
             body: JSON.stringify({
-              srcShare: pane === 'LEFT' ? leftPane.share : rightPane.share,
-              srcDirectory: pane === 'LEFT' ? leftPane.directory : rightPane.directory,
+              srcShare: pane === 'LEFT' ? leftPane.get('share') : rightPane.get('share'),
+              srcDirectory: pane === 'LEFT' ? leftPane.get('directory') : rightPane.get('directory'),
               srcName: name,
-              dstShare: pane === 'LEFT' ? rightPane.share : leftPane.share,
-              dstDirectory: pane === 'LEFT' ? rightPane.directory : leftPane.directory,
+              dstShare: pane === 'LEFT' ? rightPane.get('share') : leftPane.get('share'),
+              dstDirectory: pane === 'LEFT' ? rightPane.get('directory') : leftPane.get('directory'),
               _fast: true,
-              _csrf: app.csrf,
+              _csrf: app.get('csrf'),
             })
           }
         );
@@ -436,8 +450,10 @@ export const fastMove = (pane, name) => {
 
 export const del = (when, validate) => {
   return async (dispatch, getState) => {
-    let { app, deleteDialog } = getState();
-    if (deleteDialog.submittedAt >= when)
+    let state = getState();
+    let app = state.get('app');
+    let deleteDialog = state.get('deleteDialog');
+    if (deleteDialog.get('submittedAt') >= when)
       return;
 
     if (!validate)
@@ -457,11 +473,11 @@ export const del = (when, validate) => {
               'Accept': 'application/json',
             },
             body: JSON.stringify({
-              share: deleteDialog.values.share,
-              directory: deleteDialog.values.directory,
-              name: deleteDialog.values.name,
+              share: deleteDialog.getIn(['values', 'share']),
+              directory: deleteDialog.getIn(['values', 'directory']),
+              name: deleteDialog.getIn(['values', 'name']),
               _validate: validate,
-              _csrf: app.csrf,
+              _csrf: app.get('csrf'),
             })
           }
         );
@@ -482,9 +498,9 @@ export const del = (when, validate) => {
 
           await dispatch(updateDeleteDialog(
             {
-              values: data.values,
-              messages: data.messages,
-              errors: data.errors,
+              values: data.values || {},
+              messages: data.messages || {},
+              errors: data.errors || {},
             },
             when
           ));
@@ -514,7 +530,10 @@ export const del = (when, validate) => {
 
 export const fastDel = (pane, name) => {
   return async (dispatch, getState) => {
-    let { app, leftPane, rightPane } = getState();
+    let state = getState();
+    let app = state.get('app');
+    let leftPane = state.get('leftPane');
+    let rightPane = state.get('rightPane');
 
     return new Promise(async resolve => {
       try {
@@ -528,11 +547,11 @@ export const fastDel = (pane, name) => {
               'Accept': 'application/json',
             },
             body: JSON.stringify({
-              share: pane === 'LEFT' ? leftPane.share : rightPane.share,
-              directory: pane === 'LEFT' ? leftPane.directory : rightPane.directory,
+              share: pane === 'LEFT' ? leftPane.get('share') : rightPane.get('share'),
+              directory: pane === 'LEFT' ? leftPane.get('directory') : rightPane.get('directory'),
               name: name,
               _fast: true,
-              _csrf: app.csrf,
+              _csrf: app.get('csrf'),
             })
           }
         );
@@ -555,12 +574,16 @@ export const fastDel = (pane, name) => {
 
 export const find = what => {
   return async (dispatch, getState) => {
-    let { app, copyDialog, moveDialog, deleteDialog } = getState();
-    if (what === 'COPY' && copyDialog.locked)
+    let state = getState();
+    let app = state.get('app');
+    let copyDialog = state.get('copyDialog');
+    let moveDialog = state.get('moveDialog');
+    let deleteDialog = state.get('deleteDialog');
+    if (what === 'COPY' && copyDialog.get('locked'))
       return;
-    if (what === 'MOVE' && moveDialog.locked)
+    if (what === 'MOVE' && moveDialog.get('locked'))
       return;
-    if (what === 'DELETE' && deleteDialog.locked)
+    if (what === 'DELETE' && deleteDialog.get('locked'))
       return;
 
     let share;
@@ -568,35 +591,35 @@ export const find = what => {
     let name;
     switch (what) {
       case 'COPY':
-        share = copyDialog.values.srcShare;
-        directory = copyDialog.values.srcDirectory;
-        name = copyDialog.values.srcName;
+        share = copyDialog.getIn(['values', 'srcShare']);
+        directory = copyDialog.getIn(['values', 'srcDirectory']);
+        name = copyDialog.getIn(['values', 'srcName']);
         await dispatch(lockCopyDialog());
         await dispatch(copy(Date.now(), 'srcName'));
-        copyDialog = getState().copyDialog;
-        if (copyDialog.errors.srcName && Object.keys(copyDialog.errors.srcName).length)
+        copyDialog = getState().get('copyDialog');
+        if (copyDialog.hasIn(['errors', 'srcName']))
           return await dispatch(unlockCopyDialog());
         await dispatch(startCopyDialogFind());
         break;
       case 'MOVE':
-        share = moveDialog.values.srcShare;
-        directory = moveDialog.values.srcDirectory;
-        name = moveDialog.values.srcName;
+        share = moveDialog.getIn(['values', 'srcShare']);
+        directory = moveDialog.getIn(['values', 'srcDirectory']);
+        name = moveDialog.getIn(['values', 'srcName']);
         await dispatch(lockMoveDialog());
         await dispatch(move(Date.now(), 'srcName'));
-        moveDialog = getState().moveDialog;
-        if (moveDialog.errors.srcName && Object.keys(moveDialog.errors.srcName).length)
+        moveDialog = getState().get('moveDialog');
+        if (moveDialog.hasIn(['errors', 'srcName']))
           return await dispatch(unlockMoveDialog());
         await dispatch(startMoveDialogFind());
         break;
       case 'DELETE':
-        share = deleteDialog.values.share;
-        directory = deleteDialog.values.directory;
-        name = deleteDialog.values.name;
+        share = deleteDialog.getIn(['values', 'share']);
+        directory = deleteDialog.getIn(['values', 'directory']);
+        name = deleteDialog.getIn(['values', 'name']);
         await dispatch(lockDeleteDialog());
         await dispatch(copy(Date.now(), 'name'));
-        deleteDialog = getState().deleteDialog;
-        if (deleteDialog.errors.name && Object.keys(deleteDialog.errors.name).length)
+        deleteDialog = getState().get('deleteDialog');
+        if (deleteDialog.hasIn(['errors', 'name']))
           return await dispatch(unlockDeleteDialog());
         await dispatch(startDeleteDialogFind());
         break;
@@ -617,10 +640,12 @@ export const find = what => {
               share,
               directory,
               name,
-              _csrf: app.csrf,
+              _csrf: app.get('csrf'),
             })
           }
         );
+
+        let nodes = [];
         if (response.status === 200) {
           let data = await response.json();
 
@@ -634,25 +659,25 @@ export const find = what => {
           }
           directories.sort((a, b) => a.name.localeCompare(b.name));
           files.sort((a, b) => a.name.localeCompare(b.name));
-          let nodes = directories.concat(files);
-
-          switch (what) {
-            case 'COPY':
-              await dispatch(stopCopyDialogFind(nodes));
-              await dispatch(unlockCopyDialog());
-              break;
-            case 'MOVE':
-              await dispatch(stopMoveDialogFind(nodes));
-              await dispatch(unlockMoveDialog());
-              break;
-            case 'DELETE':
-              await dispatch(stopDeleteDialogFind(nodes));
-              await dispatch(unlockDeleteDialog());
-              break;
-          }
-
-          return resolve();
+          nodes = directories.concat(files);
         }
+
+        switch (what) {
+          case 'COPY':
+            await dispatch(stopCopyDialogFind(nodes));
+            await dispatch(unlockCopyDialog());
+            break;
+          case 'MOVE':
+            await dispatch(stopMoveDialogFind(nodes));
+            await dispatch(unlockMoveDialog());
+            break;
+          case 'DELETE':
+            await dispatch(stopDeleteDialogFind(nodes));
+            await dispatch(unlockDeleteDialog());
+            break;
+        }
+
+        return resolve();
       } catch (error) {
         console.error(error);
       }

@@ -23,16 +23,19 @@ export const resetMoveDialog = values => {
 
 export const showMoveDialog = () => {
   return async (dispatch, getState) => {
-    let { moveDialog, leftPane, rightPane } = getState();
-    if (moveDialog.locked)
+    let state = getState();
+    let moveDialog = state.get('moveDialog');
+    let leftPane = state.get('leftPane');
+    let rightPane = state.get('rightPane');
+    if (moveDialog.get('locked'))
       return;
 
     let values = {
-      srcShare: leftPane.isActive ? leftPane.share : rightPane.share,
-      srcDirectory: leftPane.isActive ? leftPane.directory : rightPane.directory,
-      srcName: leftPane.isActive ? leftPane.name : rightPane.name,
-      dstShare: leftPane.isActive ? rightPane.share : leftPane.share,
-      dstDirectory: leftPane.isActive ? rightPane.directory : leftPane.directory,
+      srcShare: leftPane.get('isActive') ? leftPane.get('share') : rightPane.get('share'),
+      srcDirectory: leftPane.get('isActive') ? leftPane.get('directory') : rightPane.get('directory'),
+      srcName: leftPane.get('isActive') ? leftPane.get('name') : rightPane.get('name'),
+      dstShare: leftPane.get('isActive') ? rightPane.get('share') : leftPane.get('share'),
+      dstDirectory: leftPane.get('isActive') ? rightPane.get('directory') : leftPane.get('directory'),
     };
     if (!values.srcShare || !values.srcDirectory || !values.dstShare || !values.dstDirectory)
       return;
@@ -47,8 +50,8 @@ export const showMoveDialog = () => {
 
 export const hideMoveDialog = () => {
   return async (dispatch, getState) => {
-    let { moveDialog } = getState();
-    if (moveDialog.locked)
+    let moveDialog = getState().get('moveDialog');
+    if (moveDialog.get('locked'))
       return;
 
     await dispatch(resetMoveDialog());
@@ -61,11 +64,11 @@ export const hideMoveDialog = () => {
 
 export const toggleMoveDialog = () => {
   return async (dispatch, getState) => {
-    let { moveDialog } = getState();
-    if (moveDialog.locked)
+    let moveDialog = getState().get('moveDialog');
+    if (moveDialog.get('locked'))
       return;
 
-    return dispatch(moveDialog.isOpen ? hideMoveDialog() : showMoveDialog());
+    return dispatch(moveDialog.get('isOpen') ? hideMoveDialog() : showMoveDialog());
   };
 };
 

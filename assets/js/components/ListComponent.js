@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Map, List } from 'immutable';
 import { GenericScrollBox } from 'react-scroll-box';
 import ReactList from 'react-list';
 import Viewport from './ScrollViewport';
@@ -13,9 +14,9 @@ class ListComponent extends React.PureComponent {
     which: PropTypes.string.isRequired,
     share: PropTypes.string.isRequired,
     directory: PropTypes.string.isRequired,
-    list: PropTypes.array.isRequired,
-    sizes: PropTypes.object.isRequired,
-    selectedIndexes: PropTypes.array.isRequired,
+    list: PropTypes.instanceOf(List).isRequired,
+    sizes: PropTypes.instanceOf(Map).isRequired,
+    selectedIndexes: PropTypes.instanceOf(List).isRequired,
     onChangeDirectory: PropTypes.func.isRequired,
     onNodeClick: PropTypes.func.isRequired,
     onNodeShiftClick: PropTypes.func.isRequired,
@@ -36,20 +37,20 @@ class ListComponent extends React.PureComponent {
   }
 
   renderItem(index, key) {
-    let node = this.props.list[index];
+    let node = this.props.list.get(index);
     return (
       <ListItem
         which={this.props.which}
         key={key}
         node={node}
-        size={this.props.sizes[`${this.props.share}:${node.path}`]}
+        size={this.props.sizes.get(`${this.props.share}:${node.get('path')}`)}
         index={index}
         isSelected={this.props.selectedIndexes.includes(index)}
         onChangeDirectory={this.props.onChangeDirectory}
         onNodeClick={this.props.onNodeClick}
         onNodeShiftClick={this.props.onNodeShiftClick}
         onNodeControlClick={this.props.onNodeControlClick}
-        onSizeClick={() => this.props.onSizeClick(this.props.share, node.path)}
+        onSizeClick={() => this.props.onSizeClick(this.props.share, node.get('path'))}
         onCopyClick={this.props.onCopyClick}
         onMoveClick={this.props.onMoveClick}
         onDeleteClick={this.props.onDeleteClick}
@@ -84,7 +85,7 @@ class ListComponent extends React.PureComponent {
         <GenericScrollBox permitHandleDragInterruption={false}>
           <Viewport reactList={true}>
             <ReactList
-              length={this.props.list.length}
+              length={this.props.list.size}
               minSize={100}
               initialIndex={this.state.initialIndex}
               itemRenderer={this.renderItem}

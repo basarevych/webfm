@@ -16,13 +16,13 @@ module.exports = async function mkdir(req, res) {
   for (let item of await Share.find({ user: req.session.userId })) {
     if (item.name === share) {
       if (item.isReadOnly && (!validate || validate === 'share'))
-        form.addError('share', 'E_READ_ONLY', __('mkdir.share.E_READ_ONLY'));
+        form.addError('share', 'E_READ_ONLY', sails.__('mkdir.share.E_READ_ONLY'));
       shareFound = true;
       break;
     }
   }
   if (!shareFound && (!validate || validate === 'share'))
-    form.addError('share', 'E_NOT_FOUND', __('mkdir.share.E_NOT_FOUND'));
+    form.addError('share', 'E_NOT_FOUND', sails.__('mkdir.share.E_NOT_FOUND'));
 
   let parent;
   if (shareFound) {
@@ -31,14 +31,14 @@ module.exports = async function mkdir(req, res) {
       if (!parent.isDirectory) {
         parent = null;
         if (!validate || validate === 'directory')
-          form.addError('directory', 'E_NOT_DIR', __('mkdir.directory.E_NOT_DIR'));
+          form.addError('directory', 'E_NOT_DIR', sails.__('mkdir.directory.E_NOT_DIR'));
       } else if (!parent.isValid) {
         parent = null;
         if (!validate || validate === 'directory')
-          form.addError('directory', 'E_OUTSIDE', __('mkdir.directory.E_OUTSIDE'));
+          form.addError('directory', 'E_OUTSIDE', sails.__('mkdir.directory.E_OUTSIDE'));
       }
     } catch (error) {
-      let code = error.code || 'ERROR';
+      let code = (error.raw && error.raw.code) || error.code || 'ERROR';
       let key = `mkdir.directory.${code}`;
       let translated = (code === 'ERROR' ? key : sails.__(key));
       if (!validate || validate === 'directory')
@@ -50,19 +50,19 @@ module.exports = async function mkdir(req, res) {
   if (name) {
     if (name.includes('/')) {
       if (!validate || validate === 'name')
-        form.addError('name', 'E_INVALID', __('mkdir.name.E_INVALID'));
+        form.addError('name', 'E_INVALID', sails.__('mkdir.name.E_INVALID'));
     } else if (parent) {
       target = _path.join(parent.realPath, name);
     }
   } else if (!validate || validate === 'name') {
-    form.addError('name', 'E_REQUIRED', __('mkdir.name.E_REQUIRED'));
+    form.addError('name', 'E_REQUIRED', sails.__('mkdir.name.E_REQUIRED'));
   }
 
   if (target) {
     await new Promise(resolve => {
       fs.access(target, fs.constants.F_OK, error => {
         if (!error && (!validate || validate === 'name'))
-          form.addError('name', 'E_EXISTS', __('mkdir.name.E_EXISTS'));
+          form.addError('name', 'E_EXISTS', sails.__('mkdir.name.E_EXISTS'));
         resolve();
       });
     });
@@ -90,7 +90,7 @@ module.exports = async function mkdir(req, res) {
         });
       });
     } catch (error) {
-      let code = error.code || 'ERROR';
+      let code = (error.raw && error.raw.code) || error.code || 'ERROR';
       let key = `mkdir.result.${code}`;
       let translated = (code === 'ERROR' ? key : sails.__(key));
       form.addMessage(code, translated === key ? _.escape(error.message) : translated);

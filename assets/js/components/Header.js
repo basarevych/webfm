@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { List } from 'immutable';
 import {
   FaToggleOn, FaToggleOff, FaSortAlphaAsc, FaSortAlphaDesc, FaSortAmountAsc, FaSortAmountDesc,
   FaFileTextO, FaAlignLeft, FaFolderOpenO, FaBars
@@ -14,7 +15,7 @@ class Header extends React.PureComponent {
   static propTypes = {
     which: PropTypes.string.isRequired,
     breakpoint: PropTypes.string.isRequired,
-    shares: PropTypes.array.isRequired,
+    shares: PropTypes.instanceOf(List).isRequired,
     share: PropTypes.string.isRequired,
     directory: PropTypes.string.isRequired,
     mode: PropTypes.string.isRequired,
@@ -90,23 +91,11 @@ class Header extends React.PureComponent {
   }
 
   toggleNameSort() {
-    let newDir;
-    if (this.props.sortField === 'NAME')
-      newDir = (this.props.sortDir === 'ASC' ? 'DESC' : 'ASC');
-    else
-      newDir = 'ASC';
-
-    this.props.onSetSort('NAME', newDir);
+    this.props.onSetSort('NAME', this.props.sortField === 'NAME' ? (this.props.sortDir === 'ASC' ? 'DESC' : 'ASC') : 'ASC');
   }
 
   toggleSizeSort() {
-    let newDir;
-    if (this.props.sortField === 'SIZE')
-      newDir = (this.props.sortDir === 'ASC' ? 'DESC' : 'ASC');
-    else
-      newDir = 'ASC';
-
-    this.props.onSetSort('SIZE', newDir);
+    this.props.onSetSort('SIZE', this.props.sortField === 'SIZE' ? (this.props.sortDir === 'ASC' ? 'DESC' : 'ASC') : 'ASC');
   }
 
   setListMode() {
@@ -131,12 +120,13 @@ class Header extends React.PureComponent {
         selectedShare = __('select_share_label');
 
       let shares = null;
-      if (this.props.shares.length) {
+      if (this.props.shares.size) {
         shares = [];
         for (let share of this.props.shares) {
+          let name = share.get('name');
           shares.push(
-            <DropdownItem key={share.name} onClick={() => this.props.onSetShare(share.name)}>
-              {share.name + ' ' + (share.isReadOnly ? __('read_only_label') : __('read_write_label'))}
+            <DropdownItem key={name} onClick={() => this.props.onSetShare(name)}>
+              {name + ' ' + (share.isReadOnly ? __('read_only_label') : __('read_write_label'))}
             </DropdownItem>
           );
         }
@@ -301,12 +291,8 @@ class Header extends React.PureComponent {
     if (this.props.breakpoint === 'xs' || (this.props.breakpoint === 'sm' && this.props.isOtherVisible)) {
       tools = (
         <div>
-          <Button size="sm" color="secondary" onClick={this.toggleMenu}>
-            <FaBars />
-          </Button>
-          <div className={'submenu rounded ' + (this.state.isMenuOpen ? 'd-block' : 'd-none')}>
-            {tools}
-          </div>
+          <Button size="sm" color="secondary" onClick={this.toggleMenu}><FaBars /></Button>
+          {this.state.isMenuOpen && <div className="submenu rounded">{tools}</div>}
         </div>
       );
     }

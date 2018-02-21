@@ -14,11 +14,11 @@ export const setSize = (id, size) => {
 
 export const clearSizes = () => {
   return async (dispatch, getState) => {
-    let { sizes } = getState();
+    let sizes = getState().get('sizes');
     let keep = [];
     let now = Date.now();
-    for (let id of Object.keys(sizes)) {
-      if (now - sizes[id].timestamp < 15 * 60 * 1000)
+    for (let id of sizes.keys()) {
+      if (now - sizes.getIn([id, 'timestamp']) < 15 * 60 * 1000)
         keep.push(id);
     }
 
@@ -31,16 +31,18 @@ export const clearSizes = () => {
 
 export const loadSize = (share, path) => {
   return async (dispatch, getState) => {
-    let { app, sizes } = getState();
+    let state = getState();
+    let app = state.get('app');
+    let sizes = state.get('sizes');
 
     let id = `${share}:${path}`;
-    if (sizes[id] && sizes[id].isLoading)
+    if (sizes.has(id) && sizes.getIn([id, 'isLoading']))
       return;
 
     let params = {
       share,
       path,
-      _csrf: app.csrf,
+      _csrf: app.get('csrf'),
     };
 
     await dispatch(

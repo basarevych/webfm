@@ -23,15 +23,18 @@ export const resetRenameDialog = values => {
 
 export const showRenameDialog = () => {
   return async (dispatch, getState) => {
-    let { renameDialog, leftPane, rightPane } = getState();
-    if (renameDialog.locked)
+    let state = getState();
+    let renameDialog = state.get('renameDialog');
+    let leftPane = state.get('leftPane');
+    let rightPane = state.get('rightPane');
+    if (renameDialog.get('locked'))
       return;
 
     let values = {
-      share: leftPane.isActive ? leftPane.share : rightPane.share,
-      directory: leftPane.isActive ? leftPane.directory : rightPane.directory,
-      name: leftPane.isActive ? leftPane.name : rightPane.name,
-      newName: leftPane.isActive ? leftPane.name : rightPane.name,
+      share: leftPane.get('isActive') ? leftPane.get('share') : rightPane.get('share'),
+      directory: leftPane.get('isActive') ? leftPane.get('directory') : rightPane.get('directory'),
+      name: leftPane.get('isActive') ? leftPane.get('name') : rightPane.get('name'),
+      newName: leftPane.get('isActive') ? leftPane.get('name') : rightPane.get('name'),
     };
     if (!values.share || !values.directory || !values.name)
       return;
@@ -46,8 +49,8 @@ export const showRenameDialog = () => {
 
 export const hideRenameDialog = () => {
   return async (dispatch, getState) => {
-    let { renameDialog } = getState();
-    if (renameDialog.locked)
+    let renameDialog = getState().get('renameDialog');
+    if (renameDialog.get('locked'))
       return;
 
     await dispatch(resetRenameDialog());
@@ -60,11 +63,11 @@ export const hideRenameDialog = () => {
 
 export const toggleRenameDialog = () => {
   return async (dispatch, getState) => {
-    let { renameDialog } = getState();
-    if (renameDialog.locked)
+    let renameDialog = getState().get('renameDialog');
+    if (renameDialog.get('locked'))
       return;
 
-    return dispatch(renameDialog.isOpen ? hideRenameDialog() : showRenameDialog());
+    return dispatch(renameDialog.get('isOpen') ? hideRenameDialog() : showRenameDialog());
   };
 };
 

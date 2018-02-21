@@ -10,29 +10,29 @@ import { fastCopy, fastMove, fastDel } from '../actions/commands';
 
 const mapStateToProps = state => {
   let selectedId;
-  if (state.rightPane.share && state.rightPane.name)
-    selectedId = `${state.rightPane.share}:${state.rightPane.path}`;
+  if (state.getIn(['rightPane', 'share']) && state.getIn(['rightPane', 'name']))
+    selectedId = `${state.getIn(['rightPane', 'share'])}:${state.getIn(['rightPane', 'path'])}`;
 
   return {
     which: 'LEFT',
-    breakpoint: state.app.breakpoint,
-    mode: state.leftPane.mode,
-    otherPath: state.rightPane.path,
-    shares: state.user.shares,
-    share: state.leftPane.share,
-    directory: state.leftPane.directory,
-    list: state.leftPane.list,
-    sizes: state.sizes,
-    selectedIndexes: state.leftPane.selectedIndexes,
-    sortField: state.leftPane.sortField,
-    sortDir: state.leftPane.sortDir,
-    content: selectedId && state.contents[selectedId],
-    info: selectedId && state.infos[selectedId],
-    isActive: state.leftPane.isActive,
-    isDisabled: !state.user.isAuthorized,
-    isLoading: state.leftPane.isLoading,
-    isForbidden: state.leftPane.isForbidden,
-    isOtherVisible: state.rightPane.isVisible,
+    breakpoint: state.getIn(['app', 'breakpoint']),
+    mode: state.getIn(['leftPane', 'mode']),
+    otherPath: state.getIn(['rightPane', 'path']),
+    shares: state.getIn(['user', 'shares']),
+    share: state.getIn(['leftPane', 'share']),
+    directory: state.getIn(['leftPane', 'directory']),
+    list: state.getIn(['leftPane', 'list']),
+    sizes: state.getIn(['sizes']),
+    selectedIndexes: state.getIn(['leftPane', 'selectedIndexes']),
+    sortField: state.getIn(['leftPane', 'sortField']),
+    sortDir: state.getIn(['leftPane', 'sortDir']),
+    content: selectedId && state.getIn(['contents', selectedId]),
+    info: selectedId && state.getIn(['infos', selectedId]),
+    isActive: state.getIn(['leftPane', 'isActive']),
+    isDisabled: !state.getIn(['user', 'isAuthorized']),
+    isLoading: state.getIn(['leftPane', 'isLoading']),
+    isForbidden: state.getIn(['leftPane', 'isForbidden']),
+    isOtherVisible: state.getIn(['rightPane', 'isVisible']),
   };
 };
 

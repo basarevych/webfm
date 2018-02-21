@@ -7,12 +7,12 @@ import CopyModal from '../components/CopyModal';
 
 const mapStateToProps = state => {
   return {
-    isOpen: state.copyDialog.isOpen,
-    isLocked: state.copyDialog.locked > 0,
-    values: state.copyDialog.values,
-    messages: state.copyDialog.messages,
-    errors: state.copyDialog.errors,
-    found: state.copyDialog.found,
+    isOpen: state.getIn(['copyDialog', 'isOpen']),
+    isLocked: state.getIn(['copyDialog', 'locked']) > 0,
+    values: state.getIn(['copyDialog', 'values']),
+    messages: state.getIn(['copyDialog', 'messages']),
+    errors: state.getIn(['copyDialog', 'errors']),
+    found: state.getIn(['copyDialog', 'found']),
   };
 };
 

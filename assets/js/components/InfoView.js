@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import { GenericScrollBox } from 'react-scroll-box';
 import { FaCog } from 'react-icons/lib/fa';
 import moment from 'moment-timezone';
@@ -10,18 +11,22 @@ import { human } from '../lib/size';
 
 class InfoView extends React.PureComponent {
   static propTypes = {
-    info: PropTypes.object,
+    info: PropTypes.instanceOf(Map),
+  };
+
+  static defaultProps = {
+    info: Map({}),
   };
 
   render() {
     let bodyClass = 'body disabled';
     let body;
-    if (!this.props.info) {
+    if (!this.props.info.size) {
       body = __('info_view_message');
     } else {
-      if (this.props.info.isLoading) {
+      if (this.props.info.get('isLoading')) {
         body = <h1><FaCog className="rotating"/></h1>;
-      } else if (this.props.info.isForbidden) {
+      } else if (this.props.info.get('isForbidden')) {
         body = __('forbidden_message');
       } else {
         body = (
@@ -39,7 +44,7 @@ class InfoView extends React.PureComponent {
                     </div>
                     <div className="name">
                       <div className="fit-width fixed-margin">
-                        <strong>{this.props.info.name}</strong>
+                        <strong>{this.props.info.get('name')}</strong>
                       </div>
                     </div>
                   </div>
@@ -53,7 +58,7 @@ class InfoView extends React.PureComponent {
                     </div>
                     <div className="name">
                       <div className="fit-width fixed-margin">
-                        <strong>{this.props.info.parent}</strong>
+                        <strong>{this.props.info.get('parent')}</strong>
                       </div>
                     </div>
                   </div>
@@ -67,7 +72,7 @@ class InfoView extends React.PureComponent {
                     </div>
                     <div className="name">
                       <div className="fit-width fixed-margin">
-                        <strong>{this.props.info.size}</strong>
+                        <strong>{this.props.info.get('size')}</strong>
                       </div>
                     </div>
                   </div>
@@ -81,7 +86,7 @@ class InfoView extends React.PureComponent {
                     </div>
                     <div className="name">
                       <div className="fit-width fixed-margin">
-                        <strong>{human(this.props.info.size)}</strong>
+                        <strong>{human(this.props.info.get('size'))}</strong>
                       </div>
                     </div>
                   </div>
@@ -95,7 +100,7 @@ class InfoView extends React.PureComponent {
                     </div>
                     <div className="name">
                       <div className="fit-width fixed-margin">
-                        <strong>{this.props.info.du}</strong>
+                        <strong>{this.props.info.get('du')}</strong>
                       </div>
                     </div>
                   </div>
@@ -109,7 +114,7 @@ class InfoView extends React.PureComponent {
                     </div>
                     <div className="name">
                       <div className="fit-width fixed-margin">
-                        <strong>{human(this.props.info.du)}</strong>
+                        <strong>{human(this.props.info.get('du'))}</strong>
                       </div>
                     </div>
                   </div>
@@ -123,7 +128,7 @@ class InfoView extends React.PureComponent {
                     </div>
                     <div className="name">
                       <div className="fit-width fixed-margin">
-                        <strong>{this.props.info.modeNumber.toString(8)}</strong>
+                        <strong>{this.props.info.get('modeNumber').toString(8)}</strong>
                       </div>
                     </div>
                   </div>
@@ -137,7 +142,7 @@ class InfoView extends React.PureComponent {
                     </div>
                     <div className="name">
                       <div className="fit-width fixed-margin">
-                        <strong>{this.props.info.modeString}</strong>
+                        <strong>{this.props.info.get('modeString')}</strong>
                       </div>
                     </div>
                   </div>
@@ -151,7 +156,7 @@ class InfoView extends React.PureComponent {
                     </div>
                     <div className="name">
                       <div className="fit-width fixed-margin">
-                        <strong>{this.props.info.userId}</strong>
+                        <strong>{this.props.info.get('userId')}</strong>
                       </div>
                     </div>
                   </div>
@@ -165,7 +170,7 @@ class InfoView extends React.PureComponent {
                     </div>
                     <div className="name">
                       <div className="fit-width fixed-margin">
-                        <strong>{this.props.info.userName}</strong>
+                        <strong>{this.props.info.get('userName')}</strong>
                       </div>
                     </div>
                   </div>
@@ -179,7 +184,7 @@ class InfoView extends React.PureComponent {
                     </div>
                     <div className="name">
                       <div className="fit-width fixed-margin">
-                        <strong>{this.props.info.groupId}</strong>
+                        <strong>{this.props.info.get('groupId')}</strong>
                       </div>
                     </div>
                   </div>
@@ -193,7 +198,7 @@ class InfoView extends React.PureComponent {
                     </div>
                     <div className="name">
                       <div className="fit-width fixed-margin">
-                        <strong>{this.props.info.groupName}</strong>
+                        <strong>{this.props.info.get('groupName')}</strong>
                       </div>
                     </div>
                   </div>
@@ -207,7 +212,7 @@ class InfoView extends React.PureComponent {
                     </div>
                     <div className="name">
                       <div className="fit-width fixed-margin">
-                        <strong>{moment(this.props.info.atime).format('YYYY-MM-DD HH:mm:ss')}</strong>
+                        <strong>{moment(this.props.info.get('atime')).format('YYYY-MM-DD HH:mm:ss')}</strong>
                       </div>
                     </div>
                   </div>
@@ -221,7 +226,7 @@ class InfoView extends React.PureComponent {
                     </div>
                     <div className="name">
                       <div className="fit-width fixed-margin">
-                        <strong>{moment(this.props.info.mtime).format('YYYY-MM-DD HH:mm:ss')}</strong>
+                        <strong>{moment(this.props.info.get('mtime')).format('YYYY-MM-DD HH:mm:ss')}</strong>
                       </div>
                     </div>
                   </div>
@@ -235,7 +240,7 @@ class InfoView extends React.PureComponent {
                     </div>
                     <div className="name">
                       <div className="fit-width fixed-margin">
-                        <strong>{moment(this.props.info.ctime).format('YYYY-MM-DD HH:mm:ss')}</strong>
+                        <strong>{moment(this.props.info.get('ctime')).format('YYYY-MM-DD HH:mm:ss')}</strong>
                       </div>
                     </div>
                   </div>

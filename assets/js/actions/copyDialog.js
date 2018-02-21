@@ -23,16 +23,19 @@ export const resetCopyDialog = values => {
 
 export const showCopyDialog = () => {
   return async (dispatch, getState) => {
-    let { copyDialog, leftPane, rightPane } = getState();
-    if (copyDialog.locked)
+    let state = getState();
+    let copyDialog = state.get('copyDialog');
+    let leftPane = state.get('leftPane');
+    let rightPane = state.get('rightPane');
+    if (copyDialog.get('locked'))
       return;
 
     let values = {
-      srcShare: leftPane.isActive ? leftPane.share : rightPane.share,
-      srcDirectory: leftPane.isActive ? leftPane.directory : rightPane.directory,
-      srcName: leftPane.isActive ? leftPane.name : rightPane.name,
-      dstShare: leftPane.isActive ? rightPane.share : leftPane.share,
-      dstDirectory: leftPane.isActive ? rightPane.directory : leftPane.directory,
+      srcShare: leftPane.get('isActive') ? leftPane.get('share') : rightPane.get('share'),
+      srcDirectory: leftPane.get('isActive') ? leftPane.get('directory') : rightPane.get('directory'),
+      srcName: leftPane.get('isActive') ? leftPane.get('name') : rightPane.get('name'),
+      dstShare: leftPane.get('isActive') ? rightPane.get('share') : leftPane.get('share'),
+      dstDirectory: leftPane.get('isActive') ? rightPane.get('directory') : leftPane.get('directory'),
     };
     if (!values.srcShare || !values.srcDirectory || !values.dstShare || !values.dstDirectory)
       return;
@@ -47,8 +50,8 @@ export const showCopyDialog = () => {
 
 export const hideCopyDialog = () => {
   return async (dispatch, getState) => {
-    let { copyDialog } = getState();
-    if (copyDialog.locked)
+    let copyDialog = getState().get('copyDialog');
+    if (copyDialog.get('locked'))
       return;
 
     await dispatch(resetCopyDialog());
@@ -61,11 +64,11 @@ export const hideCopyDialog = () => {
 
 export const toggleCopyDialog = () => {
   return async (dispatch, getState) => {
-    let { copyDialog } = getState();
-    if (copyDialog.locked)
+    let copyDialog = getState().get('copyDialog');
+    if (copyDialog.get('locked'))
       return;
 
-    return dispatch(copyDialog.isOpen ? hideCopyDialog() : showCopyDialog());
+    return dispatch(copyDialog.get('isOpen') ? hideCopyDialog() : showCopyDialog());
   };
 };
 

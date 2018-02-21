@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import { TransitionGroup } from 'react-transition-group';
 import Fade from './Fade';
 
@@ -21,19 +22,22 @@ const mapTypeToClass = type => {
 
 class FormMessages extends React.PureComponent {
   static propTypes = {
-    messages: PropTypes.object,
+    messages: PropTypes.instanceOf(Map),
+  };
+
+  static defaultProps = {
+    messages: Map({}),
   };
 
   render() {
-    let codes = Object.keys(this.props.messages || {});
     return (
       <TransitionGroup>
-        {codes.map(code =>
+        {Array.from(this.props.messages.keys()).map(code =>
           <Fade key={code}>
             <div
-              className={mapTypeToClass(this.props.messages[code].type)}
+              className={mapTypeToClass(this.props.messages.getIn([code, 'type']))}
               role="alert"
-              dangerouslySetInnerHTML={{ __html: this.props.messages[code].message }}
+              dangerouslySetInnerHTML={{ __html: this.props.messages.getIn([code, 'message']) }}
             />
           </Fade>
         )}

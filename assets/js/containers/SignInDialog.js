@@ -7,11 +7,11 @@ import SignInModal from '../components/SignInModal';
 
 const mapStateToProps = state => {
   return {
-    isOpen: state.signInDialog.isOpen,
-    isLocked: state.signInDialog.locked > 0,
-    values: state.signInDialog.values,
-    messages: state.signInDialog.messages,
-    errors: state.signInDialog.errors,
+    isOpen: state.getIn(['signInDialog', 'isOpen']),
+    isLocked: state.getIn(['signInDialog', 'locked']) > 0,
+    values: state.getIn(['signInDialog', 'values']),
+    messages: state.getIn(['signInDialog', 'messages']),
+    errors: state.getIn(['signInDialog', 'errors']),
   };
 };
 

@@ -2,24 +2,25 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import FormMessages from './FormMessages';
 
 class FailureModal extends React.PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
-    errors: PropTypes.object.isRequired,
-    messages: PropTypes.object.isRequired,
+    errors: PropTypes.instanceOf(Map).isRequired,
+    messages: PropTypes.instanceOf(Map).isRequired,
     onDoneClick: PropTypes.func.isRequired,
   };
 
   render() {
     let list = [];
-    for (let key of Object.keys(this.props.errors)) {
+    for (let key of this.props.errors.keys()) {
       let items = [];
-      for (let code of Object.keys(this.props.errors[key])) {
+      for (let code of this.props.errors.get(key).keys()) {
         items.push(
-          <p key={code}>{this.props.errors[key][code].message}</p>
+          <p key={code}>{this.props.errors.getIn([key, code, 'message'])}</p>
         );
       }
       list.push(

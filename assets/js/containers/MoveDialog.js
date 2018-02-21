@@ -7,12 +7,12 @@ import MoveModal from '../components/MoveModal';
 
 const mapStateToProps = state => {
   return {
-    isOpen: state.moveDialog.isOpen,
-    isLocked: state.moveDialog.locked > 0,
-    values: state.moveDialog.values,
-    messages: state.moveDialog.messages,
-    errors: state.moveDialog.errors,
-    found: state.moveDialog.found,
+    isOpen: state.getIn(['moveDialog', 'isOpen']),
+    isLocked: state.getIn(['moveDialog', 'locked']) > 0,
+    values: state.getIn(['moveDialog', 'values']),
+    messages: state.getIn(['moveDialog', 'messages']),
+    errors: state.getIn(['moveDialog', 'errors']),
+    found: state.getIn(['moveDialog', 'found']),
   };
 };
 

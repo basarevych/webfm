@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import { FaFolderO, FaFileO, FaBalanceScale, FaCopy, FaCut, FaTrash, FaCog } from 'react-icons/lib/fa';
 import { Button } from 'reactstrap';
 import { Tooltip } from 'reactstrap';
@@ -11,8 +12,8 @@ import { human } from '../lib/size';
 class ListItem extends React.PureComponent {
   static propTypes = {
     which: PropTypes.string.isRequired,
-    node: PropTypes.object.isRequired,
-    size: PropTypes.object,
+    node: PropTypes.instanceOf(Map).isRequired,
+    size: PropTypes.instanceOf(Map),
     index: PropTypes.number.isRequired,
     isSelected: PropTypes.bool.isRequired,
     onChangeDirectory: PropTypes.func.isRequired,
@@ -23,6 +24,10 @@ class ListItem extends React.PureComponent {
     onCopyClick: PropTypes.func.isRequired,
     onMoveClick: PropTypes.func.isRequired,
     onDeleteClick: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    size: Map({}),
   };
 
   constructor(props) {
@@ -72,11 +77,11 @@ class ListItem extends React.PureComponent {
 
   handleNameClick(e) {
     e.stopPropagation();
-    this.props.onChangeDirectory(join(this.props.node.directory, this.props.node.name));
+    this.props.onChangeDirectory(join(this.props.node.get('directory'), this.props.node.get('name')));
   }
 
   handleItemClick(e) {
-    if (this.props.node.name === '..')
+    if (this.props.node.get('name') === '..')
       return;
 
     if (e.shiftKey)
@@ -88,19 +93,15 @@ class ListItem extends React.PureComponent {
   }
 
   render() {
-    let icon;
-    if (this.props.node.isDirectory)
-      icon = <FaFolderO />;
-    else
-      icon = <FaFileO />;
+    let icon = (this.props.node.get('isDirectory') ? <FaFolderO /> : <FaFileO />);
 
     let name = (
       <span>
-        {icon} {this.props.node.name}
-        {this.props.node.target && (' ⇨ ' + this.props.node.target)}
+        {icon} {this.props.node.get('name')}
+        {this.props.node.get('target') && (' ⇨ ' + this.props.node.get('target'))}
       </span>
     );
-    if (this.props.node.isDirectory) {
+    if (this.props.node.get('isDirectory')) {
       name = (
         <a className="link" onClick={this.handleNameClick}>
           <strong>{name}</strong>
@@ -109,15 +110,11 @@ class ListItem extends React.PureComponent {
     }
 
     let size;
-    if (this.props.node.isDirectory) {
-      if (this.props.size && !this.props.size.isForbidden) {
-        if (this.props.size.isLoading)
-          size = <FaCog className="rotating" />;
-        else
-          size = human(this.props.size.du);
-      } else {
+    if (this.props.node.get('isDirectory')) {
+      if (this.props.size.size && !this.props.size.get('isForbidden'))
+        size = (this.props.size.get('isLoading') ? <FaCog className="rotating" /> : human(this.props.size.get('du')));
+      else
         size = <FaBalanceScale />;
-      }
 
       size = (
         <div>
@@ -140,11 +137,11 @@ class ListItem extends React.PureComponent {
         </div>
       );
     } else {
-      size = human(this.props.node.size);
+      size = human(this.props.node.get('size'));
     }
 
     let aux = null;
-    if (this.props.node.name === '..') {
+    if (this.props.node.get('name') === '..') {
       aux = (
         <div className="wrapper">
           <div className="size">
@@ -163,7 +160,7 @@ class ListItem extends React.PureComponent {
               id={this.props.which + '-btn-copy-' + this.props.index}
               size="sm"
               color={this.props.isSelected ? 'primary' : 'secondary'}
-              onClick={() => this.props.onCopyClick(this.props.node.name)}
+              onClick={() => this.props.onCopyClick(this.props.node.get('name'))}
             >
               <FaCopy />
             </Button>
@@ -180,7 +177,7 @@ class ListItem extends React.PureComponent {
               id={this.props.which + '-btn-move-' + this.props.index}
               size="sm"
               color={this.props.isSelected ? 'primary' : 'secondary'}
-              onClick={() => this.props.onMoveClick(this.props.node.name)}
+              onClick={() => this.props.onMoveClick(this.props.node.get('name'))}
             >
               <FaCut />
             </Button>
@@ -197,7 +194,7 @@ class ListItem extends React.PureComponent {
               id={this.props.which + '-btn-delete-' + this.props.index}
               size="sm"
               color={this.props.isSelected ? 'primary' : 'secondary'}
-              onClick={() => this.props.onDeleteClick(this.props.node.name)}
+              onClick={() => this.props.onDeleteClick(this.props.node.get('name'))}
             >
               <FaTrash />
             </Button>

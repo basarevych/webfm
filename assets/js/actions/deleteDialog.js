@@ -23,14 +23,17 @@ export const resetDeleteDialog = values => {
 
 export const showDeleteDialog = () => {
   return async (dispatch, getState) => {
-    let { deleteDialog, leftPane, rightPane } = getState();
-    if (deleteDialog.locked)
+    let state = getState();
+    let deleteDialog = state.get('deleteDialog');
+    let leftPane = state.get('leftPane');
+    let rightPane = state.get('rightPane');
+    if (deleteDialog.get('locked'))
       return;
 
     let values = {
-      share: leftPane.isActive ? leftPane.share : rightPane.share,
-      directory: leftPane.isActive ? leftPane.directory : rightPane.directory,
-      name: leftPane.isActive ? leftPane.name : rightPane.name,
+      share: leftPane.get('isActive') ? leftPane.get('share') : rightPane.get('share'),
+      directory: leftPane.get('isActive') ? leftPane.get('directory') : rightPane.get('directory'),
+      name: leftPane.get('isActive') ? leftPane.get('name') : rightPane.get('name'),
     };
     if (!values.share || !values.directory)
       return;
@@ -45,8 +48,8 @@ export const showDeleteDialog = () => {
 
 export const hideDeleteDialog = () => {
   return async (dispatch, getState) => {
-    let { deleteDialog } = getState();
-    if (deleteDialog.locked)
+    let deleteDialog = getState().get('deleteDialog');
+    if (deleteDialog.get('locked'))
       return;
 
     await dispatch(resetDeleteDialog());
@@ -59,11 +62,11 @@ export const hideDeleteDialog = () => {
 
 export const toggleDeleteDialog = () => {
   return async (dispatch, getState) => {
-    let { deleteDialog } = getState();
-    if (deleteDialog.locked)
+    let deleteDialog = getState().get('deleteDialog');
+    if (deleteDialog.get('locked'))
       return;
 
-    return dispatch(deleteDialog.isOpen ? hideDeleteDialog() : showDeleteDialog());
+    return dispatch(deleteDialog.get('isOpen') ? hideDeleteDialog() : showDeleteDialog());
   };
 };
 

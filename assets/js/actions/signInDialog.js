@@ -23,8 +23,8 @@ export const resetSignInDialog = values => {
 
 export const showSignInDialog = () => {
   return async (dispatch, getState) => {
-    let { signInDialog } = getState();
-    if (signInDialog.locked)
+    let signInDialog = getState().get('signInDialog');
+    if (signInDialog.get('locked'))
       return;
 
     await dispatch(resetSignInDialog());
@@ -37,8 +37,8 @@ export const showSignInDialog = () => {
 
 export const hideSignInDialog = () => {
   return async (dispatch, getState) => {
-    let { signInDialog } = getState();
-    if (signInDialog.locked)
+    let signInDialog = getState().get('signInDialog');
+    if (signInDialog.get('locked'))
       return;
 
     await dispatch(resetSignInDialog());
@@ -51,11 +51,11 @@ export const hideSignInDialog = () => {
 
 export const toggleSignInDialog = () => {
   return async (dispatch, getState) => {
-    let { signInDialog } = getState();
-    if (signInDialog.locked)
+    let signInDialog = getState().get('signInDialog');
+    if (signInDialog.get('locked'))
       return;
 
-    return dispatch(signInDialog.isOpen ? hideSignInDialog() : showSignInDialog());
+    return dispatch(signInDialog.get('isOpen') ? hideSignInDialog() : showSignInDialog());
   };
 };
 

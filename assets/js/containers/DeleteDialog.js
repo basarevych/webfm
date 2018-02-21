@@ -7,12 +7,12 @@ import DeleteModal from '../components/DeleteModal';
 
 const mapStateToProps = state => {
   return {
-    isOpen: state.deleteDialog.isOpen,
-    isLocked: state.deleteDialog.locked > 0,
-    values: state.deleteDialog.values,
-    messages: state.deleteDialog.messages,
-    errors: state.deleteDialog.errors,
-    found: state.deleteDialog.found,
+    isOpen: state.getIn(['deleteDialog', 'isOpen']),
+    isLocked: state.getIn(['deleteDialog', 'locked']) > 0,
+    values: state.getIn(['deleteDialog', 'values']),
+    messages: state.getIn(['deleteDialog', 'messages']),
+    errors: state.getIn(['deleteDialog', 'errors']),
+    found: state.getIn(['deleteDialog', 'found']),
   };
 };
 

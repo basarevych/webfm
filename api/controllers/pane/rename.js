@@ -17,13 +17,13 @@ module.exports = async function rename(req, res) {
   for (let item of await Share.find({ user: req.session.userId })) {
     if (item.name === share) {
       if (item.isReadOnly && (!validate || validate === 'share'))
-        form.addError('share', 'E_READ_ONLY', __('rename.share.E_READ_ONLY'));
+        form.addError('share', 'E_READ_ONLY', sails.__('rename.share.E_READ_ONLY'));
       shareFound = true;
       break;
     }
   }
   if (!shareFound && (!validate || validate === 'share'))
-    form.addError('share', 'E_NOT_FOUND', __('rename.share.E_NOT_FOUND'));
+    form.addError('share', 'E_NOT_FOUND', sails.__('rename.share.E_NOT_FOUND'));
 
   let parent;
   if (shareFound) {
@@ -32,14 +32,14 @@ module.exports = async function rename(req, res) {
       if (!parent.isDirectory) {
         parent = null;
         if (!validate || validate === 'directory')
-          form.addError('directory', 'E_NOT_DIR', __('rename.directory.E_NOT_DIR'));
+          form.addError('directory', 'E_NOT_DIR', sails.__('rename.directory.E_NOT_DIR'));
       } else if (!parent.isValid) {
         parent = null;
         if (!validate || validate === 'directory')
-          form.addError('directory', 'E_OUTSIDE', __('rename.directory.E_OUTSIDE'));
+          form.addError('directory', 'E_OUTSIDE', sails.__('rename.directory.E_OUTSIDE'));
       }
     } catch (error) {
-      let code = error.code || 'ERROR';
+      let code = (error.raw && error.raw.code) || error.code || 'ERROR';
       let key = `rename.directory.${code}`;
       let translated = (code === 'ERROR' ? key : sails.__(key));
       if (!validate || validate === 'directory')
@@ -52,29 +52,29 @@ module.exports = async function rename(req, res) {
     if (parent)
       source = _path.join(parent.realPath, name);
   } else if (!validate || validate === 'name') {
-    form.addError('name', 'E_REQUIRED', __('rename.name.E_REQUIRED'));
+    form.addError('name', 'E_REQUIRED', sails.__('rename.name.E_REQUIRED'));
   }
 
   let target;
   if (newName) {
     if (newName === name) {
       if (!validate || validate === 'newName')
-        form.addError('newName', 'E_SAME', __('rename.newName.E_SAME'));
+        form.addError('newName', 'E_SAME', sails.__('rename.newName.E_SAME'));
     } else if (newName.includes('/')) {
       if (!validate || validate === 'newName')
-        form.addError('newName', 'E_INVALID', __('rename.newName.E_INVALID'));
+        form.addError('newName', 'E_INVALID', sails.__('rename.newName.E_INVALID'));
     } else if (parent) {
       target = _path.join(parent.realPath, newName);
     }
   } else if (!validate || validate === 'newName') {
-    form.addError('newName', 'E_REQUIRED', __('rename.newName.E_REQUIRED'));
+    form.addError('newName', 'E_REQUIRED', sails.__('rename.newName.E_REQUIRED'));
   }
 
   if (source) {
     await new Promise(resolve => {
       fs.access(source, fs.constants.F_OK, error => {
         if (error && (!validate || validate === 'name'))
-          form.addError('name', 'E_NOT_FOUND', __('rename.name.E_NOT_FOUND'));
+          form.addError('name', 'E_NOT_FOUND', sails.__('rename.name.E_NOT_FOUND'));
         resolve();
       });
     });
@@ -84,7 +84,7 @@ module.exports = async function rename(req, res) {
     await new Promise(resolve => {
       fs.access(target, fs.constants.F_OK, error => {
         if (!error && (!validate || validate === 'newName'))
-          form.addError('newName', 'E_EXISTS', __('rename.newName.E_EXISTS'));
+          form.addError('newName', 'E_EXISTS', sails.__('rename.newName.E_EXISTS'));
         resolve();
       });
     });
@@ -104,7 +104,7 @@ module.exports = async function rename(req, res) {
         });
       });
     } catch (error) {
-      let code = error.code || 'ERROR';
+      let code = (error.raw && error.raw.code) || error.code || 'ERROR';
       let key = `rename.result.${code}`;
       let translated = (code === 'ERROR' ? key : sails.__(key));
       form.addMessage(code, translated === key ? _.escape(error.message) : translated);

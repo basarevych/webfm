@@ -5,9 +5,9 @@ import Screen from '../components/Screen';
 
 const mapStateToProps = state => {
   return {
-    isConnected: state.app.isConnected && state.app.isSameVersion,
-    isLeftPaneVisible: state.leftPane.isVisible,
-    isRightPaneVisible: state.rightPane.isVisible,
+    isConnected: state.getIn(['app', 'isConnected']) && state.getIn(['app', 'isSameVersion']),
+    isLeftPaneVisible: state.getIn(['leftPane', 'isVisible']),
+    isRightPaneVisible: state.getIn(['rightPane', 'isVisible']),
   };
 };
 

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Form, FormGroup, Label, Col, Input } from 'reactstrap';
 import RequiredFieldLabel from './RequiredFieldLabel';
@@ -12,9 +13,9 @@ class MkdirModal extends React.PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     isLocked: PropTypes.bool.isRequired,
-    values: PropTypes.object.isRequired,
-    messages: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired,
+    values: PropTypes.instanceOf(Map).isRequired,
+    messages: PropTypes.instanceOf(Map).isRequired,
+    errors: PropTypes.instanceOf(Map).isRequired,
     onToggle: PropTypes.func.isRequired,
     onInput: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -96,25 +97,19 @@ class MkdirModal extends React.PureComponent {
       if (nextProps.isLocked)
         return;
 
-      for (let key of Object.keys(nextProps.errors)) {
-        if (!Object.keys(nextProps.errors[key]).length)
-          continue;
-
-        switch (key) {
-          case 'share':
-            if (this.shareInput)
-              setTimeout(() => this.shareInput.focus(), 0);
-            break;
-          case 'directory':
-            if (this.directoryInput)
-              setTimeout(() => this.directoryInput.focus(), 0);
-            break;
-          case 'name':
-            if (this.nameInput)
-              setTimeout(() => this.nameInput.focus(), 0);
-            break;
-        }
-        break;
+      switch (nextProps.errors.keys().next().value) {
+        case 'share':
+          if (this.shareInput)
+            setTimeout(() => this.shareInput.focus(), 0);
+          break;
+        case 'directory':
+          if (this.directoryInput)
+            setTimeout(() => this.directoryInput.focus(), 0);
+          break;
+        case 'name':
+          if (this.nameInput)
+            setTimeout(() => this.nameInput.focus(), 0);
+          break;
       }
     }
   }
@@ -142,14 +137,14 @@ class MkdirModal extends React.PureComponent {
                   name="share"
                   id="mkdirShare"
                   disabled={true}
-                  valid={(!this.props.errors.share || !Object.keys(this.props.errors.share).length) && undefined}
-                  value={this.props.values.share}
+                  valid={(!this.props.errors.has('share')) && undefined}
+                  value={this.props.values.get('share')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
                   innerRef={(input) => { this.shareInput = input; }}
                 />
-                <FieldErrors errors={this.props.errors.share} />
+                <FieldErrors errors={this.props.errors.get('share')} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -162,14 +157,14 @@ class MkdirModal extends React.PureComponent {
                   name="directory"
                   id="mkdirDirectory"
                   disabled={true}
-                  valid={(!this.props.errors.directory || !Object.keys(this.props.errors.directory).length) && undefined}
-                  value={this.props.values.directory}
+                  valid={(!this.props.errors.has('directory')) && undefined}
+                  value={this.props.values.get('directory')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
                   innerRef={(input) => { this.directoryInput = input; }}
                 />
-                <FieldErrors errors={this.props.errors.directory} />
+                <FieldErrors errors={this.props.errors.get('directory')} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -184,15 +179,15 @@ class MkdirModal extends React.PureComponent {
                   id="mkdirName"
                   disabled={this.props.isLocked}
                   autoFocus
-                  valid={(!this.props.errors.name || !Object.keys(this.props.errors.name).length) && undefined}
-                  value={this.props.values.name}
+                  valid={(!this.props.errors.has('name')) && undefined}
+                  value={this.props.values.get('name')}
                   onChange={this.handleInput}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
                   innerRef={(input) => { this.nameInput = input; }}
                 />
-                <FieldErrors errors={this.props.errors.name} />
+                <FieldErrors errors={this.props.errors.get('name')} />
               </Col>
             </FormGroup>
           </Form>

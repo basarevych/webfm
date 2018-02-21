@@ -1,27 +1,26 @@
 'use strict';
 
 import * as actions from '../constants/actionTypes';
+import { fromJS } from 'immutable';
 
 const failureDialog = (
-  state = {
+  state = fromJS({
     isOpen: false,
     messages: {},
     errors: {},
-  },
+  }),
   action
 ) => {
   switch (action.type) {
     case actions.SHOW_FAILURE_DIALOG:
-      return _.cloneDeep({
-        isOpen: true,
-        messages: action.messages,
-        errors: action.errors,
+      return state.withMutations(map => {
+        map
+          .set('isOpen', true)
+          .set('messages', fromJS(action.messages || {}))
+          .set('errors', fromJS(action.errors || {}));
       });
     case actions.HIDE_FAILURE_DIALOG:
-      return _.cloneDeep({
-        ...state,
-        isOpen: false,
-      });
+      return state.set('isOpen', false);
   }
 
   return state;

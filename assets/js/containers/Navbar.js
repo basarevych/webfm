@@ -13,11 +13,13 @@ import TopNavbar from '../components/TopNavbar';
 
 const mapStateToProps = state => {
   return {
-    isOpen: state.navbar.isOpen,
-    breakpoint: state.app.breakpoint,
-    isLoggedIn: state.user.isAuthorized,
-    login: state.user.login,
-    hasSelection: (state.leftPane.isActive && !!state.leftPane.name) || (state.rightPane.isActive && !!state.rightPane.name),
+    isOpen: state.getIn(['navbar', 'isOpen']),
+    breakpoint: state.getIn(['app', 'breakpoint']),
+    isLoggedIn: state.getIn(['user', 'isAuthorized']),
+    login: state.getIn(['user', 'login']),
+    hasSelection:
+      (state.getIn(['leftPane', 'isActive']) && !!state.getIn(['leftPane', 'name'])) ||
+      (state.getIn(['rightPane', 'isActive']) && !!state.getIn(['rightPane', 'name'])),
   };
 };
 

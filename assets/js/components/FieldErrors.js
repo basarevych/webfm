@@ -2,23 +2,27 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import { FormFeedback } from 'reactstrap';
 import { TransitionGroup } from 'react-transition-group';
 import Fade from './Fade';
 
 class FieldErrors extends React.PureComponent {
   static propTypes = {
-    errors: PropTypes.object,
+    errors: PropTypes.instanceOf(Map),
+  };
+
+  static defaultProps = {
+    errors: Map({}),
   };
 
   render() {
-    let codes = Object.keys(this.props.errors || {});
     return (
       <FormFeedback>
         <TransitionGroup>
-          {codes.map(code =>
+          {Array.from(this.props.errors.keys()).map(code =>
             <Fade key={code}>
-              <div dangerouslySetInnerHTML={{ __html: this.props.errors[code].message }} />
+              <div dangerouslySetInnerHTML={{ __html: this.props.errors.getIn([code, 'message']) }} />
             </Fade>
           )}
         </TransitionGroup>

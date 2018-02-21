@@ -1,24 +1,25 @@
 'use strict';
 
 import * as actions from '../constants/actionTypes';
+import { Map, fromJS } from 'immutable';
 
 const infoListFactory = type => {
   let setAction;
   let clearAction;
   switch (type) {
-    case 'list':
+    case 'LIST':
       setAction = actions.SET_LIST;
       clearAction = actions.CLEAR_LIST;
       break;
-    case 'content':
+    case 'CONTENT':
       setAction = actions.SET_CONTENT;
       clearAction = actions.CLEAR_CONTENT;
       break;
-    case 'info':
+    case 'INFO':
       setAction = actions.SET_INFO;
       clearAction = actions.CLEAR_INFO;
       break;
-    case 'size':
+    case 'SIZE':
       setAction = actions.SET_SIZE;
       clearAction = actions.CLEAR_SIZE;
       break;
@@ -26,20 +27,12 @@ const infoListFactory = type => {
       throw new Error('Unknown list type');
   }
 
-  return (state = {}, action) => {
+  return (state = Map({}), action) => {
     switch (action.type) {
       case setAction:
-        return _.cloneDeep({
-          ...state,
-          [action.id]: action[type],
-        });
+        return state.set(action.id, fromJS(action[type.toLowerCase()]));
       case clearAction:
-        let newState = {};
-        for (let key of Object.keys(state)) {
-          if (action.keep.includes(key))
-            newState[key] = _.cloneDeep(state[key]);
-        }
-        return newState;
+        return state.filter((value, key) => action.keep.includes(key));
     }
 
     return state;
