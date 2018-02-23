@@ -1,6 +1,11 @@
+/**
+ * Helpers
+ */
 const path = require('path');
 const root = path.join.bind(path, path.resolve(__dirname));
 const nodeExternals = require('webpack-node-externals');
+const { getIfUtils, removeEmpty } = require('webpack-config-utils');
+const { ifProduction } = getIfUtils(process.env.NODE_ENV);
 
 /**
  * Webpack Plugins
@@ -11,56 +16,46 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 //const ProvidePlugin = require('webpack/lib/ProvidePlugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CommonsChunksPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
-
-const prod = (process.env.NODE_ENV === 'production');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 /**
- * Webpack
+ * Webpack config
  */
 module.exports = [
-  { // Browser
+  { // Browser bundles
 
     /**
      * Cache generated modules and chunks to improve performance for multiple incremental builds.
-     * This is enabled by default in watch mode.
-     * You can pass false to disable it.
-     *
-     * See: http://webpack.github.io/docs/configuration.html#cache
+     * https://webpack.js.org/configuration/other-options/#cache
      */
     cache: false,
 
     /**
      * Developer tool to enhance debugging
-     *
-     * See: http://webpack.github.io/docs/configuration.html#devtool
-     * See: https://github.com/webpack/docs/wiki/build-performance#sourcemaps
+     * https://webpack.js.org/configuration/devtool/
      */
-    devtool: prod ? false : 'source-map',
+    devtool: ifProduction('source-map', false),
 
     /**
      * The entry point for the bundle
-     *
-     * See: http://webpack.github.io/docs/configuration.html#entry
+     * https://webpack.js.org/configuration/entry-context/#entry
      */
     entry: {
+      // Bootstrap
       'twbs': `bootstrap-loader/lib/bootstrap.loader?configFilePath=${root('.bootstraprc')}!bootstrap-loader/no-op.js`,
-      'site': root('assets/js/browser.js'),
+
+      // Site scripts
+      'site': ['@babel/polyfill', root('assets/js/browser.js')],
     },
 
     /**
      * Options affecting the resolving of modules.
-     *
-     * See: http://webpack.github.io/docs/configuration.html#resolve
+     * https://webpack.js.org/configuration/resolve/
      */
     resolve: {
 
-      /**
-       * An array of extensions that should be used to resolve modules.
-       *
-       * See: http://webpack.github.io/docs/configuration.html#resolve-extensions
-       */
+      // An array of extensions that should be used to resolve modules.
       extensions: ['*', '.json', '.js', '.css', '.scss'],
 
       // An array of directory names to be resolved to the current directory
@@ -69,111 +64,105 @@ module.exports = [
 
     /**
      * Options affecting the output of the compilation.
-     *
-     * See: http://webpack.github.io/docs/configuration.html#output
+     * https://webpack.js.org/configuration/output/
      */
     output: {
 
-      /**
-       * The output directory as absolute path (required).
-       *
-       * See: http://webpack.github.io/docs/configuration.html#output-path
-       */
-      path: root('assets/build.' + (prod ? 'prod' : 'dev')),
+      // The output directory as absolute path (required).
+      path: root('assets/build.' + ifProduction('prod', 'dev')),
 
-      /**
-       * Public URL base of the files.
-       *
-       * See: http://webpack.github.io/docs/configuration.html#output-publicpath
-       */
+      // Public URL base of the files.
       publicPath: '/',
 
-      /**
-       * Specifies the name of each output file on disk.
-       * IMPORTANT: You must not specify an absolute path here!
-       *
-       * See: http://webpack.github.io/docs/configuration.html#output-filename
-       */
+      // Specifies the name of each output file on disk.
       filename: '[name].bundle.js',
 
-      /**
-       * The filename of the SourceMaps for the JavaScript files.
-       * They are inside the output.path directory.
-       *
-       * See: http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
-       */
+      // The filename of the SourceMaps for the JavaScript files.
       sourceMapFilename: '[name].bundle.map',
 
-      /**
-       * The filename of non-entry chunks as relative path
-       * inside the output.path directory.
-       *
-       * See: http://webpack.github.io/docs/configuration.html#output-chunkfilename
-       */
+      // The filename of non-entry chunks as relative path inside the output.path directory.
       chunkFilename: '[id].chunk.js',
     },
 
     /**
      * Options affecting the normal modules.
-     *
-     * See: http://webpack.github.io/docs/configuration.html#module
+     * https://webpack.js.org/configuration/module/
      */
     module: {
       rules: [
-        {
+        { // JavaScript
           test: /\.js$/,
           include: [
             root('assets/js'),
           ],
           use: [
-            { loader: 'babel-loader' },
+            {
+              loader: 'babel-loader',
+              options: {
+                presets: [
+                  ['@babel/preset-env', {
+                    targets: {
+                      browsers: 'last 3 versions',
+                    },
+                  }],
+                  '@babel/preset-react'
+                ],
+                plugins: [
+                  '@babel/plugin-proposal-class-properties',
+                  '@babel/plugin-proposal-decorators',
+                  '@babel/plugin-proposal-object-rest-spread'
+                ],
+              },
+            },
           ],
         },
 
-        {
+        { // CSS
           test: /\.css$/,
           include: [
             root('assets/styles'),
           ],
-          use: prod
-            ? ExtractTextPlugin.extract({
-                fallback: "style-loader",
-                  use: [
-                    { loader: 'css-loader', options: { sourceMap: false } },
-                    { loader: 'postcss-loader', options: { sourceMap: false } },
-                  ],
-                })
-            : [
-                { loader: 'style-loader', options: { sourceMap: true } },
-                { loader: 'css-loader', options: { sourceMap: true } },
-                { loader: 'postcss-loader', options: { sourceMap: true } },
+          use: ifProduction(
+            ExtractTextPlugin.extract({
+              fallback: "style-loader",
+              use: [
+                { loader: 'css-loader', options: { sourceMap: false } },
+                { loader: 'postcss-loader', options: { sourceMap: false } },
               ],
+            }),
+            [
+              { loader: 'style-loader', options: { sourceMap: true } },
+              { loader: 'css-loader', options: { sourceMap: true } },
+              { loader: 'postcss-loader', options: { sourceMap: true } },
+            ]
+          ),
         },
 
-        {
+        { // SCSS
           test: /\.scss$/,
           include: [
             root('assets/styles'),
           ],
-          use: prod
-            ? ExtractTextPlugin.extract({
-                fallback: "style-loader",
-                use: [
-                  { loader: 'css-loader', options: { sourceMap: false } },
-                  { loader: 'postcss-loader', options: { sourceMap: false } },
-                  { loader: 'sass-loader', options: { sourceMap: false } },
-                ]
-              })
-            : [
+          use: ifProduction(
+            ExtractTextPlugin.extract({
+              fallback: "style-loader",
+              use: [
+                { loader: 'css-loader', options: { sourceMap: false } },
+                { loader: 'postcss-loader', options: { sourceMap: false } },
+                { loader: 'sass-loader', options: { sourceMap: false } },
+              ]
+            }),
+            [
               { loader: 'style-loader', options: { sourceMap: true } },
               { loader: 'css-loader', options: { sourceMap: true } },
               { loader: 'postcss-loader', options: { sourceMap: true } },
               { loader: 'sass-loader', options: { sourceMap: true } },
-            ],
+            ]
+          ),
         },
 
         /*
-        {
+        { // JQuery and Bootstap scripts
           test: /bootstrap\/dist\/js\//,
           use: [
             'imports-loader?jQuery=jquery',
@@ -193,12 +182,12 @@ module.exports = [
         },
         */
 
-        {
+        { // Font files
           test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: 'url-loader?limit=10000&mimetype=application/font-woff'
         },
 
-        {
+        { // Font files
           test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: 'file-loader'
         },
@@ -207,50 +196,41 @@ module.exports = [
 
     /**
      * Add additional plugins to the compiler.
-     *
-     * See: http://webpack.github.io/docs/configuration.html#plugins
+     * https://webpack.js.org/configuration/plugins/
      */
-    plugins: [
+    plugins: removeEmpty([
       /**
-       * Plugin: EnvironmentPlugin
-       * Description: Shorthand for using the DefinePlugin on process.env keys
+       * EnvironmentPlugin
+       * https://webpack.js.org/plugins/environment-plugin/
        *
        * Pass NODE_ENV environment variable
-       *
-       * See: https://webpack.js.org/plugins/environment-plugin/
        */
       new EnvironmentPlugin(['NODE_ENV']),
 
       /**
-       * Plugin: NoEmitOnErrorsPlugin
-       * Description: Skip the emitting phase whenever there are errors while compiling.
+       * NoEmitOnErrorsPlugin
+       * https://webpack.js.org/plugins/no-emit-on-errors-plugin/
        *
        * Ensures that no assets are emitted that include errors.
-       *
-       * See: https://webpack.js.org/plugins/no-emit-on-errors-plugin/
        */
       new NoEmitOnErrorsPlugin(),
 
       /**
-       * Plugin: CleanWebpackPlugin
-       * Description: Plugin to remove/clean your build folder(s) before building
+       * CleanWebpackPlugin
+       * https://www.npmjs.com/package/clean-webpack-plugin
        *
        * Cleans build directory before building
-       *
-       * See: https://www.npmjs.com/package/clean-webpack-plugin
        */
-      new CleanWebpackPlugin([ root('assets/build.' + (prod ? 'prod' : 'dev')) ], {
+      new CleanWebpackPlugin([ root('assets/build.' + ifProduction('prod', 'dev')) ], {
         root: root(),
       }),
 
       /**
-       * Plugin: CommonsChunksPlugin
-       * Description: Generate an extra chunk, which contains common modules shared between entry points.
+       * CommonsChunksPlugin
+       * https://webpack.js.org/plugins/commons-chunk-plugin/
        *
        * By separating common modules from bundles, the resulting chunked file can be loaded once initially,
        * and stored in cache for later use.
-       *
-       * See: https://webpack.js.org/plugins/commons-chunk-plugin/
        */
       new CommonsChunksPlugin({
         name: 'common',
@@ -258,41 +238,39 @@ module.exports = [
       }),
 
       /**
-       * Plugin: ExtractTextPlugin
-       * Description: Extract text from a bundle, or bundles, into a separate file.
+       * ExtractTextPlugin
+       * https://webpack.js.org/plugins/extract-text-webpack-plugin/
        *
        * Plugin moves all the required *.css modules in entry chunks into a separate CSS file.
        * So your styles are no longer inlined into the JS bundle, but in a separate CSS file.
-       *
-       * See: https://www.npmjs.com/package/extract-text-webpack-plugin
        */
-      new ExtractTextPlugin({
-        filename: '[name].css',
-        allChunks: true,
-      }),
+      ifProduction(
+        new ExtractTextPlugin({
+          filename: '[name].css',
+          allChunks: true,
+        })
+      ),
 
       /**
-       * Plugin: OptimizeCssAssetsPlugin
-       * Description: Optimize CSS assets
+       * OptimizeCssAssetsPlugin
+       * https://www.npmjs.com/package/optimize-css-assets-webpack-plugin
        *
        * It will search for CSS assets during the Webpack build and will optimize / minimize the CSS
-       *
-       * See: https://www.npmjs.com/package/optimize-css-assets-webpack-plugin
        */
-      new OptimizeCssAssetsPlugin({
-        assetNameRegExp: /\.css$/g,
-        cssProcessor: require('cssnano'),
-        cssProcessorOptions: { discardComments: { removeAll: true } },
-        canPrint: true
-      }),
+      ifProduction(
+        new OptimizeCssAssetsPlugin({
+          assetNameRegExp: /\.css$/g,
+          cssProcessor: require('cssnano'),
+          cssProcessorOptions: { discardComments: { removeAll: true } },
+          canPrint: true
+        })
+      ),
 
       /**
-       * Plugin: ProvidePlugin
-       * Description: Autoload modules
+       * ProvidePlugin
+       * https://webpack.js.org/plugins/provide-plugin/
        *
        * Whenever the identifier is encountered as free variable in a module, its module is loaded automatically
-       *
-       * See: https://webpack.github.io/docs/list-of-plugins.html#provideplugin
        */
       /*
       new ProvidePlugin({
@@ -315,52 +293,18 @@ module.exports = [
       */
 
       /**
-       * Plugin: UglifyJsPlugin
-       * Description: Minimize all JavaScript output of chunks.
-       * Loaders are switched into minimizing mode.
+       * UglifyjsWebpackPlugin
+       * https://webpack.js.org/plugins/uglifyjs-webpack-plugin/
        *
-       * See: https://www.npmjs.com/package/uglifyjs-webpack-plugin
+       * This plugin uses UglifyJS v3 (uglify-es) to minify your JavaScript
        */
-      new UglifyJsPlugin({
-        uglifyOptions: prod
-          ? { // prod
-            beautify: false,
-            output: {
-              comments: false
-            },
-            compress: {
-              warnings: false,
-              conditionals: true,
-              unused: true,
-              comparisons: true,
-              sequences: true,
-              dead_code: true,
-              evaluate: true,
-              if_return: true,
-              join_vars: true,
-              negate_iife: false // we need this for lazy v8
-            },
-          }
-          : { // debug
-            beautify: true,
-            output: {
-              comments: true,
-            },
-            mangle: false,
-            compress: {
-              warnings: false,
-              keep_fnames: true,
-              drop_debugger: false,
-              dead_code: false,
-              unused: false
-            },
-          },
-        sourceMap: !prod,
-      }),
-    ],
+      ifProduction(
+        new UglifyJsPlugin()
+      ),
+    ]),
   },
 
-  { // Server
+  { // Server bundles
     cache: false,
     devtool: false,
     entry: {
@@ -373,7 +317,7 @@ module.exports = [
       modules: [root('assets/js'), root('node_modules')],
     },
     output: {
-      path: root('assets/build.' + (prod ? 'prod' : 'dev')),
+      path: root('assets/build.' + ifProduction('prod','dev')),
       publicPath: '/',
       filename: '[name].bundle.js',
       chunkFilename: '[id].chunk.js',
@@ -387,7 +331,24 @@ module.exports = [
             root('assets/js'),
           ],
           use: [
-            'babel-loader',
+            {
+              loader: 'babel-loader',
+              options: {
+                presets: [
+                  ['@babel/preset-env', {
+                    targets: {
+                      node: '8.0'
+                    }
+                  }],
+                  '@babel/preset-react'
+                ],
+                plugins: [
+                  '@babel/plugin-proposal-class-properties',
+                  '@babel/plugin-proposal-decorators',
+                  '@babel/plugin-proposal-object-rest-spread'
+                ],
+              },
+            },
           ],
         },
         {

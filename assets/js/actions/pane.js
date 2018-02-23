@@ -294,7 +294,7 @@ export const paneSelectRange = (pane, index) => {
     let state = getState();
     let leftPane = state.get('leftPane');
     let rightPane = state.get('rightPane');
-    let selectedIndexes = (pane === 'LEFT' ? leftPane.get('selectedIndexes') : rightPane.get('selectedIndexes'));
+    let selectedIndexes = (pane === 'LEFT' ? leftPane.get('selectedIndexes') : rightPane.get('selectedIndexes')).toArray();
     let length = (pane === 'LEFT' ? leftPane.get('list').size : rightPane.get('list').size);
 
     let min = -1;
@@ -329,7 +329,7 @@ export const paneSelectRange = (pane, index) => {
 
       dispatch({
         type: pane === 'LEFT' ? actions.SET_LEFT_PANE_SELECTION : actions.SET_RIGHT_PANE_SELECTION,
-        selectedIndexes: selectedIndexes.toJS(),
+        selectedIndexes: selectedIndexes,
       });
 
       await dispatch(setPaneIndex(pane, index));
@@ -349,7 +349,7 @@ export const paneToggleSelect = (pane, index) => {
     let state = getState();
     let leftPane = state.get('leftPane');
     let rightPane = state.get('rightPane');
-    let selectedIndexes = (pane === 'LEFT' ? leftPane.get('selectedIndexes') : rightPane.get('selectedIndexes'));
+    let selectedIndexes = (pane === 'LEFT' ? leftPane.get('selectedIndexes') : rightPane.get('selectedIndexes')).toArray();
 
     let indexOfIndex = selectedIndexes.indexOf(index);
     if (indexOfIndex === -1) {
@@ -362,7 +362,7 @@ export const paneToggleSelect = (pane, index) => {
 
     dispatch({
       type: pane === 'LEFT' ? actions.SET_LEFT_PANE_SELECTION : actions.SET_RIGHT_PANE_SELECTION,
-      selectedIndexes: selectedIndexes.toJS(),
+      selectedIndexes: selectedIndexes,
     });
 
     if ((pane === 'LEFT' && rightPane.get('mode') === 'CONTENTS') ||

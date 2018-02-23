@@ -2,6 +2,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import { TransitionGroup } from 'react-transition-group';
 import { FaCog } from 'react-icons/lib/fa';
 import Fade from './Fade';
@@ -17,12 +19,24 @@ import FailureDialog from '../containers/FailureDialog';
 import LeftPane from '../containers/LeftPane';
 import RightPane from '../containers/RightPane';
 
+@DragDropContext(HTML5Backend)
 class Screen extends React.Component {
   static propTypes = {
     isConnected: PropTypes.bool.isRequired,
     isLeftPaneVisible: PropTypes.bool.isRequired,
     isRightPaneVisible: PropTypes.bool.isRequired,
+    onSetDragMode: PropTypes.func.isRequired,
   };
+
+  constructor(props) {
+    super(props);
+
+    this.handleDrag = this.handleDrag.bind(this);
+  }
+
+  handleDrag(event) {
+    this.props.onSetDragMode(event.ctrlKey ? 'MOVE' : 'COPY');
+  }
 
   componentDidCatch(error) {
     console.error(error);
@@ -43,7 +57,7 @@ class Screen extends React.Component {
     }
 
     return (
-      <div className="w-100 h-100">
+      <div className="w-100 h-100" onDrag={this.handleDrag}>
         {overlay}
         <div className="w-100 h-100 d-flex flex-column">
           <div>

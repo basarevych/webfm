@@ -8,6 +8,10 @@ export const START_APP = 'START_APP';
 export const APP_VERSION = 'APP_VERSION';
 export const SCREEN_RESIZE = 'SCREEN_RESIZE';
 
+// Drag
+export const UPDATE_DRAG_STATE = 'UPDATE_DRAG_STATE';
+export const UPDATE_DRAG_MODE = 'UPDATE_DRAG_MODE';
+
 // Lists
 export const SET_LIST = 'SET_LIST';
 export const CLEAR_LIST = 'CLEAR_LIST';

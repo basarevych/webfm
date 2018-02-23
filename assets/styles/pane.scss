@@ -217,6 +217,12 @@
           }
         }
       }
+      &.drop-alert {
+        border-color: #d4ac0d;
+      }
+      &.drop-ready {
+        border-color: #ffffff;
+      }
     }
   }
 }

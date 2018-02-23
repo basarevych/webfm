@@ -22,6 +22,7 @@ class ListView extends React.PureComponent {
     onCopyClick: PropTypes.func.isRequired,
     onMoveClick: PropTypes.func.isRequired,
     onDeleteClick: PropTypes.func.isRequired,
+    onDrag: PropTypes.func.isRequired,
   };
 
   render() {
@@ -51,6 +52,7 @@ class ListView extends React.PureComponent {
           onCopyClick={this.props.onCopyClick}
           onMoveClick={this.props.onMoveClick}
           onDeleteClick={this.props.onDeleteClick}
+          onDrag={this.props.onDrag}
         />
       );
     }

@@ -1,6 +1,7 @@
 'use strict';
 
 import { connect } from 'react-redux';
+import { updateDragMode } from '../actions/drag';
 import Screen from '../components/Screen';
 
 const mapStateToProps = state => {
@@ -11,9 +12,15 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    onSetDragMode: mode => dispatch(updateDragMode(mode)),
+  };
+};
+
 const App = connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(Screen);
 
 export default App;

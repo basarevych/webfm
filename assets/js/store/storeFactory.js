@@ -10,6 +10,7 @@ import router from '../reducers/router';
 import user from '../reducers/user';
 import navbar from '../reducers/navbar';
 import progress from '../reducers/progress';
+import drag from '../reducers/drag';
 import dialogFactory from '../reducers/dialogFactory';
 import failureDialog from '../reducers/failureDialog';
 import paneFactory from '../reducers/paneFactory';
@@ -24,6 +25,7 @@ const storeFactory = (history, initialState) =>
       navbar,
       progress,
       failureDialog,
+      drag,
       signInDialog: dialogFactory('SIGN_IN'),
       mkdirDialog: dialogFactory('MKDIR'),
       renameDialog: dialogFactory('RENAME'),

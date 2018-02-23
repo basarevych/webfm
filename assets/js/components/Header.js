@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
 import {
@@ -169,10 +170,10 @@ class Header extends React.PureComponent {
         <span>
           <ButtonGroup>
             <Button
-              id={this.props.which + '-btn-sort-name'}
               size="sm"
               color={this.props.sortField === 'NAME' ? 'primary' : 'secondary'}
               onClick={this.toggleNameSort}
+              ref={el => { this.sortNameButton = el && ReactDOM.findDOMNode(el); }}
             >
               {this.props.sortField === 'NAME'
                 ? (this.props.sortDir === 'ASC' ? <FaSortAlphaAsc /> : <FaSortAlphaDesc />)
@@ -180,17 +181,16 @@ class Header extends React.PureComponent {
             </Button>
             <Tooltip
               placement="bottom"
-              target={this.props.which + '-btn-sort-name'}
-              isOpen={this.sortNameTooltip && this.state.isSortNameTooltipOpen}
+              target={() => this.sortNameButton}
+              isOpen={this.state.isSortNameTooltipOpen}
               toggle={this.toggleSortNameTooltip}
-              ref={el => { this.sortNameTooltip = el; }}
               dangerouslySetInnerHTML={{ __html: __('sort_name_hint') }}
             />
             <Button
-              id={this.props.which + '-btn-sort-size'}
               size="sm"
               color={this.props.sortField === 'SIZE' ? 'primary' : 'secondary'}
               onClick={this.toggleSizeSort}
+              ref={el => { this.sortSizeButton = el && ReactDOM.findDOMNode(el); }}
             >
               {this.props.sortField === 'SIZE'
                 ? (this.props.sortDir === 'ASC' ? <FaSortAmountAsc /> : <FaSortAmountDesc />)
@@ -198,10 +198,9 @@ class Header extends React.PureComponent {
             </Button>
             <Tooltip
               placement="bottom"
-              target={this.props.which + '-btn-sort-size'}
-              isOpen={this.sortSizeTooltip && this.state.isSortSizeTooltipOpen}
+              target={() => this.sortSizeButton}
+              isOpen={this.state.isSortSizeTooltipOpen}
               toggle={this.toggleSortSizeTooltip}
-              ref={el => { this.sortSizeTooltip = el; }}
               dangerouslySetInnerHTML={{ __html: __('sort_size_hint') }}
             />
           </ButtonGroup>
@@ -214,51 +213,48 @@ class Header extends React.PureComponent {
       <span>
         <ButtonGroup>
           <Button
-            id={this.props.which + '-btn-mode-list'}
             size="sm"
             color={this.props.mode === 'LIST' ? 'primary' : 'secondary'}
             onClick={this.setListMode}
+            ref={el => { this.modeListButton = el && ReactDOM.findDOMNode(el); }}
           >
             <FaFolderOpenO />
           </Button>
           <Tooltip
             placement="bottom"
-            target={this.props.which + '-btn-mode-list'}
-            isOpen={this.modeListTooltip && this.state.isModeListTooltipOpen}
+            target={() => this.modeListButton}
+            isOpen={this.state.isModeListTooltipOpen}
             toggle={this.toggleModeListTooltip}
-            ref={el => { this.modeListTooltip = el; }}
             dangerouslySetInnerHTML={{ __html: __('mode_list_hint') }}
           />
           <Button
-            id={this.props.which + '-btn-mode-contents'}
             size="sm"
             color={this.props.mode === 'CONTENTS' ? 'primary' : 'secondary'}
             onClick={this.setContentsMode}
+            ref={el => { this.modeContentsButton = el && ReactDOM.findDOMNode(el); }}
           >
             <FaFileTextO />
           </Button>
           <Tooltip
             placement="bottom"
-            target={this.props.which + '-btn-mode-contents'}
-            isOpen={this.modeContentsTooltip && this.state.isModeContentsTooltipOpen}
+            target={() => this.modeContentsButton}
+            isOpen={this.state.isModeContentsTooltipOpen}
             toggle={this.toggleModeContentsTooltip}
-            ref={el => { this.modeContentsTooltip = el; }}
             dangerouslySetInnerHTML={{ __html: __('mode_contents_hint') }}
           />
           <Button
-            id={this.props.which + '-btn-mode-info'}
             size="sm"
             color={this.props.mode === 'INFO' ? 'primary' : 'secondary'}
             onClick={this.setInfoMode}
+            ref={el => { this.modeInfoButton = el && ReactDOM.findDOMNode(el); }}
           >
             <FaAlignLeft />
           </Button>
           <Tooltip
             placement="bottom"
-            target={this.props.which + '-btn-mode-info'}
-            isOpen={this.modeInfoTooltip && this.state.isModeInfoTooltipOpen}
+            target={() => this.modeInfoButton}
+            isOpen={this.state.isModeInfoTooltipOpen}
             toggle={this.toggleModeInfoTooltip}
-            ref={el => { this.modeInfoTooltip = el; }}
             dangerouslySetInnerHTML={{ __html: __('mode_info_hint') }}
           />
         </ButtonGroup>
@@ -271,19 +267,18 @@ class Header extends React.PureComponent {
         {sorting}
         {modes}
         <Button
-          id={this.props.which + '-btn-toggle-pane'}
           size="sm"
           color="secondary"
           onClick={this.props.onToggleOther}
+          ref={el => { this.paneButton = el && ReactDOM.findDOMNode(el); }}
         >
           {this.props.isOtherVisible ? <FaToggleOn /> : <FaToggleOff />}
         </Button>
         <Tooltip
           placement="bottom"
-          target={this.props.which + '-btn-toggle-pane'}
-          isOpen={this.paneTooltip && this.state.isPaneTooltipOpen}
+          target={() => this.paneButton}
+          isOpen={this.state.isPaneTooltipOpen}
           toggle={this.togglePaneTooltip}
-          ref={el => { this.paneTooltip = el; }}
           dangerouslySetInnerHTML={{ __html: __('toggle_pane_hint') }}
         />
       </span>

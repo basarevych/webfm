@@ -1,21 +1,44 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
+import { DragSource } from 'react-dnd';
 import { FaFolderO, FaFileO, FaBalanceScale, FaCopy, FaCut, FaTrash, FaCog } from 'react-icons/lib/fa';
 import { Button } from 'reactstrap';
 import { Tooltip } from 'reactstrap';
 import { join } from '../lib/path';
 import { human } from '../lib/size';
+import * as dragTypes from '../constants/dragTypes';
 
+const nodeSource = {
+  beginDrag(props) {
+    return {
+      pane: props.which,
+      name: props.node.get('name'),
+      isSelected: props.isSelected,
+    };
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  };
+}
+
+@DragSource(dragTypes.NODE, nodeSource, collect)
 class ListItem extends React.PureComponent {
   static propTypes = {
     which: PropTypes.string.isRequired,
     node: PropTypes.instanceOf(Map).isRequired,
     size: PropTypes.instanceOf(Map),
     index: PropTypes.number.isRequired,
+    connectDragSource: PropTypes.func,
     isSelected: PropTypes.bool.isRequired,
+    isDragging: PropTypes.bool,
     onChangeDirectory: PropTypes.func.isRequired,
     onNodeClick: PropTypes.func.isRequired,
     onNodeShiftClick: PropTypes.func.isRequired,
@@ -24,10 +47,13 @@ class ListItem extends React.PureComponent {
     onCopyClick: PropTypes.func.isRequired,
     onMoveClick: PropTypes.func.isRequired,
     onDeleteClick: PropTypes.func.isRequired,
+    onDrag: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     size: Map({}),
+    connectDragSource: arg => arg,
+    isDragging: false,
   };
 
   constructor(props) {
@@ -49,6 +75,10 @@ class ListItem extends React.PureComponent {
     this.handleLeave = this.handleLeave.bind(this);
     this.handleNameClick = this.handleNameClick.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.props.onDrag(nextProps.which, nextProps.isDragging, nextProps.isSelected);
   }
 
   toggleSizeTooltip() {
@@ -119,19 +149,18 @@ class ListItem extends React.PureComponent {
       size = (
         <div>
           <Button
-            id={this.props.which + '-btn-size-' + this.props.index}
             size="sm"
             color={this.props.isSelected ? 'primary' : 'secondary'}
             onClick={this.props.onSizeClick}
+            ref={el => { this.sizeButton = el && ReactDOM.findDOMNode(el); }}
           >
             {size}
           </Button>
           <Tooltip
             placement="bottom"
-            target={this.props.which + '-btn-size-' + this.props.index}
-            isOpen={this.sizeTooltip && this.state.isSizeTooltipOpen}
+            target={() => this.sizeButton}
+            isOpen={this.state.isSizeTooltipOpen}
             toggle={this.toggleSizeTooltip}
-            ref={el => { this.sizeTooltip = el; }}
             dangerouslySetInnerHTML={{ __html: __('size_button_hint') }}
           />
         </div>
@@ -157,53 +186,50 @@ class ListItem extends React.PureComponent {
           </div>
           <div className="tools">
             <Button
-              id={this.props.which + '-btn-copy-' + this.props.index}
               size="sm"
               color={this.props.isSelected ? 'primary' : 'secondary'}
               onClick={() => this.props.onCopyClick(this.props.node.get('name'))}
+              ref={el => { this.copyButton = el && ReactDOM.findDOMNode(el); }}
             >
               <FaCopy />
             </Button>
             <Tooltip
               placement="bottom"
-              target={this.props.which + '-btn-copy-' + this.props.index}
-              isOpen={this.copyTooltip && this.state.isCopyTooltipOpen}
+              target={() => this.copyButton}
+              isOpen={this.state.isCopyTooltipOpen}
               toggle={this.toggleCopyTooltip}
-              ref={el => { this.copyTooltip = el; }}
               dangerouslySetInnerHTML={{ __html: __('copy_button_hint') }}
             />
             {' '}
             <Button
-              id={this.props.which + '-btn-move-' + this.props.index}
               size="sm"
               color={this.props.isSelected ? 'primary' : 'secondary'}
               onClick={() => this.props.onMoveClick(this.props.node.get('name'))}
+              ref={el => { this.moveButton = el && ReactDOM.findDOMNode(el); }}
             >
               <FaCut />
             </Button>
             <Tooltip
               placement="bottom"
-              target={this.props.which + '-btn-move-' + this.props.index}
-              isOpen={this.moveTooltip && this.state.isMoveTooltipOpen}
+              target={() => this.moveButton}
+              isOpen={this.state.isMoveTooltipOpen}
               toggle={this.toggleMoveTooltip}
-              ref={el => { this.moveTooltip = el; }}
               dangerouslySetInnerHTML={{ __html: __('move_button_hint') }}
             />
             {' '}
             <Button
-              id={this.props.which + '-btn-delete-' + this.props.index}
               size="sm"
               color={this.props.isSelected ? 'primary' : 'secondary'}
               onClick={() => this.props.onDeleteClick(this.props.node.get('name'))}
+              ref={el => { this.deleteButton = el && ReactDOM.findDOMNode(el); }}
             >
               <FaTrash />
             </Button>
             <Tooltip
               placement="bottom"
-              target={this.props.which + '-btn-delete-' + this.props.index}
-              isOpen={this.deleteTooltip && this.state.isDeleteTooltipOpen}
+              target={() => this.deleteButton}
+              isOpen={this.state.isDeleteTooltipOpen}
               toggle={this.toggleDeleteTooltip}
-              ref={el => { this.deleteTooltip = el; }}
               dangerouslySetInnerHTML={{ __html: __('delete_button_hint') }}
             />
           </div>
@@ -211,7 +237,7 @@ class ListItem extends React.PureComponent {
       );
     }
 
-    return (
+    return this.props.connectDragSource(
       <div
         className={
           'listing-item' + (this.props.isSelected ? ' selected' : '') +

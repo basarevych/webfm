@@ -1,7 +1,10 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import { DropTarget } from 'react-dnd';
+import { Tooltip } from 'reactstrap';
 import { List, Map } from 'immutable';
 import DisabledView from './DisabledView';
 import LoadingView from './LoadingView';
@@ -9,7 +12,27 @@ import Header from './Header';
 import ListView from './ListView';
 import ContentView from './ContentView';
 import InfoView from './InfoView';
+import * as dragTypes from '../constants/dragTypes';
 
+const paneTarget = {
+  drop(props, monitor) {
+    let item = monitor.getItem();
+    props.onDrop(item.pane, item.name, item.isSelected);
+  },
+  canDrop(props, monitor) {
+    return monitor.getItem().pane !== props.which;
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isDraggingNode: monitor.canDrop(),
+    isDraggedOver: monitor.canDrop() && monitor.isOver(),
+  };
+}
+
+@DropTarget(dragTypes.NODE, paneTarget, collect)
 class Pane extends React.PureComponent {
   static propTypes = {
     which: PropTypes.string.isRequired,
@@ -26,11 +49,17 @@ class Pane extends React.PureComponent {
     sortDir: PropTypes.string.isRequired,
     content: PropTypes.instanceOf(Map),
     info: PropTypes.instanceOf(Map),
+    connectDropTarget: PropTypes.func,
     isActive: PropTypes.bool.isRequired,
     isDisabled: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isForbidden: PropTypes.bool.isRequired,
     isOtherVisible: PropTypes.bool.isRequired,
+    isDraggingNode: PropTypes.bool,
+    isDraggedOver: PropTypes.bool,
+    isOtherDragging: PropTypes.bool.isRequired,
+    isOtherDraggingSelected: PropTypes.bool.isRequired,
+    isOtherDraggingCopy: PropTypes.bool.isRequired,
     onPaneClick: PropTypes.func.isRequired,
     onSetShare: PropTypes.func.isRequired,
     onSetSort: PropTypes.func.isRequired,
@@ -41,11 +70,19 @@ class Pane extends React.PureComponent {
     onSizeClick: PropTypes.func.isRequired,
     onToggleOther: PropTypes.func.isRequired,
     onSetMode: PropTypes.func.isRequired,
+    onCopyClick: PropTypes.func.isRequired,
+    onMoveClick: PropTypes.func.isRequired,
+    onDeleteClick: PropTypes.func.isRequired,
+    onDrag: PropTypes.func.isRequired,
+    onDrop: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     content: Map({}),
     info: Map({}),
+    connectDropTarget: arg => arg,
+    isDraggingNode: false,
+    isDraggedOver: false,
   };
 
   render() {
@@ -77,11 +114,24 @@ class Pane extends React.PureComponent {
             onCopyClick={this.props.onCopyClick}
             onMoveClick={this.props.onMoveClick}
             onDeleteClick={this.props.onDeleteClick}
+            onDrag={this.props.onDrag}
           />
         );
       }
       view = (
-        <div className={'view rounded' + (this.props.isActive ? ' active' : '')}>
+        <div
+          className={
+            'view rounded' +
+            (this.props.isDraggedOver
+              ? ' drop-ready'
+              : (this.props.isDraggingNode
+                ? ' drop-alert'
+                : (this.props.isActive
+                  ? ' active'
+                  : '')))
+          }
+          ref={el => { this.view = el && ReactDOM.findDOMNode(el); }}
+        >
           <Header
             which={this.props.which}
             breakpoint={this.props.breakpoint}
@@ -103,9 +153,33 @@ class Pane extends React.PureComponent {
       );
     }
 
-    return (
+    return this.props.connectDropTarget(
       <div className="pane" onClick={this.props.onPaneClick}>
         {view}
+        <Tooltip
+          placement="top"
+          target={() => this.view}
+          isOpen={this.props.isOtherDragging && !this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy}
+          dangerouslySetInnerHTML={{ __html: __('copy_drop_hint') }}
+        />
+        <Tooltip
+          placement="top"
+          target={() => this.view}
+          isOpen={this.props.isOtherDragging && this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy}
+          dangerouslySetInnerHTML={{ __html: __('copy_drop_selected_hint') }}
+        />
+        <Tooltip
+          placement="top"
+          target={() => this.view}
+          isOpen={this.props.isOtherDragging && !this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy}
+          dangerouslySetInnerHTML={{ __html: __('move_drop_hint') }}
+        />
+        <Tooltip
+          placement="top"
+          target={() => this.view}
+          isOpen={this.props.isOtherDragging && this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy}
+          dangerouslySetInnerHTML={{ __html: __('move_drop_selected_hint') }}
+        />
       </div>
     );
   }

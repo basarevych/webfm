@@ -142,5 +142,9 @@
   "size_button_hint": "Calculate size<br>of this item",
   "copy_button_hint": "Copy this item<br>to the other pane",
   "move_button_hint": "Move this item<br>to the other pane",
-  "delete_button_hint": "Delete this item"
+  "delete_button_hint": "Delete this item",
+  "copy_drop_hint": "Copy item here",
+  "copy_drop_selected_hint": "Copy selected items here",
+  "move_drop_hint": "Move item here",
+  "move_drop_selected_hint": "Move selected items here"
 }

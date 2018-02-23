@@ -58,12 +58,12 @@ Babel/Webpack for the browser.
 
 ## Development
 
-In order to build production bundles use **yarn build** (after that run **yarn start**
+In order to build production bundles use **yarn run build** (after that run **yarn start**
 to start the server).
 
-Development version is built using **yarn build:dev** - this command will not terminate
+Development version is built using **yarn run build:dev** - this command will not terminate
 but will watch the files for changes, recompiling the bundle when need. In another
-terminal run **yarn start:dev** to start dev version of the server.
+terminal run **yarn run start:dev** to start dev version of the server.
 
 Development bundles are excluded from the repo, but production bundles should be
 committed into it so you will not have to run **build** task on hosting server.

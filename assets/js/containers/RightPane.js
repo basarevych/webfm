@@ -7,6 +7,7 @@ import {
 import { loadSize } from '../actions/size';
 import Pane from '../components/Pane';
 import { fastCopy, fastMove, fastDel } from '../actions/commands';
+import { handleDrag, handleDrop } from '../actions/drag';
 
 const mapStateToProps = state => {
   let selectedId;
@@ -33,6 +34,9 @@ const mapStateToProps = state => {
     isLoading: state.getIn(['rightPane', 'isLoading']),
     isForbidden: state.getIn(['rightPane', 'isForbidden']),
     isOtherVisible: state.getIn(['leftPane', 'isVisible']),
+    isOtherDragging: state.getIn(['drag', 'left', 'isDragging']),
+    isOtherDraggingSelected: state.getIn(['drag', 'left', 'isSelected']),
+    isOtherDraggingCopy: state.getIn(['drag', 'left', 'dragMode']) === 'COPY',
   };
 };
 
@@ -51,6 +55,8 @@ const mapDispatchToProps = dispatch => {
     onCopyClick: name => dispatch(fastCopy('RIGHT', name)),
     onMoveClick: name => dispatch(fastMove('RIGHT', name)),
     onDeleteClick: name => dispatch(fastDel('RIGHT', name)),
+    onDrag: (pane, isDragging, isSelected) => dispatch(handleDrag(pane, isDragging, isSelected)),
+    onDrop: (pane, name, isSelected) => dispatch(handleDrop(pane, name, isSelected)),
   };
 };
 

@@ -7,7 +7,6 @@ import { GenericScrollBox } from 'react-scroll-box';
 import ReactList from 'react-list';
 import Viewport from './ScrollViewport';
 import ListItem from './ListItem';
-import { join } from '../lib/path';
 
 class ListComponent extends React.PureComponent {
   static propTypes = {
@@ -25,6 +24,7 @@ class ListComponent extends React.PureComponent {
     onCopyClick: PropTypes.func.isRequired,
     onMoveClick: PropTypes.func.isRequired,
     onDeleteClick: PropTypes.func.isRequired,
+    onDrag: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -54,6 +54,7 @@ class ListComponent extends React.PureComponent {
         onCopyClick={this.props.onCopyClick}
         onMoveClick={this.props.onMoveClick}
         onDeleteClick={this.props.onDeleteClick}
+        onDrag={this.props.onDrag}
       />
     );
   }
