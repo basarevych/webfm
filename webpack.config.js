@@ -16,7 +16,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 //const ProvidePlugin = require('webpack/lib/ProvidePlugin');
-const CommonsChunksPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 /**
@@ -42,11 +41,7 @@ module.exports = [
      * https://webpack.js.org/configuration/entry-context/#entry
      */
     entry: {
-      // Bootstrap
-      'twbs': `bootstrap-loader/lib/bootstrap.loader?configFilePath=${root('.bootstraprc')}!bootstrap-loader/no-op.js`,
-
-      // Site scripts
-      'site': root('assets/js/browser.js'),
+      'site': [`bootstrap-loader/lib/bootstrap.loader?configFilePath=${root('.bootstraprc')}!bootstrap-loader/no-op.js`, root('assets/js/browser.js')],
     },
 
     /**
@@ -224,18 +219,6 @@ module.exports = [
        */
       new CleanWebpackPlugin([ root('assets/build.' + ifProduction('prod', 'dev')) ], {
         root: root(),
-      }),
-
-      /**
-       * CommonsChunksPlugin
-       * https://webpack.js.org/plugins/commons-chunk-plugin/
-       *
-       * By separating common modules from bundles, the resulting chunked file can be loaded once initially,
-       * and stored in cache for later use.
-       */
-      new CommonsChunksPlugin({
-        name: 'common',
-        filename: 'common.bundle.js',
       }),
 
       /**
