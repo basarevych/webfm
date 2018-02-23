@@ -156,13 +156,13 @@ class ListItem extends React.PureComponent {
           >
             {size}
           </Button>
-          <Tooltip
+          {this.sizeButton && <Tooltip
             placement="bottom"
             target={() => this.sizeButton}
-            isOpen={(this.sizeButton && this.state.isSizeTooltipOpen) || false}
+            isOpen={this.state.isSizeTooltipOpen}
             toggle={this.toggleSizeTooltip}
             dangerouslySetInnerHTML={{ __html: __('size_button_hint') }}
-          />
+          />}
         </div>
       );
     } else {
@@ -193,13 +193,13 @@ class ListItem extends React.PureComponent {
             >
               <FaCopy />
             </Button>
-            <Tooltip
+            {this.copyButton && <Tooltip
               placement="bottom"
               target={() => this.copyButton}
-              isOpen={(this.copyButton && this.state.isCopyTooltipOpen) || false}
+              isOpen={this.state.isCopyTooltipOpen}
               toggle={this.toggleCopyTooltip}
               dangerouslySetInnerHTML={{ __html: __('copy_button_hint') }}
-            />
+            />}
             {' '}
             <Button
               size="sm"
@@ -209,13 +209,13 @@ class ListItem extends React.PureComponent {
             >
               <FaCut />
             </Button>
-            <Tooltip
+            {this.moveButton && <Tooltip
               placement="bottom"
               target={() => this.moveButton}
-              isOpen={(this.moveButton && this.state.isMoveTooltipOpen) || false}
+              isOpen={this.state.isMoveTooltipOpen}
               toggle={this.toggleMoveTooltip}
               dangerouslySetInnerHTML={{ __html: __('move_button_hint') }}
-            />
+            />}
             {' '}
             <Button
               size="sm"
@@ -225,13 +225,13 @@ class ListItem extends React.PureComponent {
             >
               <FaTrash />
             </Button>
-            <Tooltip
+            {this.deleteButton && <Tooltip
               placement="bottom"
               target={() => this.deleteButton}
-              isOpen={(this.deleteButton && this.state.isDeleteTooltipOpen) || false}
+              isOpen={this.state.isDeleteTooltipOpen}
               toggle={this.toggleDeleteTooltip}
               dangerouslySetInnerHTML={{ __html: __('delete_button_hint') }}
-            />
+            />}
           </div>
         </div>
       );

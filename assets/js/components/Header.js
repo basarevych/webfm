@@ -179,13 +179,13 @@ class Header extends React.PureComponent {
                 ? (this.props.sortDir === 'ASC' ? <FaSortAlphaAsc /> : <FaSortAlphaDesc />)
                 : <FaSortAlphaAsc />}
             </Button>
-            <Tooltip
+            {this.sortNameButton && <Tooltip
               placement="bottom"
               target={() => this.sortNameButton}
-              isOpen={(this.sortNameButton && this.state.isSortNameTooltipOpen) || false}
+              isOpen={this.state.isSortNameTooltipOpen}
               toggle={this.toggleSortNameTooltip}
               dangerouslySetInnerHTML={{ __html: __('sort_name_hint') }}
-            />
+            />}
             <Button
               size="sm"
               color={this.props.sortField === 'SIZE' ? 'primary' : 'secondary'}
@@ -196,13 +196,13 @@ class Header extends React.PureComponent {
                 ? (this.props.sortDir === 'ASC' ? <FaSortAmountAsc /> : <FaSortAmountDesc />)
                 : <FaSortAmountAsc />}
             </Button>
-            <Tooltip
+            {this.sortSizeButton && <Tooltip
               placement="bottom"
               target={() => this.sortSizeButton}
-              isOpen={(this.sortSizeButton && this.state.isSortSizeTooltipOpen) || false}
+              isOpen={this.state.isSortSizeTooltipOpen}
               toggle={this.toggleSortSizeTooltip}
               dangerouslySetInnerHTML={{ __html: __('sort_size_hint') }}
-            />
+            />}
           </ButtonGroup>
           &nbsp;
         </span>
@@ -220,13 +220,13 @@ class Header extends React.PureComponent {
           >
             <FaFolderOpenO />
           </Button>
-          <Tooltip
+          {this.modeListButton && <Tooltip
             placement="bottom"
             target={() => this.modeListButton}
-            isOpen={(this.modeListButton && this.state.isModeListTooltipOpen) || false}
+            isOpen={this.state.isModeListTooltipOpen}
             toggle={this.toggleModeListTooltip}
             dangerouslySetInnerHTML={{ __html: __('mode_list_hint') }}
-          />
+          />}
           <Button
             size="sm"
             color={this.props.mode === 'CONTENTS' ? 'primary' : 'secondary'}
@@ -235,13 +235,13 @@ class Header extends React.PureComponent {
           >
             <FaFileTextO />
           </Button>
-          <Tooltip
+          {this.modeContentsButton && <Tooltip
             placement="bottom"
             target={() => this.modeContentsButton}
-            isOpen={(this.modeContentsButton && this.state.isModeContentsTooltipOpen) || false}
+            isOpen={this.state.isModeContentsTooltipOpen}
             toggle={this.toggleModeContentsTooltip}
             dangerouslySetInnerHTML={{ __html: __('mode_contents_hint') }}
-          />
+          />}
           <Button
             size="sm"
             color={this.props.mode === 'INFO' ? 'primary' : 'secondary'}
@@ -250,13 +250,13 @@ class Header extends React.PureComponent {
           >
             <FaAlignLeft />
           </Button>
-          <Tooltip
+          {this.modeInfoButton && <Tooltip
             placement="bottom"
             target={() => this.modeInfoButton}
-            isOpen={(this.modeInfoButton && this.state.isModeInfoTooltipOpen) || false}
+            isOpen={this.state.isModeInfoTooltipOpen}
             toggle={this.toggleModeInfoTooltip}
             dangerouslySetInnerHTML={{ __html: __('mode_info_hint') }}
-          />
+          />}
         </ButtonGroup>
         &nbsp;
       </span>
@@ -274,13 +274,13 @@ class Header extends React.PureComponent {
         >
           {this.props.isOtherVisible ? <FaToggleOn /> : <FaToggleOff />}
         </Button>
-        <Tooltip
+        {this.paneButton && <Tooltip
           placement="bottom"
           target={() => this.paneButton}
-          isOpen={(this.paneButton && this.state.isPaneTooltipOpen) || false}
+          isOpen={this.state.isPaneTooltipOpen}
           toggle={this.togglePaneTooltip}
           dangerouslySetInnerHTML={{ __html: __('toggle_pane_hint') }}
-        />
+        />}
       </span>
     );
     if (this.props.breakpoint === 'xs' || (this.props.breakpoint === 'sm' && this.props.isOtherVisible)) {

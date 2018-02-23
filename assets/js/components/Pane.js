@@ -156,30 +156,30 @@ class Pane extends React.PureComponent {
     return this.props.connectDropTarget(
       <div className="pane" onClick={this.props.onPaneClick}>
         {view}
-        <Tooltip
+        {this.view && <Tooltip
           placement="top"
           target={() => this.view}
-          isOpen={(this.view && this.props.isOtherDragging && !this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy) || false}
+          isOpen={this.props.isOtherDragging && !this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy}
           dangerouslySetInnerHTML={{ __html: __('copy_drop_hint') }}
-        />
-        <Tooltip
+        />}
+        {this.view && <Tooltip
           placement="top"
           target={() => this.view}
-          isOpen={(this.view && this.props.isOtherDragging && this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy) || false}
+          isOpen={this.props.isOtherDragging && this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy}
           dangerouslySetInnerHTML={{ __html: __('copy_drop_selected_hint') }}
-        />
-        <Tooltip
+        />}
+        {this.view && <Tooltip
           placement="top"
           target={() => this.view}
-          isOpen={(this.view && this.props.isOtherDragging && !this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy) || false}
+          isOpen={this.props.isOtherDragging && !this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy}
           dangerouslySetInnerHTML={{ __html: __('move_drop_hint') }}
-        />
-        <Tooltip
+        />}
+        {this.view && <Tooltip
           placement="top"
           target={() => this.view}
-          isOpen={(this.view && this.props.isOtherDragging && this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy) || false}
+          isOpen={this.props.isOtherDragging && this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy}
           dangerouslySetInnerHTML={{ __html: __('move_drop_selected_hint') }}
-        />
+        />}
       </div>
     );
   }
