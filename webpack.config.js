@@ -46,7 +46,7 @@ module.exports = [
       'twbs': `bootstrap-loader/lib/bootstrap.loader?configFilePath=${root('.bootstraprc')}!bootstrap-loader/no-op.js`,
 
       // Site scripts
-      'site': ['@babel/polyfill', root('assets/js/browser.js')],
+      'site': root('assets/js/browser.js'),
     },
 
     /**
@@ -104,6 +104,7 @@ module.exports = [
                     targets: {
                       browsers: 'last 3 versions',
                     },
+                    forceAllTransforms: true,
                   }],
                   '@babel/preset-react'
                 ],

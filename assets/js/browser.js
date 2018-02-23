@@ -1,5 +1,6 @@
 'use strict';
 
+import "@babel/polyfill";
 import _ from 'lodash';
 import 'isomorphic-fetch';
 import socketIOClient from 'socket.io-client';
