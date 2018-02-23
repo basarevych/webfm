@@ -125,7 +125,7 @@ class Header extends React.PureComponent {
           let name = share.get('name');
           shares.push(
             <DropdownItem key={name} onClick={() => this.props.onSetShare(name)}>
-              {name + ' ' + (share.isReadOnly ? __('read_only_label') : __('read_write_label'))}
+              {name + ' ' + (share.get('isReadOnly') ? __('read_only_label') : __('read_write_label'))}
             </DropdownItem>
           );
         }
