@@ -182,7 +182,7 @@ class Header extends React.PureComponent {
             <Tooltip
               placement="bottom"
               target={() => this.sortNameButton}
-              isOpen={this.state.isSortNameTooltipOpen}
+              isOpen={(this.sortNameButton && this.state.isSortNameTooltipOpen) || false}
               toggle={this.toggleSortNameTooltip}
               dangerouslySetInnerHTML={{ __html: __('sort_name_hint') }}
             />
@@ -199,7 +199,7 @@ class Header extends React.PureComponent {
             <Tooltip
               placement="bottom"
               target={() => this.sortSizeButton}
-              isOpen={this.state.isSortSizeTooltipOpen}
+              isOpen={(this.sortSizeButton && this.state.isSortSizeTooltipOpen) || false}
               toggle={this.toggleSortSizeTooltip}
               dangerouslySetInnerHTML={{ __html: __('sort_size_hint') }}
             />
@@ -223,7 +223,7 @@ class Header extends React.PureComponent {
           <Tooltip
             placement="bottom"
             target={() => this.modeListButton}
-            isOpen={this.state.isModeListTooltipOpen}
+            isOpen={(this.modeListButton && this.state.isModeListTooltipOpen) || false}
             toggle={this.toggleModeListTooltip}
             dangerouslySetInnerHTML={{ __html: __('mode_list_hint') }}
           />
@@ -238,7 +238,7 @@ class Header extends React.PureComponent {
           <Tooltip
             placement="bottom"
             target={() => this.modeContentsButton}
-            isOpen={this.state.isModeContentsTooltipOpen}
+            isOpen={(this.modeContentsButton && this.state.isModeContentsTooltipOpen) || false}
             toggle={this.toggleModeContentsTooltip}
             dangerouslySetInnerHTML={{ __html: __('mode_contents_hint') }}
           />
@@ -253,7 +253,7 @@ class Header extends React.PureComponent {
           <Tooltip
             placement="bottom"
             target={() => this.modeInfoButton}
-            isOpen={this.state.isModeInfoTooltipOpen}
+            isOpen={(this.modeInfoButton && this.state.isModeInfoTooltipOpen) || false}
             toggle={this.toggleModeInfoTooltip}
             dangerouslySetInnerHTML={{ __html: __('mode_info_hint') }}
           />
@@ -277,7 +277,7 @@ class Header extends React.PureComponent {
         <Tooltip
           placement="bottom"
           target={() => this.paneButton}
-          isOpen={this.state.isPaneTooltipOpen}
+          isOpen={(this.paneButton && this.state.isPaneTooltipOpen) || false}
           toggle={this.togglePaneTooltip}
           dangerouslySetInnerHTML={{ __html: __('toggle_pane_hint') }}
         />

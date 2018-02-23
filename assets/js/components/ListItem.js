@@ -159,7 +159,7 @@ class ListItem extends React.PureComponent {
           <Tooltip
             placement="bottom"
             target={() => this.sizeButton}
-            isOpen={this.state.isSizeTooltipOpen}
+            isOpen={(this.sizeButton && this.state.isSizeTooltipOpen) || false}
             toggle={this.toggleSizeTooltip}
             dangerouslySetInnerHTML={{ __html: __('size_button_hint') }}
           />
@@ -196,7 +196,7 @@ class ListItem extends React.PureComponent {
             <Tooltip
               placement="bottom"
               target={() => this.copyButton}
-              isOpen={this.state.isCopyTooltipOpen}
+              isOpen={(this.copyButton && this.state.isCopyTooltipOpen) || false}
               toggle={this.toggleCopyTooltip}
               dangerouslySetInnerHTML={{ __html: __('copy_button_hint') }}
             />
@@ -212,7 +212,7 @@ class ListItem extends React.PureComponent {
             <Tooltip
               placement="bottom"
               target={() => this.moveButton}
-              isOpen={this.state.isMoveTooltipOpen}
+              isOpen={(this.moveButton && this.state.isMoveTooltipOpen) || false}
               toggle={this.toggleMoveTooltip}
               dangerouslySetInnerHTML={{ __html: __('move_button_hint') }}
             />
@@ -228,7 +228,7 @@ class ListItem extends React.PureComponent {
             <Tooltip
               placement="bottom"
               target={() => this.deleteButton}
-              isOpen={this.state.isDeleteTooltipOpen}
+              isOpen={(this.deleteButton && this.state.isDeleteTooltipOpen) || false}
               toggle={this.toggleDeleteTooltip}
               dangerouslySetInnerHTML={{ __html: __('delete_button_hint') }}
             />

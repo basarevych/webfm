@@ -159,25 +159,25 @@ class Pane extends React.PureComponent {
         <Tooltip
           placement="top"
           target={() => this.view}
-          isOpen={this.props.isOtherDragging && !this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy}
+          isOpen={(this.view && this.props.isOtherDragging && !this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy) || false}
           dangerouslySetInnerHTML={{ __html: __('copy_drop_hint') }}
         />
         <Tooltip
           placement="top"
           target={() => this.view}
-          isOpen={this.props.isOtherDragging && this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy}
+          isOpen={(this.view && this.props.isOtherDragging && this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy) || false}
           dangerouslySetInnerHTML={{ __html: __('copy_drop_selected_hint') }}
         />
         <Tooltip
           placement="top"
           target={() => this.view}
-          isOpen={this.props.isOtherDragging && !this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy}
+          isOpen={(this.view && this.props.isOtherDragging && !this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy) || false}
           dangerouslySetInnerHTML={{ __html: __('move_drop_hint') }}
         />
         <Tooltip
           placement="top"
           target={() => this.view}
-          isOpen={this.props.isOtherDragging && this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy}
+          isOpen={(this.view && this.props.isOtherDragging && this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy) || false}
           dangerouslySetInnerHTML={{ __html: __('move_drop_selected_hint') }}
         />
       </div>

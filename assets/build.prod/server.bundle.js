@@ -3205,25 +3205,25 @@ let Pane = (_dec = (0, _reactDnd.DropTarget)(dragTypes.NODE, paneTarget, collect
       _react2.default.createElement(_reactstrap.Tooltip, {
         placement: 'top',
         target: () => this.view,
-        isOpen: this.props.isOtherDragging && !this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy,
+        isOpen: this.view && this.props.isOtherDragging && !this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy || false,
         dangerouslySetInnerHTML: { __html: __('copy_drop_hint') }
       }),
       _react2.default.createElement(_reactstrap.Tooltip, {
         placement: 'top',
         target: () => this.view,
-        isOpen: this.props.isOtherDragging && this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy,
+        isOpen: this.view && this.props.isOtherDragging && this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy || false,
         dangerouslySetInnerHTML: { __html: __('copy_drop_selected_hint') }
       }),
       _react2.default.createElement(_reactstrap.Tooltip, {
         placement: 'top',
         target: () => this.view,
-        isOpen: this.props.isOtherDragging && !this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy,
+        isOpen: this.view && this.props.isOtherDragging && !this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy || false,
         dangerouslySetInnerHTML: { __html: __('move_drop_hint') }
       }),
       _react2.default.createElement(_reactstrap.Tooltip, {
         placement: 'top',
         target: () => this.view,
-        isOpen: this.props.isOtherDragging && this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy,
+        isOpen: this.view && this.props.isOtherDragging && this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy || false,
         dangerouslySetInnerHTML: { __html: __('move_drop_selected_hint') }
       })
     ));
@@ -4492,7 +4492,7 @@ exports.default = Navbar;
 /* 61 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"webfm","version":"0.9.28","description":"Two pane file manager for the Web","keywords":["file manager","two pane","node","react","redux","sails"],"license":"MIT","author":"Ross Basarevych <basarevych@gmail.com>","repository":{"type":"git","url":"git+https://github.com/basarevych/webfm.git"},"dependencies":{"babel-core":"~6.26.0","babel-plugin-transform-class-properties":"~6.24.1","babel-plugin-transform-decorators-legacy":"~1.3.4","babel-plugin-transform-object-rest-spread":"~6.26.0","babel-polyfill":"~6.26.0","babel-preset-env":"~1.6.1","babel-preset-react":"~6.24.1","async":"~2.6.0","autoprefixer":"~8.0.0","babel-loader":"~7.1.2","bootstrap":"~4.0.0","bootstrap-loader":"~2.2.0","breakpoints-js":"~1.0.5","clean-webpack-plugin":"~0.1.18","connect-redis":"~3.3.3","css-loader":"~0.28.9","cssnano":"~3.10.0","exports-loader":"~0.7.0","extract-text-webpack-plugin":"~3.0.2","file-loader":"~1.1.9","grunt":"~1.0.2","history":"~4.7.2","i18n-for-browser":"~0.9.7","ignore-loader":"~0.1.2","immutable":"~3.8.2","imports-loader":"~0.8.0","ini":"~1.3.5","isomorphic-fetch":"~2.2.1","lodash":"~4.17.5","moment-timezone":"~0.5.14","node-sass":"~4.7.2","optimize-css-assets-webpack-plugin":"~3.2.0","popper.js":"~1.12.9","postcss-loader":"~2.1.0","prop-types":"~15.6.0","raf":"~3.4.0","react":"~16.2.0","react-dnd":"~2.5.4","react-dnd-html5-backend":"~2.5.4","react-dom":"~16.2.0","react-icons":"~2.2.7","react-list":"~0.8.8","react-redux":"~5.0.7","react-router":"~4.2.0","react-router-redux":"^5.0.0-alpha.9","react-scroll-box":"~0.3.5","react-transition-group":"~2.2.1","reactstrap":"^5.0.0-beta","redux":"~3.7.2","redux-immutable":"~4.0.0","redux-thunk":"~2.2.0","resolve-url-loader":"~2.2.1","sails":"^1.0.0-46","sails-hook-grunt":"~3.1.0","sails-hook-orm":"^2.0.0-23","sails-hook-panic-mode":"~0.1.3","sails-hook-sockets":"~1.4.0","sails.io.js":"~1.1.13","sass-loader":"~6.0.6","socket.io-client":"2.0.3","socket.io-redis":"~4.0.1","stat-mode":"~0.2.2","style-loader":"~0.20.2","uglifyjs-webpack-plugin":"~1.2.0","url-loader":"~0.6.2","userid":"~0.3.1","webpack":"~3.11.0","webpack-config-utils":"~2.3.0","webpack-node-externals":"~1.6.0"},"devDependencies":{"babel-eslint":"~8.2.2","eslint":"~4.18.1"},"scripts":{"build":"env NODE_ENV=production ./node_modules/.bin/webpack --progress","start":"env NODE_ENV=production node app.js","build:dev":"env NODE_ENV=development ./node_modules/.bin/webpack --watch --progress","start:dev":"env NODE_ENV=development ./node_modules/.bin/sails lift","lint":"node ./node_modules/eslint/bin/eslint . --max-warnings=0","debug":"node debug app.js"},"main":"app.js","engines":{"node":">=8.0.0"}}
+module.exports = {"name":"webfm","version":"0.9.29","description":"Two pane file manager for the Web","keywords":["file manager","two pane","node","react","redux","sails"],"license":"MIT","author":"Ross Basarevych <basarevych@gmail.com>","repository":{"type":"git","url":"git+https://github.com/basarevych/webfm.git"},"dependencies":{"babel-core":"~6.26.0","babel-plugin-transform-class-properties":"~6.24.1","babel-plugin-transform-decorators-legacy":"~1.3.4","babel-plugin-transform-object-rest-spread":"~6.26.0","babel-polyfill":"~6.26.0","babel-preset-env":"~1.6.1","babel-preset-react":"~6.24.1","async":"~2.6.0","autoprefixer":"~8.0.0","babel-loader":"~7.1.2","bootstrap":"~4.0.0","bootstrap-loader":"~2.2.0","breakpoints-js":"~1.0.5","clean-webpack-plugin":"~0.1.18","connect-redis":"~3.3.3","css-loader":"~0.28.9","cssnano":"~3.10.0","exports-loader":"~0.7.0","extract-text-webpack-plugin":"~3.0.2","file-loader":"~1.1.9","grunt":"~1.0.2","history":"~4.7.2","i18n-for-browser":"~0.9.7","ignore-loader":"~0.1.2","immutable":"~3.8.2","imports-loader":"~0.8.0","ini":"~1.3.5","isomorphic-fetch":"~2.2.1","lodash":"~4.17.5","moment-timezone":"~0.5.14","node-sass":"~4.7.2","optimize-css-assets-webpack-plugin":"~3.2.0","popper.js":"~1.12.9","postcss-loader":"~2.1.0","prop-types":"~15.6.0","raf":"~3.4.0","react":"~16.2.0","react-dnd":"~2.5.4","react-dnd-html5-backend":"~2.5.4","react-dom":"~16.2.0","react-icons":"~2.2.7","react-list":"~0.8.8","react-redux":"~5.0.7","react-router":"~4.2.0","react-router-redux":"^5.0.0-alpha.9","react-scroll-box":"~0.3.5","react-transition-group":"~2.2.1","reactstrap":"^5.0.0-beta","redux":"~3.7.2","redux-immutable":"~4.0.0","redux-thunk":"~2.2.0","resolve-url-loader":"~2.2.1","sails":"^1.0.0-46","sails-hook-grunt":"~3.1.0","sails-hook-orm":"^2.0.0-23","sails-hook-panic-mode":"~0.1.3","sails-hook-sockets":"~1.4.0","sails.io.js":"~1.1.13","sass-loader":"~6.0.6","socket.io-client":"2.0.3","socket.io-redis":"~4.0.1","stat-mode":"~0.2.2","style-loader":"~0.20.2","uglifyjs-webpack-plugin":"~1.2.0","url-loader":"~0.6.2","userid":"~0.3.1","webpack":"~3.11.0","webpack-config-utils":"~2.3.0","webpack-node-externals":"~1.6.0"},"devDependencies":{"babel-eslint":"~8.2.2","eslint":"~4.18.1"},"scripts":{"build":"env NODE_ENV=production ./node_modules/.bin/webpack --progress","start":"env NODE_ENV=production node app.js","build:dev":"env NODE_ENV=development ./node_modules/.bin/webpack --watch --progress","start:dev":"env NODE_ENV=development ./node_modules/.bin/sails lift","lint":"node ./node_modules/eslint/bin/eslint . --max-warnings=0","debug":"node debug app.js"},"main":"app.js","engines":{"node":">=8.0.0"}}
 
 /***/ }),
 /* 62 */
@@ -7895,7 +7895,7 @@ let Header = class Header extends _react2.default.PureComponent {
           _react2.default.createElement(_reactstrap.Tooltip, {
             placement: 'bottom',
             target: () => this.sortNameButton,
-            isOpen: this.state.isSortNameTooltipOpen,
+            isOpen: this.sortNameButton && this.state.isSortNameTooltipOpen || false,
             toggle: this.toggleSortNameTooltip,
             dangerouslySetInnerHTML: { __html: __('sort_name_hint') }
           }),
@@ -7914,7 +7914,7 @@ let Header = class Header extends _react2.default.PureComponent {
           _react2.default.createElement(_reactstrap.Tooltip, {
             placement: 'bottom',
             target: () => this.sortSizeButton,
-            isOpen: this.state.isSortSizeTooltipOpen,
+            isOpen: this.sortSizeButton && this.state.isSortSizeTooltipOpen || false,
             toggle: this.toggleSortSizeTooltip,
             dangerouslySetInnerHTML: { __html: __('sort_size_hint') }
           })
@@ -7944,7 +7944,7 @@ let Header = class Header extends _react2.default.PureComponent {
         _react2.default.createElement(_reactstrap.Tooltip, {
           placement: 'bottom',
           target: () => this.modeListButton,
-          isOpen: this.state.isModeListTooltipOpen,
+          isOpen: this.modeListButton && this.state.isModeListTooltipOpen || false,
           toggle: this.toggleModeListTooltip,
           dangerouslySetInnerHTML: { __html: __('mode_list_hint') }
         }),
@@ -7963,7 +7963,7 @@ let Header = class Header extends _react2.default.PureComponent {
         _react2.default.createElement(_reactstrap.Tooltip, {
           placement: 'bottom',
           target: () => this.modeContentsButton,
-          isOpen: this.state.isModeContentsTooltipOpen,
+          isOpen: this.modeContentsButton && this.state.isModeContentsTooltipOpen || false,
           toggle: this.toggleModeContentsTooltip,
           dangerouslySetInnerHTML: { __html: __('mode_contents_hint') }
         }),
@@ -7982,7 +7982,7 @@ let Header = class Header extends _react2.default.PureComponent {
         _react2.default.createElement(_reactstrap.Tooltip, {
           placement: 'bottom',
           target: () => this.modeInfoButton,
-          isOpen: this.state.isModeInfoTooltipOpen,
+          isOpen: this.modeInfoButton && this.state.isModeInfoTooltipOpen || false,
           toggle: this.toggleModeInfoTooltip,
           dangerouslySetInnerHTML: { __html: __('mode_info_hint') }
         })
@@ -8010,7 +8010,7 @@ let Header = class Header extends _react2.default.PureComponent {
       _react2.default.createElement(_reactstrap.Tooltip, {
         placement: 'bottom',
         target: () => this.paneButton,
-        isOpen: this.state.isPaneTooltipOpen,
+        isOpen: this.paneButton && this.state.isPaneTooltipOpen || false,
         toggle: this.togglePaneTooltip,
         dangerouslySetInnerHTML: { __html: __('toggle_pane_hint') }
       })
@@ -8468,7 +8468,7 @@ let ListItem = (_dec = (0, _reactDnd.DragSource)(dragTypes.NODE, nodeSource, col
         _react2.default.createElement(_reactstrap.Tooltip, {
           placement: 'bottom',
           target: () => this.sizeButton,
-          isOpen: this.state.isSizeTooltipOpen,
+          isOpen: this.sizeButton && this.state.isSizeTooltipOpen || false,
           toggle: this.toggleSizeTooltip,
           dangerouslySetInnerHTML: { __html: __('size_button_hint') }
         })
@@ -8519,7 +8519,7 @@ let ListItem = (_dec = (0, _reactDnd.DragSource)(dragTypes.NODE, nodeSource, col
           _react2.default.createElement(_reactstrap.Tooltip, {
             placement: 'bottom',
             target: () => this.copyButton,
-            isOpen: this.state.isCopyTooltipOpen,
+            isOpen: this.copyButton && this.state.isCopyTooltipOpen || false,
             toggle: this.toggleCopyTooltip,
             dangerouslySetInnerHTML: { __html: __('copy_button_hint') }
           }),
@@ -8539,7 +8539,7 @@ let ListItem = (_dec = (0, _reactDnd.DragSource)(dragTypes.NODE, nodeSource, col
           _react2.default.createElement(_reactstrap.Tooltip, {
             placement: 'bottom',
             target: () => this.moveButton,
-            isOpen: this.state.isMoveTooltipOpen,
+            isOpen: this.moveButton && this.state.isMoveTooltipOpen || false,
             toggle: this.toggleMoveTooltip,
             dangerouslySetInnerHTML: { __html: __('move_button_hint') }
           }),
@@ -8559,7 +8559,7 @@ let ListItem = (_dec = (0, _reactDnd.DragSource)(dragTypes.NODE, nodeSource, col
           _react2.default.createElement(_reactstrap.Tooltip, {
             placement: 'bottom',
             target: () => this.deleteButton,
-            isOpen: this.state.isDeleteTooltipOpen,
+            isOpen: this.deleteButton && this.state.isDeleteTooltipOpen || false,
             toggle: this.toggleDeleteTooltip,
             dangerouslySetInnerHTML: { __html: __('delete_button_hint') }
           })
