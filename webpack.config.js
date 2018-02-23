@@ -41,7 +41,11 @@ module.exports = [
      * https://webpack.js.org/configuration/entry-context/#entry
      */
     entry: {
-      'site': [`bootstrap-loader/lib/bootstrap.loader?configFilePath=${root('.bootstraprc')}!bootstrap-loader/no-op.js`, root('assets/js/browser.js')],
+      'site': [
+        `bootstrap-loader/lib/bootstrap.loader?configFilePath=${root('.bootstraprc')}!bootstrap-loader/no-op.js`,
+        'babel-polyfill',
+        root('assets/js/browser.js'),
+      ],
     },
 
     /**
@@ -95,19 +99,17 @@ module.exports = [
               loader: 'babel-loader',
               options: {
                 presets: [
-                  ['@babel/preset-env', {
+                  ['env', {
                     targets: {
                       browsers: 'last 3 versions',
                     },
-                    modules: false,
-                    useBuiltIns: 'usage',
                   }],
-                  '@babel/preset-react'
+                  'react'
                 ],
                 plugins: [
-                  '@babel/plugin-proposal-class-properties',
-                  '@babel/plugin-proposal-decorators',
-                  '@babel/plugin-proposal-object-rest-spread'
+                  'transform-class-properties',
+                  'transform-decorators-legacy',
+                  'transform-object-rest-spread'
                 ],
               },
             },
@@ -293,7 +295,10 @@ module.exports = [
     cache: false,
     devtool: false,
     entry: {
-      'server': root('assets/js/server.js'),
+      'server': [
+        'babel-polyfill',
+        root('assets/js/server.js'),
+      ]
     },
     target: 'node',
     externals: [nodeExternals()],
@@ -320,18 +325,17 @@ module.exports = [
               loader: 'babel-loader',
               options: {
                 presets: [
-                  ['@babel/preset-env', {
+                  ['env', {
                     targets: {
                       node: '8.0'
                     },
-                    useBuiltIns: 'usage',
                   }],
-                  '@babel/preset-react'
+                  'react'
                 ],
                 plugins: [
-                  '@babel/plugin-proposal-class-properties',
-                  '@babel/plugin-proposal-decorators',
-                  '@babel/plugin-proposal-object-rest-spread'
+                  'transform-class-properties',
+                  'transform-decorators-legacy',
+                  'transform-object-rest-spread'
                 ],
               },
             },
