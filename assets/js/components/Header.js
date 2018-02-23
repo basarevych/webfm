@@ -1,20 +1,18 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
 import {
   FaToggleOn, FaToggleOff, FaSortAlphaAsc, FaSortAlphaDesc, FaSortAmountAsc, FaSortAmountDesc,
   FaFileTextO, FaAlignLeft, FaFolderOpenO, FaBars
 } from 'react-icons/lib/fa';
-import { Button, ButtonGroup } from 'reactstrap';
+import { ButtonGroup } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Tooltip } from 'reactstrap';
+import HintedButton from './HintedButton';
 
 class Header extends React.PureComponent {
   static propTypes = {
-    which: PropTypes.string.isRequired,
     breakpoint: PropTypes.string.isRequired,
     shares: PropTypes.instanceOf(List).isRequired,
     share: PropTypes.string.isRequired,
@@ -169,40 +167,32 @@ class Header extends React.PureComponent {
       sorting = (
         <span>
           <ButtonGroup>
-            <Button
+            <HintedButton
               size="sm"
               color={this.props.sortField === 'NAME' ? 'primary' : 'secondary'}
               onClick={this.toggleNameSort}
-              ref={el => { this.sortNameButton = el && ReactDOM.findDOMNode(el); }}
+              tooltipPlacement="bottom"
+              tooltipIsOpen={this.state.isSortNameTooltipOpen}
+              tooltipToggle={this.toggleSortNameTooltip}
+              tooltipHTML={__('sort_name_hint')}
             >
               {this.props.sortField === 'NAME'
                 ? (this.props.sortDir === 'ASC' ? <FaSortAlphaAsc /> : <FaSortAlphaDesc />)
                 : <FaSortAlphaAsc />}
-            </Button>
-            {this.sortNameButton && <Tooltip
-              placement="bottom"
-              target={() => this.sortNameButton}
-              isOpen={this.state.isSortNameTooltipOpen}
-              toggle={this.toggleSortNameTooltip}
-              dangerouslySetInnerHTML={{ __html: __('sort_name_hint') }}
-            />}
-            <Button
+            </HintedButton>
+            <HintedButton
               size="sm"
               color={this.props.sortField === 'SIZE' ? 'primary' : 'secondary'}
               onClick={this.toggleSizeSort}
-              ref={el => { this.sortSizeButton = el && ReactDOM.findDOMNode(el); }}
+              tooltipPlacement="bottom"
+              tooltipIsOpen={this.state.isSortSizeTooltipOpen}
+              tooltipToggle={this.toggleSortSizeTooltip}
+              tooltipHTML={__('sort_size_hint')}
             >
               {this.props.sortField === 'SIZE'
                 ? (this.props.sortDir === 'ASC' ? <FaSortAmountAsc /> : <FaSortAmountDesc />)
                 : <FaSortAmountAsc />}
-            </Button>
-            {this.sortSizeButton && <Tooltip
-              placement="bottom"
-              target={() => this.sortSizeButton}
-              isOpen={this.state.isSortSizeTooltipOpen}
-              toggle={this.toggleSortSizeTooltip}
-              dangerouslySetInnerHTML={{ __html: __('sort_size_hint') }}
-            />}
+            </HintedButton>
           </ButtonGroup>
           &nbsp;
         </span>
@@ -212,51 +202,39 @@ class Header extends React.PureComponent {
     let modes = (
       <span>
         <ButtonGroup>
-          <Button
+          <HintedButton
             size="sm"
             color={this.props.mode === 'LIST' ? 'primary' : 'secondary'}
             onClick={this.setListMode}
-            ref={el => { this.modeListButton = el && ReactDOM.findDOMNode(el); }}
+            tooltipPlacement="bottom"
+            tooltipIsOpen={this.state.isModeListTooltipOpen}
+            tooltipToggle={this.toggleModeListTooltip}
+            tooltipHTML={__('mode_list_hint')}
           >
             <FaFolderOpenO />
-          </Button>
-          {this.modeListButton && <Tooltip
-            placement="bottom"
-            target={() => this.modeListButton}
-            isOpen={this.state.isModeListTooltipOpen}
-            toggle={this.toggleModeListTooltip}
-            dangerouslySetInnerHTML={{ __html: __('mode_list_hint') }}
-          />}
-          <Button
+          </HintedButton>
+          <HintedButton
             size="sm"
             color={this.props.mode === 'CONTENTS' ? 'primary' : 'secondary'}
             onClick={this.setContentsMode}
-            ref={el => { this.modeContentsButton = el && ReactDOM.findDOMNode(el); }}
+            tooltipPlacement="bottom"
+            tooltipIsOpen={this.state.isModeContentsTooltipOpen}
+            tooltipToggle={this.toggleModeContentsTooltip}
+            tooltipHTML={__('mode_contents_hint')}
           >
             <FaFileTextO />
-          </Button>
-          {this.modeContentsButton && <Tooltip
-            placement="bottom"
-            target={() => this.modeContentsButton}
-            isOpen={this.state.isModeContentsTooltipOpen}
-            toggle={this.toggleModeContentsTooltip}
-            dangerouslySetInnerHTML={{ __html: __('mode_contents_hint') }}
-          />}
-          <Button
+          </HintedButton>
+          <HintedButton
             size="sm"
             color={this.props.mode === 'INFO' ? 'primary' : 'secondary'}
             onClick={this.setInfoMode}
-            ref={el => { this.modeInfoButton = el && ReactDOM.findDOMNode(el); }}
+            tooltipPlacement="bottom"
+            tooltipIsOpen={this.state.isModeInfoTooltipOpen}
+            tooltipToggle={this.toggleModeInfoTooltip}
+            tooltipHTML={__('mode_info_hint')}
           >
             <FaAlignLeft />
-          </Button>
-          {this.modeInfoButton && <Tooltip
-            placement="bottom"
-            target={() => this.modeInfoButton}
-            isOpen={this.state.isModeInfoTooltipOpen}
-            toggle={this.toggleModeInfoTooltip}
-            dangerouslySetInnerHTML={{ __html: __('mode_info_hint') }}
-          />}
+          </HintedButton>
         </ButtonGroup>
         &nbsp;
       </span>
@@ -266,21 +244,17 @@ class Header extends React.PureComponent {
       <span>
         {sorting}
         {modes}
-        <Button
+        <HintedButton
           size="sm"
           color="secondary"
           onClick={this.props.onToggleOther}
-          ref={el => { this.paneButton = el && ReactDOM.findDOMNode(el); }}
+          tooltipPlacement="bottom"
+          tooltipIsOpen={this.state.isPaneTooltipOpen}
+          tooltipToggle={this.togglePaneTooltip}
+          tooltipHTML={__('toggle_pane_hint')}
         >
           {this.props.isOtherVisible ? <FaToggleOn /> : <FaToggleOff />}
-        </Button>
-        {this.paneButton && <Tooltip
-          placement="bottom"
-          target={() => this.paneButton}
-          isOpen={this.state.isPaneTooltipOpen}
-          toggle={this.togglePaneTooltip}
-          dangerouslySetInnerHTML={{ __html: __('toggle_pane_hint') }}
-        />}
+        </HintedButton>
       </span>
     );
     if (this.props.breakpoint === 'xs' || (this.props.breakpoint === 'sm' && this.props.isOtherVisible)) {

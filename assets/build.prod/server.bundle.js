@@ -61,17 +61,23 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 37);
+/******/ 	return __webpack_require__(__webpack_require__.s = 38);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports) {
 
-module.exports = require("immutable");
+module.exports = require("react");
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+module.exports = require("immutable");
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -211,12 +217,6 @@ const UPDATE_SIGN_IN_DIALOG = exports.UPDATE_SIGN_IN_DIALOG = 'UPDATE_SIGN_IN_DI
 const UNUSED = exports.UNUSED = 'UNUSED';
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-module.exports = require("react");
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
@@ -226,13 +226,13 @@ module.exports = require("prop-types");
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("react-redux");
+module.exports = require("reactstrap");
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("reactstrap");
+module.exports = require("react-redux");
 
 /***/ }),
 /* 6 */
@@ -252,17 +252,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.find = exports.fastDel = exports.del = exports.fastMove = exports.move = exports.fastCopy = exports.copy = exports.rename = exports.mkdir = undefined;
 
-var _navbar = __webpack_require__(20);
+var _navbar = __webpack_require__(19);
 
-var _mkdirDialog = __webpack_require__(21);
+var _mkdirDialog = __webpack_require__(20);
 
-var _renameDialog = __webpack_require__(22);
+var _renameDialog = __webpack_require__(21);
 
-var _copyDialog = __webpack_require__(23);
+var _copyDialog = __webpack_require__(22);
 
-var _moveDialog = __webpack_require__(24);
+var _moveDialog = __webpack_require__(23);
 
-var _deleteDialog = __webpack_require__(25);
+var _deleteDialog = __webpack_require__(24);
 
 var _failureDialog = __webpack_require__(30);
 
@@ -875,15 +875,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.signIn = exports.signOut = exports.updateStatus = exports.setUser = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
-var _package = __webpack_require__(61);
+var _package = __webpack_require__(62);
 
 var _package2 = _interopRequireDefault(_package);
 
-var _i18n = __webpack_require__(62);
+var _i18n = __webpack_require__(63);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
@@ -891,9 +891,9 @@ var _app = __webpack_require__(31);
 
 var _pane = __webpack_require__(17);
 
-var _signInDialog = __webpack_require__(28);
+var _signInDialog = __webpack_require__(27);
 
-var _navbar = __webpack_require__(20);
+var _navbar = __webpack_require__(19);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1020,7 +1020,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1028,11 +1028,11 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
 var _reactTransitionGroup = __webpack_require__(16);
 
-var _Fade = __webpack_require__(27);
+var _Fade = __webpack_require__(26);
 
 var _Fade2 = _interopRequireDefault(_Fade);
 
@@ -1095,11 +1095,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactDom = __webpack_require__(18);
+var _reactDom = __webpack_require__(29);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1204,7 +1204,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1232,7 +1232,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1240,13 +1240,13 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
-var _reactstrap = __webpack_require__(5);
+var _reactstrap = __webpack_require__(4);
 
 var _reactTransitionGroup = __webpack_require__(16);
 
-var _Fade = __webpack_require__(27);
+var _Fade = __webpack_require__(26);
 
 var _Fade2 = _interopRequireDefault(_Fade);
 
@@ -1340,7 +1340,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.initPanes = exports.paneCD = exports.paneUpdate = exports.paneToggleSelect = exports.paneSelectRange = exports.paneSelect = exports.paneDeselect = exports.paneSort = exports.setPaneIndex = exports.setPanePath = exports.setPaneShare = exports.setPaneMode = exports.stopLoadingPane = exports.startLoadingPane = exports.togglePane = exports.hidePane = exports.showPane = exports.setActivePane = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
@@ -1348,9 +1348,9 @@ var _reactRouterRedux = __webpack_require__(14);
 
 var _list = __webpack_require__(32);
 
-var _content = __webpack_require__(66);
+var _content = __webpack_require__(67);
 
-var _info = __webpack_require__(67);
+var _info = __webpack_require__(68);
 
 var _user = __webpack_require__(8);
 
@@ -1866,12 +1866,6 @@ const initPanes = exports.initPanes = () => {
 
 /***/ }),
 /* 18 */
-/***/ (function(module, exports) {
-
-module.exports = require("react-dom");
-
-/***/ }),
-/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1882,7 +1876,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.handleDrop = exports.handleDrag = exports.updateDragMode = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
@@ -1927,7 +1921,7 @@ const handleDrop = exports.handleDrop = (fromPane, name, isSelected) => {
 };
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1938,7 +1932,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.toggleNavbar = exports.closeNavbar = exports.openNavbar = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
@@ -1963,7 +1957,7 @@ const toggleNavbar = exports.toggleNavbar = () => {
 };
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1974,7 +1968,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.updateMkdirDialog = exports.submitMkdirDialog = exports.toggleMkdirDialog = exports.hideMkdirDialog = exports.showMkdirDialog = exports.resetMkdirDialog = exports.unlockMkdirDialog = exports.lockMkdirDialog = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
@@ -2059,7 +2053,7 @@ const updateMkdirDialog = exports.updateMkdirDialog = (data, submittedAt) => {
 };
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2070,7 +2064,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.updateRenameDialog = exports.submitRenameDialog = exports.toggleRenameDialog = exports.hideRenameDialog = exports.showRenameDialog = exports.resetRenameDialog = exports.unlockRenameDialog = exports.lockRenameDialog = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
@@ -2156,7 +2150,7 @@ const updateRenameDialog = exports.updateRenameDialog = (data, submittedAt) => {
 };
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2167,7 +2161,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.stopCopyDialogFind = exports.startCopyDialogFind = exports.updateCopyDialog = exports.submitCopyDialog = exports.toggleCopyDialog = exports.hideCopyDialog = exports.showCopyDialog = exports.resetCopyDialog = exports.unlockCopyDialog = exports.lockCopyDialog = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
@@ -2267,7 +2261,7 @@ const stopCopyDialogFind = exports.stopCopyDialogFind = nodes => {
 };
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2278,7 +2272,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.stopMoveDialogFind = exports.startMoveDialogFind = exports.updateMoveDialog = exports.submitMoveDialog = exports.toggleMoveDialog = exports.hideMoveDialog = exports.showMoveDialog = exports.resetMoveDialog = exports.unlockMoveDialog = exports.lockMoveDialog = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
@@ -2378,7 +2372,7 @@ const stopMoveDialogFind = exports.stopMoveDialogFind = nodes => {
 };
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2389,7 +2383,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.stopDeleteDialogFind = exports.startDeleteDialogFind = exports.updateDeleteDialog = exports.submitDeleteDialog = exports.toggleDeleteDialog = exports.hideDeleteDialog = exports.showDeleteDialog = exports.resetDeleteDialog = exports.unlockDeleteDialog = exports.lockDeleteDialog = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
@@ -2487,13 +2481,13 @@ const stopDeleteDialogFind = exports.stopDeleteDialogFind = nodes => {
 };
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-dnd");
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2505,11 +2499,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _variables = __webpack_require__(59);
+var _variables = __webpack_require__(60);
 
 var _variables2 = _interopRequireDefault(_variables);
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -2536,7 +2530,7 @@ const Fade = (_ref) => {
 exports.default = Fade;
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2547,7 +2541,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.updateSignInDialog = exports.submitSignInDialog = exports.toggleSignInDialog = exports.hideSignInDialog = exports.showSignInDialog = exports.resetSignInDialog = exports.unlockSignInDialog = exports.lockSignInDialog = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
@@ -2622,7 +2616,7 @@ const updateSignInDialog = exports.updateSignInDialog = (data, submittedAt) => {
 };
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2633,7 +2627,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.loadSize = exports.clearSizes = exports.setSize = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
@@ -2713,6 +2707,12 @@ const loadSize = exports.loadSize = (share, path) => {
 };
 
 /***/ }),
+/* 29 */
+/***/ (function(module, exports) {
+
+module.exports = require("react-dom");
+
+/***/ }),
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2724,7 +2724,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.hideFailureDialog = exports.showFailureDialog = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
@@ -2756,7 +2756,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.setServerState = exports.initApp = exports.screenResize = exports.setAppVersion = exports.startApp = exports.disconnectApp = exports.connectApp = exports.getCSRFToken = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
@@ -2972,7 +2972,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.clearLists = exports.setList = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
@@ -3023,7 +3023,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.clearProgress = exports.finishProgress = exports.updateProgress = exports.startProgress = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
@@ -3069,11 +3069,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _dec, _class;
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(18);
+var _reactDom = __webpack_require__(29);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -3081,37 +3081,37 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactDnd = __webpack_require__(26);
+var _reactstrap = __webpack_require__(4);
 
-var _reactstrap = __webpack_require__(5);
+var _reactDnd = __webpack_require__(25);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
-var _DisabledView = __webpack_require__(86);
+var _DisabledView = __webpack_require__(87);
 
 var _DisabledView2 = _interopRequireDefault(_DisabledView);
 
-var _LoadingView = __webpack_require__(87);
+var _LoadingView = __webpack_require__(88);
 
 var _LoadingView2 = _interopRequireDefault(_LoadingView);
 
-var _Header = __webpack_require__(88);
+var _Header = __webpack_require__(89);
 
 var _Header2 = _interopRequireDefault(_Header);
 
-var _ListView = __webpack_require__(89);
+var _ListView = __webpack_require__(91);
 
 var _ListView2 = _interopRequireDefault(_ListView);
 
-var _ContentView = __webpack_require__(93);
+var _ContentView = __webpack_require__(95);
 
 var _ContentView2 = _interopRequireDefault(_ContentView);
 
-var _InfoView = __webpack_require__(94);
+var _InfoView = __webpack_require__(96);
 
 var _InfoView2 = _interopRequireDefault(_InfoView);
 
-var _dragTypes = __webpack_require__(36);
+var _dragTypes = __webpack_require__(37);
 
 var dragTypes = _interopRequireWildcard(_dragTypes);
 
@@ -3173,13 +3173,9 @@ let Pane = (_dec = (0, _reactDnd.DropTarget)(dragTypes.NODE, paneTarget, collect
       view = _react2.default.createElement(
         'div',
         {
-          className: 'view rounded' + (this.props.isDraggedOver ? ' drop-ready' : this.props.isDraggingNode ? ' drop-alert' : this.props.isActive ? ' active' : ''),
-          ref: el => {
-            this.view = el && _reactDom2.default.findDOMNode(el);
-          }
+          className: 'view rounded' + (this.props.isDraggedOver ? ' drop-ready' : this.props.isDraggingNode ? ' drop-alert' : this.props.isActive ? ' active' : '')
         },
         _react2.default.createElement(_Header2.default, {
-          which: this.props.which,
           breakpoint: this.props.breakpoint,
           shares: this.props.shares,
           share: this.props.share,
@@ -3200,30 +3196,34 @@ let Pane = (_dec = (0, _reactDnd.DropTarget)(dragTypes.NODE, paneTarget, collect
 
     return this.props.connectDropTarget(_react2.default.createElement(
       'div',
-      { className: 'pane', onClick: this.props.onPaneClick },
+      { id: this.props.which + '-pane', className: 'pane', onClick: this.props.onPaneClick },
       view,
-      this.view && _react2.default.createElement(_reactstrap.Tooltip, {
+      _react2.default.createElement(_reactstrap.Tooltip, {
         placement: 'top',
-        target: () => this.view,
+        target: this.props.which + '-pane',
         isOpen: this.props.isOtherDragging && !this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy,
+        toggle: this.togglePaneTooltip,
         dangerouslySetInnerHTML: { __html: __('copy_drop_hint') }
       }),
-      this.view && _react2.default.createElement(_reactstrap.Tooltip, {
+      _react2.default.createElement(_reactstrap.Tooltip, {
         placement: 'top',
-        target: () => this.view,
+        target: this.props.which + '-pane',
         isOpen: this.props.isOtherDragging && this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy,
+        toggle: this.togglePaneTooltip,
         dangerouslySetInnerHTML: { __html: __('copy_drop_selected_hint') }
       }),
-      this.view && _react2.default.createElement(_reactstrap.Tooltip, {
+      _react2.default.createElement(_reactstrap.Tooltip, {
         placement: 'top',
-        target: () => this.view,
+        target: this.props.which + '-pane',
         isOpen: this.props.isOtherDragging && !this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy,
+        toggle: this.togglePaneTooltip,
         dangerouslySetInnerHTML: { __html: __('move_drop_hint') }
       }),
-      this.view && _react2.default.createElement(_reactstrap.Tooltip, {
+      _react2.default.createElement(_reactstrap.Tooltip, {
         placement: 'top',
-        target: () => this.view,
+        target: this.props.which + '-pane',
         isOpen: this.props.isOtherDragging && this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy,
+        toggle: this.togglePaneTooltip,
         dangerouslySetInnerHTML: { __html: __('move_drop_selected_hint') }
       })
     ));
@@ -3290,6 +3290,69 @@ exports.default = Pane;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(29);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _reactstrap = __webpack_require__(4);
+
+var _SafeTooltip = __webpack_require__(90);
+
+var _SafeTooltip2 = _interopRequireDefault(_SafeTooltip);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+let HintedButton = class HintedButton extends _react2.default.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = { button: null };
+  }
+
+  componentDidMount() {
+    this.setState({ button: _reactDom2.default.findDOMNode(this) });
+  }
+
+  componentWillUnmount() {
+    this.setState({ button: null });
+  }
+
+  render() {
+    return _react2.default.createElement(
+      _reactstrap.Button,
+      {
+        size: this.props.size,
+        color: this.props.color,
+        onClick: this.props.onClick
+      },
+      this.props.children,
+      this.state.button && _react2.default.createElement(_SafeTooltip2.default, {
+        target: () => this.state.button,
+        placement: this.props.tooltipPlacement,
+        isOpen: this.props.tooltipIsOpen,
+        toggle: this.props.tooltipToggle,
+        dangerouslySetInnerHTML: { __html: this.props.tooltipHTML }
+      })
+    );
+  }
+};
+exports.default = HintedButton;
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.human = human;
 function human(bytes) {
   let size = bytes;
@@ -3310,7 +3373,7 @@ function human(bytes) {
 }
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3324,35 +3387,35 @@ Object.defineProperty(exports, "__esModule", {
 const NODE = exports.NODE = 'NODE';
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(38);
-module.exports = __webpack_require__(39);
+__webpack_require__(39);
+module.exports = __webpack_require__(40);
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-polyfill");
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _server = __webpack_require__(40);
+var _server = __webpack_require__(41);
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
-var _createMemoryHistory = __webpack_require__(41);
+var _createMemoryHistory = __webpack_require__(42);
 
 var _createMemoryHistory2 = _interopRequireDefault(_createMemoryHistory);
 
@@ -3360,11 +3423,11 @@ var _reactRouterRedux = __webpack_require__(14);
 
 var _path = __webpack_require__(15);
 
-var _storeFactory = __webpack_require__(42);
+var _storeFactory = __webpack_require__(43);
 
 var _storeFactory2 = _interopRequireDefault(_storeFactory);
 
-var _App = __webpack_require__(56);
+var _App = __webpack_require__(57);
 
 var _App2 = _interopRequireDefault(_App);
 
@@ -3396,19 +3459,19 @@ module.exports.render = async function (params) {
 };
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-dom/server");
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports) {
 
 module.exports = require("history/createMemoryHistory");
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3418,55 +3481,55 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _redux = __webpack_require__(43);
+var _redux = __webpack_require__(44);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
-var _reduxImmutable = __webpack_require__(44);
+var _reduxImmutable = __webpack_require__(45);
 
-var _reduxThunk = __webpack_require__(45);
+var _reduxThunk = __webpack_require__(46);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
 var _reactRouterRedux = __webpack_require__(14);
 
-var _app = __webpack_require__(46);
+var _app = __webpack_require__(47);
 
 var _app2 = _interopRequireDefault(_app);
 
-var _router = __webpack_require__(47);
+var _router = __webpack_require__(48);
 
 var _router2 = _interopRequireDefault(_router);
 
-var _user = __webpack_require__(48);
+var _user = __webpack_require__(49);
 
 var _user2 = _interopRequireDefault(_user);
 
-var _navbar = __webpack_require__(49);
+var _navbar = __webpack_require__(50);
 
 var _navbar2 = _interopRequireDefault(_navbar);
 
-var _progress = __webpack_require__(50);
+var _progress = __webpack_require__(51);
 
 var _progress2 = _interopRequireDefault(_progress);
 
-var _drag = __webpack_require__(51);
+var _drag = __webpack_require__(52);
 
 var _drag2 = _interopRequireDefault(_drag);
 
-var _dialogFactory = __webpack_require__(52);
+var _dialogFactory = __webpack_require__(53);
 
 var _dialogFactory2 = _interopRequireDefault(_dialogFactory);
 
-var _failureDialog = __webpack_require__(53);
+var _failureDialog = __webpack_require__(54);
 
 var _failureDialog2 = _interopRequireDefault(_failureDialog);
 
-var _paneFactory = __webpack_require__(54);
+var _paneFactory = __webpack_require__(55);
 
 var _paneFactory2 = _interopRequireDefault(_paneFactory);
 
-var _infoListFactory = __webpack_require__(55);
+var _infoListFactory = __webpack_require__(56);
 
 var _infoListFactory2 = _interopRequireDefault(_infoListFactory);
 
@@ -3497,25 +3560,25 @@ const storeFactory = (history, initialState) => (0, _redux.applyMiddleware)(_red
 exports.default = storeFactory;
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports) {
 
 module.exports = require("redux");
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports) {
 
 module.exports = require("redux-immutable");
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports) {
 
 module.exports = require("redux-thunk");
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3525,11 +3588,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -3575,25 +3638,6 @@ const app = (state = (0, _immutable.Map)({
 exports.default = app;
 
 /***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _immutable = __webpack_require__(0);
-
-var _reactRouterRedux = __webpack_require__(14);
-
-const router = (...args) => (0, _immutable.fromJS)((0, _reactRouterRedux.routerReducer)(...args));
-
-exports.default = router;
-
-/***/ }),
 /* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3604,11 +3648,30 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(1);
+var _immutable = __webpack_require__(1);
+
+var _reactRouterRedux = __webpack_require__(14);
+
+const router = (...args) => (0, _immutable.fromJS)((0, _reactRouterRedux.routerReducer)(...args));
+
+exports.default = router;
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -3631,7 +3694,7 @@ const user = (state = (0, _immutable.fromJS)({
 exports.default = user;
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3641,11 +3704,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -3671,7 +3734,7 @@ const navbar = (state = (0, _immutable.Map)({
 exports.default = navbar;
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3681,11 +3744,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -3723,7 +3786,7 @@ const progress = (state = (0, _immutable.fromJS)({
 exports.default = progress;
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3733,11 +3796,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -3772,7 +3835,7 @@ const drag = (state = (0, _immutable.fromJS)({
 exports.default = drag;
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3782,11 +3845,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -3977,7 +4040,7 @@ const dialogFactory = type => {
 exports.default = dialogFactory;
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3987,11 +4050,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -4015,7 +4078,7 @@ const failureDialog = (state = (0, _immutable.fromJS)({
 exports.default = failureDialog;
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4025,11 +4088,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -4160,7 +4223,7 @@ const paneFactory = which => {
 exports.default = paneFactory;
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4170,11 +4233,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -4217,7 +4280,7 @@ const infoListFactory = type => {
 exports.default = infoListFactory;
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4227,11 +4290,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
-var _drag = __webpack_require__(19);
+var _drag = __webpack_require__(18);
 
-var _Screen = __webpack_require__(57);
+var _Screen = __webpack_require__(58);
 
 var _Screen2 = _interopRequireDefault(_Screen);
 
@@ -4256,7 +4319,7 @@ const App = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Scree
 exports.default = App;
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4268,7 +4331,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _dec, _class;
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -4276,9 +4339,9 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactDnd = __webpack_require__(26);
+var _reactDnd = __webpack_require__(25);
 
-var _reactDndHtml5Backend = __webpack_require__(58);
+var _reactDndHtml5Backend = __webpack_require__(59);
 
 var _reactDndHtml5Backend2 = _interopRequireDefault(_reactDndHtml5Backend);
 
@@ -4286,51 +4349,51 @@ var _reactTransitionGroup = __webpack_require__(16);
 
 var _fa = __webpack_require__(6);
 
-var _Fade = __webpack_require__(27);
+var _Fade = __webpack_require__(26);
 
 var _Fade2 = _interopRequireDefault(_Fade);
 
-var _Navbar = __webpack_require__(60);
+var _Navbar = __webpack_require__(61);
 
 var _Navbar2 = _interopRequireDefault(_Navbar);
 
-var _SignInDialog = __webpack_require__(69);
+var _SignInDialog = __webpack_require__(70);
 
 var _SignInDialog2 = _interopRequireDefault(_SignInDialog);
 
-var _ProgressDialog = __webpack_require__(71);
+var _ProgressDialog = __webpack_require__(72);
 
 var _ProgressDialog2 = _interopRequireDefault(_ProgressDialog);
 
-var _MkdirDialog = __webpack_require__(73);
+var _MkdirDialog = __webpack_require__(74);
 
 var _MkdirDialog2 = _interopRequireDefault(_MkdirDialog);
 
-var _RenameDialog = __webpack_require__(75);
+var _RenameDialog = __webpack_require__(76);
 
 var _RenameDialog2 = _interopRequireDefault(_RenameDialog);
 
-var _CopyDialog = __webpack_require__(77);
+var _CopyDialog = __webpack_require__(78);
 
 var _CopyDialog2 = _interopRequireDefault(_CopyDialog);
 
-var _MoveDialog = __webpack_require__(79);
+var _MoveDialog = __webpack_require__(80);
 
 var _MoveDialog2 = _interopRequireDefault(_MoveDialog);
 
-var _DeleteDialog = __webpack_require__(81);
+var _DeleteDialog = __webpack_require__(82);
 
 var _DeleteDialog2 = _interopRequireDefault(_DeleteDialog);
 
-var _FailureDialog = __webpack_require__(83);
+var _FailureDialog = __webpack_require__(84);
 
 var _FailureDialog2 = _interopRequireDefault(_FailureDialog);
 
-var _LeftPane = __webpack_require__(85);
+var _LeftPane = __webpack_require__(86);
 
 var _LeftPane2 = _interopRequireDefault(_LeftPane);
 
-var _RightPane = __webpack_require__(96);
+var _RightPane = __webpack_require__(98);
 
 var _RightPane2 = _interopRequireDefault(_RightPane);
 
@@ -4415,19 +4478,19 @@ Screen.propTypes = {
 exports.default = Screen;
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-dnd-html5-backend");
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4437,25 +4500,25 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
-var _navbar = __webpack_require__(20);
+var _navbar = __webpack_require__(19);
 
-var _signInDialog = __webpack_require__(28);
+var _signInDialog = __webpack_require__(27);
 
-var _mkdirDialog = __webpack_require__(21);
+var _mkdirDialog = __webpack_require__(20);
 
-var _renameDialog = __webpack_require__(22);
+var _renameDialog = __webpack_require__(21);
 
-var _copyDialog = __webpack_require__(23);
+var _copyDialog = __webpack_require__(22);
 
-var _moveDialog = __webpack_require__(24);
+var _moveDialog = __webpack_require__(23);
 
-var _deleteDialog = __webpack_require__(25);
+var _deleteDialog = __webpack_require__(24);
 
 var _user = __webpack_require__(8);
 
-var _TopNavbar = __webpack_require__(68);
+var _TopNavbar = __webpack_require__(69);
 
 var _TopNavbar2 = _interopRequireDefault(_TopNavbar);
 
@@ -4489,13 +4552,13 @@ const Navbar = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_To
 exports.default = Navbar;
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"webfm","version":"0.9.30","description":"Two pane file manager for the Web","keywords":["file manager","two pane","node","react","redux","sails"],"license":"MIT","author":"Ross Basarevych <basarevych@gmail.com>","repository":{"type":"git","url":"git+https://github.com/basarevych/webfm.git"},"dependencies":{"babel-core":"~6.26.0","babel-plugin-transform-class-properties":"~6.24.1","babel-plugin-transform-decorators-legacy":"~1.3.4","babel-plugin-transform-object-rest-spread":"~6.26.0","babel-polyfill":"~6.26.0","babel-preset-env":"~1.6.1","babel-preset-react":"~6.24.1","async":"~2.6.0","autoprefixer":"~8.0.0","babel-loader":"~7.1.2","bootstrap":"~4.0.0","bootstrap-loader":"~2.2.0","breakpoints-js":"~1.0.5","clean-webpack-plugin":"~0.1.18","connect-redis":"~3.3.3","css-loader":"~0.28.9","cssnano":"~3.10.0","exports-loader":"~0.7.0","extract-text-webpack-plugin":"~3.0.2","file-loader":"~1.1.9","grunt":"~1.0.2","history":"~4.7.2","i18n-for-browser":"~0.9.7","ignore-loader":"~0.1.2","immutable":"~3.8.2","imports-loader":"~0.8.0","ini":"~1.3.5","isomorphic-fetch":"~2.2.1","lodash":"~4.17.5","moment-timezone":"~0.5.14","node-sass":"~4.7.2","optimize-css-assets-webpack-plugin":"~3.2.0","popper.js":"~1.12.9","postcss-loader":"~2.1.0","prop-types":"~15.6.0","raf":"~3.4.0","react":"~16.2.0","react-dnd":"~2.5.4","react-dnd-html5-backend":"~2.5.4","react-dom":"~16.2.0","react-icons":"~2.2.7","react-list":"~0.8.8","react-redux":"~5.0.7","react-router":"~4.2.0","react-router-redux":"^5.0.0-alpha.9","react-scroll-box":"~0.3.5","react-transition-group":"~2.2.1","reactstrap":"^5.0.0-beta","redux":"~3.7.2","redux-immutable":"~4.0.0","redux-thunk":"~2.2.0","resolve-url-loader":"~2.2.1","sails":"^1.0.0-46","sails-hook-grunt":"~3.1.0","sails-hook-orm":"^2.0.0-23","sails-hook-panic-mode":"~0.1.3","sails-hook-sockets":"~1.4.0","sails.io.js":"~1.1.13","sass-loader":"~6.0.6","socket.io-client":"2.0.3","socket.io-redis":"~4.0.1","stat-mode":"~0.2.2","style-loader":"~0.20.2","uglifyjs-webpack-plugin":"~1.2.0","url-loader":"~0.6.2","userid":"~0.3.1","webpack":"~3.11.0","webpack-config-utils":"~2.3.0","webpack-node-externals":"~1.6.0"},"devDependencies":{"babel-eslint":"~8.2.2","eslint":"~4.18.1"},"scripts":{"build":"env NODE_ENV=production ./node_modules/.bin/webpack --progress","start":"env NODE_ENV=production node app.js","build:dev":"env NODE_ENV=development ./node_modules/.bin/webpack --watch --progress","start:dev":"env NODE_ENV=development ./node_modules/.bin/sails lift","lint":"node ./node_modules/eslint/bin/eslint . --max-warnings=0","debug":"node debug app.js"},"main":"app.js","engines":{"node":">=8.0.0"}}
+module.exports = {"name":"webfm","version":"0.9.31","description":"Two pane file manager for the Web","keywords":["file manager","two pane","node","react","redux","sails"],"license":"MIT","author":"Ross Basarevych <basarevych@gmail.com>","repository":{"type":"git","url":"git+https://github.com/basarevych/webfm.git"},"dependencies":{"babel-core":"~6.26.0","babel-plugin-transform-class-properties":"~6.24.1","babel-plugin-transform-decorators-legacy":"~1.3.4","babel-plugin-transform-object-rest-spread":"~6.26.0","babel-polyfill":"~6.26.0","babel-preset-env":"~1.6.1","babel-preset-react":"~6.24.1","async":"~2.6.0","autoprefixer":"~8.0.0","babel-loader":"~7.1.2","bootstrap":"~4.0.0","bootstrap-loader":"~2.2.0","breakpoints-js":"~1.0.5","clean-webpack-plugin":"~0.1.18","connect-redis":"~3.3.3","css-loader":"~0.28.9","cssnano":"~3.10.0","exports-loader":"~0.7.0","extract-text-webpack-plugin":"~3.0.2","file-loader":"~1.1.9","grunt":"~1.0.2","history":"~4.7.2","i18n-for-browser":"~0.9.7","ignore-loader":"~0.1.2","immutable":"~3.8.2","imports-loader":"~0.8.0","ini":"~1.3.5","isomorphic-fetch":"~2.2.1","lodash":"~4.17.5","moment-timezone":"~0.5.14","node-sass":"~4.7.2","optimize-css-assets-webpack-plugin":"~3.2.0","popper.js":"~1.12.9","postcss-loader":"~2.1.0","prop-types":"~15.6.0","raf":"~3.4.0","react":"~16.2.0","react-dnd":"~2.5.4","react-dnd-html5-backend":"~2.5.4","react-dom":"~16.2.0","react-icons":"~2.2.7","react-list":"~0.8.8","react-redux":"~5.0.7","react-router":"~4.2.0","react-router-redux":"^5.0.0-alpha.9","react-scroll-box":"~0.3.5","react-transition-group":"~2.2.1","reactstrap":"^5.0.0-beta","redux":"~3.7.2","redux-immutable":"~4.0.0","redux-thunk":"~2.2.0","resolve-url-loader":"~2.2.1","sails":"^1.0.0-46","sails-hook-grunt":"~3.1.0","sails-hook-orm":"^2.0.0-23","sails-hook-panic-mode":"~0.1.3","sails-hook-sockets":"~1.4.0","sails.io.js":"~1.1.13","sass-loader":"~6.0.6","socket.io-client":"2.0.3","socket.io-redis":"~4.0.1","stat-mode":"~0.2.2","style-loader":"~0.20.2","uglifyjs-webpack-plugin":"~1.2.0","url-loader":"~0.6.2","userid":"~0.3.1","webpack":"~3.11.0","webpack-config-utils":"~2.3.0","webpack-node-externals":"~1.6.0"},"devDependencies":{"babel-eslint":"~8.2.2","eslint":"~4.18.1"},"scripts":{"build":"env NODE_ENV=production ./node_modules/.bin/webpack --progress","start":"env NODE_ENV=production node app.js","build:dev":"env NODE_ENV=development ./node_modules/.bin/webpack --watch --progress","start:dev":"env NODE_ENV=development ./node_modules/.bin/sails lift","lint":"node ./node_modules/eslint/bin/eslint . --max-warnings=0","debug":"node debug app.js"},"main":"app.js","engines":{"node":">=8.0.0"}}
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4506,15 +4569,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _i18n = __webpack_require__(63);
+var _i18n = __webpack_require__(64);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _en = __webpack_require__(64);
+var _en = __webpack_require__(65);
 
 var _en2 = _interopRequireDefault(_en);
 
-var _i18nForBrowser = __webpack_require__(65);
+var _i18nForBrowser = __webpack_require__(66);
 
 var i18n = _interopRequireWildcard(_i18nForBrowser);
 
@@ -4533,7 +4596,7 @@ i18n.configure({
 exports.default = i18n;
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports) {
 
 /**
@@ -4584,19 +4647,19 @@ module.exports.i18n = {
 
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports) {
 
 module.exports = {"project_title":"WebFM","not_connected_message":"Establishing connection...","not_authorized_message":"Not signed in","forbidden_message":"No access or not found","contents_view_message":"Contents view","type_DIR_message":"This is a directory","type_SYMLINK_message":"This is a symbolic link to outside of the share","type_BINARY_message":"This is a binary data file","info_view_message":"Info view","empty_message":"Empty...","select_share_label":"Select...","read_only_label":"[read]","read_write_label":"[write]","two_dots_label":"Go up one level","info_name_label":"Name:","info_parent_label":"Parent:","info_size_bytes_label":"Size (bytes):","info_size_human_label":"Size (Human):","info_du_bytes_label":"Disk usage (bytes):","info_du_human_label":"Disk usage (Human):","info_mode_number_label":"Mode (octal):","info_mode_string_label":"Mode (string):","info_user_id_label":"Owner (ID):","info_user_name_label":"Owner (name):","info_group_id_label":"Group (ID):","info_group_name_label":"Group (name):","info_atime_label":"atime:","info_mtime_label":"mtime:","info_ctime_label":"ctime:","mkdir_command":"MkDir","rename_command":"Rename","copy_command":"Copy","move_command":"Move","delete_command":"Delete","sign_in_button":"Sign in","sign_out_button":"Sign out","cancel_button":"Cancel","submit_button":"Submit","done_button":"Done","required_field":"Required field","sign_in_title":"Sign In","login_label":"Login:","password_label":"Password:","invalid_credentials_message":"Wrong login or password","no_shares_message":"You have no shares defined in the config","user.login.E_REQUIRED":"Login is required","user.password.E_REQUIRED":"Password is required","mkdir_title":"Create directory","share_label":"Share:","directory_label":"Parent directory:","name_label":"Name:","mkdir.share.E_NOT_FOUND":"Share not found","mkdir.share.E_READ_ONLY":"No write access to this share","mkdir.directory.E_NOT_DIR":"This is not a directory","mkdir.directory.E_OUTSIDE":"Parent directory is not inside the share","mkdir.name.E_REQUIRED":"Name is required","mkdir.name.E_INVALID":"Name is invalid","mkdir.name.E_EXISTS":"Target already exists","rename_title":"Rename","new_name_label":"New name:","rename.share.E_NOT_FOUND":"Share not found","rename.share.E_READ_ONLY":"No write access to this share","rename.directory.E_NOT_DIR":"This is not a directory","rename.directory.E_OUTSIDE":"Parent directory is not inside the share","rename.name.E_NOT_FOUND":"File not found","rename.newName.E_REQUIRED":"Name is required","rename.newName.E_SAME":"New name should differ from the original","rename.newName.E_INVALID":"Name is invalid","rename.newName.E_EXISTS":"Target already exists","copy_title":"Copy","copy_start_message":"Copying...","src_share_label":"Source share:","src_directory_label":"Source parent directory:","src_name_label":"Source name:","src_name_hint":"Use wildcard symbols like <strong>*</strong> or <strong>?</strong>","src_find_button":"Search","src_find_empty":"No files found","dst_share_label":"Destination share:","dst_directory_label":"Destination parent directory:","dst_name_label":"Destination name:","copy.srcShare.E_NOT_FOUND":"Share not found","copy.srcDirectory.E_NOT_DIR":"This is not a directory","copy.srcDirectory.E_OUTSIDE":"Source directory is not inside the share","copy.srcName.E_REQUIRED":"Name is required","copy.srcName.E_INVALID":"Name is invalid","copy.dstShare.E_NOT_FOUND":"Share not found","copy.dstShare.E_READ_ONLY":"No write access to this share","copy.dstDirectory.E_NOT_DIR":"This is not a directory","copy.dstDirectory.E_OUTSIDE":"Target directory is not inside the share","copy.dstDirectory.E_SAME":"Target directory should not be the same as source","copy.dstDirectory.E_RECURSIVE":"Cannot copy into itself","copy.result.ENOENT":"No files to copy","progress_title":"Progress","copy_success_message":"%s ==> %s","copy_failure_message":"Couldn't copy %s","move_success_message":"%s ==> %s","move_failure_message":"Couldn't move %s","delete_success_message":"Deleted %s","delete_failure_message":"Couldn't delete %s","done_message":"Done","move_title":"Move","move_start_message":"Moving...","move.srcShare.E_NOT_FOUND":"Share not found","move.srcShare.E_READ_ONLY":"No write access to this share","move.srcDirectory.E_NOT_DIR":"This is not a directory","move.srcDirectory.E_OUTSIDE":"Source directory is not inside the share","move.srcName.E_REQUIRED":"Name is required","move.srcName.E_INVALID":"Name is invalid","move.dstShare.E_NOT_FOUND":"Share not found","move.dstShare.E_READ_ONLY":"No write access to this share","move.dstDirectory.E_NOT_DIR":"This is not a directory","move.dstDirectory.E_OUTSIDE":"Target directory is not inside the share","move.dstDirectory.E_SAME":"Target directory should not be the same as source","move.dstDirectory.E_RECURSIVE":"Cannot move into itself","move.result.ENOENT":"No files to move","delete_title":"Copy","delete_start_message":"Deleting...","delete.share.E_NOT_FOUND":"Share not found","delete.share.E_READ_ONLY":"No write access to this share","delete.directory.E_NOT_DIR":"This is not a directory","delete.directory.E_OUTSIDE":"Source directory is not inside the share","delete.name.E_REQUIRED":"Name is required","delete.name.E_INVALID":"Name is invalid","delete.result.ENOENT":"No files to delete","failure_title":"Failure","field_share_label":"Share:","field_directory_label":"Directory:","field_name_label":"Name:","field_srcShare_label":"Source share:","field_srcDirectory_label":"Source directory:","field_srcName_label":"Source name:","field_dstShare_label":"Destination share:","field_dstDirectory_label":"Destination directory:","field_dstName_label":"Destination name:","sort_name_hint":"Sort by name<br>(toggle direction)","sort_size_hint":"Sort by size<br>(toggle direction)","mode_list_hint":"Display list of files","mode_contents_hint":"Display contents of the selected in the other pane file","mode_info_hint":"Display info of the selected in the other pane file","toggle_pane_hint":"Toggle visibility<br>of the other pane","size_button_hint":"Calculate size<br>of this item","copy_button_hint":"Copy this item<br>to the other pane","move_button_hint":"Move this item<br>to the other pane","delete_button_hint":"Delete this item","copy_drop_hint":"Copy item here","copy_drop_selected_hint":"Copy selected items here","move_drop_hint":"Move item here","move_drop_selected_hint":"Move selected items here"}
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports) {
 
 module.exports = require("i18n-for-browser");
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4607,7 +4670,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.loadContent = exports.clearContents = exports.setContent = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
@@ -4710,7 +4773,7 @@ const loadContent = exports.loadContent = pane => {
 };
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4721,11 +4784,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.loadInfo = exports.clearInfos = exports.setInfo = undefined;
 
-var _actionTypes = __webpack_require__(1);
+var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
-var _size = __webpack_require__(29);
+var _size = __webpack_require__(28);
 
 var _user = __webpack_require__(8);
 
@@ -4851,7 +4914,7 @@ const loadInfo = exports.loadInfo = pane => {
 };
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4861,7 +4924,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -4871,7 +4934,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _fa = __webpack_require__(6);
 
-var _reactstrap = __webpack_require__(5);
+var _reactstrap = __webpack_require__(4);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5025,7 +5088,7 @@ TopNavbar.propTypes = {
 exports.default = TopNavbar;
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5035,13 +5098,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
-var _signInDialog = __webpack_require__(28);
+var _signInDialog = __webpack_require__(27);
 
 var _user = __webpack_require__(8);
 
-var _SignInModal = __webpack_require__(70);
+var _SignInModal = __webpack_require__(71);
 
 var _SignInModal2 = _interopRequireDefault(_SignInModal);
 
@@ -5070,7 +5133,7 @@ const SignInDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProp
 exports.default = SignInDialog;
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5080,7 +5143,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -5088,9 +5151,9 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
-var _reactstrap = __webpack_require__(5);
+var _reactstrap = __webpack_require__(4);
 
 var _RequiredFieldLabel = __webpack_require__(12);
 
@@ -5297,7 +5360,7 @@ SignInModal.propTypes = {
 exports.default = SignInModal;
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5307,11 +5370,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
 var _progressDialog = __webpack_require__(33);
 
-var _ProgressModal = __webpack_require__(72);
+var _ProgressModal = __webpack_require__(73);
 
 var _ProgressModal2 = _interopRequireDefault(_ProgressModal);
 
@@ -5336,7 +5399,7 @@ const ProgressDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToPr
 exports.default = ProgressDialog;
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5346,7 +5409,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -5354,7 +5417,7 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactstrap = __webpack_require__(5);
+var _reactstrap = __webpack_require__(4);
 
 var _reactScrollBox = __webpack_require__(10);
 
@@ -5455,7 +5518,7 @@ ProgressModal.propTypes = {
 exports.default = ProgressModal;
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5465,13 +5528,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
-var _mkdirDialog = __webpack_require__(21);
+var _mkdirDialog = __webpack_require__(20);
 
 var _commands = __webpack_require__(7);
 
-var _MkdirModal = __webpack_require__(74);
+var _MkdirModal = __webpack_require__(75);
 
 var _MkdirModal2 = _interopRequireDefault(_MkdirModal);
 
@@ -5500,7 +5563,7 @@ const MkdirDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps
 exports.default = MkdirDialog;
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5510,7 +5573,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -5518,9 +5581,9 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
-var _reactstrap = __webpack_require__(5);
+var _reactstrap = __webpack_require__(4);
 
 var _RequiredFieldLabel = __webpack_require__(12);
 
@@ -5759,7 +5822,7 @@ MkdirModal.propTypes = {
 exports.default = MkdirModal;
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5769,13 +5832,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
-var _renameDialog = __webpack_require__(22);
+var _renameDialog = __webpack_require__(21);
 
 var _commands = __webpack_require__(7);
 
-var _RenameModal = __webpack_require__(76);
+var _RenameModal = __webpack_require__(77);
 
 var _RenameModal2 = _interopRequireDefault(_RenameModal);
 
@@ -5804,7 +5867,7 @@ const RenameDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProp
 exports.default = RenameDialog;
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5814,7 +5877,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -5822,9 +5885,9 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
-var _reactstrap = __webpack_require__(5);
+var _reactstrap = __webpack_require__(4);
 
 var _RequiredFieldLabel = __webpack_require__(12);
 
@@ -6097,7 +6160,7 @@ RenameModal.propTypes = {
 exports.default = RenameModal;
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6107,13 +6170,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
-var _copyDialog = __webpack_require__(23);
+var _copyDialog = __webpack_require__(22);
 
 var _commands = __webpack_require__(7);
 
-var _CopyModal = __webpack_require__(78);
+var _CopyModal = __webpack_require__(79);
 
 var _CopyModal2 = _interopRequireDefault(_CopyModal);
 
@@ -6144,7 +6207,7 @@ const CopyDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)
 exports.default = CopyDialog;
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6154,7 +6217,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -6162,9 +6225,9 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
-var _reactstrap = __webpack_require__(5);
+var _reactstrap = __webpack_require__(4);
 
 var _fa = __webpack_require__(6);
 
@@ -6556,7 +6619,7 @@ CopyModal.propTypes = {
 exports.default = CopyModal;
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6566,13 +6629,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
-var _moveDialog = __webpack_require__(24);
+var _moveDialog = __webpack_require__(23);
 
 var _commands = __webpack_require__(7);
 
-var _MoveModal = __webpack_require__(80);
+var _MoveModal = __webpack_require__(81);
 
 var _MoveModal2 = _interopRequireDefault(_MoveModal);
 
@@ -6603,7 +6666,7 @@ const MoveDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)
 exports.default = MoveDialog;
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6613,7 +6676,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -6621,9 +6684,9 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
-var _reactstrap = __webpack_require__(5);
+var _reactstrap = __webpack_require__(4);
 
 var _fa = __webpack_require__(6);
 
@@ -7015,7 +7078,7 @@ MoveModal.propTypes = {
 exports.default = MoveModal;
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7025,13 +7088,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
-var _deleteDialog = __webpack_require__(25);
+var _deleteDialog = __webpack_require__(24);
 
 var _commands = __webpack_require__(7);
 
-var _DeleteModal = __webpack_require__(82);
+var _DeleteModal = __webpack_require__(83);
 
 var _DeleteModal2 = _interopRequireDefault(_DeleteModal);
 
@@ -7062,7 +7125,7 @@ const DeleteDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProp
 exports.default = DeleteDialog;
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7072,7 +7135,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -7080,9 +7143,9 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
-var _reactstrap = __webpack_require__(5);
+var _reactstrap = __webpack_require__(4);
 
 var _fa = __webpack_require__(6);
 
@@ -7406,7 +7469,7 @@ DeleteModal.propTypes = {
 exports.default = DeleteModal;
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7416,11 +7479,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
 var _failureDialog = __webpack_require__(30);
 
-var _FailureModal = __webpack_require__(84);
+var _FailureModal = __webpack_require__(85);
 
 var _FailureModal2 = _interopRequireDefault(_FailureModal);
 
@@ -7445,7 +7508,7 @@ const FailureDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToPro
 exports.default = FailureDialog;
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7455,7 +7518,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -7463,9 +7526,9 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
-var _reactstrap = __webpack_require__(5);
+var _reactstrap = __webpack_require__(4);
 
 var _FormMessages = __webpack_require__(9);
 
@@ -7536,7 +7599,7 @@ FailureModal.propTypes = {
 exports.default = FailureModal;
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7546,11 +7609,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
 var _pane = __webpack_require__(17);
 
-var _size = __webpack_require__(29);
+var _size = __webpack_require__(28);
 
 var _Pane = __webpack_require__(34);
 
@@ -7558,7 +7621,7 @@ var _Pane2 = _interopRequireDefault(_Pane);
 
 var _commands = __webpack_require__(7);
 
-var _drag = __webpack_require__(19);
+var _drag = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7617,7 +7680,7 @@ const LeftPane = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_
 exports.default = LeftPane;
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7627,7 +7690,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -7657,7 +7720,7 @@ DisabledView.propTypes = {
 exports.default = DisabledView;
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7667,7 +7730,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -7703,7 +7766,7 @@ LoadingView.propTypes = {
 exports.default = LoadingView;
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7713,23 +7776,23 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(18);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
 var _fa = __webpack_require__(6);
 
-var _reactstrap = __webpack_require__(5);
+var _reactstrap = __webpack_require__(4);
+
+var _HintedButton = __webpack_require__(35);
+
+var _HintedButton2 = _interopRequireDefault(_HintedButton);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7881,43 +7944,31 @@ let Header = class Header extends _react2.default.PureComponent {
           _reactstrap.ButtonGroup,
           null,
           _react2.default.createElement(
-            _reactstrap.Button,
+            _HintedButton2.default,
             {
               size: 'sm',
               color: this.props.sortField === 'NAME' ? 'primary' : 'secondary',
               onClick: this.toggleNameSort,
-              ref: el => {
-                this.sortNameButton = el && _reactDom2.default.findDOMNode(el);
-              }
+              tooltipPlacement: 'bottom',
+              tooltipIsOpen: this.state.isSortNameTooltipOpen,
+              tooltipToggle: this.toggleSortNameTooltip,
+              tooltipHTML: __('sort_name_hint')
             },
             this.props.sortField === 'NAME' ? this.props.sortDir === 'ASC' ? _react2.default.createElement(_fa.FaSortAlphaAsc, null) : _react2.default.createElement(_fa.FaSortAlphaDesc, null) : _react2.default.createElement(_fa.FaSortAlphaAsc, null)
           ),
-          this.sortNameButton && _react2.default.createElement(_reactstrap.Tooltip, {
-            placement: 'bottom',
-            target: () => this.sortNameButton,
-            isOpen: this.state.isSortNameTooltipOpen,
-            toggle: this.toggleSortNameTooltip,
-            dangerouslySetInnerHTML: { __html: __('sort_name_hint') }
-          }),
           _react2.default.createElement(
-            _reactstrap.Button,
+            _HintedButton2.default,
             {
               size: 'sm',
               color: this.props.sortField === 'SIZE' ? 'primary' : 'secondary',
               onClick: this.toggleSizeSort,
-              ref: el => {
-                this.sortSizeButton = el && _reactDom2.default.findDOMNode(el);
-              }
+              tooltipPlacement: 'bottom',
+              tooltipIsOpen: this.state.isSortSizeTooltipOpen,
+              tooltipToggle: this.toggleSortSizeTooltip,
+              tooltipHTML: __('sort_size_hint')
             },
             this.props.sortField === 'SIZE' ? this.props.sortDir === 'ASC' ? _react2.default.createElement(_fa.FaSortAmountAsc, null) : _react2.default.createElement(_fa.FaSortAmountDesc, null) : _react2.default.createElement(_fa.FaSortAmountAsc, null)
-          ),
-          this.sortSizeButton && _react2.default.createElement(_reactstrap.Tooltip, {
-            placement: 'bottom',
-            target: () => this.sortSizeButton,
-            isOpen: this.state.isSortSizeTooltipOpen,
-            toggle: this.toggleSortSizeTooltip,
-            dangerouslySetInnerHTML: { __html: __('sort_size_hint') }
-          })
+          )
         ),
         '\xA0'
       );
@@ -7930,62 +7981,44 @@ let Header = class Header extends _react2.default.PureComponent {
         _reactstrap.ButtonGroup,
         null,
         _react2.default.createElement(
-          _reactstrap.Button,
+          _HintedButton2.default,
           {
             size: 'sm',
             color: this.props.mode === 'LIST' ? 'primary' : 'secondary',
             onClick: this.setListMode,
-            ref: el => {
-              this.modeListButton = el && _reactDom2.default.findDOMNode(el);
-            }
+            tooltipPlacement: 'bottom',
+            tooltipIsOpen: this.state.isModeListTooltipOpen,
+            tooltipToggle: this.toggleModeListTooltip,
+            tooltipHTML: __('mode_list_hint')
           },
           _react2.default.createElement(_fa.FaFolderOpenO, null)
         ),
-        this.modeListButton && _react2.default.createElement(_reactstrap.Tooltip, {
-          placement: 'bottom',
-          target: () => this.modeListButton,
-          isOpen: this.state.isModeListTooltipOpen,
-          toggle: this.toggleModeListTooltip,
-          dangerouslySetInnerHTML: { __html: __('mode_list_hint') }
-        }),
         _react2.default.createElement(
-          _reactstrap.Button,
+          _HintedButton2.default,
           {
             size: 'sm',
             color: this.props.mode === 'CONTENTS' ? 'primary' : 'secondary',
             onClick: this.setContentsMode,
-            ref: el => {
-              this.modeContentsButton = el && _reactDom2.default.findDOMNode(el);
-            }
+            tooltipPlacement: 'bottom',
+            tooltipIsOpen: this.state.isModeContentsTooltipOpen,
+            tooltipToggle: this.toggleModeContentsTooltip,
+            tooltipHTML: __('mode_contents_hint')
           },
           _react2.default.createElement(_fa.FaFileTextO, null)
         ),
-        this.modeContentsButton && _react2.default.createElement(_reactstrap.Tooltip, {
-          placement: 'bottom',
-          target: () => this.modeContentsButton,
-          isOpen: this.state.isModeContentsTooltipOpen,
-          toggle: this.toggleModeContentsTooltip,
-          dangerouslySetInnerHTML: { __html: __('mode_contents_hint') }
-        }),
         _react2.default.createElement(
-          _reactstrap.Button,
+          _HintedButton2.default,
           {
             size: 'sm',
             color: this.props.mode === 'INFO' ? 'primary' : 'secondary',
             onClick: this.setInfoMode,
-            ref: el => {
-              this.modeInfoButton = el && _reactDom2.default.findDOMNode(el);
-            }
+            tooltipPlacement: 'bottom',
+            tooltipIsOpen: this.state.isModeInfoTooltipOpen,
+            tooltipToggle: this.toggleModeInfoTooltip,
+            tooltipHTML: __('mode_info_hint')
           },
           _react2.default.createElement(_fa.FaAlignLeft, null)
-        ),
-        this.modeInfoButton && _react2.default.createElement(_reactstrap.Tooltip, {
-          placement: 'bottom',
-          target: () => this.modeInfoButton,
-          isOpen: this.state.isModeInfoTooltipOpen,
-          toggle: this.toggleModeInfoTooltip,
-          dangerouslySetInnerHTML: { __html: __('mode_info_hint') }
-        })
+        )
       ),
       '\xA0'
     );
@@ -7996,31 +8029,25 @@ let Header = class Header extends _react2.default.PureComponent {
       sorting,
       modes,
       _react2.default.createElement(
-        _reactstrap.Button,
+        _HintedButton2.default,
         {
           size: 'sm',
           color: 'secondary',
           onClick: this.props.onToggleOther,
-          ref: el => {
-            this.paneButton = el && _reactDom2.default.findDOMNode(el);
-          }
+          tooltipPlacement: 'bottom',
+          tooltipIsOpen: this.state.isPaneTooltipOpen,
+          tooltipToggle: this.togglePaneTooltip,
+          tooltipHTML: __('toggle_pane_hint')
         },
         this.props.isOtherVisible ? _react2.default.createElement(_fa.FaToggleOn, null) : _react2.default.createElement(_fa.FaToggleOff, null)
-      ),
-      this.paneButton && _react2.default.createElement(_reactstrap.Tooltip, {
-        placement: 'bottom',
-        target: () => this.paneButton,
-        isOpen: this.state.isPaneTooltipOpen,
-        toggle: this.togglePaneTooltip,
-        dangerouslySetInnerHTML: { __html: __('toggle_pane_hint') }
-      })
+      )
     );
     if (this.props.breakpoint === 'xs' || this.props.breakpoint === 'sm' && this.props.isOtherVisible) {
       tools = _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
-          _reactstrap.Button,
+          Button,
           { size: 'sm', color: 'secondary', onClick: this.toggleMenu },
           _react2.default.createElement(_fa.FaBars, null)
         ),
@@ -8054,7 +8081,6 @@ let Header = class Header extends _react2.default.PureComponent {
   }
 };
 Header.propTypes = {
-  which: _propTypes2.default.string.isRequired,
   breakpoint: _propTypes2.default.string.isRequired,
   shares: _propTypes2.default.instanceOf(_immutable.List).isRequired,
   share: _propTypes2.default.string.isRequired,
@@ -8072,7 +8098,7 @@ Header.propTypes = {
 exports.default = Header;
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8082,7 +8108,43 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactstrap = __webpack_require__(4);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+let SafeTooltip = class SafeTooltip extends _reactstrap.Tooltip {
+  addTargetEvents() {
+    if (this._target) super.addTargetEvents();
+  }
+
+  removeTargetEvents() {
+    if (this._target) super.removeTargetEvents();
+  }
+
+  render() {
+    if (this.props.target()) return super.render();
+
+    return null;
+  }
+};
+exports.default = SafeTooltip;
+
+/***/ }),
+/* 91 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -8090,9 +8152,9 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
-var _ListComponent = __webpack_require__(90);
+var _ListComponent = __webpack_require__(92);
 
 var _ListComponent2 = _interopRequireDefault(_ListComponent);
 
@@ -8158,7 +8220,7 @@ ListView.propTypes = {
 exports.default = ListView;
 
 /***/ }),
-/* 90 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8168,7 +8230,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -8176,11 +8238,11 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
 var _reactScrollBox = __webpack_require__(10);
 
-var _reactList = __webpack_require__(91);
+var _reactList = __webpack_require__(93);
 
 var _reactList2 = _interopRequireDefault(_reactList);
 
@@ -8188,7 +8250,7 @@ var _ScrollViewport = __webpack_require__(11);
 
 var _ScrollViewport2 = _interopRequireDefault(_ScrollViewport);
 
-var _ListItem = __webpack_require__(92);
+var _ListItem = __webpack_require__(94);
 
 var _ListItem2 = _interopRequireDefault(_ListItem);
 
@@ -8294,13 +8356,13 @@ ListComponent.propTypes = {
 exports.default = ListComponent;
 
 /***/ }),
-/* 91 */
+/* 93 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-list");
 
 /***/ }),
-/* 92 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8312,31 +8374,29 @@ Object.defineProperty(exports, "__esModule", {
 
 var _dec, _class;
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(18);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
-var _reactDnd = __webpack_require__(26);
+var _reactDnd = __webpack_require__(25);
 
 var _fa = __webpack_require__(6);
 
-var _reactstrap = __webpack_require__(5);
+var _HintedButton = __webpack_require__(35);
+
+var _HintedButton2 = _interopRequireDefault(_HintedButton);
 
 var _path = __webpack_require__(15);
 
-var _size = __webpack_require__(35);
+var _size = __webpack_require__(36);
 
-var _dragTypes = __webpack_require__(36);
+var _dragTypes = __webpack_require__(37);
 
 var dragTypes = _interopRequireWildcard(_dragTypes);
 
@@ -8454,24 +8514,18 @@ let ListItem = (_dec = (0, _reactDnd.DragSource)(dragTypes.NODE, nodeSource, col
         'div',
         null,
         _react2.default.createElement(
-          _reactstrap.Button,
+          _HintedButton2.default,
           {
             size: 'sm',
             color: this.props.isSelected ? 'primary' : 'secondary',
             onClick: this.props.onSizeClick,
-            ref: el => {
-              this.sizeButton = el && _reactDom2.default.findDOMNode(el);
-            }
+            tooltipPlacement: 'bottom',
+            tooltipIsOpen: this.state.isSizeTooltipOpen,
+            tooltipToggle: this.toggleSizeTooltip,
+            tooltipHTML: __('size_button_hint')
           },
           size
-        ),
-        this.sizeButton && _react2.default.createElement(_reactstrap.Tooltip, {
-          placement: 'bottom',
-          target: () => this.sizeButton,
-          isOpen: this.state.isSizeTooltipOpen,
-          toggle: this.toggleSizeTooltip,
-          dangerouslySetInnerHTML: { __html: __('size_button_hint') }
-        })
+        )
       );
     } else {
       size = (0, _size.human)(this.props.node.get('size'));
@@ -8505,64 +8559,46 @@ let ListItem = (_dec = (0, _reactDnd.DragSource)(dragTypes.NODE, nodeSource, col
           'div',
           { className: 'tools' },
           _react2.default.createElement(
-            _reactstrap.Button,
+            _HintedButton2.default,
             {
               size: 'sm',
               color: this.props.isSelected ? 'primary' : 'secondary',
               onClick: () => this.props.onCopyClick(this.props.node.get('name')),
-              ref: el => {
-                this.copyButton = el && _reactDom2.default.findDOMNode(el);
-              }
+              tooltipPlacement: 'bottom',
+              tooltipIsOpen: this.state.isCopyTooltipOpen,
+              tooltipToggle: this.toggleCopyTooltip,
+              tooltipHTML: __('copy_button_hint')
             },
             _react2.default.createElement(_fa.FaCopy, null)
           ),
-          this.copyButton && _react2.default.createElement(_reactstrap.Tooltip, {
-            placement: 'bottom',
-            target: () => this.copyButton,
-            isOpen: this.state.isCopyTooltipOpen,
-            toggle: this.toggleCopyTooltip,
-            dangerouslySetInnerHTML: { __html: __('copy_button_hint') }
-          }),
           ' ',
           _react2.default.createElement(
-            _reactstrap.Button,
+            _HintedButton2.default,
             {
               size: 'sm',
               color: this.props.isSelected ? 'primary' : 'secondary',
               onClick: () => this.props.onMoveClick(this.props.node.get('name')),
-              ref: el => {
-                this.moveButton = el && _reactDom2.default.findDOMNode(el);
-              }
+              tooltipPlacement: 'bottom',
+              tooltipIsOpen: this.state.isMoveTooltipOpen,
+              tooltipToggle: this.toggleMoveTooltip,
+              tooltipHTML: __('move_button_hint')
             },
             _react2.default.createElement(_fa.FaCut, null)
           ),
-          this.moveButton && _react2.default.createElement(_reactstrap.Tooltip, {
-            placement: 'bottom',
-            target: () => this.moveButton,
-            isOpen: this.state.isMoveTooltipOpen,
-            toggle: this.toggleMoveTooltip,
-            dangerouslySetInnerHTML: { __html: __('move_button_hint') }
-          }),
           ' ',
           _react2.default.createElement(
-            _reactstrap.Button,
+            _HintedButton2.default,
             {
               size: 'sm',
               color: this.props.isSelected ? 'primary' : 'secondary',
               onClick: () => this.props.onDeleteClick(this.props.node.get('name')),
-              ref: el => {
-                this.deleteButton = el && _reactDom2.default.findDOMNode(el);
-              }
+              tooltipPlacement: 'bottom',
+              tooltipIsOpen: this.state.isDeleteTooltipOpen,
+              tooltipToggle: this.toggleDeleteTooltip,
+              tooltipHTML: __('delete_button_hint')
             },
             _react2.default.createElement(_fa.FaTrash, null)
-          ),
-          this.deleteButton && _react2.default.createElement(_reactstrap.Tooltip, {
-            placement: 'bottom',
-            target: () => this.deleteButton,
-            isOpen: this.state.isDeleteTooltipOpen,
-            toggle: this.toggleDeleteTooltip,
-            dangerouslySetInnerHTML: { __html: __('delete_button_hint') }
-          })
+          )
         )
       );
     }
@@ -8618,7 +8654,7 @@ ListItem.defaultProps = {
 exports.default = ListItem;
 
 /***/ }),
-/* 93 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8628,7 +8664,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -8636,7 +8672,7 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
 var _reactScrollBox = __webpack_require__(10);
 
@@ -8701,7 +8737,7 @@ ContentView.defaultProps = {
 exports.default = ContentView;
 
 /***/ }),
-/* 94 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8711,7 +8747,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -8719,13 +8755,13 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _immutable = __webpack_require__(0);
+var _immutable = __webpack_require__(1);
 
 var _reactScrollBox = __webpack_require__(10);
 
 var _fa = __webpack_require__(6);
 
-var _momentTimezone = __webpack_require__(95);
+var _momentTimezone = __webpack_require__(97);
 
 var _momentTimezone2 = _interopRequireDefault(_momentTimezone);
 
@@ -8733,7 +8769,7 @@ var _ScrollViewport = __webpack_require__(11);
 
 var _ScrollViewport2 = _interopRequireDefault(_ScrollViewport);
 
-var _size = __webpack_require__(35);
+var _size = __webpack_require__(36);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9241,13 +9277,13 @@ InfoView.defaultProps = {
 exports.default = InfoView;
 
 /***/ }),
-/* 95 */
+/* 97 */
 /***/ (function(module, exports) {
 
 module.exports = require("moment-timezone");
 
 /***/ }),
-/* 96 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9257,11 +9293,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
 var _pane = __webpack_require__(17);
 
-var _size = __webpack_require__(29);
+var _size = __webpack_require__(28);
 
 var _Pane = __webpack_require__(34);
 
@@ -9269,7 +9305,7 @@ var _Pane2 = _interopRequireDefault(_Pane);
 
 var _commands = __webpack_require__(7);
 
-var _drag = __webpack_require__(19);
+var _drag = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

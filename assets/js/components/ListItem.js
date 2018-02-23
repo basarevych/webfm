@@ -1,13 +1,11 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 import { DragSource } from 'react-dnd';
 import { FaFolderO, FaFileO, FaBalanceScale, FaCopy, FaCut, FaTrash, FaCog } from 'react-icons/lib/fa';
-import { Button } from 'reactstrap';
-import { Tooltip } from 'reactstrap';
+import HintedButton from './HintedButton';
 import { join } from '../lib/path';
 import { human } from '../lib/size';
 import * as dragTypes from '../constants/dragTypes';
@@ -148,21 +146,17 @@ class ListItem extends React.PureComponent {
 
       size = (
         <div>
-          <Button
+          <HintedButton
             size="sm"
             color={this.props.isSelected ? 'primary' : 'secondary'}
             onClick={this.props.onSizeClick}
-            ref={el => { this.sizeButton = el && ReactDOM.findDOMNode(el); }}
+            tooltipPlacement="bottom"
+            tooltipIsOpen={this.state.isSizeTooltipOpen}
+            tooltipToggle={this.toggleSizeTooltip}
+            tooltipHTML={__('size_button_hint')}
           >
             {size}
-          </Button>
-          {this.sizeButton && <Tooltip
-            placement="bottom"
-            target={() => this.sizeButton}
-            isOpen={this.state.isSizeTooltipOpen}
-            toggle={this.toggleSizeTooltip}
-            dangerouslySetInnerHTML={{ __html: __('size_button_hint') }}
-          />}
+          </HintedButton>
         </div>
       );
     } else {
@@ -185,53 +179,41 @@ class ListItem extends React.PureComponent {
             {size}
           </div>
           <div className="tools">
-            <Button
+            <HintedButton
               size="sm"
               color={this.props.isSelected ? 'primary' : 'secondary'}
               onClick={() => this.props.onCopyClick(this.props.node.get('name'))}
-              ref={el => { this.copyButton = el && ReactDOM.findDOMNode(el); }}
+              tooltipPlacement="bottom"
+              tooltipIsOpen={this.state.isCopyTooltipOpen}
+              tooltipToggle={this.toggleCopyTooltip}
+              tooltipHTML={__('copy_button_hint')}
             >
               <FaCopy />
-            </Button>
-            {this.copyButton && <Tooltip
-              placement="bottom"
-              target={() => this.copyButton}
-              isOpen={this.state.isCopyTooltipOpen}
-              toggle={this.toggleCopyTooltip}
-              dangerouslySetInnerHTML={{ __html: __('copy_button_hint') }}
-            />}
+            </HintedButton>
             {' '}
-            <Button
+            <HintedButton
               size="sm"
               color={this.props.isSelected ? 'primary' : 'secondary'}
               onClick={() => this.props.onMoveClick(this.props.node.get('name'))}
-              ref={el => { this.moveButton = el && ReactDOM.findDOMNode(el); }}
+              tooltipPlacement="bottom"
+              tooltipIsOpen={this.state.isMoveTooltipOpen}
+              tooltipToggle={this.toggleMoveTooltip}
+              tooltipHTML={__('move_button_hint')}
             >
               <FaCut />
-            </Button>
-            {this.moveButton && <Tooltip
-              placement="bottom"
-              target={() => this.moveButton}
-              isOpen={this.state.isMoveTooltipOpen}
-              toggle={this.toggleMoveTooltip}
-              dangerouslySetInnerHTML={{ __html: __('move_button_hint') }}
-            />}
+            </HintedButton>
             {' '}
-            <Button
+            <HintedButton
               size="sm"
               color={this.props.isSelected ? 'primary' : 'secondary'}
               onClick={() => this.props.onDeleteClick(this.props.node.get('name'))}
-              ref={el => { this.deleteButton = el && ReactDOM.findDOMNode(el); }}
+              tooltipPlacement="bottom"
+              tooltipIsOpen={this.state.isDeleteTooltipOpen}
+              tooltipToggle={this.toggleDeleteTooltip}
+              tooltipHTML={__('delete_button_hint')}
             >
               <FaTrash />
-            </Button>
-            {this.deleteButton && <Tooltip
-              placement="bottom"
-              target={() => this.deleteButton}
-              isOpen={this.state.isDeleteTooltipOpen}
-              toggle={this.toggleDeleteTooltip}
-              dangerouslySetInnerHTML={{ __html: __('delete_button_hint') }}
-            />}
+            </HintedButton>
           </div>
         </div>
       );
