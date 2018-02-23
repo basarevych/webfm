@@ -13,6 +13,8 @@
  */
 module.exports = function(grunt) {
 
+  let version = require('../../package.json').version;
+
   grunt.config.set('sails-linker', {
 
 
@@ -26,7 +28,7 @@ module.exports = function(grunt) {
       options: {
         startTag: '<!--SCRIPTS-->',
         endTag: '<!--SCRIPTS END-->',
-        fileTmpl: '<script src="%s"></script>',
+        fileTmpl: `<script src="%s?v=${version}"></script>`,
         appRoot: '.tmp/public'
       },
       files: {
