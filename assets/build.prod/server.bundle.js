@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 37);
+/******/ 	return __webpack_require__(__webpack_require__.s = 38);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -336,19 +336,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.find = exports.fastDel = exports.del = exports.fastMove = exports.move = exports.fastCopy = exports.copy = exports.rename = exports.mkdir = void 0;
 
-var _navbar = __webpack_require__(20);
+__webpack_require__(19);
 
-var _mkdirDialog = __webpack_require__(21);
+var _navbar = __webpack_require__(21);
 
-var _renameDialog = __webpack_require__(22);
+var _mkdirDialog = __webpack_require__(22);
 
-var _copyDialog = __webpack_require__(23);
+var _renameDialog = __webpack_require__(23);
 
-var _moveDialog = __webpack_require__(24);
+var _copyDialog = __webpack_require__(24);
 
-var _deleteDialog = __webpack_require__(25);
+var _moveDialog = __webpack_require__(25);
 
-var _failureDialog = __webpack_require__(30);
+var _deleteDialog = __webpack_require__(26);
+
+var _failureDialog = __webpack_require__(31);
 
 const mkdir = (when, validate) => {
   return async (dispatch, getState) => {
@@ -965,17 +967,17 @@ exports.signIn = exports.signOut = exports.updateStatus = exports.setUser = void
 
 var actions = _interopRequireWildcard(__webpack_require__(1));
 
-var _package = _interopRequireDefault(__webpack_require__(59));
+var _package = _interopRequireDefault(__webpack_require__(60));
 
-var _i18n = _interopRequireDefault(__webpack_require__(60));
+var _i18n = _interopRequireDefault(__webpack_require__(61));
 
-var _app = __webpack_require__(31);
+var _app = __webpack_require__(32);
 
 var _pane = __webpack_require__(17);
 
-var _signInDialog = __webpack_require__(28);
+var _signInDialog = __webpack_require__(29);
 
-var _navbar = __webpack_require__(20);
+var _navbar = __webpack_require__(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1116,7 +1118,7 @@ var _immutable = __webpack_require__(0);
 
 var _reactTransitionGroup = __webpack_require__(16);
 
-var _Fade = _interopRequireDefault(__webpack_require__(27));
+var _Fade = _interopRequireDefault(__webpack_require__(28));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1347,7 +1349,7 @@ var _reactstrap = __webpack_require__(5);
 
 var _reactTransitionGroup = __webpack_require__(16);
 
-var _Fade = _interopRequireDefault(__webpack_require__(27));
+var _Fade = _interopRequireDefault(__webpack_require__(28));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1450,15 +1452,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.initPanes = exports.paneCD = exports.paneUpdate = exports.paneToggleSelect = exports.paneSelectRange = exports.paneSelect = exports.paneDeselect = exports.paneSort = exports.setPaneIndex = exports.setPanePath = exports.setPaneShare = exports.setPaneMode = exports.stopLoadingPane = exports.startLoadingPane = exports.togglePane = exports.hidePane = exports.showPane = exports.setActivePane = void 0;
 
+__webpack_require__(19);
+
 var actions = _interopRequireWildcard(__webpack_require__(1));
 
 var _reactRouterRedux = __webpack_require__(14);
 
-var _list = __webpack_require__(32);
+var _list = __webpack_require__(33);
 
-var _content = __webpack_require__(64);
+var _content = __webpack_require__(65);
 
-var _info = __webpack_require__(65);
+var _info = __webpack_require__(66);
 
 var _user = __webpack_require__(8);
 
@@ -2007,6 +2011,12 @@ module.exports = require("react-dom");
 
 /***/ }),
 /* 19 */
+/***/ (function(module, exports) {
+
+module.exports = require("core-js/modules/es6.array.sort");
+
+/***/ }),
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2069,7 +2079,7 @@ const handleDrop = (fromPane, name, isSelected) => {
 exports.handleDrop = handleDrop;
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2109,7 +2119,7 @@ const toggleNavbar = () => {
 exports.toggleNavbar = toggleNavbar;
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2215,7 +2225,7 @@ const updateMkdirDialog = (data, submittedAt) => {
 exports.updateMkdirDialog = updateMkdirDialog;
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2322,7 +2332,7 @@ const updateRenameDialog = (data, submittedAt) => {
 exports.updateRenameDialog = updateRenameDialog;
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2447,7 +2457,7 @@ const stopCopyDialogFind = nodes => {
 exports.stopCopyDialogFind = stopCopyDialogFind;
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2572,7 +2582,7 @@ const stopMoveDialogFind = nodes => {
 exports.stopMoveDialogFind = stopMoveDialogFind;
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2695,13 +2705,13 @@ const stopDeleteDialogFind = nodes => {
 exports.stopDeleteDialogFind = stopDeleteDialogFind;
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-dnd");
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2712,7 +2722,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _variables = _interopRequireDefault(__webpack_require__(57));
+var _variables = _interopRequireDefault(__webpack_require__(58));
 
 var _react = _interopRequireDefault(__webpack_require__(2));
 
@@ -2740,7 +2750,7 @@ var _default = Fade;
 exports.default = _default;
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2837,7 +2847,7 @@ const updateSignInDialog = (data, submittedAt) => {
 exports.updateSignInDialog = updateSignInDialog;
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2930,7 +2940,7 @@ const loadSize = (share, path) => {
 exports.loadSize = loadSize;
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2964,7 +2974,7 @@ const hideFailureDialog = () => {
 exports.hideFailureDialog = hideFailureDialog;
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2981,9 +2991,9 @@ var _user = __webpack_require__(8);
 
 var _pane = __webpack_require__(17);
 
-var _list = __webpack_require__(32);
+var _list = __webpack_require__(33);
 
-var _progressDialog = __webpack_require__(33);
+var _progressDialog = __webpack_require__(34);
 
 var _path = __webpack_require__(15);
 
@@ -3189,7 +3199,7 @@ const setServerState = params => {
 exports.setServerState = setServerState;
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3238,7 +3248,7 @@ const clearLists = () => {
 exports.clearLists = clearLists;
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3289,7 +3299,7 @@ const clearProgress = () => {
 exports.clearProgress = clearProgress;
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3306,25 +3316,25 @@ var _reactDom = _interopRequireDefault(__webpack_require__(18));
 
 var _propTypes = _interopRequireDefault(__webpack_require__(3));
 
-var _reactDnd = __webpack_require__(26);
+var _reactDnd = __webpack_require__(27);
 
 var _reactstrap = __webpack_require__(5);
 
 var _immutable = __webpack_require__(0);
 
-var _DisabledView = _interopRequireDefault(__webpack_require__(84));
+var _DisabledView = _interopRequireDefault(__webpack_require__(85));
 
-var _LoadingView = _interopRequireDefault(__webpack_require__(85));
+var _LoadingView = _interopRequireDefault(__webpack_require__(86));
 
-var _Header = _interopRequireDefault(__webpack_require__(86));
+var _Header = _interopRequireDefault(__webpack_require__(87));
 
-var _ListView = _interopRequireDefault(__webpack_require__(87));
+var _ListView = _interopRequireDefault(__webpack_require__(88));
 
-var _ContentView = _interopRequireDefault(__webpack_require__(91));
+var _ContentView = _interopRequireDefault(__webpack_require__(92));
 
-var _InfoView = _interopRequireDefault(__webpack_require__(92));
+var _InfoView = _interopRequireDefault(__webpack_require__(93));
 
-var dragTypes = _interopRequireWildcard(__webpack_require__(36));
+var dragTypes = _interopRequireWildcard(__webpack_require__(37));
 
 var _dec, _class;
 
@@ -3515,7 +3525,7 @@ var _default = Pane;
 exports.default = _default;
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3547,7 +3557,7 @@ function human(bytes) {
 }
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3561,7 +3571,7 @@ const NODE = 'NODE';
 exports.NODE = NODE;
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3569,21 +3579,21 @@ exports.NODE = NODE;
 
 var _react = _interopRequireDefault(__webpack_require__(2));
 
-var _server = __webpack_require__(38);
+var _server = __webpack_require__(39);
 
 var _reactRedux = __webpack_require__(4);
 
-var _createMemoryHistory = _interopRequireDefault(__webpack_require__(39));
+var _createMemoryHistory = _interopRequireDefault(__webpack_require__(40));
 
 var _reactRouterRedux = __webpack_require__(14);
 
 var _path = __webpack_require__(15);
 
-var _storeFactory = _interopRequireDefault(__webpack_require__(40));
+var _storeFactory = _interopRequireDefault(__webpack_require__(41));
 
-var _App = _interopRequireDefault(__webpack_require__(54));
+var _App = _interopRequireDefault(__webpack_require__(55));
 
-var _app = __webpack_require__(31);
+var _app = __webpack_require__(32);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3607,19 +3617,19 @@ module.exports.render = async function (params) {
 };
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-dom/server");
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports) {
 
 module.exports = require("history/createMemoryHistory");
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3630,35 +3640,35 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _redux = __webpack_require__(41);
+var _redux = __webpack_require__(42);
 
 var _immutable = __webpack_require__(0);
 
-var _reduxImmutable = __webpack_require__(42);
+var _reduxImmutable = __webpack_require__(43);
 
-var _reduxThunk = _interopRequireDefault(__webpack_require__(43));
+var _reduxThunk = _interopRequireDefault(__webpack_require__(44));
 
 var _reactRouterRedux = __webpack_require__(14);
 
-var _app = _interopRequireDefault(__webpack_require__(44));
+var _app = _interopRequireDefault(__webpack_require__(45));
 
-var _router = _interopRequireDefault(__webpack_require__(45));
+var _router = _interopRequireDefault(__webpack_require__(46));
 
-var _user = _interopRequireDefault(__webpack_require__(46));
+var _user = _interopRequireDefault(__webpack_require__(47));
 
-var _navbar = _interopRequireDefault(__webpack_require__(47));
+var _navbar = _interopRequireDefault(__webpack_require__(48));
 
-var _progress = _interopRequireDefault(__webpack_require__(48));
+var _progress = _interopRequireDefault(__webpack_require__(49));
 
-var _drag = _interopRequireDefault(__webpack_require__(49));
+var _drag = _interopRequireDefault(__webpack_require__(50));
 
-var _dialogFactory = _interopRequireDefault(__webpack_require__(50));
+var _dialogFactory = _interopRequireDefault(__webpack_require__(51));
 
-var _failureDialog = _interopRequireDefault(__webpack_require__(51));
+var _failureDialog = _interopRequireDefault(__webpack_require__(52));
 
-var _paneFactory = _interopRequireDefault(__webpack_require__(52));
+var _paneFactory = _interopRequireDefault(__webpack_require__(53));
 
-var _infoListFactory = _interopRequireDefault(__webpack_require__(53));
+var _infoListFactory = _interopRequireDefault(__webpack_require__(54));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3688,25 +3698,25 @@ var _default = storeFactory;
 exports.default = _default;
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports) {
 
 module.exports = require("redux");
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports) {
 
 module.exports = require("redux-immutable");
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports) {
 
 module.exports = require("redux-thunk");
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3768,7 +3778,7 @@ var _default = app;
 exports.default = _default;
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3789,7 +3799,7 @@ var _default = router;
 exports.default = _default;
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3826,7 +3836,7 @@ var _default = user;
 exports.default = _default;
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3866,7 +3876,7 @@ var _default = navbar;
 exports.default = _default;
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3919,7 +3929,7 @@ var _default = progress;
 exports.default = _default;
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3968,7 +3978,7 @@ var _default = drag;
 exports.default = _default;
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4184,7 +4194,7 @@ var _default = dialogFactory;
 exports.default = _default;
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4223,7 +4233,7 @@ var _default = failureDialog;
 exports.default = _default;
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4233,6 +4243,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+
+__webpack_require__(19);
 
 var actions = _interopRequireWildcard(__webpack_require__(1));
 
@@ -4372,7 +4384,7 @@ var _default = paneFactory;
 exports.default = _default;
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4435,7 +4447,7 @@ var _default = infoListFactory;
 exports.default = _default;
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4448,9 +4460,9 @@ exports.default = void 0;
 
 var _reactRedux = __webpack_require__(4);
 
-var _drag = __webpack_require__(19);
+var _drag = __webpack_require__(20);
 
-var _Screen = _interopRequireDefault(__webpack_require__(55));
+var _Screen = _interopRequireDefault(__webpack_require__(56));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4473,7 +4485,7 @@ var _default = App;
 exports.default = _default;
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4488,37 +4500,37 @@ var _react = _interopRequireDefault(__webpack_require__(2));
 
 var _propTypes = _interopRequireDefault(__webpack_require__(3));
 
-var _reactDnd = __webpack_require__(26);
+var _reactDnd = __webpack_require__(27);
 
-var _reactDndHtml5Backend = _interopRequireDefault(__webpack_require__(56));
+var _reactDndHtml5Backend = _interopRequireDefault(__webpack_require__(57));
 
 var _reactTransitionGroup = __webpack_require__(16);
 
 var _fa = __webpack_require__(6);
 
-var _Fade = _interopRequireDefault(__webpack_require__(27));
+var _Fade = _interopRequireDefault(__webpack_require__(28));
 
-var _Navbar = _interopRequireDefault(__webpack_require__(58));
+var _Navbar = _interopRequireDefault(__webpack_require__(59));
 
-var _SignInDialog = _interopRequireDefault(__webpack_require__(67));
+var _SignInDialog = _interopRequireDefault(__webpack_require__(68));
 
-var _ProgressDialog = _interopRequireDefault(__webpack_require__(69));
+var _ProgressDialog = _interopRequireDefault(__webpack_require__(70));
 
-var _MkdirDialog = _interopRequireDefault(__webpack_require__(71));
+var _MkdirDialog = _interopRequireDefault(__webpack_require__(72));
 
-var _RenameDialog = _interopRequireDefault(__webpack_require__(73));
+var _RenameDialog = _interopRequireDefault(__webpack_require__(74));
 
-var _CopyDialog = _interopRequireDefault(__webpack_require__(75));
+var _CopyDialog = _interopRequireDefault(__webpack_require__(76));
 
-var _MoveDialog = _interopRequireDefault(__webpack_require__(77));
+var _MoveDialog = _interopRequireDefault(__webpack_require__(78));
 
-var _DeleteDialog = _interopRequireDefault(__webpack_require__(79));
+var _DeleteDialog = _interopRequireDefault(__webpack_require__(80));
 
-var _FailureDialog = _interopRequireDefault(__webpack_require__(81));
+var _FailureDialog = _interopRequireDefault(__webpack_require__(82));
 
-var _LeftPane = _interopRequireDefault(__webpack_require__(83));
+var _LeftPane = _interopRequireDefault(__webpack_require__(84));
 
-var _RightPane = _interopRequireDefault(__webpack_require__(94));
+var _RightPane = _interopRequireDefault(__webpack_require__(95));
 
 var _dec, _class;
 
@@ -4577,19 +4589,19 @@ var _default = Screen;
 exports.default = _default;
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-dnd-html5-backend");
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4602,23 +4614,23 @@ exports.default = void 0;
 
 var _reactRedux = __webpack_require__(4);
 
-var _navbar = __webpack_require__(20);
+var _navbar = __webpack_require__(21);
 
-var _signInDialog = __webpack_require__(28);
+var _signInDialog = __webpack_require__(29);
 
-var _mkdirDialog = __webpack_require__(21);
+var _mkdirDialog = __webpack_require__(22);
 
-var _renameDialog = __webpack_require__(22);
+var _renameDialog = __webpack_require__(23);
 
-var _copyDialog = __webpack_require__(23);
+var _copyDialog = __webpack_require__(24);
 
-var _moveDialog = __webpack_require__(24);
+var _moveDialog = __webpack_require__(25);
 
-var _deleteDialog = __webpack_require__(25);
+var _deleteDialog = __webpack_require__(26);
 
 var _user = __webpack_require__(8);
 
-var _TopNavbar = _interopRequireDefault(__webpack_require__(66));
+var _TopNavbar = _interopRequireDefault(__webpack_require__(67));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4650,13 +4662,13 @@ var _default = Navbar;
 exports.default = _default;
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"webfm","version":"0.9.26","description":"Two pane file manager for the Web","keywords":["file manager","two pane","node","react","redux","sails"],"license":"MIT","author":"Ross Basarevych <basarevych@gmail.com>","repository":{"type":"git","url":"git+https://github.com/basarevych/webfm.git"},"dependencies":{"@babel/core":"^7.0.0-beta.40","@babel/plugin-proposal-class-properties":"^7.0.0-beta.40","@babel/plugin-proposal-decorators":"^7.0.0-beta.40","@babel/plugin-proposal-object-rest-spread":"^7.0.0-beta.40","@babel/polyfill":"^7.0.0-beta.40","@babel/preset-env":"^7.0.0-beta.40","@babel/preset-react":"^7.0.0-beta.40","async":"~2.6.0","autoprefixer":"~8.0.0","babel-loader":"^8.0.0-beta.0","bootstrap":"~4.0.0","bootstrap-loader":"~2.2.0","breakpoints-js":"~1.0.5","clean-webpack-plugin":"~0.1.18","connect-redis":"~3.3.3","css-loader":"~0.28.9","cssnano":"~3.10.0","exports-loader":"~0.7.0","extract-text-webpack-plugin":"~3.0.2","file-loader":"~1.1.9","grunt":"~1.0.2","history":"~4.7.2","i18n-for-browser":"~0.9.7","ignore-loader":"~0.1.2","immutable":"~3.8.2","imports-loader":"~0.8.0","ini":"~1.3.5","isomorphic-fetch":"~2.2.1","lodash":"~4.17.5","moment-timezone":"~0.5.14","node-sass":"~4.7.2","optimize-css-assets-webpack-plugin":"~3.2.0","popper.js":"~1.12.9","postcss-loader":"~2.1.0","prop-types":"~15.6.0","raf":"~3.4.0","react":"~16.2.0","react-dnd":"~2.5.4","react-dnd-html5-backend":"~2.5.4","react-dom":"~16.2.0","react-icons":"~2.2.7","react-list":"~0.8.8","react-redux":"~5.0.7","react-router":"~4.2.0","react-router-redux":"^5.0.0-alpha.9","react-scroll-box":"~0.3.5","react-transition-group":"~2.2.1","reactstrap":"^5.0.0-beta","redux":"~3.7.2","redux-immutable":"~4.0.0","redux-thunk":"~2.2.0","resolve-url-loader":"~2.2.1","sails":"^1.0.0-46","sails-hook-grunt":"~3.1.0","sails-hook-orm":"^2.0.0-23","sails-hook-panic-mode":"~0.1.3","sails-hook-sockets":"~1.4.0","sails.io.js":"~1.1.13","sass-loader":"~6.0.6","socket.io-client":"2.0.3","socket.io-redis":"~4.0.1","stat-mode":"~0.2.2","style-loader":"~0.20.2","uglifyjs-webpack-plugin":"~1.2.0","url-loader":"~0.6.2","userid":"~0.3.1","webpack":"~3.11.0","webpack-config-utils":"~2.3.0","webpack-node-externals":"~1.6.0"},"devDependencies":{"babel-eslint":"~8.2.2","eslint":"~4.18.1"},"scripts":{"build":"env NODE_ENV=production ./node_modules/.bin/webpack --progress","start":"env NODE_ENV=production node app.js","build:dev":"env NODE_ENV=development ./node_modules/.bin/webpack --watch --progress","start:dev":"env NODE_ENV=development ./node_modules/.bin/sails lift","lint":"node ./node_modules/eslint/bin/eslint . --max-warnings=0","debug":"node debug app.js"},"main":"app.js","engines":{"node":">=8.0.0"}}
+module.exports = {"name":"webfm","version":"0.9.27","description":"Two pane file manager for the Web","keywords":["file manager","two pane","node","react","redux","sails"],"license":"MIT","author":"Ross Basarevych <basarevych@gmail.com>","repository":{"type":"git","url":"git+https://github.com/basarevych/webfm.git"},"dependencies":{"@babel/core":"^7.0.0-beta.40","@babel/plugin-proposal-class-properties":"^7.0.0-beta.40","@babel/plugin-proposal-decorators":"^7.0.0-beta.40","@babel/plugin-proposal-object-rest-spread":"^7.0.0-beta.40","@babel/polyfill":"^7.0.0-beta.40","@babel/preset-env":"^7.0.0-beta.40","@babel/preset-react":"^7.0.0-beta.40","async":"~2.6.0","autoprefixer":"~8.0.0","babel-loader":"^8.0.0-beta.0","bootstrap":"~4.0.0","bootstrap-loader":"~2.2.0","breakpoints-js":"~1.0.5","clean-webpack-plugin":"~0.1.18","connect-redis":"~3.3.3","css-loader":"~0.28.9","cssnano":"~3.10.0","exports-loader":"~0.7.0","extract-text-webpack-plugin":"~3.0.2","file-loader":"~1.1.9","grunt":"~1.0.2","history":"~4.7.2","i18n-for-browser":"~0.9.7","ignore-loader":"~0.1.2","immutable":"~3.8.2","imports-loader":"~0.8.0","ini":"~1.3.5","isomorphic-fetch":"~2.2.1","lodash":"~4.17.5","moment-timezone":"~0.5.14","node-sass":"~4.7.2","optimize-css-assets-webpack-plugin":"~3.2.0","popper.js":"~1.12.9","postcss-loader":"~2.1.0","prop-types":"~15.6.0","raf":"~3.4.0","react":"~16.2.0","react-dnd":"~2.5.4","react-dnd-html5-backend":"~2.5.4","react-dom":"~16.2.0","react-icons":"~2.2.7","react-list":"~0.8.8","react-redux":"~5.0.7","react-router":"~4.2.0","react-router-redux":"^5.0.0-alpha.9","react-scroll-box":"~0.3.5","react-transition-group":"~2.2.1","reactstrap":"^5.0.0-beta","redux":"~3.7.2","redux-immutable":"~4.0.0","redux-thunk":"~2.2.0","resolve-url-loader":"~2.2.1","sails":"^1.0.0-46","sails-hook-grunt":"~3.1.0","sails-hook-orm":"^2.0.0-23","sails-hook-panic-mode":"~0.1.3","sails-hook-sockets":"~1.4.0","sails.io.js":"~1.1.13","sass-loader":"~6.0.6","socket.io-client":"2.0.3","socket.io-redis":"~4.0.1","stat-mode":"~0.2.2","style-loader":"~0.20.2","uglifyjs-webpack-plugin":"~1.2.0","url-loader":"~0.6.2","userid":"~0.3.1","webpack":"~3.11.0","webpack-config-utils":"~2.3.0","webpack-node-externals":"~1.6.0"},"devDependencies":{"babel-eslint":"~8.2.2","eslint":"~4.18.1"},"scripts":{"build":"env NODE_ENV=production ./node_modules/.bin/webpack --progress","start":"env NODE_ENV=production node app.js","build:dev":"env NODE_ENV=development ./node_modules/.bin/webpack --watch --progress","start:dev":"env NODE_ENV=development ./node_modules/.bin/sails lift","lint":"node ./node_modules/eslint/bin/eslint . --max-warnings=0","debug":"node debug app.js"},"main":"app.js","engines":{"node":">=8.0.0"}}
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4667,11 +4679,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _i18n = _interopRequireDefault(__webpack_require__(61));
+var _i18n = _interopRequireDefault(__webpack_require__(62));
 
-var _en = _interopRequireDefault(__webpack_require__(62));
+var _en = _interopRequireDefault(__webpack_require__(63));
 
-var i18n = _interopRequireWildcard(__webpack_require__(63));
+var i18n = _interopRequireWildcard(__webpack_require__(64));
 
 exports.default = i18n;
 
@@ -4688,7 +4700,7 @@ i18n.configure({
 });
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports) {
 
 /**
@@ -4739,19 +4751,19 @@ module.exports.i18n = {
 
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports) {
 
 module.exports = {"project_title":"WebFM","not_connected_message":"Establishing connection...","not_authorized_message":"Not signed in","forbidden_message":"No access or not found","contents_view_message":"Contents view","type_DIR_message":"This is a directory","type_SYMLINK_message":"This is a symbolic link to outside of the share","type_BINARY_message":"This is a binary data file","info_view_message":"Info view","empty_message":"Empty...","select_share_label":"Select...","read_only_label":"[read]","read_write_label":"[write]","two_dots_label":"Go up one level","info_name_label":"Name:","info_parent_label":"Parent:","info_size_bytes_label":"Size (bytes):","info_size_human_label":"Size (Human):","info_du_bytes_label":"Disk usage (bytes):","info_du_human_label":"Disk usage (Human):","info_mode_number_label":"Mode (octal):","info_mode_string_label":"Mode (string):","info_user_id_label":"Owner (ID):","info_user_name_label":"Owner (name):","info_group_id_label":"Group (ID):","info_group_name_label":"Group (name):","info_atime_label":"atime:","info_mtime_label":"mtime:","info_ctime_label":"ctime:","mkdir_command":"MkDir","rename_command":"Rename","copy_command":"Copy","move_command":"Move","delete_command":"Delete","sign_in_button":"Sign in","sign_out_button":"Sign out","cancel_button":"Cancel","submit_button":"Submit","done_button":"Done","required_field":"Required field","sign_in_title":"Sign In","login_label":"Login:","password_label":"Password:","invalid_credentials_message":"Wrong login or password","no_shares_message":"You have no shares defined in the config","user.login.E_REQUIRED":"Login is required","user.password.E_REQUIRED":"Password is required","mkdir_title":"Create directory","share_label":"Share:","directory_label":"Parent directory:","name_label":"Name:","mkdir.share.E_NOT_FOUND":"Share not found","mkdir.share.E_READ_ONLY":"No write access to this share","mkdir.directory.E_NOT_DIR":"This is not a directory","mkdir.directory.E_OUTSIDE":"Parent directory is not inside the share","mkdir.name.E_REQUIRED":"Name is required","mkdir.name.E_INVALID":"Name is invalid","mkdir.name.E_EXISTS":"Target already exists","rename_title":"Rename","new_name_label":"New name:","rename.share.E_NOT_FOUND":"Share not found","rename.share.E_READ_ONLY":"No write access to this share","rename.directory.E_NOT_DIR":"This is not a directory","rename.directory.E_OUTSIDE":"Parent directory is not inside the share","rename.name.E_NOT_FOUND":"File not found","rename.newName.E_REQUIRED":"Name is required","rename.newName.E_SAME":"New name should differ from the original","rename.newName.E_INVALID":"Name is invalid","rename.newName.E_EXISTS":"Target already exists","copy_title":"Copy","copy_start_message":"Copying...","src_share_label":"Source share:","src_directory_label":"Source parent directory:","src_name_label":"Source name:","src_name_hint":"Use wildcard symbols like <strong>*</strong> or <strong>?</strong>","src_find_button":"Search","src_find_empty":"No files found","dst_share_label":"Destination share:","dst_directory_label":"Destination parent directory:","dst_name_label":"Destination name:","copy.srcShare.E_NOT_FOUND":"Share not found","copy.srcDirectory.E_NOT_DIR":"This is not a directory","copy.srcDirectory.E_OUTSIDE":"Source directory is not inside the share","copy.srcName.E_REQUIRED":"Name is required","copy.srcName.E_INVALID":"Name is invalid","copy.dstShare.E_NOT_FOUND":"Share not found","copy.dstShare.E_READ_ONLY":"No write access to this share","copy.dstDirectory.E_NOT_DIR":"This is not a directory","copy.dstDirectory.E_OUTSIDE":"Target directory is not inside the share","copy.dstDirectory.E_SAME":"Target directory should not be the same as source","copy.dstDirectory.E_RECURSIVE":"Cannot copy into itself","copy.result.ENOENT":"No files to copy","progress_title":"Progress","copy_success_message":"%s ==> %s","copy_failure_message":"Couldn't copy %s","move_success_message":"%s ==> %s","move_failure_message":"Couldn't move %s","delete_success_message":"Deleted %s","delete_failure_message":"Couldn't delete %s","done_message":"Done","move_title":"Move","move_start_message":"Moving...","move.srcShare.E_NOT_FOUND":"Share not found","move.srcShare.E_READ_ONLY":"No write access to this share","move.srcDirectory.E_NOT_DIR":"This is not a directory","move.srcDirectory.E_OUTSIDE":"Source directory is not inside the share","move.srcName.E_REQUIRED":"Name is required","move.srcName.E_INVALID":"Name is invalid","move.dstShare.E_NOT_FOUND":"Share not found","move.dstShare.E_READ_ONLY":"No write access to this share","move.dstDirectory.E_NOT_DIR":"This is not a directory","move.dstDirectory.E_OUTSIDE":"Target directory is not inside the share","move.dstDirectory.E_SAME":"Target directory should not be the same as source","move.dstDirectory.E_RECURSIVE":"Cannot move into itself","move.result.ENOENT":"No files to move","delete_title":"Copy","delete_start_message":"Deleting...","delete.share.E_NOT_FOUND":"Share not found","delete.share.E_READ_ONLY":"No write access to this share","delete.directory.E_NOT_DIR":"This is not a directory","delete.directory.E_OUTSIDE":"Source directory is not inside the share","delete.name.E_REQUIRED":"Name is required","delete.name.E_INVALID":"Name is invalid","delete.result.ENOENT":"No files to delete","failure_title":"Failure","field_share_label":"Share:","field_directory_label":"Directory:","field_name_label":"Name:","field_srcShare_label":"Source share:","field_srcDirectory_label":"Source directory:","field_srcName_label":"Source name:","field_dstShare_label":"Destination share:","field_dstDirectory_label":"Destination directory:","field_dstName_label":"Destination name:","sort_name_hint":"Sort by name<br>(toggle direction)","sort_size_hint":"Sort by size<br>(toggle direction)","mode_list_hint":"Display list of files","mode_contents_hint":"Display contents of the selected in the other pane file","mode_info_hint":"Display info of the selected in the other pane file","toggle_pane_hint":"Toggle visibility<br>of the other pane","size_button_hint":"Calculate size<br>of this item","copy_button_hint":"Copy this item<br>to the other pane","move_button_hint":"Move this item<br>to the other pane","delete_button_hint":"Delete this item","copy_drop_hint":"Copy item here","copy_drop_selected_hint":"Copy selected items here","move_drop_hint":"Move item here","move_drop_selected_hint":"Move selected items here"}
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports) {
 
 module.exports = require("i18n-for-browser");
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4864,7 +4876,7 @@ const loadContent = pane => {
 exports.loadContent = loadContent;
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4877,7 +4889,7 @@ exports.loadInfo = exports.clearInfos = exports.setInfo = void 0;
 
 var actions = _interopRequireWildcard(__webpack_require__(1));
 
-var _size = __webpack_require__(29);
+var _size = __webpack_require__(30);
 
 var _user = __webpack_require__(8);
 
@@ -5003,7 +5015,7 @@ const loadInfo = pane => {
 exports.loadInfo = loadInfo;
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5128,7 +5140,7 @@ var _default = TopNavbar;
 exports.default = _default;
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5141,11 +5153,11 @@ exports.default = void 0;
 
 var _reactRedux = __webpack_require__(4);
 
-var _signInDialog = __webpack_require__(28);
+var _signInDialog = __webpack_require__(29);
 
 var _user = __webpack_require__(8);
 
-var _SignInModal = _interopRequireDefault(__webpack_require__(68));
+var _SignInModal = _interopRequireDefault(__webpack_require__(69));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5174,7 +5186,7 @@ var _default = SignInDialog;
 exports.default = _default;
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5369,7 +5381,7 @@ var _default = SignInModal;
 exports.default = _default;
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5382,9 +5394,9 @@ exports.default = void 0;
 
 var _reactRedux = __webpack_require__(4);
 
-var _progressDialog = __webpack_require__(33);
+var _progressDialog = __webpack_require__(34);
 
-var _ProgressModal = _interopRequireDefault(__webpack_require__(70));
+var _ProgressModal = _interopRequireDefault(__webpack_require__(71));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5407,7 +5419,7 @@ var _default = ProgressDialog;
 exports.default = _default;
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5511,7 +5523,7 @@ var _default = ProgressModal;
 exports.default = _default;
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5524,11 +5536,11 @@ exports.default = void 0;
 
 var _reactRedux = __webpack_require__(4);
 
-var _mkdirDialog = __webpack_require__(21);
+var _mkdirDialog = __webpack_require__(22);
 
 var _commands = __webpack_require__(7);
 
-var _MkdirModal = _interopRequireDefault(__webpack_require__(72));
+var _MkdirModal = _interopRequireDefault(__webpack_require__(73));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5557,7 +5569,7 @@ var _default = MkdirDialog;
 exports.default = _default;
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5782,7 +5794,7 @@ var _default = MkdirModal;
 exports.default = _default;
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5795,11 +5807,11 @@ exports.default = void 0;
 
 var _reactRedux = __webpack_require__(4);
 
-var _renameDialog = __webpack_require__(22);
+var _renameDialog = __webpack_require__(23);
 
 var _commands = __webpack_require__(7);
 
-var _RenameModal = _interopRequireDefault(__webpack_require__(74));
+var _RenameModal = _interopRequireDefault(__webpack_require__(75));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5828,7 +5840,7 @@ var _default = RenameDialog;
 exports.default = _default;
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6084,7 +6096,7 @@ var _default = RenameModal;
 exports.default = _default;
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6097,11 +6109,11 @@ exports.default = void 0;
 
 var _reactRedux = __webpack_require__(4);
 
-var _copyDialog = __webpack_require__(23);
+var _copyDialog = __webpack_require__(24);
 
 var _commands = __webpack_require__(7);
 
-var _CopyModal = _interopRequireDefault(__webpack_require__(76));
+var _CopyModal = _interopRequireDefault(__webpack_require__(77));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6132,7 +6144,7 @@ var _default = CopyDialog;
 exports.default = _default;
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6477,7 +6489,7 @@ var _default = CopyModal;
 exports.default = _default;
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6490,11 +6502,11 @@ exports.default = void 0;
 
 var _reactRedux = __webpack_require__(4);
 
-var _moveDialog = __webpack_require__(24);
+var _moveDialog = __webpack_require__(25);
 
 var _commands = __webpack_require__(7);
 
-var _MoveModal = _interopRequireDefault(__webpack_require__(78));
+var _MoveModal = _interopRequireDefault(__webpack_require__(79));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6525,7 +6537,7 @@ var _default = MoveDialog;
 exports.default = _default;
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6870,7 +6882,7 @@ var _default = MoveModal;
 exports.default = _default;
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6883,11 +6895,11 @@ exports.default = void 0;
 
 var _reactRedux = __webpack_require__(4);
 
-var _deleteDialog = __webpack_require__(25);
+var _deleteDialog = __webpack_require__(26);
 
 var _commands = __webpack_require__(7);
 
-var _DeleteModal = _interopRequireDefault(__webpack_require__(80));
+var _DeleteModal = _interopRequireDefault(__webpack_require__(81));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6918,7 +6930,7 @@ var _default = DeleteDialog;
 exports.default = _default;
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7201,7 +7213,7 @@ var _default = DeleteModal;
 exports.default = _default;
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7214,9 +7226,9 @@ exports.default = void 0;
 
 var _reactRedux = __webpack_require__(4);
 
-var _failureDialog = __webpack_require__(30);
+var _failureDialog = __webpack_require__(31);
 
-var _FailureModal = _interopRequireDefault(__webpack_require__(82));
+var _FailureModal = _interopRequireDefault(__webpack_require__(83));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7239,7 +7251,7 @@ var _default = FailureDialog;
 exports.default = _default;
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7316,7 +7328,7 @@ var _default = FailureModal;
 exports.default = _default;
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7331,13 +7343,13 @@ var _reactRedux = __webpack_require__(4);
 
 var _pane = __webpack_require__(17);
 
-var _size = __webpack_require__(29);
+var _size = __webpack_require__(30);
 
-var _Pane = _interopRequireDefault(__webpack_require__(34));
+var _Pane = _interopRequireDefault(__webpack_require__(35));
 
 var _commands = __webpack_require__(7);
 
-var _drag = __webpack_require__(19);
+var _drag = __webpack_require__(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7395,7 +7407,7 @@ var _default = LeftPane;
 exports.default = _default;
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7435,7 +7447,7 @@ var _default = DisabledView;
 exports.default = _default;
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7479,7 +7491,7 @@ var _default = LoadingView;
 exports.default = _default;
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7790,7 +7802,7 @@ var _default = Header;
 exports.default = _default;
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7807,7 +7819,7 @@ var _propTypes = _interopRequireDefault(__webpack_require__(3));
 
 var _immutable = __webpack_require__(0);
 
-var _ListComponent = _interopRequireDefault(__webpack_require__(88));
+var _ListComponent = _interopRequireDefault(__webpack_require__(89));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7877,7 +7889,7 @@ var _default = ListView;
 exports.default = _default;
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7896,11 +7908,11 @@ var _immutable = __webpack_require__(0);
 
 var _reactScrollBox = __webpack_require__(10);
 
-var _reactList = _interopRequireDefault(__webpack_require__(89));
+var _reactList = _interopRequireDefault(__webpack_require__(90));
 
 var _ScrollViewport = _interopRequireDefault(__webpack_require__(11));
 
-var _ListItem = _interopRequireDefault(__webpack_require__(90));
+var _ListItem = _interopRequireDefault(__webpack_require__(91));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8008,13 +8020,13 @@ var _default = ListComponent;
 exports.default = _default;
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-list");
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8033,7 +8045,7 @@ var _propTypes = _interopRequireDefault(__webpack_require__(3));
 
 var _immutable = __webpack_require__(0);
 
-var _reactDnd = __webpack_require__(26);
+var _reactDnd = __webpack_require__(27);
 
 var _fa = __webpack_require__(6);
 
@@ -8041,9 +8053,9 @@ var _reactstrap = __webpack_require__(5);
 
 var _path = __webpack_require__(15);
 
-var _size = __webpack_require__(35);
+var _size = __webpack_require__(36);
 
-var dragTypes = _interopRequireWildcard(__webpack_require__(36));
+var dragTypes = _interopRequireWildcard(__webpack_require__(37));
 
 var _dec, _class;
 
@@ -8292,7 +8304,7 @@ var _default = ListItem;
 exports.default = _default;
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8373,7 +8385,7 @@ var _default = ContentView;
 exports.default = _default;
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8394,11 +8406,11 @@ var _reactScrollBox = __webpack_require__(10);
 
 var _fa = __webpack_require__(6);
 
-var _momentTimezone = _interopRequireDefault(__webpack_require__(93));
+var _momentTimezone = _interopRequireDefault(__webpack_require__(94));
 
 var _ScrollViewport = _interopRequireDefault(__webpack_require__(11));
 
-var _size = __webpack_require__(35);
+var _size = __webpack_require__(36);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8637,13 +8649,13 @@ var _default = InfoView;
 exports.default = _default;
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports) {
 
 module.exports = require("moment-timezone");
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8658,13 +8670,13 @@ var _reactRedux = __webpack_require__(4);
 
 var _pane = __webpack_require__(17);
 
-var _size = __webpack_require__(29);
+var _size = __webpack_require__(30);
 
-var _Pane = _interopRequireDefault(__webpack_require__(34));
+var _Pane = _interopRequireDefault(__webpack_require__(35));
 
 var _commands = __webpack_require__(7);
 
-var _drag = __webpack_require__(19);
+var _drag = __webpack_require__(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

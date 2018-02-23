@@ -49,7 +49,7 @@ module.exports = function(grunt) {
       options: {
         startTag: '<!--STYLES-->',
         endTag: '<!--STYLES END-->',
-        fileTmpl: '<link rel="stylesheet" href="%s">',
+        fileTmpl: `<link rel="stylesheet" href="%s?v=${version}">`,
         appRoot: '.tmp/public'
       },
       files: {

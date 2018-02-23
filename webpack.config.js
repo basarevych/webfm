@@ -99,7 +99,8 @@ module.exports = [
                     targets: {
                       browsers: 'last 3 versions',
                     },
-                    forceAllTransforms: true,
+                    modules: false,
+                    useBuiltIns: 'usage',
                   }],
                   '@babel/preset-react'
                 ],
@@ -322,7 +323,8 @@ module.exports = [
                   ['@babel/preset-env', {
                     targets: {
                       node: '8.0'
-                    }
+                    },
+                    useBuiltIns: 'usage',
                   }],
                   '@babel/preset-react'
                 ],
