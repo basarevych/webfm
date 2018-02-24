@@ -8047,7 +8047,7 @@ let Header = class Header extends _react2.default.PureComponent {
         'div',
         null,
         _react2.default.createElement(
-          Button,
+          _reactstrap.Button,
           { size: 'sm', color: 'secondary', onClick: this.toggleMenu },
           _react2.default.createElement(_fa.FaBars, null)
         ),

@@ -7,7 +7,7 @@ import {
   FaToggleOn, FaToggleOff, FaSortAlphaAsc, FaSortAlphaDesc, FaSortAmountAsc, FaSortAmountDesc,
   FaFileTextO, FaAlignLeft, FaFolderOpenO, FaBars
 } from 'react-icons/lib/fa';
-import { ButtonGroup } from 'reactstrap';
+import { Button, ButtonGroup } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import HintedButton from './HintedButton';
 
