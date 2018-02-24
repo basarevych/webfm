@@ -20,7 +20,7 @@ const paneTarget = {
     props.onDrop(item.pane, item.name, item.isSelected);
   },
   canDrop(props, monitor) {
-    return monitor.getItem().pane !== props.which;
+    return monitor.getItem().pane !== props.which && props.mode === 'LIST';
   }
 };
 
@@ -120,6 +120,7 @@ class Pane extends React.PureComponent {
       }
       view = (
         <div
+          id={this.props.which + '-view'}
           className={'view rounded' +
             (this.props.isDraggedOver
               ? ' drop-ready'
@@ -146,41 +147,66 @@ class Pane extends React.PureComponent {
             onToggleOther={this.props.onToggleOther}
           />
           {view}
+          <Tooltip
+            placement={this.props.breakpoint === 'xs' ? 'top' : (this.props.which === 'LEFT' ? 'right' : 'left')}
+            target={this.props.which + '-view'}
+            isOpen={
+              this.props.mode === 'LIST' &&
+              this.props.isOtherDragging &&
+              !this.props.isOtherDraggingSelected &&
+              this.props.isOtherDraggingCopy
+            }
+            dangerouslySetInnerHTML={{ __html: __('copy_drop_hint') }}
+          />
+          <Tooltip
+            placement={this.props.breakpoint === 'xs' ? 'top' : (this.props.which === 'LEFT' ? 'right' : 'left')}
+            target={this.props.which + '-view'}
+            isOpen={
+              this.props.mode === 'LIST' &&
+              this.props.isOtherDragging &&
+              this.props.isOtherDraggingSelected &&
+              this.props.isOtherDraggingCopy
+            }
+            dangerouslySetInnerHTML={{ __html: __('copy_drop_selected_hint') }}
+          />
+          <Tooltip
+            placement={this.props.breakpoint === 'xs' ? 'top' : (this.props.which === 'LEFT' ? 'right' : 'left')}
+            target={this.props.which + '-view'}
+            isOpen={
+              this.props.mode === 'LIST' &&
+              this.props.isOtherDragging &&
+              !this.props.isOtherDraggingSelected &&
+              !this.props.isOtherDraggingCopy
+            }
+            dangerouslySetInnerHTML={{ __html: __('move_drop_hint') }}
+          />
+          <Tooltip
+            placement={this.props.breakpoint === 'xs' ? 'top' : (this.props.which === 'LEFT' ? 'right' : 'left')}
+            target={this.props.which + '-view'}
+            isOpen={
+              this.props.mode === 'LIST' &&
+              this.props.isOtherDragging &&
+              this.props.isOtherDraggingSelected &&
+              !this.props.isOtherDraggingCopy
+            }
+            dangerouslySetInnerHTML={{ __html: __('move_drop_selected_hint') }}
+          />
+          <Tooltip
+            placement={this.props.breakpoint === 'xs' ? 'top' : (this.props.which === 'LEFT' ? 'right' : 'left')}
+            target={this.props.which + '-view'}
+            isOpen={
+              this.props.mode !== 'LIST' &&
+              this.props.isOtherDragging
+            }
+            dangerouslySetInnerHTML={{ __html: __('switch_to_list_hint') }}
+          />
         </div>
       );
     }
 
     return this.props.connectDropTarget(
-      <div id={this.props.which + '-pane'} className="pane" onClick={this.props.onPaneClick}>
+      <div className="pane" onClick={this.props.onPaneClick}>
         {view}
-        <Tooltip
-          placement="top"
-          target={this.props.which + '-pane'}
-          isOpen={this.props.isOtherDragging && !this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy}
-          toggle={this.togglePaneTooltip}
-          dangerouslySetInnerHTML={{ __html: __('copy_drop_hint') }}
-        />
-        <Tooltip
-          placement="top"
-          target={this.props.which + '-pane'}
-          isOpen={this.props.isOtherDragging && this.props.isOtherDraggingSelected && this.props.isOtherDraggingCopy}
-          toggle={this.togglePaneTooltip}
-          dangerouslySetInnerHTML={{ __html: __('copy_drop_selected_hint') }}
-        />
-        <Tooltip
-          placement="top"
-          target={this.props.which + '-pane'}
-          isOpen={this.props.isOtherDragging && !this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy}
-          toggle={this.togglePaneTooltip}
-          dangerouslySetInnerHTML={{ __html: __('move_drop_hint') }}
-        />
-        <Tooltip
-          placement="top"
-          target={this.props.which + '-pane'}
-          isOpen={this.props.isOtherDragging && this.props.isOtherDraggingSelected && !this.props.isOtherDraggingCopy}
-          toggle={this.togglePaneTooltip}
-          dangerouslySetInnerHTML={{ __html: __('move_drop_selected_hint') }}
-        />
       </div>
     );
   }

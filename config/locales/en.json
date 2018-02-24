@@ -146,5 +146,6 @@
   "copy_drop_hint": "Copy item here",
   "copy_drop_selected_hint": "Copy selected items here",
   "move_drop_hint": "Move item here",
-  "move_drop_selected_hint": "Move selected items here"
+  "move_drop_selected_hint": "Move selected items here",
+  "switch_to_list_hint": "Switch to list mode first"
 }
