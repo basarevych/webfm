@@ -223,9 +223,7 @@ class ListItem extends React.PureComponent {
       <div
         className={
           'listing-item' + (this.props.isSelected ? ' selected' : '') +
-          (this.state.isHovered
-            ? ' hovered'
-            : (this.props.index % 2 ? ' odd' : ' even'))
+          (this.state.isHovered ? ' hovered' : (this.props.index % 2 ? ' odd' : ' even'))
         }
         onMouseEnter={this.handleEnter}
         onMouseLeave={this.handleLeave}

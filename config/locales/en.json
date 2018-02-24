@@ -147,5 +147,7 @@
   "copy_drop_selected_hint": "Copy selected items here",
   "move_drop_hint": "Move item here",
   "move_drop_selected_hint": "Move selected items here",
-  "switch_to_list_hint": "Switch to list mode first"
+  "switch_to_list_hint": "Switch to list mode first",
+  "dragged_single_message": "1 selected: %s",
+  "dragged_multi_message": "%d selected"
 }

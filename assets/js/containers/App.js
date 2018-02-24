@@ -9,6 +9,8 @@ const mapStateToProps = state => {
     isConnected: state.getIn(['app', 'isConnected']) && state.getIn(['app', 'isSameVersion']),
     isLeftPaneVisible: state.getIn(['leftPane', 'isVisible']),
     isRightPaneVisible: state.getIn(['rightPane', 'isVisible']),
+    numSelectedLeft: state.getIn(['leftPane', 'selectedIndexes']).size,
+    numSelectedRight: state.getIn(['rightPane', 'selectedIndexes']).size,
   };
 };
 

@@ -879,11 +879,11 @@ var _actionTypes = __webpack_require__(2);
 
 var actions = _interopRequireWildcard(_actionTypes);
 
-var _package = __webpack_require__(62);
+var _package = __webpack_require__(63);
 
 var _package2 = _interopRequireDefault(_package);
 
-var _i18n = __webpack_require__(63);
+var _i18n = __webpack_require__(64);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
@@ -1348,9 +1348,9 @@ var _reactRouterRedux = __webpack_require__(14);
 
 var _list = __webpack_require__(32);
 
-var _content = __webpack_require__(67);
+var _content = __webpack_require__(68);
 
-var _info = __webpack_require__(68);
+var _info = __webpack_require__(69);
 
 var _user = __webpack_require__(8);
 
@@ -2499,7 +2499,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _variables = __webpack_require__(60);
+var _variables = __webpack_require__(61);
 
 var _variables2 = _interopRequireDefault(_variables);
 
@@ -3087,27 +3087,27 @@ var _reactDnd = __webpack_require__(25);
 
 var _immutable = __webpack_require__(1);
 
-var _DisabledView = __webpack_require__(87);
+var _DisabledView = __webpack_require__(88);
 
 var _DisabledView2 = _interopRequireDefault(_DisabledView);
 
-var _LoadingView = __webpack_require__(88);
+var _LoadingView = __webpack_require__(89);
 
 var _LoadingView2 = _interopRequireDefault(_LoadingView);
 
-var _Header = __webpack_require__(89);
+var _Header = __webpack_require__(90);
 
 var _Header2 = _interopRequireDefault(_Header);
 
-var _ListView = __webpack_require__(91);
+var _ListView = __webpack_require__(92);
 
 var _ListView2 = _interopRequireDefault(_ListView);
 
-var _ContentView = __webpack_require__(95);
+var _ContentView = __webpack_require__(96);
 
 var _ContentView2 = _interopRequireDefault(_ContentView);
 
-var _InfoView = __webpack_require__(96);
+var _InfoView = __webpack_require__(97);
 
 var _InfoView2 = _interopRequireDefault(_InfoView);
 
@@ -3304,7 +3304,7 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactstrap = __webpack_require__(4);
 
-var _SafeTooltip = __webpack_require__(90);
+var _SafeTooltip = __webpack_require__(91);
 
 var _SafeTooltip2 = _interopRequireDefault(_SafeTooltip);
 
@@ -4307,7 +4307,9 @@ const mapStateToProps = state => {
   return {
     isConnected: state.getIn(['app', 'isConnected']) && state.getIn(['app', 'isSameVersion']),
     isLeftPaneVisible: state.getIn(['leftPane', 'isVisible']),
-    isRightPaneVisible: state.getIn(['rightPane', 'isVisible'])
+    isRightPaneVisible: state.getIn(['rightPane', 'isVisible']),
+    numSelectedLeft: state.getIn(['leftPane', 'selectedIndexes']).size,
+    numSelectedRight: state.getIn(['rightPane', 'selectedIndexes']).size
   };
 };
 
@@ -4344,9 +4346,13 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactDnd = __webpack_require__(25);
 
-var _reactDndHtml5Backend = __webpack_require__(59);
+var _reactDndMultiBackend = __webpack_require__(59);
 
-var _reactDndHtml5Backend2 = _interopRequireDefault(_reactDndHtml5Backend);
+var _reactDndMultiBackend2 = _interopRequireDefault(_reactDndMultiBackend);
+
+var _HTML5toTouch = __webpack_require__(60);
+
+var _HTML5toTouch2 = _interopRequireDefault(_HTML5toTouch);
 
 var _reactTransitionGroup = __webpack_require__(16);
 
@@ -4356,62 +4362,76 @@ var _Fade = __webpack_require__(26);
 
 var _Fade2 = _interopRequireDefault(_Fade);
 
-var _Navbar = __webpack_require__(61);
+var _Navbar = __webpack_require__(62);
 
 var _Navbar2 = _interopRequireDefault(_Navbar);
 
-var _SignInDialog = __webpack_require__(70);
+var _SignInDialog = __webpack_require__(71);
 
 var _SignInDialog2 = _interopRequireDefault(_SignInDialog);
 
-var _ProgressDialog = __webpack_require__(72);
+var _ProgressDialog = __webpack_require__(73);
 
 var _ProgressDialog2 = _interopRequireDefault(_ProgressDialog);
 
-var _MkdirDialog = __webpack_require__(74);
+var _MkdirDialog = __webpack_require__(75);
 
 var _MkdirDialog2 = _interopRequireDefault(_MkdirDialog);
 
-var _RenameDialog = __webpack_require__(76);
+var _RenameDialog = __webpack_require__(77);
 
 var _RenameDialog2 = _interopRequireDefault(_RenameDialog);
 
-var _CopyDialog = __webpack_require__(78);
+var _CopyDialog = __webpack_require__(79);
 
 var _CopyDialog2 = _interopRequireDefault(_CopyDialog);
 
-var _MoveDialog = __webpack_require__(80);
+var _MoveDialog = __webpack_require__(81);
 
 var _MoveDialog2 = _interopRequireDefault(_MoveDialog);
 
-var _DeleteDialog = __webpack_require__(82);
+var _DeleteDialog = __webpack_require__(83);
 
 var _DeleteDialog2 = _interopRequireDefault(_DeleteDialog);
 
-var _FailureDialog = __webpack_require__(84);
+var _FailureDialog = __webpack_require__(85);
 
 var _FailureDialog2 = _interopRequireDefault(_FailureDialog);
 
-var _LeftPane = __webpack_require__(86);
+var _LeftPane = __webpack_require__(87);
 
 var _LeftPane2 = _interopRequireDefault(_LeftPane);
 
-var _RightPane = __webpack_require__(98);
+var _RightPane = __webpack_require__(99);
 
 var _RightPane2 = _interopRequireDefault(_RightPane);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-let Screen = (_dec = (0, _reactDnd.DragDropContext)(_reactDndHtml5Backend2.default), _dec(_class = class Screen extends _react2.default.Component {
+let Screen = (_dec = (0, _reactDnd.DragDropContext)((0, _reactDndMultiBackend2.default)(_HTML5toTouch2.default)), _dec(_class = class Screen extends _react2.default.Component {
 
   constructor(props) {
     super(props);
 
     this.handleDrag = this.handleDrag.bind(this);
+    this.generatePreview = this.generatePreview.bind(this);
   }
 
   handleDrag(event) {
     this.props.onSetDragMode(event.ctrlKey ? 'MOVE' : 'COPY');
+  }
+
+  generatePreview(type, item, style) {
+    let numSelected = 1;
+    if (item.isSelected) numSelected = item.pane === 'LEFT' ? this.props.numSelectedLeft : this.props.numSelectedRight;
+
+    style.className = 'dragged-node';
+
+    return _react2.default.createElement(
+      'div',
+      { style: style },
+      numSelected === 1 ? __('dragged_single_message', item.name) : __('dragged_multi_message', numSelected)
+    );
   }
 
   componentDidCatch(error) {
@@ -4468,7 +4488,8 @@ let Screen = (_dec = (0, _reactDnd.DragDropContext)(_reactDndHtml5Backend2.defau
             _react2.default.createElement(_RightPane2.default, null)
           ) : null
         )
-      )
+      ),
+      _react2.default.createElement(_reactDndMultiBackend.Preview, { generator: this.generatePreview })
     );
   }
 }) || _class);
@@ -4476,6 +4497,8 @@ Screen.propTypes = {
   isConnected: _propTypes2.default.bool.isRequired,
   isLeftPaneVisible: _propTypes2.default.bool.isRequired,
   isRightPaneVisible: _propTypes2.default.bool.isRequired,
+  numSelectedLeft: _propTypes2.default.number.isRequired,
+  numSelectedRight: _propTypes2.default.number.isRequired,
   onSetDragMode: _propTypes2.default.func.isRequired
 };
 exports.default = Screen;
@@ -4484,16 +4507,22 @@ exports.default = Screen;
 /* 59 */
 /***/ (function(module, exports) {
 
-module.exports = require("react-dnd-html5-backend");
+module.exports = require("react-dnd-multi-backend");
 
 /***/ }),
 /* 60 */
 /***/ (function(module, exports) {
 
-
+module.exports = require("react-dnd-multi-backend/lib/HTML5toTouch");
 
 /***/ }),
 /* 61 */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4521,7 +4550,7 @@ var _deleteDialog = __webpack_require__(24);
 
 var _user = __webpack_require__(8);
 
-var _TopNavbar = __webpack_require__(69);
+var _TopNavbar = __webpack_require__(70);
 
 var _TopNavbar2 = _interopRequireDefault(_TopNavbar);
 
@@ -4555,13 +4584,13 @@ const Navbar = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_To
 exports.default = Navbar;
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"webfm","version":"0.9.33","description":"Two pane file manager for the Web","keywords":["file manager","two pane","node","react","redux","sails"],"license":"MIT","author":"Ross Basarevych <basarevych@gmail.com>","repository":{"type":"git","url":"git+https://github.com/basarevych/webfm.git"},"dependencies":{"babel-core":"~6.26.0","babel-plugin-transform-class-properties":"~6.24.1","babel-plugin-transform-decorators-legacy":"~1.3.4","babel-plugin-transform-object-rest-spread":"~6.26.0","babel-polyfill":"~6.26.0","babel-preset-env":"~1.6.1","babel-preset-react":"~6.24.1","async":"~2.6.0","autoprefixer":"~8.0.0","babel-loader":"~7.1.2","bootstrap":"~4.0.0","bootstrap-loader":"~2.2.0","breakpoints-js":"~1.0.5","clean-webpack-plugin":"~0.1.18","connect-redis":"~3.3.3","css-loader":"~0.28.9","cssnano":"~3.10.0","exports-loader":"~0.7.0","extract-text-webpack-plugin":"~3.0.2","file-loader":"~1.1.9","grunt":"~1.0.2","history":"~4.7.2","i18n-for-browser":"~0.9.7","ignore-loader":"~0.1.2","immutable":"~3.8.2","imports-loader":"~0.8.0","ini":"~1.3.5","isomorphic-fetch":"~2.2.1","lodash":"~4.17.5","moment-timezone":"~0.5.14","node-sass":"~4.7.2","optimize-css-assets-webpack-plugin":"~3.2.0","popper.js":"~1.12.9","postcss-loader":"~2.1.0","prop-types":"~15.6.0","raf":"~3.4.0","react":"~16.2.0","react-dnd":"~2.5.4","react-dnd-html5-backend":"~2.5.4","react-dom":"~16.2.0","react-icons":"~2.2.7","react-list":"~0.8.8","react-redux":"~5.0.7","react-router":"~4.2.0","react-router-redux":"^5.0.0-alpha.9","react-scroll-box":"~0.3.5","react-transition-group":"~2.2.1","reactstrap":"^5.0.0-beta","redux":"~3.7.2","redux-immutable":"~4.0.0","redux-thunk":"~2.2.0","resolve-url-loader":"~2.2.1","sails":"^1.0.0-46","sails-hook-grunt":"~3.1.0","sails-hook-orm":"^2.0.0-23","sails-hook-panic-mode":"~0.1.3","sails-hook-sockets":"~1.4.0","sails.io.js":"~1.1.13","sass-loader":"~6.0.6","socket.io-client":"2.0.3","socket.io-redis":"~4.0.1","stat-mode":"~0.2.2","style-loader":"~0.20.2","uglifyjs-webpack-plugin":"~1.2.0","url-loader":"~0.6.2","userid":"~0.3.1","webpack":"~3.11.0","webpack-config-utils":"~2.3.0","webpack-node-externals":"~1.6.0"},"devDependencies":{"babel-eslint":"~8.2.2","eslint":"~4.18.1"},"scripts":{"build":"env NODE_ENV=production ./node_modules/.bin/webpack --progress","start":"env NODE_ENV=production node app.js","build:dev":"env NODE_ENV=development ./node_modules/.bin/webpack --watch --progress","start:dev":"env NODE_ENV=development ./node_modules/.bin/sails lift","lint":"node ./node_modules/eslint/bin/eslint . --max-warnings=0","debug":"node debug app.js"},"main":"app.js","engines":{"node":">=8.0.0"}}
+module.exports = {"name":"webfm","version":"0.9.34","description":"Two pane file manager for the Web","keywords":["file manager","two pane","node","react","redux","sails"],"license":"MIT","author":"Ross Basarevych <basarevych@gmail.com>","repository":{"type":"git","url":"git+https://github.com/basarevych/webfm.git"},"dependencies":{"async":"~2.6.0","autoprefixer":"~8.0.0","babel-core":"~6.26.0","babel-loader":"~7.1.2","babel-plugin-transform-class-properties":"~6.24.1","babel-plugin-transform-decorators-legacy":"~1.3.4","babel-plugin-transform-object-rest-spread":"~6.26.0","babel-polyfill":"~6.26.0","babel-preset-env":"~1.6.1","babel-preset-react":"~6.24.1","bootstrap":"~4.0.0","bootstrap-loader":"~2.2.0","breakpoints-js":"~1.0.5","clean-webpack-plugin":"~0.1.18","connect-redis":"~3.3.3","css-loader":"~0.28.10","cssnano":"~3.10.0","exports-loader":"~0.7.0","extract-text-webpack-plugin":"~3.0.2","file-loader":"~1.1.9","grunt":"~1.0.2","history":"~4.7.2","i18n-for-browser":"~0.9.7","ignore-loader":"~0.1.2","immutable":"~3.8.2","imports-loader":"~0.8.0","ini":"~1.3.5","isomorphic-fetch":"~2.2.1","lodash":"~4.17.5","moment-timezone":"~0.5.14","node-sass":"~4.7.2","optimize-css-assets-webpack-plugin":"~3.2.0","popper.js":"~1.12.9","postcss-loader":"~2.1.0","prop-types":"~15.6.0","raf":"~3.4.0","react":"~16.2.0","react-dnd":"~2.5.4","react-dnd-multi-backend":"~3.1.2","react-dom":"~16.2.0","react-icons":"~2.2.7","react-list":"~0.8.8","react-redux":"~5.0.7","react-router":"~4.2.0","react-router-redux":"^5.0.0-alpha.9","react-scroll-box":"~0.3.5","react-transition-group":"~2.2.1","reactstrap":"^5.0.0-beta","redux":"~3.7.2","redux-immutable":"~4.0.0","redux-thunk":"~2.2.0","resolve-url-loader":"~2.2.1","sails":"^1.0.0-46","sails-hook-grunt":"~3.1.0","sails-hook-orm":"^2.0.0-23","sails-hook-panic-mode":"~0.1.3","sails-hook-sockets":"~1.4.0","sails.io.js":"~1.1.13","sass-loader":"~6.0.6","socket.io-client":"2.0.3","socket.io-redis":"~4.0.1","stat-mode":"~0.2.2","style-loader":"~0.20.2","uglifyjs-webpack-plugin":"~1.2.2","url-loader":"~0.6.2","userid":"~0.3.1","webpack":"~3.11.0","webpack-config-utils":"~2.3.0","webpack-node-externals":"~1.6.0"},"devDependencies":{"babel-eslint":"~8.2.2","eslint":"~4.18.1"},"scripts":{"build":"env NODE_ENV=production ./node_modules/.bin/webpack --progress","start":"env NODE_ENV=production node app.js","build:dev":"env NODE_ENV=development ./node_modules/.bin/webpack --watch --progress","start:dev":"env NODE_ENV=development ./node_modules/.bin/sails lift","lint":"node ./node_modules/eslint/bin/eslint . --max-warnings=0","debug":"node debug app.js"},"main":"app.js","engines":{"node":">=8.0.0"}}
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4572,15 +4601,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _i18n = __webpack_require__(64);
+var _i18n = __webpack_require__(65);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _en = __webpack_require__(65);
+var _en = __webpack_require__(66);
 
 var _en2 = _interopRequireDefault(_en);
 
-var _i18nForBrowser = __webpack_require__(66);
+var _i18nForBrowser = __webpack_require__(67);
 
 var i18n = _interopRequireWildcard(_i18nForBrowser);
 
@@ -4599,7 +4628,7 @@ i18n.configure({
 exports.default = i18n;
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports) {
 
 /**
@@ -4650,19 +4679,19 @@ module.exports.i18n = {
 
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports) {
 
-module.exports = {"project_title":"WebFM","not_connected_message":"Establishing connection...","not_authorized_message":"Not signed in","forbidden_message":"No access or not found","contents_view_message":"Contents view","type_DIR_message":"This is a directory","type_SYMLINK_message":"This is a symbolic link to outside of the share","type_BINARY_message":"This is a binary data file","info_view_message":"Info view","empty_message":"Empty...","select_share_label":"Select...","read_only_label":"[read]","read_write_label":"[write]","two_dots_label":"Go up one level","info_name_label":"Name:","info_parent_label":"Parent:","info_size_bytes_label":"Size (bytes):","info_size_human_label":"Size (Human):","info_du_bytes_label":"Disk usage (bytes):","info_du_human_label":"Disk usage (Human):","info_mode_number_label":"Mode (octal):","info_mode_string_label":"Mode (string):","info_user_id_label":"Owner (ID):","info_user_name_label":"Owner (name):","info_group_id_label":"Group (ID):","info_group_name_label":"Group (name):","info_atime_label":"atime:","info_mtime_label":"mtime:","info_ctime_label":"ctime:","mkdir_command":"MkDir","rename_command":"Rename","copy_command":"Copy","move_command":"Move","delete_command":"Delete","sign_in_button":"Sign in","sign_out_button":"Sign out","cancel_button":"Cancel","submit_button":"Submit","done_button":"Done","required_field":"Required field","sign_in_title":"Sign In","login_label":"Login:","password_label":"Password:","invalid_credentials_message":"Wrong login or password","no_shares_message":"You have no shares defined in the config","user.login.E_REQUIRED":"Login is required","user.password.E_REQUIRED":"Password is required","mkdir_title":"Create directory","share_label":"Share:","directory_label":"Parent directory:","name_label":"Name:","mkdir.share.E_NOT_FOUND":"Share not found","mkdir.share.E_READ_ONLY":"No write access to this share","mkdir.directory.E_NOT_DIR":"This is not a directory","mkdir.directory.E_OUTSIDE":"Parent directory is not inside the share","mkdir.name.E_REQUIRED":"Name is required","mkdir.name.E_INVALID":"Name is invalid","mkdir.name.E_EXISTS":"Target already exists","rename_title":"Rename","new_name_label":"New name:","rename.share.E_NOT_FOUND":"Share not found","rename.share.E_READ_ONLY":"No write access to this share","rename.directory.E_NOT_DIR":"This is not a directory","rename.directory.E_OUTSIDE":"Parent directory is not inside the share","rename.name.E_NOT_FOUND":"File not found","rename.newName.E_REQUIRED":"Name is required","rename.newName.E_SAME":"New name should differ from the original","rename.newName.E_INVALID":"Name is invalid","rename.newName.E_EXISTS":"Target already exists","copy_title":"Copy","copy_start_message":"Copying...","src_share_label":"Source share:","src_directory_label":"Source parent directory:","src_name_label":"Source name:","src_name_hint":"Use wildcard symbols like <strong>*</strong> or <strong>?</strong>","src_find_button":"Search","src_find_empty":"No files found","dst_share_label":"Destination share:","dst_directory_label":"Destination parent directory:","dst_name_label":"Destination name:","copy.srcShare.E_NOT_FOUND":"Share not found","copy.srcDirectory.E_NOT_DIR":"This is not a directory","copy.srcDirectory.E_OUTSIDE":"Source directory is not inside the share","copy.srcName.E_REQUIRED":"Name is required","copy.srcName.E_INVALID":"Name is invalid","copy.dstShare.E_NOT_FOUND":"Share not found","copy.dstShare.E_READ_ONLY":"No write access to this share","copy.dstDirectory.E_NOT_DIR":"This is not a directory","copy.dstDirectory.E_OUTSIDE":"Target directory is not inside the share","copy.dstDirectory.E_SAME":"Target directory should not be the same as source","copy.dstDirectory.E_RECURSIVE":"Cannot copy into itself","copy.result.ENOENT":"No files to copy","progress_title":"Progress","copy_success_message":"%s ==> %s","copy_failure_message":"Couldn't copy %s","move_success_message":"%s ==> %s","move_failure_message":"Couldn't move %s","delete_success_message":"Deleted %s","delete_failure_message":"Couldn't delete %s","done_message":"Done","move_title":"Move","move_start_message":"Moving...","move.srcShare.E_NOT_FOUND":"Share not found","move.srcShare.E_READ_ONLY":"No write access to this share","move.srcDirectory.E_NOT_DIR":"This is not a directory","move.srcDirectory.E_OUTSIDE":"Source directory is not inside the share","move.srcName.E_REQUIRED":"Name is required","move.srcName.E_INVALID":"Name is invalid","move.dstShare.E_NOT_FOUND":"Share not found","move.dstShare.E_READ_ONLY":"No write access to this share","move.dstDirectory.E_NOT_DIR":"This is not a directory","move.dstDirectory.E_OUTSIDE":"Target directory is not inside the share","move.dstDirectory.E_SAME":"Target directory should not be the same as source","move.dstDirectory.E_RECURSIVE":"Cannot move into itself","move.result.ENOENT":"No files to move","delete_title":"Copy","delete_start_message":"Deleting...","delete.share.E_NOT_FOUND":"Share not found","delete.share.E_READ_ONLY":"No write access to this share","delete.directory.E_NOT_DIR":"This is not a directory","delete.directory.E_OUTSIDE":"Source directory is not inside the share","delete.name.E_REQUIRED":"Name is required","delete.name.E_INVALID":"Name is invalid","delete.result.ENOENT":"No files to delete","failure_title":"Failure","field_share_label":"Share:","field_directory_label":"Directory:","field_name_label":"Name:","field_srcShare_label":"Source share:","field_srcDirectory_label":"Source directory:","field_srcName_label":"Source name:","field_dstShare_label":"Destination share:","field_dstDirectory_label":"Destination directory:","field_dstName_label":"Destination name:","sort_name_hint":"Sort by name<br>(toggle direction)","sort_size_hint":"Sort by size<br>(toggle direction)","mode_list_hint":"Display list of files","mode_contents_hint":"Display contents of the selected in the other pane file","mode_info_hint":"Display info of the selected in the other pane file","toggle_pane_hint":"Toggle visibility<br>of the other pane","size_button_hint":"Calculate size<br>of this item","copy_button_hint":"Copy this item<br>to the other pane","move_button_hint":"Move this item<br>to the other pane","delete_button_hint":"Delete this item","copy_drop_hint":"Copy item here","copy_drop_selected_hint":"Copy selected items here","move_drop_hint":"Move item here","move_drop_selected_hint":"Move selected items here","switch_to_list_hint":"Switch to list mode first"}
+module.exports = {"project_title":"WebFM","not_connected_message":"Establishing connection...","not_authorized_message":"Not signed in","forbidden_message":"No access or not found","contents_view_message":"Contents view","type_DIR_message":"This is a directory","type_SYMLINK_message":"This is a symbolic link to outside of the share","type_BINARY_message":"This is a binary data file","info_view_message":"Info view","empty_message":"Empty...","select_share_label":"Select...","read_only_label":"[read]","read_write_label":"[write]","two_dots_label":"Go up one level","info_name_label":"Name:","info_parent_label":"Parent:","info_size_bytes_label":"Size (bytes):","info_size_human_label":"Size (Human):","info_du_bytes_label":"Disk usage (bytes):","info_du_human_label":"Disk usage (Human):","info_mode_number_label":"Mode (octal):","info_mode_string_label":"Mode (string):","info_user_id_label":"Owner (ID):","info_user_name_label":"Owner (name):","info_group_id_label":"Group (ID):","info_group_name_label":"Group (name):","info_atime_label":"atime:","info_mtime_label":"mtime:","info_ctime_label":"ctime:","mkdir_command":"MkDir","rename_command":"Rename","copy_command":"Copy","move_command":"Move","delete_command":"Delete","sign_in_button":"Sign in","sign_out_button":"Sign out","cancel_button":"Cancel","submit_button":"Submit","done_button":"Done","required_field":"Required field","sign_in_title":"Sign In","login_label":"Login:","password_label":"Password:","invalid_credentials_message":"Wrong login or password","no_shares_message":"You have no shares defined in the config","user.login.E_REQUIRED":"Login is required","user.password.E_REQUIRED":"Password is required","mkdir_title":"Create directory","share_label":"Share:","directory_label":"Parent directory:","name_label":"Name:","mkdir.share.E_NOT_FOUND":"Share not found","mkdir.share.E_READ_ONLY":"No write access to this share","mkdir.directory.E_NOT_DIR":"This is not a directory","mkdir.directory.E_OUTSIDE":"Parent directory is not inside the share","mkdir.name.E_REQUIRED":"Name is required","mkdir.name.E_INVALID":"Name is invalid","mkdir.name.E_EXISTS":"Target already exists","rename_title":"Rename","new_name_label":"New name:","rename.share.E_NOT_FOUND":"Share not found","rename.share.E_READ_ONLY":"No write access to this share","rename.directory.E_NOT_DIR":"This is not a directory","rename.directory.E_OUTSIDE":"Parent directory is not inside the share","rename.name.E_NOT_FOUND":"File not found","rename.newName.E_REQUIRED":"Name is required","rename.newName.E_SAME":"New name should differ from the original","rename.newName.E_INVALID":"Name is invalid","rename.newName.E_EXISTS":"Target already exists","copy_title":"Copy","copy_start_message":"Copying...","src_share_label":"Source share:","src_directory_label":"Source parent directory:","src_name_label":"Source name:","src_name_hint":"Use wildcard symbols like <strong>*</strong> or <strong>?</strong>","src_find_button":"Search","src_find_empty":"No files found","dst_share_label":"Destination share:","dst_directory_label":"Destination parent directory:","dst_name_label":"Destination name:","copy.srcShare.E_NOT_FOUND":"Share not found","copy.srcDirectory.E_NOT_DIR":"This is not a directory","copy.srcDirectory.E_OUTSIDE":"Source directory is not inside the share","copy.srcName.E_REQUIRED":"Name is required","copy.srcName.E_INVALID":"Name is invalid","copy.dstShare.E_NOT_FOUND":"Share not found","copy.dstShare.E_READ_ONLY":"No write access to this share","copy.dstDirectory.E_NOT_DIR":"This is not a directory","copy.dstDirectory.E_OUTSIDE":"Target directory is not inside the share","copy.dstDirectory.E_SAME":"Target directory should not be the same as source","copy.dstDirectory.E_RECURSIVE":"Cannot copy into itself","copy.result.ENOENT":"No files to copy","progress_title":"Progress","copy_success_message":"%s ==> %s","copy_failure_message":"Couldn't copy %s","move_success_message":"%s ==> %s","move_failure_message":"Couldn't move %s","delete_success_message":"Deleted %s","delete_failure_message":"Couldn't delete %s","done_message":"Done","move_title":"Move","move_start_message":"Moving...","move.srcShare.E_NOT_FOUND":"Share not found","move.srcShare.E_READ_ONLY":"No write access to this share","move.srcDirectory.E_NOT_DIR":"This is not a directory","move.srcDirectory.E_OUTSIDE":"Source directory is not inside the share","move.srcName.E_REQUIRED":"Name is required","move.srcName.E_INVALID":"Name is invalid","move.dstShare.E_NOT_FOUND":"Share not found","move.dstShare.E_READ_ONLY":"No write access to this share","move.dstDirectory.E_NOT_DIR":"This is not a directory","move.dstDirectory.E_OUTSIDE":"Target directory is not inside the share","move.dstDirectory.E_SAME":"Target directory should not be the same as source","move.dstDirectory.E_RECURSIVE":"Cannot move into itself","move.result.ENOENT":"No files to move","delete_title":"Copy","delete_start_message":"Deleting...","delete.share.E_NOT_FOUND":"Share not found","delete.share.E_READ_ONLY":"No write access to this share","delete.directory.E_NOT_DIR":"This is not a directory","delete.directory.E_OUTSIDE":"Source directory is not inside the share","delete.name.E_REQUIRED":"Name is required","delete.name.E_INVALID":"Name is invalid","delete.result.ENOENT":"No files to delete","failure_title":"Failure","field_share_label":"Share:","field_directory_label":"Directory:","field_name_label":"Name:","field_srcShare_label":"Source share:","field_srcDirectory_label":"Source directory:","field_srcName_label":"Source name:","field_dstShare_label":"Destination share:","field_dstDirectory_label":"Destination directory:","field_dstName_label":"Destination name:","sort_name_hint":"Sort by name<br>(toggle direction)","sort_size_hint":"Sort by size<br>(toggle direction)","mode_list_hint":"Display list of files","mode_contents_hint":"Display contents of the selected in the other pane file","mode_info_hint":"Display info of the selected in the other pane file","toggle_pane_hint":"Toggle visibility<br>of the other pane","size_button_hint":"Calculate size<br>of this item","copy_button_hint":"Copy this item<br>to the other pane","move_button_hint":"Move this item<br>to the other pane","delete_button_hint":"Delete this item","copy_drop_hint":"Copy item here","copy_drop_selected_hint":"Copy selected items here","move_drop_hint":"Move item here","move_drop_selected_hint":"Move selected items here","switch_to_list_hint":"Switch to list mode first","dragged_single_message":"1 selected: %s","dragged_multi_message":"%d selected"}
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports) {
 
 module.exports = require("i18n-for-browser");
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4776,7 +4805,7 @@ const loadContent = exports.loadContent = pane => {
 };
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4917,7 +4946,7 @@ const loadInfo = exports.loadInfo = pane => {
 };
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5091,7 +5120,7 @@ TopNavbar.propTypes = {
 exports.default = TopNavbar;
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5107,7 +5136,7 @@ var _signInDialog = __webpack_require__(27);
 
 var _user = __webpack_require__(8);
 
-var _SignInModal = __webpack_require__(71);
+var _SignInModal = __webpack_require__(72);
 
 var _SignInModal2 = _interopRequireDefault(_SignInModal);
 
@@ -5136,7 +5165,7 @@ const SignInDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProp
 exports.default = SignInDialog;
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5363,7 +5392,7 @@ SignInModal.propTypes = {
 exports.default = SignInModal;
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5377,7 +5406,7 @@ var _reactRedux = __webpack_require__(5);
 
 var _progressDialog = __webpack_require__(33);
 
-var _ProgressModal = __webpack_require__(73);
+var _ProgressModal = __webpack_require__(74);
 
 var _ProgressModal2 = _interopRequireDefault(_ProgressModal);
 
@@ -5402,7 +5431,7 @@ const ProgressDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToPr
 exports.default = ProgressDialog;
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5521,7 +5550,7 @@ ProgressModal.propTypes = {
 exports.default = ProgressModal;
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5537,7 +5566,7 @@ var _mkdirDialog = __webpack_require__(20);
 
 var _commands = __webpack_require__(7);
 
-var _MkdirModal = __webpack_require__(75);
+var _MkdirModal = __webpack_require__(76);
 
 var _MkdirModal2 = _interopRequireDefault(_MkdirModal);
 
@@ -5566,7 +5595,7 @@ const MkdirDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps
 exports.default = MkdirDialog;
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5825,7 +5854,7 @@ MkdirModal.propTypes = {
 exports.default = MkdirModal;
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5841,7 +5870,7 @@ var _renameDialog = __webpack_require__(21);
 
 var _commands = __webpack_require__(7);
 
-var _RenameModal = __webpack_require__(77);
+var _RenameModal = __webpack_require__(78);
 
 var _RenameModal2 = _interopRequireDefault(_RenameModal);
 
@@ -5870,7 +5899,7 @@ const RenameDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProp
 exports.default = RenameDialog;
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6163,7 +6192,7 @@ RenameModal.propTypes = {
 exports.default = RenameModal;
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6179,7 +6208,7 @@ var _copyDialog = __webpack_require__(22);
 
 var _commands = __webpack_require__(7);
 
-var _CopyModal = __webpack_require__(79);
+var _CopyModal = __webpack_require__(80);
 
 var _CopyModal2 = _interopRequireDefault(_CopyModal);
 
@@ -6210,7 +6239,7 @@ const CopyDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)
 exports.default = CopyDialog;
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6622,7 +6651,7 @@ CopyModal.propTypes = {
 exports.default = CopyModal;
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6638,7 +6667,7 @@ var _moveDialog = __webpack_require__(23);
 
 var _commands = __webpack_require__(7);
 
-var _MoveModal = __webpack_require__(81);
+var _MoveModal = __webpack_require__(82);
 
 var _MoveModal2 = _interopRequireDefault(_MoveModal);
 
@@ -6669,7 +6698,7 @@ const MoveDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)
 exports.default = MoveDialog;
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7081,7 +7110,7 @@ MoveModal.propTypes = {
 exports.default = MoveModal;
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7097,7 +7126,7 @@ var _deleteDialog = __webpack_require__(24);
 
 var _commands = __webpack_require__(7);
 
-var _DeleteModal = __webpack_require__(83);
+var _DeleteModal = __webpack_require__(84);
 
 var _DeleteModal2 = _interopRequireDefault(_DeleteModal);
 
@@ -7128,7 +7157,7 @@ const DeleteDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProp
 exports.default = DeleteDialog;
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7472,7 +7501,7 @@ DeleteModal.propTypes = {
 exports.default = DeleteModal;
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7486,7 +7515,7 @@ var _reactRedux = __webpack_require__(5);
 
 var _failureDialog = __webpack_require__(30);
 
-var _FailureModal = __webpack_require__(85);
+var _FailureModal = __webpack_require__(86);
 
 var _FailureModal2 = _interopRequireDefault(_FailureModal);
 
@@ -7511,7 +7540,7 @@ const FailureDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToPro
 exports.default = FailureDialog;
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7602,7 +7631,7 @@ FailureModal.propTypes = {
 exports.default = FailureModal;
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7683,7 +7712,7 @@ const LeftPane = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_
 exports.default = LeftPane;
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7723,7 +7752,7 @@ DisabledView.propTypes = {
 exports.default = DisabledView;
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7769,7 +7798,7 @@ LoadingView.propTypes = {
 exports.default = LoadingView;
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8101,7 +8130,7 @@ Header.propTypes = {
 exports.default = Header;
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8137,7 +8166,7 @@ let SafeTooltip = class SafeTooltip extends _reactstrap.Tooltip {
 exports.default = SafeTooltip;
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8157,7 +8186,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _immutable = __webpack_require__(1);
 
-var _ListComponent = __webpack_require__(92);
+var _ListComponent = __webpack_require__(93);
 
 var _ListComponent2 = _interopRequireDefault(_ListComponent);
 
@@ -8223,7 +8252,7 @@ ListView.propTypes = {
 exports.default = ListView;
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8245,7 +8274,7 @@ var _immutable = __webpack_require__(1);
 
 var _reactScrollBox = __webpack_require__(10);
 
-var _reactList = __webpack_require__(93);
+var _reactList = __webpack_require__(94);
 
 var _reactList2 = _interopRequireDefault(_reactList);
 
@@ -8253,7 +8282,7 @@ var _ScrollViewport = __webpack_require__(11);
 
 var _ScrollViewport2 = _interopRequireDefault(_ScrollViewport);
 
-var _ListItem = __webpack_require__(94);
+var _ListItem = __webpack_require__(95);
 
 var _ListItem2 = _interopRequireDefault(_ListItem);
 
@@ -8359,13 +8388,13 @@ ListComponent.propTypes = {
 exports.default = ListComponent;
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-list");
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8657,7 +8686,7 @@ ListItem.defaultProps = {
 exports.default = ListItem;
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8740,7 +8769,7 @@ ContentView.defaultProps = {
 exports.default = ContentView;
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8764,7 +8793,7 @@ var _reactScrollBox = __webpack_require__(10);
 
 var _fa = __webpack_require__(6);
 
-var _momentTimezone = __webpack_require__(97);
+var _momentTimezone = __webpack_require__(98);
 
 var _momentTimezone2 = _interopRequireDefault(_momentTimezone);
 
@@ -9280,13 +9309,13 @@ InfoView.defaultProps = {
 exports.default = InfoView;
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports) {
 
 module.exports = require("moment-timezone");
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

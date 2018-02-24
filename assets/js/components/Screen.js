@@ -3,7 +3,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import MultiBackend, { Preview } from 'react-dnd-multi-backend';
+import HTML5toTouch from 'react-dnd-multi-backend/lib/HTML5toTouch';
 import { TransitionGroup } from 'react-transition-group';
 import { FaCog } from 'react-icons/lib/fa';
 import Fade from './Fade';
@@ -19,12 +20,14 @@ import FailureDialog from '../containers/FailureDialog';
 import LeftPane from '../containers/LeftPane';
 import RightPane from '../containers/RightPane';
 
-@DragDropContext(HTML5Backend)
+@DragDropContext(MultiBackend(HTML5toTouch))
 class Screen extends React.Component {
   static propTypes = {
     isConnected: PropTypes.bool.isRequired,
     isLeftPaneVisible: PropTypes.bool.isRequired,
     isRightPaneVisible: PropTypes.bool.isRequired,
+    numSelectedLeft: PropTypes.number.isRequired,
+    numSelectedRight: PropTypes.number.isRequired,
     onSetDragMode: PropTypes.func.isRequired,
   };
 
@@ -32,10 +35,27 @@ class Screen extends React.Component {
     super(props);
 
     this.handleDrag = this.handleDrag.bind(this);
+    this.generatePreview = this.generatePreview.bind(this);
   }
 
   handleDrag(event) {
     this.props.onSetDragMode(event.ctrlKey ? 'MOVE' : 'COPY');
+  }
+
+  generatePreview(type, item, style) {
+    let numSelected = 1;
+    if (item.isSelected)
+      numSelected = (item.pane === 'LEFT' ? this.props.numSelectedLeft : this.props.numSelectedRight);
+
+    style.className = 'dragged-node';
+
+    return (
+      <div style={style}>
+        {numSelected === 1
+          ? __('dragged_single_message', item.name)
+          : __('dragged_multi_message', numSelected)}
+      </div>
+    );
   }
 
   componentDidCatch(error) {
@@ -76,6 +96,7 @@ class Screen extends React.Component {
             {this.props.isRightPaneVisible ? <Fade><RightPane/></Fade> : null}
           </TransitionGroup>
         </div>
+        <Preview generator={this.generatePreview} />
       </div>
     );
   }

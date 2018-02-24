@@ -102,6 +102,7 @@
           .listing-item {
             display: table-row;
             line-height: 2rem;
+            border: none;
 
             .name {
               display: table-cell;
@@ -225,6 +226,12 @@
       }
     }
   }
+}
+
+.dragged_node {
+  background-color: darken($secondary, 10%);
+  color: color-yiq(darken($secondary, 10%));
+  padding: 10px;
 }
 
 body.loaded .pane-container .pane .view {
