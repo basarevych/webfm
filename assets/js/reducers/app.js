@@ -23,11 +23,15 @@ const app = (
       return state.set('isStarted', true);
     case actions.CONNECT_APP:
       return state.withMutations(map => {
-        map.set('isConnected', true).set('ioTimestamp', action.when);
+        map
+          .set('isConnected', true)
+          .set('ioTimestamp', action.when);
       });
     case actions.DISCONNECT_APP:
       return state.withMutations(map => {
-        map.set('isConnected', false).set('ioTimestamp', action.when);
+        map
+          .set('isConnected', false)
+          .set('ioTimestamp', action.when);
       });
     case actions.APP_VERSION:
       return state.set('isSameVersion', action.isSameVersion);
@@ -36,7 +40,9 @@ const app = (
         return state;
 
       return state.withMutations(map => {
-        map.set('prevBreakpoint', state.get('breakpoint') || action.breakpoint).set('breakpoint', action.breakpoint);
+        map
+          .set('prevBreakpoint', state.get('breakpoint') || action.breakpoint)
+          .set('breakpoint', action.breakpoint);
       });
     case actions.SET_CSRF_TOKEN:
       if (state.get('csrf') === action.token)

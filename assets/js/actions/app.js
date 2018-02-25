@@ -152,6 +152,11 @@ export const screenResize = () => {
     if (!app.get('isStarted') || !newSize || newSize === app.get('breakpoint'))
       return;
 
+    await dispatch({
+      type: actions.SCREEN_RESIZE,
+      breakpoint: newSize,
+    });
+
     if (newSize === 'xs') {
       await dispatch(hidePane('RIGHT'));
       if (rightPane.get('isActive'))
@@ -159,11 +164,6 @@ export const screenResize = () => {
     } else if (app.get('prevBreakpoint') === 'xs') {
       await dispatch(showPane('RIGHT'));
     }
-
-    return dispatch({
-      type: actions.SCREEN_RESIZE,
-      breakpoint: newSize,
-    });
   };
 };
 
