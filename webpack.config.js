@@ -3,9 +3,8 @@
  */
 const path = require('path');
 const root = path.join.bind(path, path.resolve(__dirname));
-const nodeExternals = require('webpack-node-externals');
 const { getIfUtils, removeEmpty } = require('webpack-config-utils');
-const { ifProduction } = getIfUtils(process.env.NODE_ENV);
+const { ifProduction, ifDevelopment } = getIfUtils(process.env.NODE_ENV);
 
 /**
  * Webpack Plugins
@@ -16,7 +15,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 //const ProvidePlugin = require('webpack/lib/ProvidePlugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 /**
  * Webpack config
@@ -34,7 +32,15 @@ module.exports = [
      * Developer tool to enhance debugging
      * https://webpack.js.org/configuration/devtool/
      */
-    devtool: ifProduction('source-map', false),
+    devtool: ifDevelopment('source-map', false),
+
+    /**
+     * How webpack notifies you of assets and entrypoints that exceed a specific file limit.
+     * https://webpack.js.org/configuration/performance/
+     */
+    performance: {
+      hints: false,
+    },
 
     /**
      * The entry point for the bundle
@@ -278,22 +284,15 @@ module.exports = [
         Util: 'exports-loader?Util!bootstrap/js/dist/util'
       }),
       */
-
-      /**
-       * UglifyjsWebpackPlugin
-       * https://webpack.js.org/plugins/uglifyjs-webpack-plugin/
-       *
-       * This plugin uses UglifyJS v3 (uglify-es) to minify your JavaScript
-       */
-      ifProduction(
-        new UglifyJsPlugin()
-      ),
     ]),
   },
 
   { // Server bundles
     cache: false,
     devtool: false,
+    performance: {
+      hints: false,
+    },
     entry: {
       'server': [
         'babel-polyfill',
@@ -301,7 +300,6 @@ module.exports = [
       ]
     },
     target: 'node',
-    externals: [nodeExternals()],
     resolve: {
       extensions: ['*', '.json', '.js'],
       modules: [root('assets/js'), root('node_modules')],

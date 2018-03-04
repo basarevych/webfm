@@ -98,25 +98,36 @@ class DeleteModal extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.isOpen && !this.props.isOpen) {
+      this.nextFocus = 'name';
+      return;
+    }
+
     if (this.props.isLocked) {
       if (nextProps.isLocked)
         return;
 
-      switch (nextProps.errors.keys().next().value) {
-        case 'share':
-          if (this.shareInput)
-            setTimeout(() => this.shareInput.focus(), 250);
-          break;
-        case 'directory':
-          if (this.directoryInput)
-            setTimeout(() => this.directoryInput.focus(), 250);
-          break;
-        case 'name':
-          if (this.nameInput)
-            setTimeout(() => this.nameInput.focus(), 250);
-          break;
-      }
+      if (nextProps.errors.has('name'))
+        this.nextFocus = 'name';
     }
+  }
+
+  componentDidUpdate() {
+    switch (this.nextFocus) {
+      case 'share':
+        if (this.shareInput)
+          setTimeout(() => this.shareInput.focus(), 0);
+        break;
+      case 'directory':
+        if (this.directoryInput)
+          setTimeout(() => this.directoryInput.focus(), 0);
+        break;
+      case 'name':
+        if (this.nameInput)
+          setTimeout(() => this.nameInput.focus(), 0);
+        break;
+    }
+    this.nextFocus = null;
   }
 
   render() {
@@ -159,9 +170,9 @@ class DeleteModal extends React.PureComponent {
       <Modal
         isOpen={this.props.isOpen}
         toggle={this.props.onToggle}
-        autoFocus={true}
         backdrop="static"
-        fade={true}
+        fade
+        centered
       >
         <ModalHeader toggle={this.props.onToggle}>{__('delete_title')}</ModalHeader>
         <ModalBody>
@@ -177,7 +188,7 @@ class DeleteModal extends React.PureComponent {
                   name="share"
                   id="deleteShare"
                   disabled={true}
-                  valid={(!this.props.errors.has('share')) && undefined}
+                  invalid={this.props.errors.has('share')}
                   value={this.props.values.get('share')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
@@ -197,7 +208,7 @@ class DeleteModal extends React.PureComponent {
                   name="directory"
                   id="deleteDirectory"
                   disabled={true}
-                  valid={(!this.props.errors.has('directory')) && undefined}
+                  invalid={this.props.errors.has('directory')}
                   value={this.props.values.get('directory')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
@@ -219,8 +230,7 @@ class DeleteModal extends React.PureComponent {
                     name="name"
                     id="deleteName"
                     disabled={this.props.isLocked}
-                    autoFocus
-                    valid={(!this.props.errors.has('name')) && undefined}
+                    invalid={this.props.errors.has('name')}
                     value={this.props.values.get('name')}
                     onChange={this.handleInput}
                     onKeyPress={this.handleKeyPress}

@@ -51,9 +51,9 @@ export const togglePane = pane => {
     let leftPane = state.get('leftPane');
     let rightPane = state.get('rightPane');
     let isVisible = (pane === 'LEFT' ? leftPane.get('isVisible') : rightPane.get('isVisible'));
-    dispatch(isVisible ? hidePane(pane) : showPane(pane));
+    await dispatch(isVisible ? hidePane(pane) : showPane(pane));
     if (isVisible)
-      dispatch(setActivePane(pane === 'LEFT' ? 'RIGHT' : 'LEFT'));
+      await dispatch(setActivePane(pane === 'LEFT' ? 'RIGHT' : 'LEFT'));
   };
 };
 
@@ -75,9 +75,9 @@ export const stopLoadingPane = (pane, timestamp, isForbidden = false) => {
 export const setPaneMode = (pane, mode) => {
   return async dispatch => {
     if (mode === 'CONTENTS')
-      dispatch(loadContent(pane === 'LEFT' ? 'RIGHT' : 'LEFT'));
+      await dispatch(loadContent(pane === 'LEFT' ? 'RIGHT' : 'LEFT'));
     else if (mode === 'INFO')
-      dispatch(loadInfo(pane === 'LEFT' ? 'RIGHT' : 'LEFT'));
+      await dispatch(loadInfo(pane === 'LEFT' ? 'RIGHT' : 'LEFT'));
 
     return dispatch({
       type: pane === 'LEFT' ? actions.SET_LEFT_PANE_MODE : actions.SET_RIGHT_PANE_MODE,
@@ -162,7 +162,7 @@ export const setPaneIndex = (pane, index) => {
 };
 
 export const paneSort = (pane, field, dir) => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     let state = getState();
     let leftPane = state.get('leftPane');
     let rightPane = state.get('rightPane');
@@ -175,7 +175,7 @@ export const paneSort = (pane, field, dir) => {
       id = `${rightPane.get('share')}:${rightPane.get('directory')}`;
 
     if (field && dir) {
-      dispatch({
+      await dispatch({
         type: pane === 'LEFT' ? actions.SET_LEFT_PANE_SORT : actions.SET_RIGHT_PANE_SORT,
         field,
         dir,
@@ -204,7 +204,6 @@ export const paneSort = (pane, field, dir) => {
     let parent = null;
     let directories = [];
     let files = [];
-    let i = 0;
     for (let item of lists.get(id) || []) {
       if (item.get('isDirectory')) {
         if (item.get('name') === '..')
@@ -238,7 +237,7 @@ export const paneSort = (pane, field, dir) => {
       }
     }
 
-    dispatch({
+    return dispatch({
       type: pane === 'LEFT' ? actions.SET_LEFT_PANE_LIST : actions.SET_RIGHT_PANE_LIST,
       list,
       selectedIndexes,
@@ -272,7 +271,7 @@ export const paneSelect = (pane, index) => {
       await dispatch(setPaneIndex(pane, index));
     }
 
-    dispatch({
+    await dispatch({
       type: pane === 'LEFT' ? actions.SET_LEFT_PANE_SELECTION : actions.SET_RIGHT_PANE_SELECTION,
       selectedIndexes: index === -1 ? [] : [index],
     });
@@ -282,10 +281,10 @@ export const paneSelect = (pane, index) => {
 
     if ((pane === 'LEFT' && rightPane.get('mode') === 'CONTENTS') ||
       (pane === 'RIGHT' && leftPane.get('mode') === 'CONTENTS'))
-      dispatch(loadContent(pane));
+      await dispatch(loadContent(pane));
     if ((pane === 'LEFT' && rightPane.get('mode') === 'INFO') ||
       (pane === 'RIGHT' && leftPane.get('mode') === 'INFO'))
-      dispatch(loadInfo(pane));
+      await dispatch(loadInfo(pane));
   };
 };
 
@@ -336,10 +335,10 @@ export const paneSelectRange = (pane, index) => {
 
       if ((pane === 'LEFT' && rightPane.get('mode') === 'CONTENTS') ||
         (pane === 'RIGHT' && leftPane.get('mode') === 'CONTENTS'))
-        dispatch(loadContent(pane));
+        await dispatch(loadContent(pane));
       if ((pane === 'LEFT' && rightPane.get('mode') === 'INFO') ||
         (pane === 'RIGHT' && leftPane.get('mode') === 'INFO'))
-        dispatch(loadInfo(pane));
+        await dispatch(loadInfo(pane));
     }
   };
 };
@@ -360,17 +359,17 @@ export const paneToggleSelect = (pane, index) => {
       await dispatch(setPaneIndex(pane, -1));
     }
 
-    dispatch({
+    await dispatch({
       type: pane === 'LEFT' ? actions.SET_LEFT_PANE_SELECTION : actions.SET_RIGHT_PANE_SELECTION,
       selectedIndexes: selectedIndexes,
     });
 
     if ((pane === 'LEFT' && rightPane.get('mode') === 'CONTENTS') ||
       (pane === 'RIGHT' && leftPane.get('mode') === 'CONTENTS'))
-      dispatch(loadContent(pane));
+      await dispatch(loadContent(pane));
     if ((pane === 'LEFT' && rightPane.get('mode') === 'INFO') ||
       (pane === 'RIGHT' && leftPane.get('mode') === 'INFO'))
-      dispatch(loadInfo(pane));
+      await dispatch(loadInfo(pane));
   };
 };
 
@@ -563,6 +562,6 @@ export const initPanes = () => {
     let share = match ? match.share : user.getIn(['shares', 0, 'name']);
     let path = match ? match.path : '/';
 
-    await dispatch(paneCD('BOTH', share, path));
+    return dispatch(paneCD('BOTH', share, path));
   };
 };

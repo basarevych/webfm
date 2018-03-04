@@ -33,7 +33,7 @@ export const clearLists = () => {
     if (rightId && rightId !== leftId)
       keep.push(rightId);
 
-    await dispatch({
+    return dispatch({
       type: actions.CLEAR_LIST,
       keep,
     });

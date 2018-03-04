@@ -35,7 +35,7 @@ export const clearInfos = () => {
     if (rightId && rightId !== leftId)
       keep.push(rightId);
 
-    await dispatch({
+    return dispatch({
       type: actions.CLEAR_INFO,
       keep,
     });

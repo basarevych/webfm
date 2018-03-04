@@ -52,7 +52,7 @@ export const connectApp = () => {
       if (app.get('ioTimestamp') > when)
         return;
 
-      dispatch({
+      await dispatch({
         type: app.get('isConnected') ? actions.CONNECT_APP : actions.DISCONNECT_APP,
         when,
       });
@@ -92,7 +92,7 @@ export const connectApp = () => {
       if (getState().getIn(['app', 'ioTimestamp']) !== when)
         return;
 
-      dispatch({
+      await dispatch({
         type: actions.CONNECT_APP,
         when,
       });
@@ -110,8 +110,8 @@ export const disconnectApp = () => {
 };
 
 export const startApp = () => {
-  return dispatch => {
-    dispatch({
+  return async dispatch => {
+    await dispatch({
       type: actions.START_APP,
     });
 
@@ -123,7 +123,7 @@ export const startApp = () => {
     io.socket.on('progress-finish', data => dispatch(finishProgress(data)));
 
     if (io.socket.isConnected())
-      dispatch(connectApp());
+      await dispatch(connectApp());
   };
 };
 
@@ -185,7 +185,7 @@ export const initApp = history => {
 
       let pane = leftPane.get('isActive') ? 'LEFT' : 'RIGHT';
       let match = matchLocation(location.pathname);
-      dispatch(paneCD(pane, match ? match.share : user.getIn(['shares', 0, 'name']), match ? match.path : '/'));
+      await dispatch(paneCD(pane, match ? match.share : user.getIn(['shares', 0, 'name']), match ? match.path : '/'));
     });
   };
 };

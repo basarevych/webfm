@@ -97,29 +97,40 @@ class RenameModal extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.isOpen && !this.props.isOpen) {
+      this.nextFocus = 'newName';
+      return;
+    }
+
     if (this.props.isLocked) {
       if (nextProps.isLocked)
         return;
 
-      switch (nextProps.errors.keys().next().value) {
-        case 'share':
-          if (this.shareInput)
-            setTimeout(() => this.shareInput.focus(), 0);
-          break;
-        case 'directory':
-          if (this.directoryInput)
-            setTimeout(() => this.directoryInput.focus(), 0);
-          break;
-        case 'name':
-          if (this.nameInput)
-            setTimeout(() => this.nameInput.focus(), 0);
-          break;
-        case 'newName':
-          if (this.newNameInput)
-            setTimeout(() => this.newNameInput.focus(), 0);
-          break;
-      }
+      if (nextProps.errors.has('newName'))
+        this.nextFocus = 'newName';
     }
+  }
+
+  componentDidUpdate() {
+    switch (this.nextFocus) {
+      case 'share':
+        if (this.shareInput)
+          setTimeout(() => this.shareInput.focus(), 0);
+        break;
+      case 'directory':
+        if (this.directoryInput)
+          setTimeout(() => this.directoryInput.focus(), 0);
+        break;
+      case 'name':
+        if (this.nameInput)
+          setTimeout(() => this.nameInput.focus(), 0);
+        break;
+      case 'newName':
+        if (this.newNameInput)
+          setTimeout(() => this.newNameInput.focus(), 0);
+        break;
+    }
+    this.nextFocus = null;
   }
 
   render() {
@@ -127,9 +138,9 @@ class RenameModal extends React.PureComponent {
       <Modal
         isOpen={this.props.isOpen}
         toggle={this.props.onToggle}
-        autoFocus={true}
         backdrop="static"
-        fade={true}
+        fade
+        centered
       >
         <ModalHeader toggle={this.props.onToggle}>{__('rename_title')}</ModalHeader>
         <ModalBody>
@@ -145,7 +156,7 @@ class RenameModal extends React.PureComponent {
                   name="share"
                   id="renameShare"
                   disabled={true}
-                  valid={(!this.props.errors.has('share')) && undefined}
+                  invalid={this.props.errors.has('share')}
                   value={this.props.values.get('share')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
@@ -165,7 +176,7 @@ class RenameModal extends React.PureComponent {
                   name="directory"
                   id="renameDirectory"
                   disabled={true}
-                  valid={(!this.props.errors.has('directory')) && undefined}
+                  invalid={this.props.errors.has('directory')}
                   value={this.props.values.get('directory')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
@@ -185,7 +196,7 @@ class RenameModal extends React.PureComponent {
                   name="name"
                   id="renameName"
                   disabled={true}
-                  valid={(!this.props.errors.has('name')) && undefined}
+                  invalid={this.props.errors.has('name')}
                   value={this.props.values.get('name')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
@@ -206,8 +217,7 @@ class RenameModal extends React.PureComponent {
                   name="newName"
                   id="renameNewName"
                   disabled={this.props.isLocked}
-                  autoFocus
-                  valid={(!this.props.errors.has('newName')) && undefined}
+                  invalid={this.props.errors.has('newName')}
                   value={this.props.values.get('newName')}
                   onChange={this.handleInput}
                   onKeyPress={this.handleKeyPress}

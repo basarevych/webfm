@@ -28,17 +28,13 @@
   },
 
   "parserOptions": {
-    "ecmaVersion": 8,
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true
-    }
+    "ecmaVersion": 8
   },
 
   "globals": {
     // If "no-undef" is enabled below, be sure to list all global variables that
     // are used in this app's backend code (including the globalIds of models):
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    "Promise": true,
     "sails": true,
     "_": true,
     "async": true

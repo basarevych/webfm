@@ -89,21 +89,34 @@ class SignInModal extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.isOpen && !this.props.isOpen) {
+      this.nextFocus = 'login';
+      return;
+    }
+
     if (this.props.isLocked) {
       if (nextProps.isLocked)
         return;
 
-      switch (nextProps.errors.keys().next().value) {
-        case 'login':
-          if (this.loginInput)
-            setTimeout(() => this.loginInput.focus(), 0);
-          break;
-        case 'password':
-          if (this.passwordInput)
-            setTimeout(() => this.passwordInput.focus(), 0);
-          break;
-      }
+      if (nextProps.errors.has('login'))
+        this.nextFocus = 'login';
+      else if (nextProps.errors.has('password'))
+        this.nextFocus = 'password';
     }
+  }
+
+  componentDidUpdate() {
+    switch (this.nextFocus) {
+      case 'login':
+        if (this.loginInput)
+          setTimeout(() => this.loginInput.focus(), 0);
+        break;
+      case 'password':
+        if (this.passwordInput)
+          setTimeout(() => this.passwordInput.focus(), 0);
+        break;
+    }
+    this.nextFocus = null;
   }
 
   render() {
@@ -111,9 +124,9 @@ class SignInModal extends React.PureComponent {
       <Modal
         isOpen={this.props.isOpen}
         toggle={this.props.onToggle}
-        autoFocus={true}
         backdrop="static"
-        fade={true}
+        fade
+        centered
       >
         <ModalHeader toggle={this.props.onToggle}>{__('sign_in_title')}</ModalHeader>
         <ModalBody>
@@ -130,8 +143,7 @@ class SignInModal extends React.PureComponent {
                   name="login"
                   id="signInLogin"
                   disabled={this.props.isLocked}
-                  autoFocus
-                  valid={(!this.props.errors.has('login')) && undefined}
+                  invalid={this.props.errors.has('login')}
                   value={this.props.values.get('login')}
                   onChange={this.handleInput}
                   onKeyPress={this.handleKeyPress}
@@ -153,7 +165,7 @@ class SignInModal extends React.PureComponent {
                   name="password"
                   id="signInPassword"
                   disabled={this.props.isLocked}
-                  valid={(!this.props.errors.has('password')) && undefined}
+                  invalid={this.props.errors.has('password')}
                   value={this.props.values.get('password')}
                   onChange={this.handleInput}
                   onKeyPress={this.handleKeyPress}

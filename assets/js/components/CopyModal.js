@@ -106,33 +106,44 @@ class CopyModal extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.isOpen && !this.props.isOpen) {
+      this.nextFocus = 'srcName';
+      return;
+    }
+
     if (this.props.isLocked) {
       if (nextProps.isLocked)
         return;
 
-      switch (nextProps.errors.keys().next().value) {
-        case 'srcShare':
-          if (this.srcShareInput)
-            setTimeout(() => this.srcShareInput.focus(), 250);
-          break;
-        case 'srcDirectory':
-          if (this.srcDirectoryInput)
-            setTimeout(() => this.srcDirectoryInput.focus(), 250);
-          break;
-        case 'srcName':
-          if (this.srcNameInput)
-            setTimeout(() => this.srcNameInput.focus(), 250);
-          break;
-        case 'dstShare':
-          if (this.dstShareInput)
-            setTimeout(() => this.dstShareInput.focus(), 250);
-          break;
-        case 'dstDirectory':
-          if (this.dstDirectoryInput)
-            setTimeout(() => this.dstDirectoryInput.focus(), 250);
-          break;
-      }
+      if (nextProps.errors.has('srcName'))
+        this.nextFocus = 'srcName';
     }
+  }
+
+  componentDidUpdate() {
+    switch (this.nextFocus) {
+      case 'srcShare':
+        if (this.srcShareInput)
+          setTimeout(() => this.srcShareInput.focus(), 0);
+        break;
+      case 'srcDirectory':
+        if (this.srcDirectoryInput)
+          setTimeout(() => this.srcDirectoryInput.focus(), 0);
+        break;
+      case 'srcName':
+        if (this.srcNameInput)
+          setTimeout(() => this.srcNameInput.focus(), 0);
+        break;
+      case 'dstShare':
+        if (this.dstShareInput)
+          setTimeout(() => this.dstShareInput.focus(), 0);
+        break;
+      case 'dstDirectory':
+        if (this.dstDirectoryInput)
+          setTimeout(() => this.dstDirectoryInput.focus(), 0);
+        break;
+    }
+    this.nextFocus = null;
   }
 
   render() {
@@ -175,9 +186,9 @@ class CopyModal extends React.PureComponent {
       <Modal
         isOpen={this.props.isOpen}
         toggle={this.props.onToggle}
-        autoFocus={true}
         backdrop="static"
-        fade={true}
+        fade
+        centered
       >
         <ModalHeader toggle={this.props.onToggle}>{__('copy_title')}</ModalHeader>
         <ModalBody>
@@ -193,7 +204,7 @@ class CopyModal extends React.PureComponent {
                   name="srcShare"
                   id="copySrcShare"
                   disabled={true}
-                  valid={(!this.props.errors.has('srcShare')) && undefined}
+                  invalid={this.props.errors.has('srcShare')}
                   value={this.props.values.get('srcShare')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
@@ -213,7 +224,7 @@ class CopyModal extends React.PureComponent {
                   name="srcDirectory"
                   id="copySrcDirectory"
                   disabled={true}
-                  valid={(!this.props.errors.has('srcDirectory')) && undefined}
+                  invalid={this.props.errors.has('srcDirectory')}
                   value={this.props.values.get('srcDirectory')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
@@ -235,8 +246,7 @@ class CopyModal extends React.PureComponent {
                     name="srcName"
                     id="copySrcName"
                     disabled={this.props.isLocked}
-                    autoFocus
-                    valid={(!this.props.errors.has('srcName')) && undefined}
+                    invalid={this.props.errors.has('srcName')}
                     value={this.props.values.get('srcName')}
                     onChange={this.handleInput}
                     onKeyPress={this.handleKeyPress}
@@ -264,7 +274,7 @@ class CopyModal extends React.PureComponent {
                   name="dstShare"
                   id="copyDstShare"
                   disabled={true}
-                  valid={(!this.props.errors.has('dstShare')) && undefined}
+                  invalid={this.props.errors.has('dstShare')}
                   value={this.props.values.get('dstShare')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
@@ -284,7 +294,7 @@ class CopyModal extends React.PureComponent {
                   name="dstDirectory"
                   id="copyDstDirectory"
                   disabled={true}
-                  valid={(!this.props.errors.has('dstDirectory')) && undefined}
+                  invalid={this.props.errors.has('dstDirectory')}
                   value={this.props.values.get('dstDirectory')}
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}

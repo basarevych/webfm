@@ -35,7 +35,7 @@ class FailureModal extends React.PureComponent {
       );
     }
     return (
-      <Modal isOpen={this.props.isOpen} size="lg" backdrop="static" fade={true} toggle={this.props.onDoneClick}>
+      <Modal isOpen={this.props.isOpen} size="lg" backdrop="static" fade centered toggle={this.props.onDoneClick}>
         <ModalHeader>{__('failure_title')}</ModalHeader>
         <ModalBody>
           <FormMessages messages={this.props.messages} />

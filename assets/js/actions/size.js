@@ -22,7 +22,7 @@ export const clearSizes = () => {
         keep.push(id);
     }
 
-    await dispatch({
+    return dispatch({
       type: actions.CLEAR_SIZE,
       keep,
     });

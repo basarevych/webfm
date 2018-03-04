@@ -44,7 +44,7 @@ class ProgressModal extends React.Component {
 
   render() {
     return (
-      <Modal isOpen={this.props.isStarted} size="lg" backdrop="static" fade={true} toggle={() => {}}>
+      <Modal isOpen={this.props.isStarted} size="lg" backdrop="static" fade centered toggle={() => {}}>
         <ModalHeader>{__('progress_title')}</ModalHeader>
         <ModalBody>
           {(!this.props.isStarted || this.props.isFinished)
