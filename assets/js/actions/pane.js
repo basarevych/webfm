@@ -86,6 +86,13 @@ export const setPaneMode = (pane, mode) => {
   };
 };
 
+export const setPaneTouchMode = (pane, mode) => {
+  return {
+    type: pane === 'LEFT' ? actions.SET_LEFT_PANE_TOUCH_MODE : actions.SET_RIGHT_PANE_TOUCH_MODE,
+    mode,
+  };
+};
+
 export const setPaneShare = (pane, share) => {
   return {
     type: pane === 'LEFT' ? actions.SET_LEFT_PANE_SHARE : actions.SET_RIGHT_PANE_SHARE,

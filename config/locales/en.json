@@ -149,5 +149,7 @@
   "move_drop_selected_hint": "Move selected items here",
   "switch_to_list_hint": "Switch to list mode first",
   "dragged_single_message": "1 selected: %s",
-  "dragged_multi_message": "%d selected"
+  "dragged_multi_message": "%d selected",
+  "touch_mode_hint_scroll": "Scroll mode, tap to switch to drag",
+  "touch_mode_hint_drag": "Drag mode, tap to switch to scroll"
 }

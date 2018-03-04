@@ -17,6 +17,9 @@ const nodeSource = {
       name: props.node.get('name'),
       isSelected: props.isSelected,
     };
+  },
+  canDrag(props) {
+    return !props.isTouchDevice || props.touchMode === 'DRAG';
   }
 };
 
@@ -31,10 +34,12 @@ function collect(connect, monitor) {
 class ListItem extends React.PureComponent {
   static propTypes = {
     which: PropTypes.string.isRequired,
+    touchMode: PropTypes.string.isRequired,
     node: PropTypes.instanceOf(Map).isRequired,
     size: PropTypes.instanceOf(Map),
     index: PropTypes.number.isRequired,
     connectDragSource: PropTypes.func,
+    isTouchDevice: PropTypes.bool.isRequired,
     isSelected: PropTypes.bool.isRequired,
     isDragging: PropTypes.bool,
     onChangeDirectory: PropTypes.func.isRequired,

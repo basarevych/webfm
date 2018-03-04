@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { List } from 'immutable';
 import {
   FaToggleOn, FaToggleOff, FaSortAlphaAsc, FaSortAlphaDesc, FaSortAmountAsc, FaSortAmountDesc,
-  FaFileTextO, FaAlignLeft, FaFolderOpenO, FaBars
+  FaFileTextO, FaAlignLeft, FaFolderOpenO, FaBars, FaHandPointerO, FaHandPaperO
 } from 'react-icons/lib/fa';
 import { Button, ButtonGroup } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
@@ -18,13 +18,16 @@ class Header extends React.PureComponent {
     share: PropTypes.string.isRequired,
     directory: PropTypes.string.isRequired,
     mode: PropTypes.string.isRequired,
+    touchMode: PropTypes.string.isRequired,
     otherPath: PropTypes.string.isRequired,
     sortField: PropTypes.string.isRequired,
     sortDir: PropTypes.string.isRequired,
+    isTouchDevice: PropTypes.bool.isRequired,
     isOtherVisible: PropTypes.bool.isRequired,
     onSetShare: PropTypes.func.isRequired,
     onSetSort: PropTypes.func.isRequired,
     onSetMode: PropTypes.func.isRequired,
+    onSetTouchMode: PropTypes.func.isRequired,
     onToggleOther: PropTypes.func.isRequired,
   };
 
@@ -40,6 +43,7 @@ class Header extends React.PureComponent {
       isModeContentsTooltipOpen: false,
       isModeInfoTooltipOpen: false,
       isPaneTooltipOpen: false,
+      isTouchTooltipOpen: false,
     };
 
     this.toggleMenu = this.toggleMenu.bind(this);
@@ -50,11 +54,13 @@ class Header extends React.PureComponent {
     this.toggleModeContentsTooltip = this.toggleModeContentsTooltip.bind(this);
     this.toggleModeInfoTooltip = this.toggleModeInfoTooltip.bind(this);
     this.togglePaneTooltip = this.togglePaneTooltip.bind(this);
+    this.toggleTouchTooltip = this.toggleTouchTooltip.bind(this);
     this.toggleNameSort = this.toggleNameSort.bind(this);
     this.toggleSizeSort = this.toggleSizeSort.bind(this);
     this.setListMode = this.setListMode.bind(this);
     this.setContentsMode = this.setContentsMode.bind(this);
     this.setInfoMode = this.setInfoMode.bind(this);
+    this.setTouchMode = this.setTouchMode.bind(this);
   }
 
   toggleMenu() {
@@ -89,6 +95,10 @@ class Header extends React.PureComponent {
     this.setState({ isPaneTooltipOpen: !this.state.isPaneTooltipOpen });
   }
 
+  toggleTouchTooltip() {
+    this.setState({ isTouchTooltipOpen: !this.state.isTouchTooltipOpen });
+  }
+
   toggleNameSort() {
     this.props.onSetSort('NAME', this.props.sortField === 'NAME' ? (this.props.sortDir === 'ASC' ? 'DESC' : 'ASC') : 'ASC');
   }
@@ -109,7 +119,13 @@ class Header extends React.PureComponent {
     this.props.onSetMode('INFO');
   }
 
+  setTouchMode() {
+    this.props.onSetTouchMode(this.props.touchMode === 'SCROLL' ? 'DRAG' : 'SCROLL')
+  }
+
   render() {
+    let smallDevice = (this.props.breakpoint === 'xs' && !(this.props.breakpoint === 'sm' && this.props.isOtherVisible));
+
     let share = null;
     if (this.props.mode === 'LIST') {
       let selectedShare = null;
@@ -155,8 +171,7 @@ class Header extends React.PureComponent {
 
     let path = null;
     if (this.props.mode === 'LIST') {
-      if (this.props.directory && this.props.breakpoint !== 'xs' &&
-         !(this.props.breakpoint === 'sm' && this.props.isOtherVisible))
+      if (this.props.directory && smallDevice)
         path = this.props.directory;
     } else {
       path = this.props.otherPath;
@@ -240,8 +255,29 @@ class Header extends React.PureComponent {
       </span>
     );
 
+    let touchDeviceTools = null;
+    if (this.props.isTouchDevice) {
+      touchDeviceTools = (
+        <span>
+          <HintedButton
+            size="sm"
+            color={this.props.touchMode === 'SCROLL' ? 'secondary' : 'primary'}
+            onClick={this.setTouchMode}
+            tooltipPlacement="bottom"
+            tooltipIsOpen={this.state.isTouchTooltipOpen}
+            tooltipToggle={this.toggleTouchTooltip}
+            tooltipHTML={__(this.props.touchMode === 'SCROLL' ? 'touch_mode_hint_scroll' : 'touch_mode_hint_drag')}
+          >
+            {this.props.touchMode === 'SCROLL' ? <FaHandPaperO /> : <FaHandPointerO />}
+          </HintedButton>
+          &nbsp;
+        </span>
+      );
+    }
+
     let tools = (
       <span>
+        {(!smallDevice) && touchDeviceTools}
         {sorting}
         {modes}
         <HintedButton
@@ -257,9 +293,10 @@ class Header extends React.PureComponent {
         </HintedButton>
       </span>
     );
-    if (this.props.breakpoint === 'xs' || (this.props.breakpoint === 'sm' && this.props.isOtherVisible)) {
+    if (smallDevice) {
       tools = (
         <div>
+          {smallDevice && touchDeviceTools}
           <Button size="sm" color="secondary" onClick={this.toggleMenu}><FaBars /></Button>
           {this.state.isMenuOpen && <div className="submenu rounded">{tools}</div>}
         </div>

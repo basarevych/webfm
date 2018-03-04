@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 class Viewport extends React.Component {
   static propTypes = {
+    isTouchEnabled: PropTypes.bool.isRequired,
     classes: PropTypes.string,
     reactList: PropTypes.bool,
   };
@@ -24,12 +25,6 @@ class Viewport extends React.Component {
     this.viewport = ReactDOM.findDOMNode(this);
     this.touching = false;
 
-    try {
-      document.createEvent('TouchEvent');
-    } catch (error) {
-      return;
-    }
-
     let scrollStartTop = 0;
     let scrollStartLeft = 0;
     let scrollTop = 0;
@@ -37,8 +32,10 @@ class Viewport extends React.Component {
     let frameId = null;
     let frame = () => {
       frameId = null;
-      this.viewport.scrollTop = scrollTop;
-      this.viewport.scrollLeft = scrollLeft;
+      if (this.props.isTouchEnabled) {
+        this.viewport.scrollTop = scrollTop;
+        this.viewport.scrollLeft = scrollLeft;
+      }
     };
     this.touchStartHandler = function (event) {
       this.touching = true;

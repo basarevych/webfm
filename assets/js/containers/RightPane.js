@@ -2,7 +2,8 @@
 
 import { connect } from 'react-redux';
 import {
-  paneCD, paneSort, setActivePane, setPaneMode, togglePane, paneSelect, paneSelectRange, paneToggleSelect
+  paneCD, paneSort, setActivePane, setPaneMode, setPaneTouchMode, togglePane,
+  paneSelect, paneSelectRange, paneToggleSelect
 } from '../actions/pane';
 import { loadSize } from '../actions/size';
 import Pane from '../components/Pane';
@@ -18,6 +19,7 @@ const mapStateToProps = state => {
     which: 'RIGHT',
     breakpoint: state.getIn(['app', 'breakpoint']),
     mode: state.getIn(['rightPane', 'mode']),
+    touchMode: state.getIn(['rightPane', 'touchMode']),
     otherPath: state.getIn(['leftPane', 'path']),
     shares: state.getIn(['user', 'shares']),
     share: state.getIn(['rightPane', 'share']),
@@ -29,6 +31,7 @@ const mapStateToProps = state => {
     sortDir: state.getIn(['leftPane', 'sortDir']),
     content: selectedId && state.getIn(['contents', selectedId]),
     info: selectedId && state.getIn(['infos', selectedId]),
+    isTouchDevice: state.getIn(['app', 'isTouchDevice']),
     isActive: state.getIn(['rightPane', 'isActive']),
     isDisabled: !state.getIn(['user', 'isAuthorized']),
     isLoading: state.getIn(['rightPane', 'isLoading']),
@@ -52,6 +55,7 @@ const mapDispatchToProps = dispatch => {
     onSizeClick: (share, path) => dispatch(loadSize(share, path)),
     onToggleOther: () => dispatch(togglePane('LEFT')),
     onSetMode: mode => dispatch(setPaneMode('RIGHT', mode)),
+    onSetTouchMode: mode => dispatch(setPaneTouchMode('RIGHT', mode)),
     onCopyClick: name => dispatch(fastCopy('RIGHT', name)),
     onMoveClick: name => dispatch(fastMove('RIGHT', name)),
     onDeleteClick: name => dispatch(fastDel('RIGHT', name)),

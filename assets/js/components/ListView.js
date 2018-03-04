@@ -8,11 +8,13 @@ import ListComponent from './ListComponent';
 class ListView extends React.PureComponent {
   static propTypes = {
     which: PropTypes.string.isRequired,
+    touchMode: PropTypes.string.isRequired,
     share: PropTypes.string.isRequired,
     directory: PropTypes.string.isRequired,
     list: PropTypes.instanceOf(List).isRequired,
     sizes: PropTypes.instanceOf(Map).isRequired,
     selectedIndexes: PropTypes.instanceOf(List).isRequired,
+    isTouchDevice: PropTypes.bool.isRequired,
     isForbidden: PropTypes.bool.isRequired,
     onChangeDirectory: PropTypes.func.isRequired,
     onNodeClick: PropTypes.func.isRequired,
@@ -39,11 +41,13 @@ class ListView extends React.PureComponent {
       listing = (
         <ListComponent
           which={this.props.which}
+          touchMode={this.props.touchMode}
           share={this.props.share}
           directory={this.props.directory}
           list={this.props.list}
           sizes={this.props.sizes}
           selectedIndexes={this.props.selectedIndexes}
+          isTouchDevice={this.props.isTouchDevice}
           onChangeDirectory={this.props.onChangeDirectory}
           onNodeClick={this.props.onNodeClick}
           onNodeShiftClick={this.props.onNodeShiftClick}

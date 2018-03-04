@@ -38,6 +38,7 @@ class Pane extends React.PureComponent {
     which: PropTypes.string.isRequired,
     breakpoint: PropTypes.string.isRequired,
     mode: PropTypes.string.isRequired,
+    touchMode: PropTypes.string.isRequired,
     otherPath: PropTypes.string.isRequired,
     shares: PropTypes.instanceOf(List).isRequired,
     share: PropTypes.string.isRequired,
@@ -50,6 +51,7 @@ class Pane extends React.PureComponent {
     content: PropTypes.instanceOf(Map),
     info: PropTypes.instanceOf(Map),
     connectDropTarget: PropTypes.func,
+    isTouchDevice: PropTypes.bool.isRequired,
     isActive: PropTypes.bool.isRequired,
     isDisabled: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -70,6 +72,7 @@ class Pane extends React.PureComponent {
     onSizeClick: PropTypes.func.isRequired,
     onToggleOther: PropTypes.func.isRequired,
     onSetMode: PropTypes.func.isRequired,
+    onSetTouchMode: PropTypes.func.isRequired,
     onCopyClick: PropTypes.func.isRequired,
     onMoveClick: PropTypes.func.isRequired,
     onDeleteClick: PropTypes.func.isRequired,
@@ -100,11 +103,13 @@ class Pane extends React.PureComponent {
         view = (
           <ListView
             which={this.props.which}
+            touchMode={this.props.touchMode}
             share={this.props.share}
             directory={this.props.directory}
             list={this.props.list}
             sizes={this.props.sizes}
             selectedIndexes={this.props.selectedIndexes}
+            isTouchDevice={this.props.isTouchDevice}
             isForbidden={this.props.isForbidden}
             onChangeDirectory={this.props.onChangeDirectory}
             onNodeClick={this.props.onNodeClick}
@@ -137,13 +142,16 @@ class Pane extends React.PureComponent {
             share={this.props.share}
             directory={this.props.directory}
             mode={this.props.mode}
+            touchMode={this.props.touchMode}
             otherPath={this.props.otherPath}
             sortField={this.props.sortField}
             sortDir={this.props.sortDir}
+            isTouchDevice={this.props.isTouchDevice}
             isOtherVisible={this.props.isOtherVisible}
             onSetShare={this.props.onSetShare}
             onSetSort={this.props.onSetSort}
             onSetMode={this.props.onSetMode}
+            onSetTouchMode={this.props.onSetTouchMode}
             onToggleOther={this.props.onToggleOther}
           />
           {view}

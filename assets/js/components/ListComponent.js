@@ -11,11 +11,13 @@ import ListItem from './ListItem';
 class ListComponent extends React.PureComponent {
   static propTypes = {
     which: PropTypes.string.isRequired,
+    touchMode: PropTypes.string.isRequired,
     share: PropTypes.string.isRequired,
     directory: PropTypes.string.isRequired,
     list: PropTypes.instanceOf(List).isRequired,
     sizes: PropTypes.instanceOf(Map).isRequired,
     selectedIndexes: PropTypes.instanceOf(List).isRequired,
+    isTouchDevice: PropTypes.bool.isRequired,
     onChangeDirectory: PropTypes.func.isRequired,
     onNodeClick: PropTypes.func.isRequired,
     onNodeShiftClick: PropTypes.func.isRequired,
@@ -41,10 +43,12 @@ class ListComponent extends React.PureComponent {
     return (
       <ListItem
         which={this.props.which}
+        touchMode={this.props.touchMode}
         key={key}
         node={node}
         size={this.props.sizes.get(`${this.props.share}:${node.get('path')}`)}
         index={index}
+        isTouchDevice={this.props.isTouchDevice}
         isSelected={this.props.selectedIndexes.includes(index)}
         onChangeDirectory={this.props.onChangeDirectory}
         onNodeClick={this.props.onNodeClick}
@@ -84,7 +88,10 @@ class ListComponent extends React.PureComponent {
     return (
       <div className="scroll-wrapper">
         <GenericScrollBox permitHandleDragInterruption={false}>
-          <Viewport reactList={true}>
+          <Viewport
+            isTouchEnabled={this.props.isTouchDevice && this.props.touchMode === 'SCROLL'}
+            reactList={true}
+          >
             <ReactList
               length={this.props.list.size}
               minSize={100}
