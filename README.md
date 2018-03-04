@@ -39,8 +39,11 @@ Babel/Webpack for the browser.
   # git clone https://github.com/basarevych/webfm
   # cd webfm
   # cp webfm.conf.example webfm.conf
-  # yarn install
+  # yarn install --prod
   ```
+
+  NOTE: If you are going to use **build** commands then remove **--prod** from the
+  yarn arguments above.
 
   I recommend using [yarn](https://yarnpkg.com/en/) for the dependencies and
   [pm2](http://pm2.keymetrics.io/) for starting as system service.
