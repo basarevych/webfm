@@ -120,7 +120,7 @@ class Header extends React.PureComponent {
   }
 
   setTouchMode() {
-    this.props.onSetTouchMode(this.props.touchMode === 'SCROLL' ? 'DRAG' : 'SCROLL')
+    this.props.onSetTouchMode(this.props.touchMode === 'SCROLL' ? 'DRAG' : 'SCROLL');
   }
 
   render() {

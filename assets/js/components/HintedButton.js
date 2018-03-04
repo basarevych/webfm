@@ -4,7 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button } from 'reactstrap';
 import SafeTooltip from './SafeTooltip';
-import {Map} from "immutable";
 import PropTypes from 'prop-types';
 
 class HintedButton extends React.PureComponent {
