@@ -143,6 +143,13 @@ export const setAppVersion = isSameVersion => {
   };
 };
 
+export const setTouchDevice = isTouchDevice => {
+  return {
+    type: actions.TOUCH_DEVICE,
+    isTouchDevice,
+  };
+};
+
 export const screenResize = () => {
   return async (dispatch, getState) => {
     let state = getState();
@@ -171,6 +178,13 @@ export const initApp = history => {
   return async (dispatch, getState) => {
     if (getState().getIn(['app', 'isStarted']))
       return;
+
+    try {
+      document.createEvent('TouchEvent');
+      await dispatch(setTouchDevice(true));
+    } catch (unusedError) {
+      await dispatch(setTouchDevice(false));
+    }
 
     await dispatch(startApp());
     await dispatch(screenResize());
