@@ -61,14 +61,12 @@ describe('app actions', () => {
 
   it('getCSRFToken() retries on error', async () => {
     let called = false;
-    window.setTimeout = jest
-      .fn()
-      .mockImplementation(func => {
-        called = true;
-        fetchStatus = 200;
-        fetchJSON = { _csrf: 'abc' };
-        func();
-      });
+    window.setTimeout = jest.fn(func => {
+      called = true;
+      fetchStatus = 200;
+      fetchJSON = { _csrf: 'abc' };
+      func();
+    });
 
     fetchStatus = 500;
     await store.dispatch(app.getCSRFToken());

@@ -52,6 +52,8 @@
     "clean-webpack-plugin": "~0.1.18",
     "css-loader": "~0.28.10",
     "cssnano": "~3.10.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "~4.18.2",
     "exports-loader": "~0.7.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
@@ -101,7 +103,7 @@
     "build:dev": "env NODE_ENV=development ./node_modules/.bin/webpack --mode development --watch --progress",
     "start:dev": "env NODE_ENV=development ./node_modules/.bin/sails lift",
     "lint": "node ./node_modules/eslint/bin/eslint . --max-warnings=0",
-    "test": "node ./node_modules/.bin/jest",
+    "test": "node ./node_modules/.bin/jest ./assets/js",
     "prepare": "patch-package"
   },
   "main": "app.js",
