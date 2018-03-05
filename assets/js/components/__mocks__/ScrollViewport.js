@@ -7,7 +7,7 @@ const Viewport = ({ children }) => {
     <div>
       {children}
     </div>
-  )
+  );
 };
 
 export default Viewport;

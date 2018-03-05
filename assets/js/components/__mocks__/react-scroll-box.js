@@ -7,5 +7,5 @@ export const GenericScrollBox = ({ children }) => {
     <div>
       {children}
     </div>
-  )
+  );
 };

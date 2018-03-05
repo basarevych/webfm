@@ -53,11 +53,7 @@
     "async": false,
     // ...and any other backend globals (e.g. `"Organization": false`)
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    "Breakpoints": true,
-    "jest": true,
-    "describe": true,
-    "it": true,
-    "expect": true
+    "Breakpoints": true
   },
 
   "rules": {

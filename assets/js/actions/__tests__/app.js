@@ -60,7 +60,7 @@ describe('app actions', () => {
 
     window.Breakpoints = {
       current: () => ({ name: breakpoint }),
-    }
+    };
   });
 
   beforeEach(() => {
