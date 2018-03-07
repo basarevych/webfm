@@ -10,6 +10,7 @@ import Viewport from './ScrollViewport';
 class ContentView extends React.PureComponent {
   static propTypes = {
     content: PropTypes.instanceOf(Map),
+    isTouchDevice: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -32,7 +33,7 @@ class ContentView extends React.PureComponent {
         body = (
           <div className="scroll-wrapper">
             <GenericScrollBox permitHandleDragInterruption={false}>
-              <Viewport classes="text-content" reactList={false}>
+              <Viewport isTouchEnabled={this.props.isTouchDevice} classes="text-content" reactList={false}>
                 {this.props.content.has('base64') && atob(this.props.content.get('base64'))}
                 <br/>
               </Viewport>

@@ -96,9 +96,9 @@ class Pane extends React.PureComponent {
       view = <LoadingView isActive={this.props.isActive}/>;
     } else {
       if (this.props.mode === 'CONTENTS') {
-        view = <ContentView content={this.props.content} />;
+        view = <ContentView isTouchDevice={this.props.isTouchDevice} content={this.props.content} />;
       } else if (this.props.mode === 'INFO') {
-        view = <InfoView info={this.props.info} />;
+        view = <InfoView isTouchDevice={this.props.isTouchDevice} info={this.props.info} />;
       } else {
         view = (
           <ListView

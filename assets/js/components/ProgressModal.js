@@ -10,6 +10,7 @@ class ProgressModal extends React.Component {
   static propTypes = {
     isStarted: PropTypes.bool.isRequired,
     isFinished: PropTypes.bool.isRequired,
+    isTouchDevice: PropTypes.bool.isRequired,
     message: PropTypes.string.isRequired,
     onDoneClick: PropTypes.func.isRequired,
   };
@@ -54,7 +55,12 @@ class ProgressModal extends React.Component {
           <div className="progress-widget">
             <div className="scroll-wrapper">
               <GenericScrollBox permitHandleDragInterruption={false}>
-                <Viewport classes="text-content condensed" reactList={false} ref={el => { this.viewport = el; }}>
+                <Viewport
+                  isTouchEnabled={this.props.isTouchDevice}
+                  classes="text-content condensed"
+                  reactList={false}
+                  ref={el => { this.viewport = el; }}
+                >
                   {this.props.message}
                   <br/>
                 </Viewport>

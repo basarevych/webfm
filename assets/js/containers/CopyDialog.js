@@ -9,6 +9,7 @@ const mapStateToProps = state => {
   return {
     isOpen: state.getIn(['copyDialog', 'isOpen']),
     isLocked: state.getIn(['copyDialog', 'locked']) > 0,
+    isTouchDevice: state.getIn(['app', 'isTouchDevice']),
     values: state.getIn(['copyDialog', 'values']),
     messages: state.getIn(['copyDialog', 'messages']),
     errors: state.getIn(['copyDialog', 'errors']),

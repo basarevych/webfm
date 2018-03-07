@@ -12,6 +12,7 @@ import { human } from '../lib/size';
 class InfoView extends React.PureComponent {
   static propTypes = {
     info: PropTypes.instanceOf(Map),
+    isTouchDevice: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -32,7 +33,7 @@ class InfoView extends React.PureComponent {
         body = (
           <div className="scroll-wrapper">
             <GenericScrollBox permitHandleDragInterruption={false}>
-              <Viewport reactList={false}>
+              <Viewport isTouchEnabled={this.props.isTouchDevice} reactList={false}>
                 <div className="listing">
                   <div className="listing-item odd">
                     <div className="info">

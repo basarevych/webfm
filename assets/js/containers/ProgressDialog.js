@@ -8,6 +8,7 @@ const mapStateToProps = state => {
   return {
     isStarted: state.getIn(['progress', 'isStarted']),
     isFinished: state.getIn(['progress', 'isFinished']),
+    isTouchDevice: state.getIn(['app', 'isTouchDevice']),
     message: state.getIn(['progress', 'message']),
   };
 };

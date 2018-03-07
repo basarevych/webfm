@@ -16,6 +16,7 @@ class MoveModal extends React.PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     isLocked: PropTypes.bool.isRequired,
+    isTouchDevice: PropTypes.bool.isRequired,
     values: PropTypes.instanceOf(Map).isRequired,
     messages: PropTypes.instanceOf(Map).isRequired,
     errors: PropTypes.instanceOf(Map).isRequired,
@@ -163,7 +164,7 @@ class MoveModal extends React.PureComponent {
           <div className="found-nodes">
             <div className="scroll-wrapper">
               <GenericScrollBox permitHandleDragInterruption={false} outsetScrollBarX={true} outsetScrollBarY={true}>
-                <Viewport classes="text-content condensed">
+                <Viewport isTouchEnabled={this.props.isTouchDevice} classes="text-content condensed">
                   {find.length ? find : <em>{__('src_find_empty')}</em>}
                   <br />
                 </Viewport>
