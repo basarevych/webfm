@@ -9,7 +9,7 @@ import RequiredFieldLabel from './RequiredFieldLabel';
 import FormMessages from './FormMessages';
 import FieldErrors from './FieldErrors';
 
-class SignInModal extends React.PureComponent {
+class SignInModal extends React.Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     isLocked: PropTypes.bool.isRequired,

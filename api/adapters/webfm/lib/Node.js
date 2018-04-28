@@ -7,49 +7,49 @@ const Share = require('./Share');
 class Node {
   static statsToObject(info, directory, name, stats, select) {
     let item = { id: `${info.share}:${_path.join(directory, name)}` };
-    if (_.isArray(select) && select.includes('fullPath'))
+    if (_.isArray(select) && _.includes(select, 'fullPath'))
       item.fullPath = info.fullPath;
-    if (_.isArray(select) && select.includes('realPath'))
+    if (_.isArray(select) && _.includes(select, 'realPath'))
       item.realPath = info.realPath;
-    if (_.isArray(select) && select.includes('root'))
+    if (_.isArray(select) && _.includes(select, 'root'))
       item.root = info.root;
-    if (_.isArray(select) && select.includes('path'))
+    if (_.isArray(select) && _.includes(select, 'path'))
       item.path = name ? _path.join(directory, name) : directory;
-    if (_.isArray(select) && select.includes('directory'))
+    if (_.isArray(select) && _.includes(select, 'directory'))
       item.directory = directory;
-    if (_.isArray(select) && select.includes('name'))
+    if (_.isArray(select) && _.includes(select, 'name'))
       item.name = name;
-    if (_.isArray(select) && select.includes('target'))
+    if (_.isArray(select) && _.includes(select, 'target'))
       item.target = '';
-    if (_.isArray(select) && select.includes('size'))
+    if (_.isArray(select) && _.includes(select, 'size'))
       item.size = stats.size;
-    if (_.isArray(select) && select.includes('modeNumber'))
+    if (_.isArray(select) && _.includes(select, 'modeNumber'))
       item.modeNumber = stats.mode;
-    if (_.isArray(select) && select.includes('modeString')) {
+    if (_.isArray(select) && _.includes(select, 'modeString')) {
       let mode = new Mode(stats);
       item.modeString = mode.toString();
     }
-    if (_.isArray(select) && select.includes('userId'))
+    if (_.isArray(select) && _.includes(select, 'userId'))
       item.userId = stats.uid;
-    if (_.isArray(select) && select.includes('userName'))
+    if (_.isArray(select) && _.includes(select, 'userName'))
       item.userName = userid.username(stats.uid);
-    if (_.isArray(select) && select.includes('groupId'))
+    if (_.isArray(select) && _.includes(select, 'groupId'))
       item.groupId = stats.gid;
-    if (_.isArray(select) && select.includes('groupName'))
+    if (_.isArray(select) && _.includes(select, 'groupName'))
       item.groupName = userid.groupname(stats.gid);
-    if (_.isArray(select) && select.includes('atime'))
+    if (_.isArray(select) && _.includes(select, 'atime'))
       item.atime = stats.atimeMs;
-    if (_.isArray(select) && select.includes('mtime'))
+    if (_.isArray(select) && _.includes(select, 'mtime'))
       item.mtime = stats.mtimeMs;
-    if (_.isArray(select) && select.includes('ctime'))
+    if (_.isArray(select) && _.includes(select, 'ctime'))
       item.ctime = stats.ctimeMs;
-    if (_.isArray(select) && select.includes('isDirectory'))
+    if (_.isArray(select) && _.includes(select, 'isDirectory'))
       item.isDirectory = stats.isDirectory();
-    if (_.isArray(select) && select.includes('isFile'))
+    if (_.isArray(select) && _.includes(select, 'isFile'))
       item.isFile = stats.isFile();
-    if (_.isArray(select) && select.includes('isSymLink'))
+    if (_.isArray(select) && _.includes(select, 'isSymLink'))
       item.isSymLink = stats.isSymbolicLink();
-    if (_.isArray(select) && select.includes('isValid'))
+    if (_.isArray(select) && _.includes(select, 'isValid'))
       item.isValid = info.isValid;
     return item;
   }
@@ -77,7 +77,7 @@ class Node {
   }
 
   async findByParent({ parent }, select, done) {
-    let parts = parent.split(':');
+    let parts = _.split(parent, ':');
     let share = `${parts[0]}:${parts[1]}`;
 
     try {
@@ -133,7 +133,7 @@ class Node {
     info.fullPath = _path.resolve(_path.join(root, path));
     info.relPath = info.fullPath.slice(root.length) || '/';
 
-    if (!(info.fullPath + '/').startsWith(root + '/')) {
+    if (!_.startsWith(info.fullPath + '/', root + '/')) {
       let error = new Error('Sandbox escape prevented');
       error.code = 'FORBIDDEN';
       throw error;
@@ -145,7 +145,7 @@ class Node {
           return reject(error);
 
         info.realPath = target;
-        info.isValid = (target + '/').startsWith(root + '/');
+        info.isValid = _.startsWith(target + '/', root + '/');
         resolve();
       });
     });
@@ -167,9 +167,9 @@ class Node {
               return reject(error);
 
             let result = this.constructor.statsToObject(info, _path.dirname(info.relPath), _path.basename(info.relPath), stats, select);
-            if (_.isArray(select) && select.includes('target'))
+            if (_.isArray(select) && _.includes(select, 'target'))
               result.target = target;
-            if (_.isArray(select) && select.includes('isSymLink'))
+            if (_.isArray(select) && _.includes(select, 'isSymLink'))
               result.isSymLink = true;
             resolve(result);
           });

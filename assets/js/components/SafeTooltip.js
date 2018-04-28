@@ -1,9 +1,16 @@
 'use strict';
 
-import React from 'react';
 import { Tooltip } from 'reactstrap';
 
 class SafeTooltip extends Tooltip {
+  componentDidMount() {
+    try {
+      super.componentDidMount();
+    } catch (unusedError) {
+      // do nothing
+    }
+  }
+
   addTargetEvents() {
     if (this._target)
       super.addTargetEvents();
@@ -15,7 +22,7 @@ class SafeTooltip extends Tooltip {
   }
 
   render() {
-    if (this.props.target())
+    if (this._target)
       return super.render();
 
     return null;

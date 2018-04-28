@@ -49,7 +49,7 @@ module.exports = async function del(req, res) {
   }
 
   if (name) {
-    if (name.includes('/')) {
+    if (_.includes(name, '/')) {
       name = null;
       if (!validate || validate === 'name')
         form.addError('name', 'E_INVALID', sails.__('delete.name.E_INVALID'));
@@ -64,7 +64,7 @@ module.exports = async function del(req, res) {
   let nodes = [];
   if (parent && name) {
     try {
-      if (name.includes('*') || name.includes('?')) {
+      if (_.includes(name, '*') || _.includes(name, '?')) {
         let node = await Node.findOne({ share: `${req.session.userId}:${share}`, path: parent.path }).populate(
           'nodes',
           {

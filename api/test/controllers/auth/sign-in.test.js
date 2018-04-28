@@ -27,7 +27,7 @@ describe('auth/sign-in route', () => {
     return supertest(sails.hooks.http.app)
       .get('/auth/csrf')
       .then(response => {
-        cookie = response.headers['set-cookie'].reduce((prev, cur) => cur.includes('.sid') ? cur : prev);
+        cookie = _.reduce(response.headers['set-cookie'], (prev, cur) => _.includes(cur, '.sid') ? cur : prev);
         csrf = response.body._csrf;
       });
   });

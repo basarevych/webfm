@@ -26,9 +26,9 @@ module.exports = function defineWatcherHook(sails) {
       sails.log.debug(`Watch trigger: ${realPath}`);
 
       for (let [socketId, info] of sockets) {
-        if ((info.left.realPath + '/').startsWith(realPath + '/'))
+        if (_.startsWith(info.left.realPath + '/', realPath + '/'))
           await broadcast(socketId, info.userId, info.left.share, info.left.directory);
-        if ((info.right.realPath + '/').startsWith(realPath + '/') && info.right.realPath !== info.left.realPath)
+        if (_.startsWith(info.right.realPath + '/', realPath + '/') && info.right.realPath !== info.left.realPath)
           await broadcast(socketId, info.userId, info.right.share, info.right.directory);
       }
     } catch (error) {

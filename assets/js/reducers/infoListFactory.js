@@ -30,9 +30,9 @@ const infoListFactory = type => {
   return (state = Map({}), action) => {
     switch (action.type) {
       case setAction:
-        return state.set(action.id, fromJS(action[type.toLowerCase()]));
+        return state.set(action.id, fromJS(action[_.toLower(type)]));
       case clearAction:
-        return state.filter((value, key) => action.keep.includes(key));
+        return state.filter((value, key) => _.includes(action.keep, key));
     }
 
     return state;

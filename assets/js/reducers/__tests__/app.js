@@ -76,19 +76,6 @@ describe('app reducer', () => {
       .toBe(true);
   });
 
-  it('TOUCH_DEVICE works', () => {
-    let state = Map({});
-    let action = {
-      type: actions.TOUCH_DEVICE,
-      isTouchDevice: true,
-    };
-
-    let results = app(state, action).toJS();
-
-    expect(results.isTouchDevice)
-      .toBe(true);
-  });
-
   it('SCREEN_RESIZE works', () => {
     let state = Map({});
     let action = {

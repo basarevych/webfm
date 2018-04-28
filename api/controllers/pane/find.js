@@ -25,12 +25,12 @@ module.exports = async function mkdir(req, res) {
     return res.forbidden('Parent not found');
   }
 
-  if (!name || name.includes('/'))
+  if (!name || _.includes(name, '/'))
     return res.forbidden('Name is invalid');
 
   try {
     let nodes = [];
-    if (name.includes('*') || name.includes('?')) {
+    if (_.includes(name, '*') || _.includes(name, '?')) {
       let node = await Node.findOne({ share: `${req.session.userId}:${share}`, path: directory }).populate(
         'nodes',
         {

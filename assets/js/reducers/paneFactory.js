@@ -11,7 +11,6 @@ const paneFactory = which => {
   let startLoadingAction;
   let stopLoadingAction;
   let modeAction;
-  let touchModeAction;
   let shareAction;
   let pathAction;
   let listAction;
@@ -26,7 +25,6 @@ const paneFactory = which => {
       startLoadingAction = actions.START_LEFT_PANE_LOADING;
       stopLoadingAction = actions.STOP_LEFT_PANE_LOADING;
       modeAction = actions.SET_LEFT_PANE_MODE;
-      touchModeAction = actions.SET_LEFT_PANE_TOUCH_MODE;
       shareAction = actions.SET_LEFT_PANE_SHARE;
       pathAction = actions.SET_LEFT_PANE_PATH;
       listAction = actions.SET_LEFT_PANE_LIST;
@@ -41,7 +39,6 @@ const paneFactory = which => {
       startLoadingAction = actions.START_RIGHT_PANE_LOADING;
       stopLoadingAction = actions.STOP_RIGHT_PANE_LOADING;
       modeAction = actions.SET_RIGHT_PANE_MODE;
-      touchModeAction = actions.SET_RIGHT_PANE_TOUCH_MODE;
       shareAction = actions.SET_RIGHT_PANE_SHARE;
       pathAction = actions.SET_RIGHT_PANE_PATH;
       listAction = actions.SET_RIGHT_PANE_LIST;
@@ -56,7 +53,6 @@ const paneFactory = which => {
     state = fromJS({
       timestamp: 0,
       mode: 'LIST',
-      touchMode: 'SCROLL',
       sortField: 'NAME',
       sortDir: 'ASC',
       share: '',
@@ -72,6 +68,7 @@ const paneFactory = which => {
     }),
     action
   ) => {
+    let selectedIndexes;
     switch (action.type) {
       case activateAction:
         if (state.get('isActive'))
@@ -112,11 +109,6 @@ const paneFactory = which => {
           return state;
 
         return state.set('mode', action.mode);
-      case touchModeAction:
-        if (state.get('touchMode') === action.mode)
-          return state;
-
-        return state.set('touchMode', action.mode);
       case shareAction:
         if (state.get('share') === action.share)
           return state;
@@ -151,7 +143,7 @@ const paneFactory = which => {
             .set('sortDir', action.dir);
         });
       case selectionAction:
-        let selectedIndexes = List(action.selectedIndexes).sort();
+        selectedIndexes = List(action.selectedIndexes).sort();
         if (state.get('selectedIndexes').equals(selectedIndexes))
           return state;
 

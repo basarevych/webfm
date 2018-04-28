@@ -23,9 +23,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const SignInDialog = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignInModal);
-
+const SignInDialog = connect(mapStateToProps, mapDispatchToProps)(SignInModal);
 export default SignInDialog;

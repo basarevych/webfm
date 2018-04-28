@@ -143,13 +143,6 @@ export const setAppVersion = isSameVersion => {
   };
 };
 
-export const setTouchDevice = isTouchDevice => {
-  return {
-    type: actions.TOUCH_DEVICE,
-    isTouchDevice,
-  };
-};
-
 export const screenResize = () => {
   return async (dispatch, getState) => {
     let state = getState();
@@ -164,11 +157,11 @@ export const screenResize = () => {
       breakpoint: newSize,
     });
 
-    if (newSize === 'xs') {
+    if (newSize === 'xs' && rightPane.get('isVisible')) {
       await dispatch(hidePane('RIGHT'));
       if (rightPane.get('isActive'))
         await dispatch(setActivePane('LEFT'));
-    } else if (app.get('prevBreakpoint') === 'xs') {
+    } else if (app.get('prevBreakpoint') === 'xs' && !rightPane.get('isVisible')) {
       await dispatch(showPane('RIGHT'));
     }
   };
@@ -178,13 +171,6 @@ export const initApp = history => {
   return async (dispatch, getState) => {
     if (getState().getIn(['app', 'isStarted']))
       return;
-
-    try {
-      document.createEvent('TouchEvent');
-      await dispatch(setTouchDevice(true));
-    } catch (unusedError) {
-      await dispatch(setTouchDevice(false));
-    }
 
     await dispatch(startApp());
     await dispatch(screenResize());

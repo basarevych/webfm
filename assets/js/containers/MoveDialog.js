@@ -9,7 +9,6 @@ const mapStateToProps = state => {
   return {
     isOpen: state.getIn(['moveDialog', 'isOpen']),
     isLocked: state.getIn(['moveDialog', 'locked']) > 0,
-    isTouchDevice: state.getIn(['app', 'isTouchDevice']),
     values: state.getIn(['moveDialog', 'values']),
     messages: state.getIn(['moveDialog', 'messages']),
     errors: state.getIn(['moveDialog', 'errors']),
@@ -26,9 +25,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const MoveDialog = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MoveModal);
-
+const MoveDialog = connect(mapStateToProps, mapDispatchToProps)(MoveModal);
 export default MoveDialog;

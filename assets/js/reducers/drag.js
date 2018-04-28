@@ -20,13 +20,13 @@ const drag = (
 ) => {
   switch (action.type) {
     case actions.UPDATE_DRAG_STATE:
-      if (state.getIn([action.pane.toLowerCase(), 'isDragging']) === action.isDragging)
+      if (state.getIn([_.toLower(action.pane), 'isDragging']) === action.isDragging)
         return state;
 
       return state.withMutations(map => {
         map
-          .setIn([action.pane.toLowerCase(), 'isDragging'], action.isDragging)
-          .setIn([action.pane.toLowerCase(), 'isSelected'], action.isSelected);
+          .setIn([_.toLower(action.pane), 'isDragging'], action.isDragging)
+          .setIn([_.toLower(action.pane), 'isSelected'], action.isSelected);
       });
     case actions.UPDATE_DRAG_MODE:
       if (state.getIn(['left', 'isDragging']) && (['left', 'dragMode']) !== action.mode)

@@ -18,9 +18,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const FailureDialog = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FailureModal);
-
+const FailureDialog = connect(mapStateToProps, mapDispatchToProps)(FailureModal);
 export default FailureDialog;

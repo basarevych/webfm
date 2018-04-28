@@ -12,6 +12,7 @@
  * For more information see:
  *   https://sailsjs.com/anatomy/Gruntfile.js
  */
+global._ = require('lodash');
 module.exports = function(grunt) {
 
   var loadGruntTasks = require('sails-hook-grunt/accessible/load-grunt-tasks');

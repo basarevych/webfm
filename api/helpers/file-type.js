@@ -31,7 +31,7 @@ module.exports = {
       if (error)
         return exits.error(error);
 
-      exits.success(stdout.trim());
+      exits.success(_.trim(stdout));
     });
 
   }

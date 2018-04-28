@@ -3,14 +3,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Progress } from 'reactstrap';
-import { GenericScrollBox } from 'react-scroll-box';
-import Viewport from './ScrollViewport';
 
 class ProgressModal extends React.Component {
   static propTypes = {
     isStarted: PropTypes.bool.isRequired,
     isFinished: PropTypes.bool.isRequired,
-    isTouchDevice: PropTypes.bool.isRequired,
     message: PropTypes.string.isRequired,
     onDoneClick: PropTypes.func.isRequired,
   };
@@ -19,6 +16,7 @@ class ProgressModal extends React.Component {
     super(props);
 
     this.state = { progress: 0 };
+    this.bottom = React.createRef();
   }
 
   componentDidMount() {
@@ -32,8 +30,8 @@ class ProgressModal extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.viewport)
-      this.viewport.scrollDown();
+    if (this.bottom.current)
+      this.bottom.current.scrollIntoView({ behavior: 'smooth' });
   }
 
   componentWillUnmount() {
@@ -45,7 +43,7 @@ class ProgressModal extends React.Component {
 
   render() {
     return (
-      <Modal isOpen={this.props.isStarted} size="lg" backdrop="static" fade centered toggle={() => {}}>
+      <Modal isOpen={this.props.isStarted} size="lg" backdrop="static" fade centered toggle={_.noop}>
         <ModalHeader>{__('progress_title')}</ModalHeader>
         <ModalBody>
           {(!this.props.isStarted || this.props.isFinished)
@@ -53,19 +51,8 @@ class ProgressModal extends React.Component {
             : <Progress color="warning" barClassName="text-light" animated value={this.state.progress} />}
           <br />
           <div className="progress-widget">
-            <div className="scroll-wrapper">
-              <GenericScrollBox permitHandleDragInterruption={false}>
-                <Viewport
-                  isTouchEnabled={this.props.isTouchDevice}
-                  classes="text-content condensed"
-                  reactList={false}
-                  ref={el => { this.viewport = el; }}
-                >
-                  {this.props.message}
-                  <br/>
-                </Viewport>
-              </GenericScrollBox>
-            </div>
+            {this.props.message}
+            <div ref={this.bottom} />
           </div>
         </ModalBody>
         <ModalFooter>

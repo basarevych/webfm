@@ -442,16 +442,16 @@ module.exports = {
     let and = query.criteria.where.and;
     switch (query.using) {
       case 'user':
-        if (!login || Object.keys(query.criteria.where).length !== 1) {
+        if (!login || _.keys(query.criteria.where).length !== 1) {
           //sails.log.debug(query);
           return done(new Error('Adapter method (`find`) can only search users by login.'));
         }
         dsEntry.manager.user.find(login, query.criteria.select, done);
         break;
       case 'share':
-        if (and && Object.keys(query.criteria.where).length === 1 && and.length === 1 && and[0].user)
+        if (and && _.keys(query.criteria.where).length === 1 && and.length === 1 && and[0].user)
           user = and[0].user;
-        else if (user && Object.keys(query.criteria.where).length !== 1)
+        else if (user && _.keys(query.criteria.where).length !== 1)
           user = null;
 
         if (user) {
@@ -463,9 +463,9 @@ module.exports = {
 
         break;
       case 'node':
-        if (and && Object.keys(query.criteria.where).length === 1 && and.length === 2 && and[0].share && and[1].path) {
+        if (and && _.keys(query.criteria.where).length === 1 && and.length === 2 && and[0].share && and[1].path) {
           dsEntry.manager.node.findByPath({ share: and[0].share, path: and[1].path }, query.criteria.select, done);
-        } else if (and && Object.keys(query.criteria.where).length === 1 && and.length === 1 && and[0].parent) {
+        } else if (and && _.keys(query.criteria.where).length === 1 && and.length === 1 && and[0].parent) {
           dsEntry.manager.node.findByParent({ parent: and[0].parent }, query.criteria.select, done);
         } else {
           //sails.log.debug(query);

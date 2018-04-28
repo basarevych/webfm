@@ -6,17 +6,15 @@ import { Map } from 'immutable';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Form, FormGroup, FormText, Label, Col, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import { FaFolderO, FaFileO, FaCog } from 'react-icons/lib/fa';
-import { GenericScrollBox } from 'react-scroll-box';
 import RequiredFieldLabel from './RequiredFieldLabel';
 import FormMessages from './FormMessages';
 import FieldErrors from './FieldErrors';
-import Viewport from './ScrollViewport';
+import VirtualizedList from './VirtualizedList';
 
-class DeleteModal extends React.PureComponent {
+class DeleteModal extends React.Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     isLocked: PropTypes.bool.isRequired,
-    isTouchDevice: PropTypes.bool.isRequired,
     values: PropTypes.instanceOf(Map).isRequired,
     messages: PropTypes.instanceOf(Map).isRequired,
     errors: PropTypes.instanceOf(Map).isRequired,
@@ -146,14 +144,7 @@ class DeleteModal extends React.PureComponent {
         }
         find = (
           <div className="found-nodes">
-            <div className="scroll-wrapper">
-              <GenericScrollBox permitHandleDragInterruption={false} outsetScrollBarX={true} outsetScrollBarY={true}>
-                <Viewport isTouchEnabled={this.props.isTouchDevice} classes="text-content condensed">
-                  {find.length ? find : <em>{__('src_find_empty')}</em>}
-                  <br />
-                </Viewport>
-              </GenericScrollBox>
-            </div>
+            <VirtualizedList rows={find.length ? find : [<em key="//empty">{__('src_find_empty')}</em>]} />
           </div>
         );
       } else if (this.props.found.get('isLoading')) {

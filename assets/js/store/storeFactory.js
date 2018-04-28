@@ -6,7 +6,7 @@ import { combineReducers } from 'redux-immutable';
 import thunk from 'redux-thunk';
 import { routerMiddleware } from 'react-router-redux';
 import app from '../reducers/app';
-import router from '../reducers/router';
+import routing from '../reducers/routing';
 import user from '../reducers/user';
 import navbar from '../reducers/navbar';
 import progress from '../reducers/progress';
@@ -20,7 +20,7 @@ const storeFactory = (history, initialState) =>
   applyMiddleware(thunk, routerMiddleware(history))(createStore)(
     combineReducers({
       app,
-      router,
+      routing,
       user,
       navbar,
       progress,

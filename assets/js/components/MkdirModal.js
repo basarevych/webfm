@@ -9,7 +9,7 @@ import RequiredFieldLabel from './RequiredFieldLabel';
 import FormMessages from './FormMessages';
 import FieldErrors from './FieldErrors';
 
-class MkdirModal extends React.PureComponent {
+class MkdirModal extends React.Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     isLocked: PropTypes.bool.isRequired,

@@ -9,7 +9,7 @@ import { toggleCopyDialog } from '../actions/copyDialog';
 import { toggleMoveDialog } from '../actions/moveDialog';
 import { toggleDeleteDialog } from '../actions/deleteDialog';
 import { signOut } from '../actions/user';
-import TopNavbar from '../components/TopNavbar';
+import NavbarComponent from '../components/Navbar';
 
 const mapStateToProps = state => {
   return {
@@ -36,9 +36,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const Navbar = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TopNavbar);
-
+const Navbar = connect(mapStateToProps, mapDispatchToProps)(NavbarComponent);
 export default Navbar;

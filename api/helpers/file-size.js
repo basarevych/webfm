@@ -31,7 +31,7 @@ module.exports = {
       if (error)
         return exits.error(error);
 
-      exits.success(parseInt(stdout.split(' ')[0].trim()));
+      exits.success(parseInt(_.trim(_.split(stdout, ' ')[0])));
     });
 
   }

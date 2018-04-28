@@ -11,7 +11,7 @@
 
 module.exports.sockets = {
 
-  adapter: 'socket.io-redis',
+  adapter: '@sailshq/socket.io-redis',
 
   adapterOptions: {
     onRedisDisconnect: function() {

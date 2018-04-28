@@ -1,38 +1,114 @@
-/**
- * Helpers
- */
+// Helpers
 const path = require('path');
 const root = path.join.bind(path, path.resolve(__dirname));
 const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 const { ifProduction, ifDevelopment } = getIfUtils(process.env.NODE_ENV);
 
-/**
- * Webpack Plugins
- */
+// Webpack Plugins
 const EnvironmentPlugin = require('webpack/lib/EnvironmentPlugin');
+const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 const NoEmitOnErrorsPlugin = require('webpack/lib/NoEmitOnErrorsPlugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-//const ProvidePlugin = require('webpack/lib/ProvidePlugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
+/**
+ * Target environments
+ */
+const targetServer = {
+  node: '8.0',
+};
+const targetBrowsers = {
+  browsers: [
+    '>1%',
+    'last 3 versions',
+    'Firefox ESR',
+    'not ie < 9', // React doesn't support IE8 anyway
+  ],
+  flexbox: 'no-2009',
+};
+
+/**
+ * Webpack loaders
+ */
+const codeLoaders = targets => {
+  return [
+    {
+      loader: 'babel-loader',
+      options: {
+        cacheDirectory: ifDevelopment(true, false),
+        presets: [
+          ['env', { targets }],
+          'react'
+        ],
+        plugins: [
+          'lodash',
+          'transform-runtime',
+          'transform-class-properties',
+          'transform-decorators-legacy',
+          'transform-object-rest-spread'
+        ],
+      },
+    },
+  ];
+};
+const styleLoaders = variant => {
+  let sassLoader = variant === 'sass' ? true : undefined;
+  let lessLoader = variant === 'less' ? true : undefined;
+  return ExtractTextPlugin.extract({
+    fallback: 'style-loader',
+    use: removeEmpty([
+      {
+        loader: 'css-loader',
+        options: {
+          sourceMap: ifDevelopment(true, false),
+        },
+      },
+      {
+        loader: 'postcss-loader',
+        options: {
+          ident: 'postcss',
+          sourceMap: ifDevelopment(true, false),
+          plugins: [require('autoprefixer')(targetBrowsers)],
+        }
+      },
+      sassLoader && {
+        loader: 'sass-loader',
+        options: {
+          sourceMap: ifDevelopment(true, false),
+        },
+      },
+      lessLoader && {
+        loader: 'less-loader',
+        options: {
+          //plugins: [require(root('front/styles/semantic-ui/no-remote-files-plugin'))],
+          sourceMap: ifDevelopment(true, false),
+        },
+      },
+    ]),
+  });
+};
 
 /**
  * Webpack config
  */
+const publicRoot = root.bind(root, 'assets/build.' + ifProduction('prod', 'dev'));
 module.exports = [
-  { // Browser bundles
+
+  { // Browser bundle
 
     /**
      * Cache generated modules and chunks to improve performance for multiple incremental builds.
      * https://webpack.js.org/configuration/other-options/#cache
      */
-    cache: false,
+    cache: ifDevelopment(true, false),
 
     /**
      * Developer tool to enhance debugging
      * https://webpack.js.org/configuration/devtool/
      */
-    devtool: ifDevelopment('source-map', false),
+    devtool: ifDevelopment('inline-source-map', false),
 
     /**
      * How webpack notifies you of assets and entrypoints that exceed a specific file limit.
@@ -48,9 +124,8 @@ module.exports = [
      */
     entry: {
       'site': [
-        `bootstrap-loader/lib/bootstrap.loader?configFilePath=${root('.bootstraprc')}!bootstrap-loader/no-op.js`,
-        'babel-polyfill',
         root('assets/js/browser.js'),
+        root('assets/styles/index.scss'),
       ],
     },
 
@@ -61,7 +136,7 @@ module.exports = [
     resolve: {
 
       // An array of extensions that should be used to resolve modules.
-      extensions: ['*', '.json', '.js', '.css', '.scss'],
+      extensions: ['*', '.json', '.js', '.jsx', '.css', '.scss', '.less'],
 
       // An array of directory names to be resolved to the current directory
       modules: [root('assets/js'), root('assets/styles'), root('node_modules')],
@@ -74,7 +149,7 @@ module.exports = [
     output: {
 
       // The output directory as absolute path (required).
-      path: root('assets/build.' + ifProduction('prod', 'dev')),
+      path: publicRoot(),
 
       // Public URL base of the files.
       publicPath: '/',
@@ -95,106 +170,52 @@ module.exports = [
      */
     module: {
       rules: [
+
         { // JavaScript
-          test: /\.js$/,
-          include: [
-            root('assets/js'),
-          ],
-          use: [
-            {
-              loader: 'babel-loader',
-              options: {
-                presets: [
-                  ['env', {
-                    targets: {
-                      browsers: 'last 3 versions',
-                    },
-                  }],
-                  'react'
-                ],
-                plugins: [
-                  'transform-class-properties',
-                  'transform-decorators-legacy',
-                  'transform-object-rest-spread'
-                ],
-              },
-            },
-          ],
+          test: /\.jsx?$/,
+          include: [root('assets/js')],
+          use: codeLoaders(targetBrowsers),
         },
 
         { // CSS
           test: /\.css$/,
-          include: [
-            root('assets/styles'),
-          ],
-          use: ifProduction(
-            ExtractTextPlugin.extract({
-              fallback: "style-loader",
-              use: [
-                { loader: 'css-loader', options: { sourceMap: false } },
-                { loader: 'postcss-loader', options: { sourceMap: false } },
-              ],
-            }),
-            [
-              { loader: 'style-loader', options: { sourceMap: true } },
-              { loader: 'css-loader', options: { sourceMap: true } },
-              { loader: 'postcss-loader', options: { sourceMap: true } },
-            ]
-          ),
+          include: [root('assets/styles'), root('node_modules')],
+          use: styleLoaders(),
         },
 
         { // SCSS
           test: /\.scss$/,
-          include: [
-            root('assets/styles'),
-          ],
-          use: ifProduction(
-            ExtractTextPlugin.extract({
-              fallback: "style-loader",
-              use: [
-                { loader: 'css-loader', options: { sourceMap: false } },
-                { loader: 'postcss-loader', options: { sourceMap: false } },
-                { loader: 'sass-loader', options: { sourceMap: false } },
-              ]
-            }),
-            [
-              { loader: 'style-loader', options: { sourceMap: true } },
-              { loader: 'css-loader', options: { sourceMap: true } },
-              { loader: 'postcss-loader', options: { sourceMap: true } },
-              { loader: 'sass-loader', options: { sourceMap: true } },
-            ]
-          ),
+          include: [root('assets/styles'), root('node_modules')],
+          use: styleLoaders('sass'),
         },
 
-        /*
-        { // JQuery and Bootstap scripts
-          test: /bootstrap\/dist\/js\//,
-          use: [
-            'imports-loader?jQuery=jquery',
-            'imports-loader?Popper=popper.js',
-            'imports-loader?Tooltip=bootstrap/js/dist/tooltip',
-            'imports-loader?Alert=bootstrap/js/dist/alert',
-            'imports-loader?Button=bootstrap/js/dist/button',
-            'imports-loader?Carousel=bootstrap/js/dist/carousel',
-            'imports-loader?Collapse=bootstrap/js/dist/collapse',
-            'imports-loader?Dropdown=bootstrap/js/dist/dropdown',
-            'imports-loader?Modal=bootstrap/js/dist/modal',
-            'imports-loader?Popover=bootstrap/js/dist/popover',
-            'imports-loader?Scrollspy=bootstrap/js/dist/scrollspy',
-            'imports-loader?Tab=bootstrap/js/dist/tab',
-            'imports-loader?Util=bootstrap/js/dist/util',
-          ]
-        },
-        */
-
-        { // Font files
-          test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+        { // LESS
+          test: /\.less$/,
+          include: [root('assets/styles'), root('node_modules')],
+          use: styleLoaders('less'),
         },
 
-        { // Font files
-          test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          loader: 'file-loader'
+        { // loader for static assets
+          test: /\.(png|jpg|jpeg|gif|svg)$/,
+          include: [root('assets/styles'), root('node_modules')],
+          use: {
+            loader: 'url-loader',
+            options: {
+              limit: 10240,
+              absolute: true,
+              name: 'img/[name]-[hash:7].[ext]'
+            }
+          },
+        }, {
+          test: /\.(woff|woff2|ttf|eot)$/,
+          include: [root('assets/styles'), root('node_modules')],
+          use: {
+            loader: 'url-loader',
+            options: {
+              limit: 10240,
+              name: 'fonts/[name]-[hash:7].[ext]'
+            }
+          },
         },
       ],
     },
@@ -204,6 +225,7 @@ module.exports = [
      * https://webpack.js.org/configuration/plugins/
      */
     plugins: removeEmpty([
+
       /**
        * EnvironmentPlugin
        * https://webpack.js.org/plugins/environment-plugin/
@@ -211,6 +233,24 @@ module.exports = [
        * Pass NODE_ENV environment variable
        */
       new EnvironmentPlugin(['NODE_ENV']),
+
+      /**
+       * CleanWebpackPlugin
+       * https://www.npmjs.com/package/clean-webpack-plugin
+       *
+       * Cleans build directory before building
+       */
+      new CleanWebpackPlugin([ publicRoot() ]),
+
+      /**
+       * ProvidePlugin
+       * https://webpack.js.org/plugins/provide-plugin/
+       *
+       * Automatically load modules
+       */
+      new ProvidePlugin({
+        _: 'lodash',
+      }),
 
       /**
        * NoEmitOnErrorsPlugin
@@ -221,28 +261,16 @@ module.exports = [
       new NoEmitOnErrorsPlugin(),
 
       /**
-       * CleanWebpackPlugin
-       * https://www.npmjs.com/package/clean-webpack-plugin
-       *
-       * Cleans build directory before building
-       */
-      new CleanWebpackPlugin([ root('assets/build.' + ifProduction('prod', 'dev')) ], {
-        root: root(),
-      }),
-
-      /**
        * ExtractTextPlugin
        * https://webpack.js.org/plugins/extract-text-webpack-plugin/
        *
        * Plugin moves all the required *.css modules in entry chunks into a separate CSS file.
        * So your styles are no longer inlined into the JS bundle, but in a separate CSS file.
        */
-      ifProduction(
-        new ExtractTextPlugin({
-          filename: '[name].css',
-          allChunks: true,
-        })
-      ),
+      new ExtractTextPlugin({
+        filename: '[name].css',
+        allChunks: true,
+      }),
 
       /**
        * OptimizeCssAssetsPlugin
@@ -260,99 +288,60 @@ module.exports = [
       ),
 
       /**
-       * ProvidePlugin
-       * https://webpack.js.org/plugins/provide-plugin/
+       * UglifyJsPlugin
+       * https://webpack.js.org/plugins/uglifyjs-webpack-plugin/
        *
-       * Whenever the identifier is encountered as free variable in a module, its module is loaded automatically
+       * This plugin uses UglifyJS v3 (uglify-es) to minify your JavaScript
        */
-      /*
-      new ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery',
-        Popper: ['popper.js', 'default'],
-        Tooltip: 'exports-loader?Tooltip!bootstrap/js/dist/tooltip',
-        Alert: 'exports-loader?Alert!bootstrap/js/dist/alert',
-        Button: 'exports-loader?Button!bootstrap/js/dist/button',
-        Carousel: 'exports-loader?Carousel!bootstrap/js/dist/carousel',
-        Collapse: 'exports-loader?Collapse!bootstrap/js/dist/collapse',
-        Dropdown: 'exports-loader?Dropdown!bootstrap/js/dist/dropdown',
-        Modal: 'exports-loader?Modal!bootstrap/js/dist/modal',
-        Popover: 'exports-loader?Popover!bootstrap/js/dist/popover',
-        Scrollspy: 'exports-loader?Scrollspy!bootstrap/js/dist/scrollspy',
-        Tab: 'exports-loader?Tab!bootstrap/js/dist/tab',
-        Util: 'exports-loader?Util!bootstrap/js/dist/util'
-      }),
-      */
+      ifProduction(
+        new UglifyJsPlugin()
+      ),
     ]),
   },
 
-  { // Server bundles
-    cache: false,
+  { // Server bundle
+    cache: ifDevelopment(true, false),
     devtool: false,
     performance: {
       hints: false,
     },
     entry: {
       'server': [
-        'babel-polyfill',
         root('assets/js/server.js'),
       ]
     },
     target: 'node',
     resolve: {
-      extensions: ['*', '.json', '.js'],
+      extensions: ['*', '.json', '.js', '.jsx'],
       modules: [root('assets/js'), root('node_modules')],
     },
     output: {
-      path: root('assets/build.' + ifProduction('prod','dev')),
+      path: publicRoot(),
       publicPath: '/',
       filename: '[name].bundle.js',
       chunkFilename: '[id].chunk.js',
-      libraryTarget: "commonjs2",
+      libraryTarget: 'commonjs2',
     },
     module: {
       rules: [
         {
-          test: /\.js$/,
-          include: [
-            root('assets/js'),
-          ],
-          use: [
-            {
-              loader: 'babel-loader',
-              options: {
-                presets: [
-                  ['env', {
-                    targets: {
-                      node: '8.0'
-                    },
-                  }],
-                  'react'
-                ],
-                plugins: [
-                  'transform-class-properties',
-                  'transform-decorators-legacy',
-                  'transform-object-rest-spread'
-                ],
-              },
-            },
-          ],
+          test: /\.jsx?$/,
+          include: [root('assets/js')],
+          use: codeLoaders(targetServer),
         },
         {
-          test: /\.(css|scss)$/,
-          include: [
-            root('assets/styles'),
-          ],
-          use: [
-            'ignore-loader',
-          ],
+          test: /\.(css|scss|less)$/,
+          include: [root('assets/styles'), root('node_modules')],
+          use: ['ignore-loader'],
         },
       ],
     },
-    plugins: [
+    plugins: removeEmpty([
       new EnvironmentPlugin(['NODE_ENV']),
       new NoEmitOnErrorsPlugin(),
-    ],
+      ifProduction(
+        new UglifyJsPlugin()
+      ),
+    ]),
   }
 ];

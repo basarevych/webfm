@@ -22,11 +22,11 @@ export const handleDrag = (fromPane, isDragging, isSelected) => {
 export const handleDrop = (fromPane, name, isSelected) => {
   return async (dispatch, getState) => {
     let state = getState();
-    let mode = state.getIn(['drag', fromPane.toLowerCase(), 'dragMode']);
+    let mode = state.getIn(['drag', _.toLower(fromPane), 'dragMode']);
 
     let names = [];
     if (isSelected) {
-      let pane = state.get(fromPane.toLowerCase() + 'Pane');
+      let pane = state.get(_.toLower(fromPane) + 'Pane');
       let list = pane.get('list');
       for (let index of pane.get('selectedIndexes').toArray())
         names.push(list.getIn([index, 'name']));

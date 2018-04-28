@@ -5,7 +5,7 @@ module.exports = async function cd(req, res) {
   if (!req.isSocket)
     return res.badRequest('Not a socket');
 
-  if (!['LEFT', 'RIGHT', 'BOTH'].includes(req.param('pane')))
+  if (!_.includes(['LEFT', 'RIGHT', 'BOTH'], req.param('pane')))
     return res.badRequest('Invalid pane');
 
   try {

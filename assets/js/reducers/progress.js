@@ -20,7 +20,7 @@ const progress = (
           .set('message', action.message);
       });
     case actions.UPDATE_PROGRESS:
-      if (!action.get('message'))
+      if (!action.message)
         return state;
 
       return state.withMutations(map => {

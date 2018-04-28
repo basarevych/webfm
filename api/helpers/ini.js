@@ -10,9 +10,9 @@ const ini = require('ini');
  */
 function parse(contents) {
   let prepared = [];
-  for (let line of contents.split('\n')) {
+  for (let line of _.split(contents, '\n')) {
     if (/^\s*\[.+\]\s*$/.test(line))
-      line = line.replace(/#/g, '\\#').replace(/;/g, '\\;').replace(/\./g, '\\.');
+      line = _.replace(_.replace(_.replace(line, /#/g, '\\#'), /;/g, '\\;'), /\./g, '\\.');
     prepared.push(line);
   }
 
@@ -26,9 +26,9 @@ function parse(contents) {
  */
 function stringify(obj) {
   let prepared = [];
-  for (let line of ini.stringify(obj).split('\n')) {
+  for (let line of _.split(ini.stringify(obj), '\n')) {
     if (/^\s*\[.+\]\s*$/.test(line))
-      line = line.replace(/\\#/g, '#').replace(/\\;/g, ';').replace(/\\\./g, '.');
+      line = _.replace(_.replace(_.replace(line, /\\#/g, '#'), /\\;/g, ';'), /\\\./g, '.');
     prepared.push(line);
   }
 

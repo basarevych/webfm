@@ -17,11 +17,10 @@ import CopyDialog from '../containers/CopyDialog';
 import MoveDialog from '../containers/MoveDialog';
 import DeleteDialog from '../containers/DeleteDialog';
 import FailureDialog from '../containers/FailureDialog';
-import LeftPane from '../containers/LeftPane';
-import RightPane from '../containers/RightPane';
+import Pane from '../containers/Pane';
 
 @DragDropContext(MultiBackend(HTML5toTouch))
-class Screen extends React.Component {
+class App extends React.Component {
   static propTypes = {
     isConnected: PropTypes.bool.isRequired,
     isLeftPaneVisible: PropTypes.bool.isRequired,
@@ -92,8 +91,8 @@ class Screen extends React.Component {
             <FailureDialog/>
           </div>
           <TransitionGroup className="pane-container">
-            {this.props.isLeftPaneVisible ? <Fade><LeftPane/></Fade> : null}
-            {this.props.isRightPaneVisible ? <Fade><RightPane/></Fade> : null}
+            {this.props.isLeftPaneVisible ? <Fade><Pane which="LEFT" /></Fade> : null}
+            {this.props.isRightPaneVisible ? <Fade><Pane which="RIGHT" /></Fade> : null}
           </TransitionGroup>
         </div>
         <Preview generator={this.generatePreview} />
@@ -102,4 +101,4 @@ class Screen extends React.Component {
   }
 }
 
-export default Screen;
+export default App;

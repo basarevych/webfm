@@ -60,7 +60,7 @@ module.exports = async function rename(req, res) {
     if (newName === name) {
       if (!validate || validate === 'newName')
         form.addError('newName', 'E_SAME', sails.__('rename.newName.E_SAME'));
-    } else if (newName.includes('/')) {
+    } else if (_.includes(newName, '/')) {
       if (!validate || validate === 'newName')
         form.addError('newName', 'E_INVALID', sails.__('rename.newName.E_INVALID'));
     } else if (parent) {

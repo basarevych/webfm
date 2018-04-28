@@ -12,14 +12,14 @@ Login/Password: guest/guest
   ORM models and queries to work with the shares and files.
 
   The rest is simple REST server accessed via WebSockets.
- 
+
   Backend is under [api/](https://github.com/basarevych/webfm/tree/master/api)
   directory.
 
 * Frontend is React/Redux on Bootstrap 4
 
   Fully responsive application created using Reactstrap, which is Bootstrap 4 for
-  React, using custom CSS when needed (mainly flexgrid).
+  React, using custom CSS when needed (mainly flexbox).
 
   Initial markup comes prepared on the server utilizing Server-Side Rendering.
 
@@ -56,7 +56,7 @@ SHA256 hash of a password actually - don't put the real password there. Shares
 3. Start
 
   Do **yarn start** or **npm start** to start the thing. To make it permanent you can
-  do **pm2 start ./ecosystem.config.js --env production** (this **ecosystem.config.js** file is in the
+  do **pm2 start ./ecosystem.config.js** (this **ecosystem.config.js** file is in the
   repo).
 
 ## Development
@@ -64,9 +64,8 @@ SHA256 hash of a password actually - don't put the real password there. Shares
 In order to build production bundles use **yarn run build** (after that run **yarn start**
 to start the server).
 
-Development version is built using **yarn run build:dev** - this command will not terminate
-but will watch the files for changes, recompiling the bundle when need. In another
-terminal run **yarn run start:dev** to start dev version of the server.
+Development version is built using **yarn run build:dev**. Run **yarn run start:dev**
+to start dev version of the server.
 
 Development bundles are excluded from the repo, but production bundles should be
 committed into it so you will not have to run **build** task on hosting server.

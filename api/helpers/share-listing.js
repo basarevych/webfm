@@ -66,7 +66,7 @@ module.exports = {
           try {
             node = await getNode(item.id, path);
           } catch (error) {
-            if (path.endsWith('/')) {
+            if (_.endsWith(path, '/')) {
               throw error;
             } else {
               path = _path.dirname(_path.resolve(path));
@@ -75,7 +75,7 @@ module.exports = {
               node = await getNode(item.id, path);
             }
           }
-          if (node.isDirectory && path.endsWith('/')) {
+          if (node.isDirectory && _.endsWith(path, '/')) {
             path = node.path;
             if (path !== '/')
               path += '/';

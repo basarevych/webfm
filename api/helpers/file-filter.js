@@ -38,7 +38,7 @@ module.exports = {
       else if (chr === '?')
         reString += '.?';
       else
-        reString += chr.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+        reString += _.replace(chr, /[-[\]/{}()*+?.\\^$|]/g, '\\$&');
     }
 
     let re = new RegExp(`^${reString}$`);

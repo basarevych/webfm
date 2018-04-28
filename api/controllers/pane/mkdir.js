@@ -48,7 +48,7 @@ module.exports = async function mkdir(req, res) {
 
   let target;
   if (name) {
-    if (name.includes('/')) {
+    if (_.includes(name, '/')) {
       if (!validate || validate === 'name')
         form.addError('name', 'E_INVALID', sails.__('mkdir.name.E_INVALID'));
     } else if (parent) {

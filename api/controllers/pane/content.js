@@ -12,7 +12,7 @@ module.exports = async function content(req, res) {
       let mime = await sails.helpers.fileType(node.realPath);
       let content = await sails.helpers.fileContent(node.realPath);
 
-      let type = mime.startsWith('text/') ? 'TEXT' : 'BINARY';
+      let type = _.startsWith(mime, 'text/') ? 'TEXT' : 'BINARY';
       return res.json({
         success: true,
         type,

@@ -1,5 +1,8 @@
 'use strict';
 
+const utf8 = require('utf8');
+const base64 = require('base64util');
+
 module.exports = async function app(req, res) {
   let bundle = require('../../.tmp/public/server.bundle.js');
   let info = await sails.helpers.userInfo(req);
@@ -30,6 +33,11 @@ module.exports = async function app(req, res) {
   }
 
   let { html, state } = await bundle.render(info);
-  let buffer = Buffer.from(JSON.stringify(state));
-  res.view('pages/app', { layout: 'layouts/app', html, state: buffer.toString('base64') });
+  state = base64.byteEncode(
+    JSON.stringify(
+      state,
+      (key, value) => _.isString(value) ? utf8.encode(value) : value
+    )
+  );
+  res.view('pages/app', { layout: 'layouts/app', html, state });
 };

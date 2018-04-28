@@ -6,7 +6,7 @@
  */
 'use strict';
 
-const _ = require('lodash');
+global._ = require('lodash');
 const fs = require('fs');
 const path = require('path');
 const ini = require('../api/helpers/ini');
@@ -73,7 +73,7 @@ try {
   );
 } catch (error) {
   console.error('Could not start WebFM');
-  console.error(`Error: ${error.message}`);
+  console.error(`Error: ${error.message}`, error);
   process.exit(1);
 }
 

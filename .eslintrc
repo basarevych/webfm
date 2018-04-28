@@ -22,10 +22,20 @@
   // or could use some advice, come by https://sailsjs.com/support.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  "extends": [
+    "eslint:recommended",
+    "plugin:lodash/canonical",
+  ],
+
   "env": {
     "node": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
+
+  "plugins": [
+    "lodash"
+  ],
 
   "parserOptions": {
     "ecmaVersion": 8
@@ -40,14 +50,6 @@
     "async": true,
     // …and any others (e.g. `"Organization": true`)
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    "jest": true,
-    "describe": true,
-    "beforeAll": true,
-    "beforeEach": true,
-    "afterAll": true,
-    "afterEach": true,
-    "it": true,
-    "expect": true
   },
 
   "rules": {
@@ -87,12 +89,15 @@
     "no-unreachable":               ["warn"],
     "no-unused-vars":               ["warn", {"caughtErrors":"all", "caughtErrorsIgnorePattern": "^unused($|[A-Z].*$)"}],
     "no-use-before-define":         ["error", {"functions":false}],
+    "no-console":                   ["off"],
     "one-var":                      ["warn", "never"],
     "prefer-arrow-callback":        ["warn", {"allowNamedFunctions":true}],
     "quotes":                       ["warn", "single", {"avoidEscape":false, "allowTemplateLiterals":true}],
     "semi":                         ["error", "always"],
     "semi-spacing":                 ["warn", {"before":false, "after":true}],
-    "semi-style":                   ["warn", "last"]
+    "semi-style":                   ["warn", "last"],
+    "lodash/prefer-constant":       ["off"],
+    "lodash/prefer-immutable-method": ["off"]
   }
 
 }

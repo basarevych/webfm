@@ -1,0 +1,31 @@
+{
+  "extends": [
+    "../../.eslintrc",
+    "plugin:react/recommended"
+  ],
+
+  "env": {
+    "browser": true,
+    "node": false
+  },
+
+  "globals": {
+    "process": true
+  },
+
+  "parser": "babel-eslint",
+
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+
+  "plugins": [
+    "babel",
+    "lodash",
+    "react"
+  ]
+
+}

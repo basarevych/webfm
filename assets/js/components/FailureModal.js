@@ -6,7 +6,7 @@ import { Map } from 'immutable';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import FormMessages from './FormMessages';
 
-class FailureModal extends React.PureComponent {
+class FailureModal extends React.Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     errors: PropTypes.instanceOf(Map).isRequired,

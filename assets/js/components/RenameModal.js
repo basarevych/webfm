@@ -9,7 +9,7 @@ import RequiredFieldLabel from './RequiredFieldLabel';
 import FormMessages from './FormMessages';
 import FieldErrors from './FieldErrors';
 
-class RenameModal extends React.PureComponent {
+class RenameModal extends React.Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     isLocked: PropTypes.bool.isRequired,

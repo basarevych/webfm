@@ -8,7 +8,6 @@ const mapStateToProps = state => {
   return {
     isStarted: state.getIn(['progress', 'isStarted']),
     isFinished: state.getIn(['progress', 'isFinished']),
-    isTouchDevice: state.getIn(['app', 'isTouchDevice']),
     message: state.getIn(['progress', 'message']),
   };
 };
@@ -19,9 +18,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const ProgressDialog = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProgressModal);
-
+const ProgressDialog = connect(mapStateToProps, mapDispatchToProps)(ProgressModal);
 export default ProgressDialog;

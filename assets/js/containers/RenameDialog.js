@@ -23,9 +23,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const RenameDialog = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RenameModal);
-
+const RenameDialog = connect(mapStateToProps, mapDispatchToProps)(RenameModal);
 export default RenameDialog;

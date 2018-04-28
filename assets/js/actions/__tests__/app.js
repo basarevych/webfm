@@ -54,8 +54,8 @@ describe('app actions', () => {
     };
 
     window.i18n = {
-      getLocale: () => {},
-      setLocale: () => {},
+      getLocale: _.noop,
+      setLocale: _.noop,
     };
 
     window.Breakpoints = {
@@ -152,17 +152,17 @@ describe('app actions', () => {
   it('startApp() works', async () => {
     await store.dispatch(app.startApp());
 
-    expect(ioEvents.includes('connect'))
+    expect(_.includes(ioEvents, 'connect'))
       .toBe(true);
-    expect(ioEvents.includes('disconnect'))
+    expect(_.includes(ioEvents, 'disconnect'))
       .toBe(true);
-    expect(ioEvents.includes('update'))
+    expect(_.includes(ioEvents, 'update'))
       .toBe(true);
-    expect(ioEvents.includes('progress-start'))
+    expect(_.includes(ioEvents, 'progress-start'))
       .toBe(true);
-    expect(ioEvents.includes('progress-more'))
+    expect(_.includes(ioEvents, 'progress-more'))
       .toBe(true);
-    expect(ioEvents.includes('progress-finish'))
+    expect(_.includes(ioEvents, 'progress-finish'))
       .toBe(true);
   });
 
@@ -171,14 +171,6 @@ describe('app actions', () => {
 
     let state = store.getState().toJS();
     expect(state.app.isSameVersion)
-      .toBe(true);
-  });
-
-  it('setTouchDevice() works', async () => {
-    await store.dispatch(app.setTouchDevice(true));
-
-    let state = store.getState().toJS();
-    expect(state.app.isTouchDevice)
       .toBe(true);
   });
 

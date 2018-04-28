@@ -84,7 +84,7 @@ module.exports = async function copy(req, res) {
   }
 
   if (srcName) {
-    if (srcName.includes('/')) {
+    if (_.includes(srcName, '/')) {
       srcName = null;
       if (!validate || validate === 'srcName')
         form.addError('srcName', 'E_INVALID', sails.__('copy.srcName.E_INVALID'));
@@ -99,7 +99,7 @@ module.exports = async function copy(req, res) {
   let nodes = [];
   if (srcParent && dstParent && srcName) {
     try {
-      if (srcName.includes('*') || srcName.includes('?')) {
+      if (_.includes(srcName, '*') || _.includes(srcName, '?')) {
         let node = await Node.findOne({ share: `${req.session.userId}:${srcShare}`, path: srcParent.path }).populate(
           'nodes',
           {
@@ -127,7 +127,7 @@ module.exports = async function copy(req, res) {
 
   if (dstParent) {
     for (let node of nodes) {
-      if ((dstParent.realPath + '/').startsWith(node.realPath + '/')) {
+      if (_.startsWith(dstParent.realPath + '/', node.realPath + '/')) {
         if (!validate || validate === 'dstDirectory')
           form.addError('dstDirectory', 'E_RECURSIVE', sails.__('copy.dstDirectory.E_RECURSIVE'));
         break;

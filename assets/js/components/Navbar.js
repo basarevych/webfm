@@ -6,7 +6,7 @@ import { FaUser } from 'react-icons/lib/fa';
 import { Navbar, NavbarToggler, NavbarBrand, Collapse, Nav, NavItem, NavLink } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-class TopNavbar extends React.PureComponent {
+class MyNavbar extends React.Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     breakpoint: PropTypes.string.isRequired,
@@ -98,4 +98,4 @@ class TopNavbar extends React.PureComponent {
   }
 }
 
-export default TopNavbar;
+export default MyNavbar;

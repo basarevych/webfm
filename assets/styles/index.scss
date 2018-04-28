@@ -1,4 +1,9 @@
-@import "~react-scroll-box/target/out/index.css";
+@import "~normalize.css/normalize.css";
+@import "~react-virtualized/styles.css";
+
+@import "variables";
+@import "~bootstrap/scss/bootstrap";
+
 @import "form";
 @import "fade";
 @import "rotating";
@@ -9,14 +14,17 @@
 html, body {
   width: 100%;
   height: 100%;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
 .navbar {
   font-family: "Roboto Condensed", sans-serif;
   padding-bottom: 0 !important;
+}
+
+:export {
+  sm: map_get($grid-breakpoints, "sm");
+  md: map_get($grid-breakpoints, "md");
+  lg: map_get($grid-breakpoints, "lg");
+  xl: map_get($grid-breakpoints, "xl");
 }

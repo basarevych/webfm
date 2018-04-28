@@ -1,35 +1,3 @@
-@mixin scroll-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-
-  .scroll-box {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-
-    .scroll-box__viewport.text-content {
-      white-space: pre;
-      font-family: "Roboto Mono", monospace;
-      padding: 1em;
-
-      &.condensed {
-        font-family: "Roboto Condensed", sans-serif;
-      }
-    }
-
-    .scroll-box__track {
-      background-color: rgba($secondary, 0.25);
-
-      .scroll-box__handle {
-        background-color: $secondary;
-      }
-    }
-  }
-}
-
 .pane-container {
   flex: 1 0 0;
   display: flex;
@@ -92,56 +60,27 @@
 
       .body {
         flex: 1 0 0;
-        display: flex;
 
-        .listing {
-          flex: 1 1 0;
-          display: table;
-          width: 100%;
-
-          .listing-item {
-            display: table-row;
+        .listing-row {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
             line-height: 2rem;
-            border: none;
 
             .name {
-              display: table-cell;
-              position: relative;
-
-              .fit-width {
-                position: absolute;
-                left: 0;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                margin: 3px 0 3px 15px;
-              }
+              flex: 1 1 0;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              padding: 3px 0 3px 15px;
             }
 
             .info {
               padding: 3px 15px 3px 10px;
-              display: table-cell;
-              width: 1px;
               white-space: nowrap;
 
-              .wrapper {
-                display: flex;
-                width: 100%;
-
-                .size {
-                  flex: 1 1 0;
-                }
-
-                .data {
-                  flex: 1 1 0;
-                }
-
-                .tools {
-                  margin: 0 0 0 10px;
-                }
+              .tools {
+                padding: 0 0 0 10px;
               }
             }
 
@@ -153,7 +92,7 @@
               background-color: lighten($body-bg, 1%);
             }
 
-            &.hovered {
+            &:hover {
               background-color: lighten($body-bg, 10%);
             }
 
@@ -161,22 +100,40 @@
               background-color: darken($secondary, 15%);
               color: color-yiq(darken($secondary, 15%));
 
-              &.hovered {
+              &:hover {
                 background-color: darken($secondary, 10%);
               }
             }
           }
-        }
-
-        .scroll-wrapper {
-          @include scroll-wrapper();
-        }
 
         &.disabled {
+          display: flex;
           align-items: center;
           justify-content: center;
           font-style: italic;
           color: $secondary;
+        }
+
+        &.content-body {
+          padding: 10px;
+          overflow: auto;
+          white-space: pre;
+          font-family: "Roboto Mono", monospace;
+        }
+
+        &.info-body {
+          overflow: auto;
+
+          .listing-row {
+            .info {
+              flex: 1 1 0;
+              text-align: right;
+            }
+
+            .name {
+              flex: 2 2 0;
+            }
+          }
         }
       }
 
@@ -195,7 +152,7 @@
           }
         }
 
-        .listing-item {
+        .listing-row {
           &.odd {
             background-color: darken($modal-content-bg, 1%) !important;
           }
@@ -204,7 +161,7 @@
             background-color: lighten($modal-content-bg, 1%) !important;
           }
 
-          &.hovered {
+          &:hover {
             background-color: lighten($modal-content-bg, 10%) !important;
           }
 
@@ -212,15 +169,17 @@
             background-color: darken($secondary, 10%) !important;
             color: color-yiq(darken($secondary, 10%)) !important;
 
-            &.hovered {
+            &:hover {
               background-color: darken($secondary, 5%) !important;
             }
           }
         }
       }
+
       &.drop-alert {
         border-color: #fff700;
       }
+
       &.drop-ready {
         border-color: #ffffff;
       }
@@ -242,44 +201,35 @@ body.loaded .pane-container .pane .view {
 
 @mixin narrow {
   .body {
-    .listing {
+    .listing-row {
       display: flex;
       flex-direction: column;
       align-items: stretch;
 
-      .listing-item {
+      .name {
+        flex: unset;
+        padding: 3px 15px 3px 15px;
+      }
+
+      .info {
+        flex: unset;
         display: flex;
-        flex-direction: column;
-        align-items: stretch;
+        padding: 3px 15px 3px 15px;
 
-        .name {
-          margin: 3px 15px 3px 15px;
-          padding: 0;
-          box-sizing: content-box;
-          height: 1.6rem;
-
-          .fit-width {
-            margin: 0;
-
-            &.fixed-margin {
-              margin: -0.5rem 0 0 0;
-            }
-          }
+        .size {
+          flex: 1;
         }
+      }
+    }
 
+    &.info-body {
+      .listing-row {
+        .name {
+          flex: unset;
+        }
         .info {
-          width: 100%;
-          margin: 3px 0 3px 0;
-          padding: 0;
-          box-sizing: content-box;
-
-          .wrapper {
-            padding: 0 15px 0 15px;
-
-            .tools {
-              margin: 0 0 0 10px;
-            }
-          }
+          flex: unset;
+          text-align: left;
         }
       }
     }
@@ -294,20 +244,11 @@ body.loaded .pane-container .pane .view {
   }
 }
 
-@include media-breakpoint-up(sm) {
-  .pane-container .pane:only-child .view {
-    @include full-width();
-  }
+.pane-container .pane:only-child .view {
+  @include full-width();
 }
 
 @include media-breakpoint-down(sm) {
-  .pane-container .pane:nth-child(1).pane:nth-last-child(2) .view,
-  .pane-container .pane:nth-child(2).pane:nth-last-child(1) .view {
-    @include narrow();
-  }
-}
-
-@include media-breakpoint-down(xs) {
   .pane-container {
     flex-direction: column;
 

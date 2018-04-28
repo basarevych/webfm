@@ -12,7 +12,6 @@ const app = (
     isStarted: false,
     isConnected: false,
     isSameVersion: true,
-    isTouchDevice: false,
   }),
   action
 ) => {
@@ -36,8 +35,6 @@ const app = (
       });
     case actions.APP_VERSION:
       return state.set('isSameVersion', action.isSameVersion);
-    case actions.TOUCH_DEVICE:
-      return state.set('isTouchDevice', action.isTouchDevice);
     case actions.SCREEN_RESIZE:
       if (state.get('breakpoint') === action.breakpoint)
         return state;

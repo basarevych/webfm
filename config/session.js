@@ -11,7 +11,7 @@
 
 module.exports.session = {
 
-  adapter: 'connect-redis',
+  adapter: '@sailshq/connect-redis',
 
   onRedisDisconnect: function() {
     sails.hooks['panic-mode'].panic();

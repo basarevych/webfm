@@ -9,7 +9,6 @@ const mapStateToProps = state => {
   return {
     isOpen: state.getIn(['deleteDialog', 'isOpen']),
     isLocked: state.getIn(['deleteDialog', 'locked']) > 0,
-    isTouchDevice: state.getIn(['app', 'isTouchDevice']),
     values: state.getIn(['deleteDialog', 'values']),
     messages: state.getIn(['deleteDialog', 'messages']),
     errors: state.getIn(['deleteDialog', 'errors']),
@@ -26,9 +25,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const DeleteDialog = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DeleteModal);
-
+const DeleteDialog = connect(mapStateToProps, mapDispatchToProps)(DeleteModal);
 export default DeleteDialog;

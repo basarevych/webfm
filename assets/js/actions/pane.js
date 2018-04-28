@@ -86,13 +86,6 @@ export const setPaneMode = (pane, mode) => {
   };
 };
 
-export const setPaneTouchMode = (pane, mode) => {
-  return {
-    type: pane === 'LEFT' ? actions.SET_LEFT_PANE_TOUCH_MODE : actions.SET_RIGHT_PANE_TOUCH_MODE,
-    mode,
-  };
-};
-
 export const setPaneShare = (pane, share) => {
   return {
     type: pane === 'LEFT' ? actions.SET_LEFT_PANE_SHARE : actions.SET_RIGHT_PANE_SHARE,
@@ -239,7 +232,7 @@ export const paneSort = (pane, field, dir) => {
     let selectedIndexes = [];
     if (selectedIds.length) {
       for (let i = 0; i < list.length; i++) {
-        if (selectedIds.includes(list[i].id))
+        if (_.includes(selectedIds, list[i].id))
           selectedIndexes.push(i);
       }
     }
@@ -266,12 +259,15 @@ export const paneSelect = (pane, index) => {
     let rightPane = state.get('rightPane');
 
     if (_.isUndefined(index)) {
-      let list = (pane === 'LEFT' ? leftPane.get('list') : rightPane.get('list'));
       index = -1;
-      for (let i = 0; i < list.size; i++) {
-        if (list.getIn([i, 'name']) === (pane === 'LEFT' ? leftPane.get('name') : rightPane.get('name'))) {
-          index = i;
-          break;
+      let name = (pane === 'LEFT' ? leftPane.get('name') : rightPane.get('name'));
+      if (name) {
+        let list = (pane === 'LEFT' ? leftPane.get('list') : rightPane.get('list'));
+        for (let i = 0; i < list.size; i++) {
+          if (list.getIn([i, 'name']) === name) {
+            index = i;
+            break;
+          }
         }
       }
     } else {
@@ -392,25 +388,25 @@ export const paneUpdate = data => {
     let left = new Promise(async (resolve, reject) => {
       try {
         if (leftPane.get('share') === data.share && leftPane.get('directory') === data.directory) {
-          await dispatch(paneDeselect('LEFT'));
           await dispatch(paneSort('LEFT'));
 
-          if (leftPane.get('name')) {
-            let found = false;
-            for (let item of data.list || []) {
-              if (item.name === leftPane.get('name')) {
+          let name = leftPane.get('name');
+          let found = false;
+
+          if (name) {
+            for (let node of leftPane.get('list')) {
+              if (node.name === name) {
                 found = true;
                 break;
               }
             }
-            if (found) {
-              await dispatch(paneSelect('LEFT'));
-            } else {
-              let newPath = data.directory === '/' ? '/' : data.directory + '/';
-              await dispatch(setPanePath('LEFT', newPath, data.directory, ''));
-              if (leftPane.get('isActive'))
-                await dispatch(push(`/~${data.share}:${newPath}`));
-            }
+          }
+
+          if (!found && name) {
+            let newPath = data.directory === '/' ? '/' : data.directory + '/';
+            await dispatch(setPanePath('LEFT', newPath, data.directory, ''));
+            if (leftPane.get('isActive'))
+              await dispatch(push(`/~${data.share}:${newPath}`));
           }
 
           await dispatch(stopLoadingPane('LEFT', now, !data.list));
@@ -424,25 +420,25 @@ export const paneUpdate = data => {
     let right = new Promise(async (resolve, reject) => {
       try {
         if (rightPane.get('share') === data.share && rightPane.get('directory') === data.directory) {
-          await dispatch(paneDeselect('RIGHT'));
           await dispatch(paneSort('RIGHT'));
 
-          if (rightPane.get('name')) {
-            let found = false;
-            for (let item of data.list || []) {
-              if (item.name === rightPane.get('name')) {
+          let name = rightPane.get('name');
+          let found = false;
+
+          if (name) {
+            for (let node of rightPane.get('list')) {
+              if (node.name === name) {
                 found = true;
                 break;
               }
             }
-            if (found) {
-              await dispatch(paneSelect('RIGHT'));
-            } else {
-              let newPath = data.directory === '/' ? '/' : data.directory + '/';
-              await dispatch(setPanePath('RIGHT', newPath, data.directory, ''));
-              if (rightPane.get('isActive'))
-                await dispatch(push(`/~${data.share}:${newPath}`));
-            }
+          }
+
+          if (!found && name) {
+            let newPath = data.directory === '/' ? '/' : data.directory + '/';
+            await dispatch(setPanePath('RIGHT', newPath, data.directory, ''));
+            if (rightPane.get('isActive'))
+              await dispatch(push(`/~${data.share}:${newPath}`));
           }
 
           await dispatch(stopLoadingPane('RIGHT', now, !data.list));
@@ -561,7 +557,7 @@ export const initPanes = () => {
   return async (dispatch, getState) => {
     let state = getState();
     let user = state.get('user');
-    let router = state.get('router');
+    let router = state.get('routing');
     if (!user.get('isAuthorized'))
       return;
 

@@ -3,14 +3,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
-import { GenericScrollBox } from 'react-scroll-box';
 import { FaCog } from 'react-icons/lib/fa';
-import Viewport from './ScrollViewport';
 
-class ContentView extends React.PureComponent {
+class ContentBody extends React.Component {
   static propTypes = {
     content: PropTypes.instanceOf(Map),
-    isTouchDevice: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -30,17 +27,8 @@ class ContentView extends React.PureComponent {
       } else if (this.props.content.get('type') !== 'TEXT') {
         body = __(`type_${this.props.content.get('type')}_message`);
       } else {
-        body = (
-          <div className="scroll-wrapper">
-            <GenericScrollBox permitHandleDragInterruption={false}>
-              <Viewport isTouchEnabled={this.props.isTouchDevice} classes="text-content" reactList={false}>
-                {this.props.content.has('base64') && atob(this.props.content.get('base64'))}
-                <br/>
-              </Viewport>
-            </GenericScrollBox>
-          </div>
-        );
-        bodyClass = 'body';
+        body = this.props.content.has('base64') && atob(this.props.content.get('base64'));
+        bodyClass = 'body content-body';
       }
     }
 
@@ -52,4 +40,4 @@ class ContentView extends React.PureComponent {
   }
 }
 
-export default ContentView;
+export default ContentBody;

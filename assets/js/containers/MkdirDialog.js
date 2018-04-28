@@ -23,9 +23,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const MkdirDialog = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MkdirModal);
-
+const MkdirDialog = connect(mapStateToProps, mapDispatchToProps)(MkdirModal);
 export default MkdirDialog;

@@ -18,9 +18,6 @@ const nodeSource = {
       isSelected: props.isSelected,
     };
   },
-  canDrag(props) {
-    return !props.isTouchDevice || props.touchMode === 'DRAG';
-  }
 };
 
 function collect(connect, monitor) {
@@ -31,16 +28,15 @@ function collect(connect, monitor) {
 }
 
 @DragSource(dragTypes.NODE, nodeSource, collect)
-class ListItem extends React.PureComponent {
+class ListItem extends React.Component {
   static propTypes = {
     which: PropTypes.string.isRequired,
-    touchMode: PropTypes.string.isRequired,
-    node: PropTypes.instanceOf(Map).isRequired,
-    size: PropTypes.instanceOf(Map),
     index: PropTypes.number.isRequired,
+    share: PropTypes.string.isRequired,
+    node: PropTypes.instanceOf(Map),
+    size: PropTypes.instanceOf(Map),
     connectDragSource: PropTypes.func,
-    isTouchDevice: PropTypes.bool.isRequired,
-    isSelected: PropTypes.bool.isRequired,
+    isSelected: PropTypes.bool,
     isDragging: PropTypes.bool,
     onChangeDirectory: PropTypes.func.isRequired,
     onNodeClick: PropTypes.func.isRequired,
@@ -56,14 +52,15 @@ class ListItem extends React.PureComponent {
   static defaultProps = {
     size: Map({}),
     connectDragSource: arg => arg,
+    isSelected: false,
     isDragging: false,
   };
 
   constructor(props) {
     super(props);
 
+    this.isKilled = !props.node;
     this.state = {
-      isHovered: false,
       isSizeTooltipOpen: false,
       isCopyTooltipOpen: false,
       isMoveTooltipOpen: false,
@@ -74,47 +71,62 @@ class ListItem extends React.PureComponent {
     this.toggleCopyTooltip = this.toggleCopyTooltip.bind(this);
     this.toggleMoveTooltip = this.toggleMoveTooltip.bind(this);
     this.toggleDeleteTooltip = this.toggleDeleteTooltip.bind(this);
-    this.handleEnter = this.handleEnter.bind(this);
-    this.handleLeave = this.handleLeave.bind(this);
     this.handleNameClick = this.handleNameClick.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
+    this.handleSizeClick = this.handleSizeClick.bind(this);
+    this.handleCopyClick = this.handleCopyClick.bind(this);
+    this.handleMoveClick = this.handleMoveClick.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     this.props.onDrag(nextProps.which, nextProps.isDragging, nextProps.isSelected);
+    if (!this.isKilled && !nextProps.node)
+      this.selfKill();
+  }
+
+  componentWillUnmount() {
+    this.selfKill();
+  }
+
+  selfKill() {
+    this.isKilled = true;
+    this.setState({
+      isSizeTooltipOpen: false,
+      isCopyTooltipOpen: false,
+      isMoveTooltipOpen: false,
+      isDeleteTooltipOpen: false,
+    });
   }
 
   toggleSizeTooltip() {
-    this.setState({ isSizeTooltipOpen: !this.state.isSizeTooltipOpen });
+    if (!this.isKilled)
+      this.setState({ isSizeTooltipOpen: !this.state.isSizeTooltipOpen });
   }
 
   toggleCopyTooltip() {
-    this.setState({ isCopyTooltipOpen: !this.state.isCopyTooltipOpen });
+    if (!this.isKilled)
+      this.setState({ isCopyTooltipOpen: !this.state.isCopyTooltipOpen });
   }
 
   toggleMoveTooltip() {
-    this.setState({ isMoveTooltipOpen: !this.state.isMoveTooltipOpen });
+    if (!this.isKilled)
+      this.setState({ isMoveTooltipOpen: !this.state.isMoveTooltipOpen });
   }
 
   toggleDeleteTooltip() {
-    this.setState({ isDeleteTooltipOpen: !this.state.isDeleteTooltipOpen });
-  }
-
-  handleEnter() {
-    this.setState({ isHovered: true });
-  }
-
-  handleLeave() {
-    this.setState({ isHovered: false });
+    if (!this.isKilled)
+      this.setState({ isDeleteTooltipOpen: !this.state.isDeleteTooltipOpen });
   }
 
   handleNameClick(e) {
     e.stopPropagation();
-    this.props.onChangeDirectory(join(this.props.node.get('directory'), this.props.node.get('name')));
+    if (!this.isKilled)
+      this.props.onChangeDirectory(join(this.props.node.get('directory'), this.props.node.get('name')));
   }
 
   handleItemClick(e) {
-    if (this.props.node.get('name') === '..')
+    if (this.isKilled || this.props.node.get('name') === '..')
       return;
 
     if (e.shiftKey)
@@ -125,7 +137,30 @@ class ListItem extends React.PureComponent {
       this.props.onNodeClick(this.props.index);
   }
 
+  handleSizeClick() {
+    if (!this.isKilled)
+      this.props.onSizeClick(this.props.share, this.props.node.get('path'));
+  }
+
+  handleCopyClick() {
+    if (!this.isKilled)
+      this.props.onCopyClick(this.props.node.get('name'));
+  }
+
+  handleMoveClick() {
+    if (!this.isKilled)
+      this.props.onMoveClick(this.props.node.get('name'));
+  }
+
+  handleDeleteClick() {
+    if (!this.isKilled)
+      this.props.onDeleteClick(this.props.node.get('name'));
+  }
+
   render() {
+    if (this.isKilled)
+      return null;
+
     let icon = (this.props.node.get('isDirectory') ? <FaFolderO /> : <FaFileO />);
 
     let name = (
@@ -141,6 +176,11 @@ class ListItem extends React.PureComponent {
         </a>
       );
     }
+    name = (
+      <div className="name">
+        {name}
+      </div>
+    );
 
     let size;
     if (this.props.node.get('isDirectory')) {
@@ -150,44 +190,42 @@ class ListItem extends React.PureComponent {
         size = <FaBalanceScale />;
 
       size = (
-        <div>
-          <HintedButton
-            size="sm"
-            color={this.props.isSelected ? 'primary' : 'secondary'}
-            onClick={this.props.onSizeClick}
-            tooltipPlacement="bottom"
-            tooltipIsOpen={this.state.isSizeTooltipOpen}
-            tooltipToggle={this.toggleSizeTooltip}
-            tooltipHTML={__('size_button_hint')}
-          >
-            {size}
-          </HintedButton>
-        </div>
+        <HintedButton
+          id={this.props.which + '-node-' + this.props.index + '-size'}
+          size="sm"
+          color={this.props.isSelected ? 'primary' : 'secondary'}
+          onClick={this.handleSizeClick}
+          tooltipPlacement="bottom"
+          tooltipIsOpen={this.state.isSizeTooltipOpen}
+          tooltipToggle={this.toggleSizeTooltip}
+          tooltipHTML={__('size_button_hint')}
+        >
+          {size}
+        </HintedButton>
       );
     } else {
       size = human(this.props.node.get('size'));
     }
 
-    let aux = null;
+    let info = null;
     if (this.props.node.get('name') === '..') {
-      aux = (
-        <div className="wrapper">
-          <div className="size">
-            <em>{__('two_dots_label')}</em>
-          </div>
+      info = (
+        <div className="info">
+          <span className="size"><em>{__('two_dots_label')}</em></span>
         </div>
       );
     } else {
-      aux = (
-        <div className="wrapper">
-          <div className="size">
+      info = (
+        <div className="info">
+          <span className="size">
             {size}
-          </div>
-          <div className="tools">
+          </span>
+          <span className="tools">
             <HintedButton
+              id={this.props.which + '-node-' + this.props.index + '-copy'}
               size="sm"
               color={this.props.isSelected ? 'primary' : 'secondary'}
-              onClick={() => this.props.onCopyClick(this.props.node.get('name'))}
+              onClick={this.handleCopyClick}
               tooltipPlacement="bottom"
               tooltipIsOpen={this.state.isCopyTooltipOpen}
               tooltipToggle={this.toggleCopyTooltip}
@@ -197,9 +235,10 @@ class ListItem extends React.PureComponent {
             </HintedButton>
             {' '}
             <HintedButton
+              id={this.props.which + '-node-' + this.props.index + '-move'}
               size="sm"
               color={this.props.isSelected ? 'primary' : 'secondary'}
-              onClick={() => this.props.onMoveClick(this.props.node.get('name'))}
+              onClick={this.handleMoveClick}
               tooltipPlacement="bottom"
               tooltipIsOpen={this.state.isMoveTooltipOpen}
               tooltipToggle={this.toggleMoveTooltip}
@@ -209,9 +248,10 @@ class ListItem extends React.PureComponent {
             </HintedButton>
             {' '}
             <HintedButton
+              id={this.props.which + '-node-' + this.props.index + '-delete'}
               size="sm"
               color={this.props.isSelected ? 'primary' : 'secondary'}
-              onClick={() => this.props.onDeleteClick(this.props.node.get('name'))}
+              onClick={this.handleDeleteClick}
               tooltipPlacement="bottom"
               tooltipIsOpen={this.state.isDeleteTooltipOpen}
               tooltipToggle={this.toggleDeleteTooltip}
@@ -219,7 +259,7 @@ class ListItem extends React.PureComponent {
             >
               <FaTrash />
             </HintedButton>
-          </div>
+          </span>
         </div>
       );
     }
@@ -227,21 +267,14 @@ class ListItem extends React.PureComponent {
     return this.props.connectDragSource(
       <div
         className={
-          'listing-item' + (this.props.isSelected ? ' selected' : '') +
-          (this.state.isHovered ? ' hovered' : (this.props.index % 2 ? ' odd' : ' even'))
+          'listing-row' +
+          (this.props.isSelected ? ' selected' : '') +
+          (this.props.index % 2 ? ' odd' : ' even')
         }
-        onMouseEnter={this.handleEnter}
-        onMouseLeave={this.handleLeave}
         onClick={this.handleItemClick}
       >
-        <div className="name">
-          <div className="fit-width">
-            {name}
-          </div>
-        </div>
-        <div className="info">
-          {aux}
-        </div>
+        {name}
+        {info}
       </div>
     );
   }

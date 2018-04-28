@@ -1,32 +1,56 @@
 'use strict';
 
-import _ from 'lodash';
-import 'isomorphic-fetch';
+import './polyfills';
+import utf8 from 'utf8';
+import base64 from 'base64util';
 import socketIOClient from 'socket.io-client';
 import sailsIOClient from 'sails.io.js/sails.io';
 import './lib/i18n';
 import Breakpoints from 'breakpoints-js';
-import raf from 'raf';
 import React from 'react';
 import { hydrate } from 'react-dom';
-import { Provider } from 'react-redux';
 import createHistory from 'history/createBrowserHistory';
-import { ConnectedRouter } from 'react-router-redux';
 import storeFactory from './store/storeFactory';
-import App from './containers/App';
+import Root from './containers/Root';
 import { initApp, screenResize } from './actions/app';
+import { sm, md, lg, xl } from '../styles/index.scss';
 
-window._ = _;
 window.io = sailsIOClient(socketIOClient);
 window.io.sails.autoConnect = true;
 window.io.sails.reconnection = true;
 window.io.sails.environment = process.env.NODE_ENV;
 
-Breakpoints();
-raf.polyfill();
+Breakpoints({
+  xs: {
+    min: 0,
+    max: parseInt(sm) - 1,
+  },
+  sm: {
+    min: parseInt(sm),
+    max: parseInt(md) - 1,
+  },
+  md: {
+    min: parseInt(md),
+    max: parseInt(lg) - 1,
+  },
+  lg: {
+    min: parseInt(lg),
+    max: parseInt(xl) - 1,
+  },
+  xl: {
+    min: parseInt(xl),
+    max: Infinity,
+  },
+});
 
 const history = createHistory();
-const store = storeFactory(history, JSON.parse(atob(window.__STATE__)));
+const store = storeFactory(
+  history,
+  JSON.parse(
+    base64.byteDecode(window.__STATE__),
+    (key, value) => _.isString(value) ? utf8.decode(value) : value
+  )
+);
 delete window.__STATE__;
 
 window.addEventListener('resize', () => store.dispatch(screenResize()));
@@ -34,13 +58,9 @@ window.addEventListener('orientationchange', () => store.dispatch(screenResize()
 
 document.addEventListener('DOMContentLoaded', () => {
   hydrate(
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
-    </Provider>,
+    <Root store={store} history={history} />,
     document.getElementById('app')
   );
-  document.body.className = 'loaded';
+  document.body.classList.add('loaded');
   setTimeout(() => store.dispatch(initApp(history)));
 });

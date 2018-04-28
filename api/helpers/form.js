@@ -34,10 +34,10 @@ module.exports = {
   fn: async function (inputs, exits) {
     let form = new Form(inputs.values);
 
-    if (typeof inputs.model.preValidate === 'function')
+    if (_.isFunction(inputs.model.preValidate))
       await inputs.model.preValidate({ form, validate: inputs.validate });
 
-    for (let attr of Object.keys(inputs.model.attributes)) {
+    for (let attr of _.keys(inputs.model.attributes)) {
       if (inputs.validate && inputs.validate !== attr)
         continue;
 
@@ -51,7 +51,7 @@ module.exports = {
       }
     }
 
-    if (typeof inputs.model.postValidate === 'function')
+    if (_.isFunction(inputs.model.postValidate))
       await inputs.model.postValidate({ form, validate: inputs.validate });
 
     return exits.success(form);
