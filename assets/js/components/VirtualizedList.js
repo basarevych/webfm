@@ -36,11 +36,16 @@ class VirtualizedList extends React.PureComponent {
     };
 
     this.setList = this.setList.bind(this);
+    this.getRowHeight = this.getRowHeight.bind(this);
     this.renderRow = this.renderRow.bind(this);
   }
 
   setList(el) {
     this.list = el;
+  }
+
+  getRowHeight() {
+    return this.state.rowHeight || 100;
   }
 
   updateHeights(testRow) {
@@ -82,7 +87,7 @@ class VirtualizedList extends React.PureComponent {
             key={this.props.breakpoint}
             width={width}
             height={height}
-            rowHeight={() => this.state.rowHeight || 100}
+            rowHeight={this.getRowHeight}
             rowCount={this.props.getRow ? this.props.size : this.props.rows.length}
             rowRenderer={this.renderRow}
             ref={this.setList}
