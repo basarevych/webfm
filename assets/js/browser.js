@@ -1,8 +1,6 @@
-'use strict';
-
 import './polyfills';
 import utf8 from 'utf8';
-import base64 from 'base64util';
+import { byteDecode } from 'base64util';
 import socketIOClient from 'socket.io-client';
 import sailsIOClient from 'sails.io.js/sails.io';
 import './lib/i18n';
@@ -13,7 +11,7 @@ import createHistory from 'history/createBrowserHistory';
 import storeFactory from './store/storeFactory';
 import Root from './containers/Root';
 import { initApp, screenResize } from './actions/app';
-import { sm, md, lg, xl } from '../styles/index.scss';
+import { locals as styles } from '!!css-loader!sass-loader!../styles/export.scss';
 
 window.io = sailsIOClient(socketIOClient);
 window.io.sails.autoConnect = true;
@@ -23,22 +21,22 @@ window.io.sails.environment = process.env.NODE_ENV;
 Breakpoints({
   xs: {
     min: 0,
-    max: parseInt(sm) - 1,
+    max: parseInt(styles.sm) - 1,
   },
   sm: {
-    min: parseInt(sm),
-    max: parseInt(md) - 1,
+    min: parseInt(styles.sm),
+    max: parseInt(styles.md) - 1,
   },
   md: {
-    min: parseInt(md),
-    max: parseInt(lg) - 1,
+    min: parseInt(styles.md),
+    max: parseInt(styles.lg) - 1,
   },
   lg: {
-    min: parseInt(lg),
-    max: parseInt(xl) - 1,
+    min: parseInt(styles.lg),
+    max: parseInt(styles.xl) - 1,
   },
   xl: {
-    min: parseInt(xl),
+    min: parseInt(styles.xl),
     max: Infinity,
   },
 });
@@ -47,7 +45,7 @@ const history = createHistory();
 const store = storeFactory(
   history,
   JSON.parse(
-    base64.byteDecode(window.__STATE__),
+    byteDecode(window.__STATE__),
     (key, value) => _.isString(value) ? utf8.decode(value) : value
   )
 );

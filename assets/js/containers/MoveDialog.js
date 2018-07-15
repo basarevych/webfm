@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 import { toggleMoveDialog, updateMoveDialog } from '../actions/moveDialog';
 import { move, find } from '../actions/commands';

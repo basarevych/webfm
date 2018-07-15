@@ -1,5 +1,3 @@
-'use strict';
-
 export function human(bytes) {
   let size = bytes;
   let suffix = 'B';

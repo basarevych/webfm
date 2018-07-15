@@ -1,5 +1,3 @@
-'use strict';
-
 import * as actions from '../constants/actionTypes';
 import { fastCopy, fastMove } from './commands';
 

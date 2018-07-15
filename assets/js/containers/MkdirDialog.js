@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 import { toggleMkdirDialog, updateMkdirDialog } from '../actions/mkdirDialog';
 import { mkdir } from '../actions/commands';

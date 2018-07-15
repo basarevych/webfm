@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 import { clearProgress } from '../actions/progressDialog';
 import ProgressModal from '../components/ProgressModal';

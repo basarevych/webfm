@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 import { toggleSignInDialog, updateSignInDialog } from '../actions/signInDialog';
 import { signIn } from '../actions/user';

@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
@@ -32,7 +30,7 @@ class FormMessages extends React.PureComponent {
   render() {
     return (
       <TransitionGroup>
-        {Array.from(this.props.messages.keys()).map(code =>
+        {Array.from(this.props.messages.keys()).map(code => // eslint-disable-line lodash/prefer-lodash-method
           <Fade key={code}>
             <div
               className={mapTypeToClass(this.props.messages.getIn([code, 'type']))}

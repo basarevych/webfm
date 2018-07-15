@@ -1,5 +1,3 @@
-'use strict';
-
 import { applyMiddleware, createStore } from 'redux';
 import { fromJS } from 'immutable';
 import { combineReducers } from 'redux-immutable';

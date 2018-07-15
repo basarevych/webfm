@@ -1,5 +1,3 @@
-'use strict';
-
 import * as actions from '../constants/actionTypes';
 import { setSize, clearSizes } from './size';
 import { signOut } from './user';

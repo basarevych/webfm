@@ -1,5 +1,3 @@
-'use strict';
-
 import { closeNavbar } from './navbar';
 import {
   hideMkdirDialog, lockMkdirDialog, submitMkdirDialog, unlockMkdirDialog, updateMkdirDialog

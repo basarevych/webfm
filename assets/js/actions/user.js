@@ -1,5 +1,3 @@
-'use strict';
-
 import * as actions from '../constants/actionTypes';
 import packageJson from '../../../package.json';
 import i18n from '../lib/i18n';

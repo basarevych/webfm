@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
@@ -20,7 +18,7 @@ class FieldErrors extends React.PureComponent {
     return (
       <FormFeedback>
         <TransitionGroup>
-          {Array.from(this.props.errors.keys()).map(code =>
+          {Array.from(this.props.errors.keys()).map(code => // eslint-disable-line lodash/prefer-lodash-method
             <Fade key={code}>
               <div dangerouslySetInnerHTML={{ __html: this.props.errors.getIn([code, 'message']) }} />
             </Fade>

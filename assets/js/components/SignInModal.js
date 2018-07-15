@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
@@ -24,13 +22,41 @@ class SignInModal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { ignoreBlur: true };
+    this.state = {
+      isOpen: props.isOpen,
+      isLocked: props.isLocked,
+      ignoreBlur: true,
+      nextFocus: null,
+    };
+
+    this.loginInput = React.createRef();
+    this.passwordInput = React.createRef();
 
     this.handleInput = this.handleInput.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let state = {};
+
+    if (nextProps.isOpen !== prevState.isOpen)
+      state.isOpen = nextProps.isOpen;
+    if (nextProps.isLocked !== prevState.isLocked)
+      state.isLocked = nextProps.isLocked;
+
+    if (state.isOpen === true) {
+      state.nextFocus = 'login';
+    } else if (state.isLocked === false) {
+      if (nextProps.errors.has('login'))
+        state.nextFocus = 'login';
+      else if (nextProps.errors.has('password'))
+        state.nextFocus = 'password';
+    }
+
+    return _.keys(state).length ? state : null;
   }
 
   handleInput(event) {
@@ -46,8 +72,8 @@ class SignInModal extends React.Component {
 
     switch (event.target.name) {
       case 'login':
-        if (this.passwordInput)
-          setTimeout(() => this.passwordInput.focus(), 0);
+        if (this.passwordInput.current)
+          setTimeout(() => this.passwordInput.current.focus(), 0);
         break;
       case 'password':
         this.handleSubmit();
@@ -88,35 +114,22 @@ class SignInModal extends React.Component {
     this.props.onSubmit(Date.now());
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isOpen && !this.props.isOpen) {
-      this.nextFocus = 'login';
-      return;
-    }
-
-    if (this.props.isLocked) {
-      if (nextProps.isLocked)
-        return;
-
-      if (nextProps.errors.has('login'))
-        this.nextFocus = 'login';
-      else if (nextProps.errors.has('password'))
-        this.nextFocus = 'password';
-    }
-  }
-
   componentDidUpdate() {
-    switch (this.nextFocus) {
-      case 'login':
-        if (this.loginInput)
-          setTimeout(() => this.loginInput.focus(), 0);
-        break;
-      case 'password':
-        if (this.passwordInput)
-          setTimeout(() => this.passwordInput.focus(), 0);
-        break;
+    if (this.state.nextFocus) {
+      let field = this.state.nextFocus;
+      this.setState({ nextFocus: null }, () => {
+        switch (field) {
+          case 'login':
+            if (this.loginInput.current)
+              setTimeout(() => this.loginInput.current.focus(), 0);
+            break;
+          case 'password':
+            if (this.passwordInput.current)
+              setTimeout(() => this.passwordInput.current.focus(), 0);
+            break;
+        }
+      });
     }
-    this.nextFocus = null;
   }
 
   render() {
@@ -149,7 +162,7 @@ class SignInModal extends React.Component {
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
-                  innerRef={(input) => { this.loginInput = input; }}
+                  innerRef={this.loginInput}
                 />
                 <FieldErrors errors={this.props.errors.get('login')} />
               </Col>
@@ -171,7 +184,7 @@ class SignInModal extends React.Component {
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
-                  innerRef={(input) => { this.passwordInput = input; }}
+                  innerRef={this.passwordInput}
                 />
                 <FieldErrors errors={this.props.errors.get('password')} />
               </Col>

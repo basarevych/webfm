@@ -8,7 +8,7 @@ module.exports = async function mkdir(req, res) {
   let name = _.isString(req.param('name')) ? _.trim(req.param('name')) : '';
 
   let shareFound = false;
-  for (let item of await Share.find({ user: req.session.userId })) {
+  for (let item of await Share.find({ user: req.session.userId })) { // eslint-disable-line lodash/prefer-lodash-method
     if (item.name === share) {
       shareFound = true;
       break;

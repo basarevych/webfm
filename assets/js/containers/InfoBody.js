@@ -1,5 +1,3 @@
-'use strict';
-
 import { createSelector } from 'reselect/lib/index';
 import { connect } from 'react-redux';
 import InfoBodyComponent from '../components/InfoBody';

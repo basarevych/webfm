@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 import { paneCD, paneSort, setPaneMode, togglePane } from '../actions/pane';
 import HeaderComponent from '../components/Header';

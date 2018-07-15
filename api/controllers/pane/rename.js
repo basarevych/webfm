@@ -14,7 +14,7 @@ module.exports = async function rename(req, res) {
   let form = new Form({ share, directory, name, newName });
 
   let shareFound = false;
-  for (let item of await Share.find({ user: req.session.userId })) {
+  for (let item of await Share.find({ user: req.session.userId })) { // eslint-disable-line lodash/prefer-lodash-method
     if (item.name === share) {
       if (item.isReadOnly && (!validate || validate === 'share'))
         form.addError('share', 'E_READ_ONLY', sails.__('rename.share.E_READ_ONLY'));

@@ -1,5 +1,3 @@
-'use strict';
-
 import * as actions from '../constants/actionTypes';
 
 export const showFailureDialog = (messages, errors) => {

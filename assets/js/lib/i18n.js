@@ -1,5 +1,3 @@
-'use strict';
-
 import config from '../../../config/i18n';
 import en from '../../../config/locales/en.json';
 

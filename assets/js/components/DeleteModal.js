@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
@@ -28,13 +26,40 @@ class DeleteModal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { ignoreBlur: true };
+    this.state = {
+      isOpen: props.isOpen,
+      isLocked: props.isLocked,
+      ignoreBlur: true,
+      nextFocus: null,
+    };
+
+    this.shareInput = React.createRef();
+    this.directoryInput = React.createRef();
+    this.nameInput = React.createRef();
 
     this.handleInput = this.handleInput.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let state = {};
+
+    if (nextProps.isOpen !== prevState.isOpen)
+      state.isOpen = nextProps.isOpen;
+    if (nextProps.isLocked !== prevState.isLocked)
+      state.isLocked = nextProps.isLocked;
+
+    if (state.isOpen === true) {
+      state.nextFocus = 'name';
+    } else if (state.isLocked === false) {
+      if (nextProps.errors.has('name'))
+        state.nextFocus = 'name';
+    }
+
+    return _.keys(state).length ? state : null;
   }
 
   handleInput(event) {
@@ -50,12 +75,12 @@ class DeleteModal extends React.Component {
 
     switch (event.target.name) {
       case 'share':
-        if (this.directoryInput)
-          setTimeout(() => this.directoryInput.focus(), 0);
+        if (this.directoryInput.current)
+          setTimeout(() => this.directoryInput.current.focus(), 0);
         break;
       case 'directory':
-        if (this.nameInput)
-          setTimeout(() => this.nameInput.focus(), 0);
+        if (this.nameInput.current)
+          setTimeout(() => this.nameInput.current.focus(), 0);
         break;
       case 'name':
         this.handleSubmit();
@@ -96,37 +121,26 @@ class DeleteModal extends React.Component {
     this.props.onSubmit(Date.now());
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isOpen && !this.props.isOpen) {
-      this.nextFocus = 'name';
-      return;
-    }
-
-    if (this.props.isLocked) {
-      if (nextProps.isLocked)
-        return;
-
-      if (nextProps.errors.has('name'))
-        this.nextFocus = 'name';
-    }
-  }
-
   componentDidUpdate() {
-    switch (this.nextFocus) {
-      case 'share':
-        if (this.shareInput)
-          setTimeout(() => this.shareInput.focus(), 0);
-        break;
-      case 'directory':
-        if (this.directoryInput)
-          setTimeout(() => this.directoryInput.focus(), 0);
-        break;
-      case 'name':
-        if (this.nameInput)
-          setTimeout(() => this.nameInput.focus(), 0);
-        break;
+    if (this.state.nextFocus) {
+      let field = this.state.nextFocus;
+      this.setState({ nextFocus: null }, () => {
+        switch (field) {
+          case 'share':
+            if (this.shareInput.current)
+              setTimeout(() => this.shareInput.current.focus(), 0);
+            break;
+          case 'directory':
+            if (this.directoryInput.current)
+              setTimeout(() => this.directoryInput.current.focus(), 0);
+            break;
+          case 'name':
+            if (this.nameInput.current)
+              setTimeout(() => this.nameInput.current.focus(), 0);
+            break;
+        }
+      });
     }
-    this.nextFocus = null;
   }
 
   render() {
@@ -185,7 +199,7 @@ class DeleteModal extends React.Component {
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
-                  innerRef={(input) => { this.shareInput = input; }}
+                  innerRef={this.shareInput}
                 />
                 <FieldErrors errors={this.props.errors.get('share')} />
               </Col>
@@ -205,7 +219,7 @@ class DeleteModal extends React.Component {
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
-                  innerRef={(input) => { this.directoryInput = input; }}
+                  innerRef={this.directoryInput}
                 />
                 <FieldErrors errors={this.props.errors.get('directory')} />
               </Col>
@@ -228,7 +242,7 @@ class DeleteModal extends React.Component {
                     onKeyPress={this.handleKeyPress}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}
-                    innerRef={(input) => { this.nameInput = input; }}
+                    innerRef={this.nameInput}
                   />
                   <InputGroupAddon addonType="append">
                     <Button color="secondary" disabled={this.props.isLocked} onClick={this.props.onFind}>

@@ -1,5 +1,3 @@
-'use strict';
-
 import * as actions from '../constants/actionTypes';
 import { push } from 'react-router-redux';
 import { clearLists, setList } from './list';
@@ -197,7 +195,7 @@ export const paneSort = (pane, field, dir) => {
     let sorted = (pane === 'LEFT' ? leftPane.get('list') : rightPane.get('list'));
     let selected = (pane === 'LEFT' ? leftPane.get('selectedIndexes') : rightPane.get('selectedIndexes'));
     for (let i = 0; i < sorted.size; i++) {
-      if (selected.includes(i))
+      if (selected.includes(i)) // eslint-disable-line lodash/prefer-lodash-method
         selectedIds.push(sorted.getIn([i, 'id']));
     }
 
@@ -303,7 +301,7 @@ export const paneSelectRange = (pane, index) => {
     let max = -1;
     let prev = -1;
     for (let i = index - 1; i >= 0; i--) {
-      if (selectedIndexes.includes(i)) {
+      if (selectedIndexes.includes(i)) { // eslint-disable-line lodash/prefer-lodash-method
         prev = i;
         break;
       }
@@ -311,7 +309,7 @@ export const paneSelectRange = (pane, index) => {
     if (prev === -1) {
       let next = -1;
       for (let i = index + 1; i < length; i++) {
-        if (selectedIndexes.includes(i)) {
+        if (selectedIndexes.includes(i)) { // eslint-disable-line lodash/prefer-lodash-method
           next = i;
           break;
         }

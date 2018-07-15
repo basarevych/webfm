@@ -1,0 +1,10 @@
+@import "variables";
+@import "~bootstrap/scss/bootstrap";
+
+:export {
+  fadeDuration: $fade-duration;
+  sm: map_get($grid-breakpoints, "sm");
+  md: map_get($grid-breakpoints, "md");
+  lg: map_get($grid-breakpoints, "lg");
+  xl: map_get($grid-breakpoints, "xl");
+}

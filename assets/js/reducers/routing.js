@@ -1,5 +1,3 @@
-'use strict';
-
 import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 

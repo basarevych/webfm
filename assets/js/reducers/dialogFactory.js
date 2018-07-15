@@ -1,5 +1,3 @@
-'use strict';
-
 import * as actions from '../constants/actionTypes';
 import { fromJS, Map, List } from 'immutable';
 
@@ -188,7 +186,7 @@ const dialogFactory = type => {
           if (action.data.errors) {
             map.set(
               'errors',
-              map
+              map // eslint-disable-line lodash/prefer-lodash-method
                 .get('errors')
                 .merge(fromJS(action.data.errors))
                 .filter(value => value.size)
@@ -197,7 +195,7 @@ const dialogFactory = type => {
           if (action.data.messages) {
             map.set(
               'messages',
-              fromJS(action.data.messages)
+              fromJS(action.data.messages) // eslint-disable-line lodash/prefer-lodash-method
                 .filter(value => value.size)
             );
           }

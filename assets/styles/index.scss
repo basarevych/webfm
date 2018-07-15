@@ -1,5 +1,5 @@
-@import "~normalize.css/normalize.css";
-@import "~react-virtualized/styles.css";
+@import "normalize.css/normalize.css";
+@import "react-virtualized/styles.css";
 
 @import "variables";
 @import "~bootstrap/scss/bootstrap";
@@ -20,11 +20,4 @@ html, body {
 .navbar {
   font-family: "Roboto Condensed", sans-serif;
   padding-bottom: 0 !important;
-}
-
-:export {
-  sm: map_get($grid-breakpoints, "sm");
-  md: map_get($grid-breakpoints, "md");
-  lg: map_get($grid-breakpoints, "lg");
-  xl: map_get($grid-breakpoints, "xl");
 }

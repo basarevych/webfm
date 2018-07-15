@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 import { toggleRenameDialog, updateRenameDialog } from '../actions/renameDialog';
 import { rename } from '../actions/commands';

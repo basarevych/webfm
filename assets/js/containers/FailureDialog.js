@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 import { hideFailureDialog } from '../actions/failureDialog';
 import FailureModal from '../components/FailureModal';

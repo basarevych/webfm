@@ -446,7 +446,7 @@ module.exports = {
           //sails.log.debug(query);
           return done(new Error('Adapter method (`find`) can only search users by login.'));
         }
-        dsEntry.manager.user.find(login, query.criteria.select, done);
+        dsEntry.manager.user.find(login, query.criteria.select, done); // eslint-disable-line lodash/prefer-lodash-method
         break;
       case 'share':
         if (and && _.keys(query.criteria.where).length === 1 && and.length === 1 && and[0].user)

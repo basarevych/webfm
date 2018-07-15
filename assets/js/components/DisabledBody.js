@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 
 class DisabledBody extends React.PureComponent {

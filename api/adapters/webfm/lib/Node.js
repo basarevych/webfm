@@ -57,7 +57,7 @@ class Node {
   async findByPath({ share, path }, select, done) {
     try {
       share = await new Promise((resolve, reject) => {
-        new Share().find(share, ['path'], (error, shares) => {
+        new Share().find(share, ['path'], (error, shares) => { // eslint-disable-line lodash/prefer-lodash-method
           if (error)
             return reject(error);
 

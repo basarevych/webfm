@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 import { toggleDeleteDialog, updateDeleteDialog } from '../actions/deleteDialog';
 import { del, find } from '../actions/commands';

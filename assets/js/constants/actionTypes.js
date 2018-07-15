@@ -1,5 +1,3 @@
-'use strict';
-
 // App
 export const SET_CSRF_TOKEN = 'SET_CSRF_TOKEN';
 export const CONNECT_APP = 'CONNECT_APP';

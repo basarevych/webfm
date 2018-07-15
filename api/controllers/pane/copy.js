@@ -18,7 +18,7 @@ module.exports = async function copy(req, res) {
 
   let srcShareFound = false;
   let dstShareFound = false;
-  for (let item of await Share.find({ user: req.session.userId })) {
+  for (let item of await Share.find({ user: req.session.userId })) { // eslint-disable-line lodash/prefer-lodash-method
     if (item.name === srcShare)
       srcShareFound = true;
     if (item.name === dstShare) {

@@ -50,7 +50,3 @@ $font-family-monospace:           "Roboto Mono", monospace;
 
 $fade-duration: 300;
 $fade-duration-ms: $fade-duration + 0ms;
-
-:export {
-  fadeDuration: $fade-duration;
-}

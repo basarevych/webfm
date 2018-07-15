@@ -13,7 +13,7 @@ module.exports = async function mkdir(req, res) {
   let form = new Form({ share, directory, name });
 
   let shareFound = false;
-  for (let item of await Share.find({ user: req.session.userId })) {
+  for (let item of await Share.find({ user: req.session.userId })) { // eslint-disable-line lodash/prefer-lodash-method
     if (item.name === share) {
       if (item.isReadOnly && (!validate || validate === 'share'))
         form.addError('share', 'E_READ_ONLY', sails.__('mkdir.share.E_READ_ONLY'));

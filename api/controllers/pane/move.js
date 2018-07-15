@@ -18,7 +18,7 @@ module.exports = async function move(req, res) {
 
   let srcShareFound = false;
   let dstShareFound = false;
-  for (let item of await Share.find({ user: req.session.userId })) {
+  for (let item of await Share.find({ user: req.session.userId })) { // eslint-disable-line lodash/prefer-lodash-method
     if (item.name === srcShare) {
       if (item.isReadOnly &&  (!validate || validate === 'srcShare'))
         form.addError('srcShare', 'E_READ_ONLY', sails.__('move.srcShare.E_READ_ONLY'));

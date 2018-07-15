@@ -1,5 +1,3 @@
-'use strict';
-
 import { createSelector } from 'reselect/lib/index';
 import { connect } from 'react-redux';
 import { paneCD, paneSelect, paneSelectRange, paneToggleSelect } from '../actions/pane';
@@ -24,7 +22,7 @@ const getSize = createSelector(
 const getIsSelected = createSelector(
   (state, props) => state.getIn([props.which === 'LEFT' ? 'leftPane' : 'rightPane', 'selectedIndexes']),
   (state, props) => props.index,
-  (selected, index) => selected.includes(index)
+  (selected, index) => selected.includes(index) // eslint-disable-line lodash/prefer-lodash-method
 );
 
 const mapStateToProps = (state, ownProps) => {

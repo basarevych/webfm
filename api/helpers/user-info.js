@@ -30,7 +30,7 @@ module.exports = {
     let shares = [];
 
     if (isAuthorized) {
-      shares = await Share.find({
+      shares = await Share.find({ // eslint-disable-line lodash/prefer-lodash-method
         where: { user: inputs.req.session.userId },
         select: ['name', 'isReadOnly'],
       });

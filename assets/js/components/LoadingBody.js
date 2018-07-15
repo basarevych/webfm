@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import { FaCog } from 'react-icons/lib/fa';
 

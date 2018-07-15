@@ -51,7 +51,7 @@ module.exports = {
     if (!path || path[0] !== '/')
       path = '/' + (path || '');
 
-    let shares = await Share.find({ user: inputs.userId });
+    let shares = await Share.find({ user: inputs.userId }); // eslint-disable-line lodash/prefer-lodash-method
     if (!shares.length)
       return exits.error(new Error('No shares defined for you'));
 

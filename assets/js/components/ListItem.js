@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
@@ -12,11 +10,15 @@ import * as dragTypes from '../constants/dragTypes';
 
 const nodeSource = {
   beginDrag(props) {
+    props.onDrag(props.which, true, props.isSelected);
     return {
       pane: props.which,
       name: props.node.get('name'),
       isSelected: props.isSelected,
     };
+  },
+  endDrag(props) {
+    props.onDrag(props.which, false, props.isSelected);
   },
 };
 
@@ -77,12 +79,6 @@ class ListItem extends React.Component {
     this.handleCopyClick = this.handleCopyClick.bind(this);
     this.handleMoveClick = this.handleMoveClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.props.onDrag(nextProps.which, nextProps.isDragging, nextProps.isSelected);
-    if (!this.isKilled && !nextProps.node)
-      this.selfKill();
   }
 
   componentWillUnmount() {

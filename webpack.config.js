@@ -10,7 +10,6 @@ const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 const NoEmitOnErrorsPlugin = require('webpack/lib/NoEmitOnErrorsPlugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 /**
@@ -70,7 +69,6 @@ const styleLoaders = variant => {
         options: {
           ident: 'postcss',
           sourceMap: ifDevelopment(true, false),
-          plugins: [require('autoprefixer')(targetBrowsers)],
         }
       },
       sassLoader && {
@@ -82,7 +80,6 @@ const styleLoaders = variant => {
       lessLoader && {
         loader: 'less-loader',
         options: {
-          //plugins: [require(root('front/styles/semantic-ui/no-remote-files-plugin'))],
           sourceMap: ifDevelopment(true, false),
         },
       },
@@ -240,7 +237,7 @@ module.exports = [
        *
        * Cleans build directory before building
        */
-      new CleanWebpackPlugin([ publicRoot() ]),
+      new CleanWebpackPlugin([ publicRoot(), root('node_modules/.cache') ]),
 
       /**
        * ProvidePlugin
@@ -271,21 +268,6 @@ module.exports = [
         filename: '[name].css',
         allChunks: true,
       }),
-
-      /**
-       * OptimizeCssAssetsPlugin
-       * https://www.npmjs.com/package/optimize-css-assets-webpack-plugin
-       *
-       * It will search for CSS assets during the Webpack build and will optimize / minimize the CSS
-       */
-      ifProduction(
-        new OptimizeCssAssetsPlugin({
-          assetNameRegExp: /\.css$/g,
-          cssProcessor: require('cssnano'),
-          cssProcessorOptions: { discardComments: { removeAll: true } },
-          canPrint: true
-        })
-      ),
 
       /**
        * UglifyJsPlugin

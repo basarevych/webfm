@@ -1,5 +1,3 @@
-'use strict';
-
 import { Tooltip } from 'reactstrap';
 
 class SafeTooltip extends Tooltip {

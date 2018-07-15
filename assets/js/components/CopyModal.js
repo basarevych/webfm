@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
@@ -28,13 +26,42 @@ class CopyModal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { ignoreBlur: true };
+    this.state = {
+      isOpen: props.isOpen,
+      isLocked: props.isLocked,
+      ignoreBlur: true,
+      nextFocus: null,
+    };
+
+    this.srcShareInput = React.createRef();
+    this.srcDirectoryInput = React.createRef();
+    this.srcNameInput = React.createRef();
+    this.dstShareInput = React.createRef();
+    this.dstDirectoryInput = React.createRef();
 
     this.handleInput = this.handleInput.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let state = {};
+
+    if (nextProps.isOpen !== prevState.isOpen)
+      state.isOpen = nextProps.isOpen;
+    if (nextProps.isLocked !== prevState.isLocked)
+      state.isLocked = nextProps.isLocked;
+
+    if (state.isOpen === true) {
+      state.nextFocus = 'srcName';
+    } else if (state.isLocked === false) {
+      if (nextProps.errors.has('srcName'))
+        state.nextFocus = 'srcName';
+    }
+
+    return _.keys(state).length ? state : null;
   }
 
   handleInput(event) {
@@ -50,20 +77,20 @@ class CopyModal extends React.Component {
 
     switch (event.target.name) {
       case 'srcShare':
-        if (this.srcDirectoryInput)
-          setTimeout(() => this.srcDirectoryInput.focus(), 0);
+        if (this.srcDirectoryInput.current)
+          setTimeout(() => this.srcDirectoryInput.current.focus(), 0);
         break;
       case 'srcDirectory':
-        if (this.srcNameInput)
-          setTimeout(() => this.srcNameInput.focus(), 0);
+        if (this.srcNameInput.current)
+          setTimeout(() => this.srcNameInput.current.focus(), 0);
         break;
       case 'srcName':
-        if (this.dstShareInput)
-          setTimeout(() => this.dstShareInput.focus(), 0);
+        if (this.dstShareInput.current)
+          setTimeout(() => this.dstShareInput.current.focus(), 0);
         break;
       case 'dstShare':
-        if (this.dstDirectoryInput)
-          setTimeout(() => this.dstDirectoryInput.focus(), 0);
+        if (this.dstDirectoryInput.current)
+          setTimeout(() => this.dstDirectoryInput.current.focus(), 0);
         break;
       case 'dstDirectory':
         this.handleSubmit();
@@ -104,45 +131,34 @@ class CopyModal extends React.Component {
     this.props.onSubmit(Date.now());
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isOpen && !this.props.isOpen) {
-      this.nextFocus = 'srcName';
-      return;
-    }
-
-    if (this.props.isLocked) {
-      if (nextProps.isLocked)
-        return;
-
-      if (nextProps.errors.has('srcName'))
-        this.nextFocus = 'srcName';
-    }
-  }
-
   componentDidUpdate() {
-    switch (this.nextFocus) {
-      case 'srcShare':
-        if (this.srcShareInput)
-          setTimeout(() => this.srcShareInput.focus(), 0);
-        break;
-      case 'srcDirectory':
-        if (this.srcDirectoryInput)
-          setTimeout(() => this.srcDirectoryInput.focus(), 0);
-        break;
-      case 'srcName':
-        if (this.srcNameInput)
-          setTimeout(() => this.srcNameInput.focus(), 0);
-        break;
-      case 'dstShare':
-        if (this.dstShareInput)
-          setTimeout(() => this.dstShareInput.focus(), 0);
-        break;
-      case 'dstDirectory':
-        if (this.dstDirectoryInput)
-          setTimeout(() => this.dstDirectoryInput.focus(), 0);
-        break;
+    if (this.state.nextFocus) {
+      let field = this.state.nextFocus;
+      this.setState({ nextFocus: null }, () => {
+        switch (field) {
+          case 'srcShare':
+            if (this.srcShareInput.current)
+              setTimeout(() => this.srcShareInput.current.focus(), 0);
+            break;
+          case 'srcDirectory':
+            if (this.srcDirectoryInput.current)
+              setTimeout(() => this.srcDirectoryInput.current.focus(), 0);
+            break;
+          case 'srcName':
+            if (this.srcNameInput.current)
+              setTimeout(() => this.srcNameInput.current.focus(), 0);
+            break;
+          case 'dstShare':
+            if (this.dstShareInput.current)
+              setTimeout(() => this.dstShareInput.current.focus(), 0);
+            break;
+          case 'dstDirectory':
+            if (this.dstDirectoryInput.current)
+              setTimeout(() => this.dstDirectoryInput.current.focus(), 0);
+            break;
+        }
+      });
     }
-    this.nextFocus = null;
   }
 
   render() {
@@ -201,7 +217,7 @@ class CopyModal extends React.Component {
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
-                  innerRef={(input) => { this.srcShareInput = input; }}
+                  innerRef={this.srcShareInput}
                 />
                 <FieldErrors errors={this.props.errors.get('srcShare')} />
               </Col>
@@ -221,7 +237,7 @@ class CopyModal extends React.Component {
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
-                  innerRef={(input) => { this.srcDirectoryInput = input; }}
+                  innerRef={this.srcDirectoryInput}
                 />
                 <FieldErrors errors={this.props.errors.get('srcDirectory')} />
               </Col>
@@ -244,7 +260,7 @@ class CopyModal extends React.Component {
                     onKeyPress={this.handleKeyPress}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}
-                    innerRef={(input) => { this.srcNameInput = input; }}
+                    innerRef={this.srcNameInput}
                   />
                   <InputGroupAddon addonType="append">
                     <Button color="secondary" disabled={this.props.isLocked} onClick={this.props.onFind}>
@@ -271,7 +287,7 @@ class CopyModal extends React.Component {
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
-                  innerRef={(input) => { this.dstShareInput = input; }}
+                  innerRef={this.dstShareInput}
                 />
                 <FieldErrors errors={this.props.errors.get('dstShare')} />
               </Col>
@@ -291,7 +307,7 @@ class CopyModal extends React.Component {
                   onKeyPress={this.handleKeyPress}
                   onFocus={this.handleFocus}
                   onBlur={this.handleBlur}
-                  innerRef={(input) => { this.dstDirectoryInput = input; }}
+                  innerRef={this.dstDirectoryInput}
                 />
                 <FieldErrors errors={this.props.errors.get('dstDirectory')} />
               </Col>

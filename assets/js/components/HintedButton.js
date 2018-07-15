@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import { Button } from 'reactstrap';
 import SafeTooltip from './SafeTooltip';
@@ -27,7 +25,7 @@ class HintedButton extends React.PureComponent {
     this.timer = null;
   }
 
-  componentWillReceiveProps() {
+  render() {
     if (this.timer)
       clearTimeout(this.timer);
 
@@ -39,9 +37,7 @@ class HintedButton extends React.PureComponent {
       },
       3000
     );
-  }
 
-  render() {
     return (
       <Button
         id={this.props.id}

@@ -1,5 +1,3 @@
-'use strict';
-
 export function join(...args) {
   return _.reduce(
     args,

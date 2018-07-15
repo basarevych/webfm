@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 import { updateDragMode } from '../actions/drag';
 import AppComponent from '../components/App';

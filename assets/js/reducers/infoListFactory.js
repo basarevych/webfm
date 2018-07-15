@@ -1,5 +1,3 @@
-'use strict';
-
 import * as actions from '../constants/actionTypes';
 import { Map, fromJS } from 'immutable';
 
@@ -32,7 +30,7 @@ const infoListFactory = type => {
       case setAction:
         return state.set(action.id, fromJS(action[_.toLower(type)]));
       case clearAction:
-        return state.filter((value, key) => _.includes(action.keep, key));
+        return state.filter((value, key) => _.includes(action.keep, key)); // eslint-disable-line lodash/prefer-lodash-method
     }
 
     return state;

@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 import { setActivePane } from '../actions/pane';
 import { handleDrop } from '../actions/drag';
